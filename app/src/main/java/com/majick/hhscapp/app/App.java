@@ -38,14 +38,6 @@ public class App extends Application {
     }
 
     private void initLogger() {
-        //DEBUG版本才打控制台log
-//        if (BuildConfig.DEBUG) {
-//            Logger.addLogAdapter(new AndroidLogAdapter(PrettyFormatStrategy.newBuilder().
-//                    tag(getString(R.string.app_name)).build()));
-//        }
-        //把log存到本地
-//        Logger.addLogAdapter(new DiskLogAdapter(TxtFormatStrategy.newBuilder().
-//                tag(getString(R.string.app_name)).build(getPackageName(), getString(R.string.app_name))));
     }
 
 }
