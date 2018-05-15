@@ -1,0 +1,144 @@
+apply plugin: 'com.android.application'
+
+def config = rootProject.ext.android
+def lib = rootProject.ext.dependencies
+
+def buildTime() {
+    def date = new Date()
+    def formattedDate = date.format('yyyyMMddHHmmss')
+    return formattedDate
+}
+
+android {
+    compileSdkVersion config.compileSdkVersion
+    buildToolsVersion config.buildToolsVersion
+    defaultConfig {
+        applicationId "com.majick.hhscapp"
+        minSdkVersion config.minSdkVersion
+        targetSdkVersion config.targetSdkVersion
+//        multiDexEnabled true
+        versionCode config.versionCode
+        versionName config.versionName
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        //配置
+        buildConfigField "String", "HEAD", '"http://"'
+        buildConfigField "String", "PORT", '"80"'
+        buildConfigField "String", "APP", '"/mobile/"'
+        resValue "string", "app_name", "国翰大健康商城"
+    }
+    signingConfigs {
+        debug {
+            println("222222--------------------------------debug")
+            storeFile file("keystore/debug.keystore")
+            keyAlias "androiddebugkey"
+            keyPassword "android"
+            storePassword "android"
+        }
+        release {
+            println("1111--------------------------------release")
+
+            storeFile file("keystore/keystore.jks")
+            keyAlias "android"
+            keyPassword "android"
+            storePassword "android"
+        }
+    }
+    buildTypes {
+
+
+        release {
+            println("--------------------------------release")
+            signingConfig signingConfigs.release
+            buildConfigField "String", "HOST", '"www.guohanhealth.com"'
+            buildConfigField "boolean", "ISDEBUG", 'false'
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            android.applicationVariants.all { variant ->
+                variant.outputs.all {
+                    outputFileName = "华翰商城${defaultConfig.versionName}_${buildTime()}_release.apk"
+                }
+            }
+        }
+        debug {
+            println("--------------------------------debug")
+//            buildConfigField "String", "HOST", '"192.168.1.252"'
+            buildConfigField "String", "HOST", '"www.guohanhealth.com"'
+            buildConfigField "boolean", "ISDEBUG", 'true'
+            android.applicationVariants.all { variant ->
+                variant.outputs.all {
+                    outputFileName = "华翰商城${defaultConfig.versionName}_${buildTime()}_debug.apk"
+                }
+            }
+        }
+    }
+
+    aaptOptions.cruncherEnabled = false
+    aaptOptions.useNewCruncher = false
+    dexOptions {
+        jumboMode true
+        javaMaxHeapSize "4g"
+    }
+
+
+    //SDK版本
+    compileOptions {
+        targetCompatibility 1.8
+        sourceCompatibility 1.8
+    }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.1'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+    //base
+    implementation lib.appcompatV7
+    implementation lib.cardviewV7
+    implementation lib.supportV4
+    implementation lib.design
+    implementation lib.constraint_layout
+    //multidex 分包
+    implementation lib.multidex
+    //ui
+    //banner
+    implementation lib.banner
+    //底部导航栏样式BottomNavigationBar
+    api lib.BottomNavigationBar
+    //刷新
+    implementation lib.SmartRefreshLayout
+    implementation lib.SmartRefreshHeader
+
+    //解析对象
+    implementation lib.gson
+
+    //网络请求
+    implementation lib.okhttp3_okhttp
+    implementation lib.okhttp3_logging_interceptor
+    implementation lib.retrofit2_retrofit
+    implementation lib.retrofit2_converter_gson
+    implementation lib.retrofit2_adapter_rxjava2
+
+    //图片加载框架
+    implementation lib.glide
+    annotationProcessor lib.glide_compiler
+
+    //rx
+    implementation lib.rxjava2_rxjava
+    implementation lib.rxjava2_rxandroid
+    implementation lib.rxbinding2_rxbinding
+    implementation lib.rxpermissions
+
+    //黄油刀注解
+    implementation lib.butterknife
+    annotationProcessor lib.butterknife_compiler
+
+    //日志
+    implementation lib.logger
+    //dialog AVLoadingIndicatorView
+    api 'com.wang.avi:library:1.0.0'
+    //即时聊天
+    api('io.socket:socket.io-client:0.8.3') {
+        exclude group: 'org.json', module: 'json'
+    }
+}
