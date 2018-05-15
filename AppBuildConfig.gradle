@@ -1,0 +1,77 @@
+ext {
+    android = [
+            compileSdkVersion    : 27,
+            buildToolsVersion    : '27.0.3',
+            minSdkVersion        : 15,
+            targetSdkVersion     : 27,
+            versionCode          : 1,
+            versionName          : "1.0"
+    ]
+            supportLibraryVersion= '27.1.1'
+            loggerVersion        = '2.1.1'
+            leakcanaryVersion    = '1.5.4'
+            constraintVersion    = '1.0.2'
+            gsonVersion          = '2.8.2'
+            okhttpVersion        = '3.9.0'
+            retrofitVersion      = '2.3.0'
+            glideVersion         = '4.0.0'
+            greendaoVersion      = '3.2.2'
+            fragmentationVersion = '1.1.9'
+            rxjavaVersion        = '2.1.5'
+            rxandroidVersion     = '2.0.1'
+            rxbindingVersion     = '2.1.0'
+            rxpermissionsVersion = '0.9.5@aar'
+            daggerVersion        = '2.0.2'
+            javaxVersion         = '10.0-b28'
+            butterknifeVersion   = '8.8.1'
+            multidexVersion      = '1.0.3'
+            bannerVersion        = '1.4.10'
+            smartrefreshVersion  = '1.0.5.1'
+    dependencies = [
+            //base
+            appcompatV7                : "com.android.support:appcompat-v7:${supportLibraryVersion}",
+            cardviewV7                 : "com.android.support:cardview-v7:${supportLibraryVersion}",
+            supportV4                  : "com.android.support:support-v4:${supportLibraryVersion}",
+            design                     : "com.android.support:design:${supportLibraryVersion}",
+            constraint_layout          : "com.android.support.constraint:constraint-layout:${constraintVersion}",
+
+            //ui
+            //banner
+            banner                     : "com.youth.banner:banner:${bannerVersion}",
+            //底部导航栏样式BottomNavigationBar
+            BottomNavigationBar        : "com.ashokvarma.android:bottom-navigation-bar:2.0.3",
+            //刷新
+            SmartRefreshLayout         : "com.scwang.smartrefresh:SmartRefreshLayout:${smartrefreshVersion}",
+            SmartRefreshHeader         : "com.scwang.smartrefresh:SmartRefreshHeader:${smartrefreshVersion}",
+
+            //解析对象
+            gson                       : "com.google.code.gson:gson:${gsonVersion}",
+
+            //网络请求
+            okhttp3_okhttp             : "com.squareup.okhttp3:okhttp:${okhttpVersion}",
+            okhttp3_logging_interceptor: "com.squareup.okhttp3:logging-interceptor:${okhttpVersion}",
+            retrofit2_retrofit         : "com.squareup.retrofit2:retrofit:${retrofitVersion}",
+            retrofit2_converter_gson   : "com.squareup.retrofit2:converter-gson:${retrofitVersion}",
+            retrofit2_adapter_rxjava2  : "com.squareup.retrofit2:adapter-rxjava2:${retrofitVersion}",
+
+            //图片加载框架
+            glide                      : "com.github.bumptech.glide:glide:${glideVersion}",
+            glide_compiler             : "com.github.bumptech.glide:compiler:${glideVersion}",
+
+            //rx
+            rxjava2_rxjava             : "io.reactivex.rxjava2:rxjava:${rxjavaVersion}",
+            rxjava2_rxandroid          : "io.reactivex.rxjava2:rxandroid:${rxandroidVersion}",
+            rxbinding2_rxbinding       : "com.jakewharton.rxbinding2:rxbinding:${rxbindingVersion}",
+            rxpermissions              : "com.tbruyelle.rxpermissions2:rxpermissions:${rxpermissionsVersion}",
+
+            //黄油刀注解
+            butterknife                : "com.jakewharton:butterknife:${butterknifeVersion}",
+            butterknife_compiler       : "com.jakewharton:butterknife-compiler:${butterknifeVersion}",
+
+            //multidex 分包
+            multidex                   : "com.android.support:multidex:${multidexVersion}",
+            //日志
+            logger                     : "com.orhanobut:logger:${loggerVersion}",
+
+    ]
+}
