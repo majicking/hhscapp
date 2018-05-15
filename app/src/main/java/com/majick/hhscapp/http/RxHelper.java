@@ -23,7 +23,8 @@ public class RxHelper {
      * 对请求状态吗进行分析，如果成功获取result 中的data
      */
     public static <T> ObservableTransformer<Result<T>, T> handleResult() {
-        return upstream -> upstream.flatMap(result -> {
+        return upstream -> upstream.flatMap(
+                result -> {
             if (result.code == HttpErrorCode.HTTP_NO_ERROR) {
                 if (result.datas == null) {
                     Class<RxHelper> rxHelperClass = RxHelper.class;

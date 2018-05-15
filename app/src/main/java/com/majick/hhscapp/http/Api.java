@@ -73,11 +73,16 @@ public class Api {
      * 配置全局的头部信息
      */
     private void initHeadInterceptor() {
-        mHeadInterceptor = chain -> {
-            Request request = chain.request().newBuilder()
-                    .addHeader("Content-Type", "application/json")
-                    .build();
-            return chain.proceed(request);
+
+        mHeadInterceptor = new Interceptor() {
+            @Override
+            public Response intercept(Chain chain) throws IOException {
+                Request request = chain.request().newBuilder()
+                        .addHeader("Content-Type", "application/json")
+                        .build();
+                return chain.proceed(request);
+            }
+
         };
     }
 

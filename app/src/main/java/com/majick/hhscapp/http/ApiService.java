@@ -25,12 +25,12 @@ public interface ApiService {
     ///////////////////////////////////////////////////////////////////////////
     // 用户相关
     ///////////////////////////////////////////////////////////////////////////
-
+    String LOGIN=Constants.INDEX+"act=login";
     /**
      * 用户登录
      */
     @FormUrlEncoded
-    @POST(Constants.INDEX+"act=login")
+    @POST(LOGIN)
     Observable<Result<LoginBean>> login(@Field("username") String userName, @Field("password") String passWord, @Field("client") String client);
 
     /**

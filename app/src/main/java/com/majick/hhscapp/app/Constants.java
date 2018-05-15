@@ -20,6 +20,10 @@ public interface Constants {
     String URL = URLHEAD + INDEX;
     String CHAT_SERVER_URL =  HEAD + HOST+":33/socket.io/socket.io.js?_=1524556674600";
 
+
+
+
+
     /**
      *
      * 常量 标识

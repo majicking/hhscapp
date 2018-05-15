@@ -15,7 +15,7 @@ public class UserModel extends BaseModel{
     /**
      * 登录
      */
-    public Observable<Result<LoginBean>>login(String userName, String passWord) {
+    public Observable<Result<LoginBean>> login(String userName, String passWord) {
         return Api.getDefault().login(userName, passWord, "android").subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
     }
 
