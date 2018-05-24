@@ -11,18 +11,24 @@ import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
-public class UserModel extends BaseModel{
+public class UserModel extends BaseModel {
     /**
      * 登录
      */
     public Observable<Result<LoginBean>> login(String userName, String passWord) {
-        return Api.getDefault().login(userName, passWord, "android").subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+        return Api.getDefault()
+                .login(userName, passWord, "android")
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
     /**
      * 获取用户信息
      */
-    public Observable<UserInfo> getUserInfo(String key, String id) {
-        return Api.getDefault().getUserInfo(key, id, "member_id").compose(RxHelper.<UserInfo>handleResult());
+    public Observable<Result<UserInfo>> getUserInfo(String key, String id) {
+        return Api.getDefault()
+                .getUserInfo(key, id, "member_id")
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 }

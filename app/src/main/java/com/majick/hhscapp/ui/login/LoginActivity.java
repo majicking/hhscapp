@@ -55,6 +55,7 @@ public class LoginActivity extends BaseActivity<LoginPersenter, UserModel> imple
     @Override
     public void sucess(String message) {
         Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show();
+        hideLoadingDialog();
     }
 
     @Override

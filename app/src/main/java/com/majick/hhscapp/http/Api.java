@@ -8,6 +8,7 @@ import com.majick.hhscapp.app.Constants;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Cache;
@@ -56,11 +57,11 @@ public class Api {
 
 
     private Api() {
-        initHeadInterceptor();
-        initRequestInterceptor();
-        initLoggingInterceptor();
-        initCachePathAndSize();
-        initCacheTime();
+//        initHeadInterceptor();
+//        initRequestInterceptor();
+//        initLoggingInterceptor();
+//        initCachePathAndSize();
+//        initCacheTime();
         initOkHttpClient();
         initRetrofit();
     }
@@ -98,18 +99,34 @@ public class Api {
      * 配置全局请求参数
      */
     private void initRequestInterceptor() {
-        mRequestInterceptor = chain -> {
-            HttpUrl.Builder builder = chain.request().url().newBuilder();
 
-            if (AppConfig.getLoginBean() != null) {//配置全局token
-                String key = AppConfig.getLoginBean().key;
-                builder.setEncodedQueryParameter("key", key);
+        mRequestInterceptor = new Interceptor() {
+            @Override
+            public Response intercept(Chain chain) throws IOException {
+                Request.Builder builder = chain.request()
+                        .newBuilder();
+//                if (headers != null && headers.size() > 0) {
+//                    Set<String> keys = headers.keySet();
+//                    for (String headerKey : keys) {
+//                        builder.addHeader(headerKey, headers.get(headerKey)).build();
+//                    }
+//                }
+                return chain.proceed(builder.build());
             }
-            Request request = chain.request().newBuilder()
-                    .url(builder.build())
-                    .build();
-            return chain.proceed(request);
         };
+
+//        mRequestInterceptor = chain -> {
+//            HttpUrl.Builder builder = chain.request().url().newBuilder();
+//
+//            if (AppConfig.getLoginBean() != null) {//配置全局token
+//                String key = AppConfig.getLoginBean().key;
+//                builder.setEncodedQueryParameter("key", key);
+//            }
+//            Request request = chain.request().newBuilder()
+//                    .url(builder.build())
+//                    .build();
+//            return chain.proceed(request);
+//        };
 
     }
 
@@ -161,6 +178,7 @@ public class Api {
         return null;
     }
 
+    private static final int DEFAULT_TIMEOUT = 5000;
 
     /**
      * 配置okHttp
@@ -170,10 +188,31 @@ public class Api {
                 .readTimeout(READ_TIME_OUT, TimeUnit.MILLISECONDS)
                 .writeTimeout(WRITE_TIME_OUT, TimeUnit.MILLISECONDS)
                 .cache(mCache)
-                .addInterceptor(mHeadInterceptor)
-                .addInterceptor(mRequestInterceptor)
-                .addInterceptor(mCacheInterceptor)
-                .addInterceptor(mHttpLoggingInterceptor)
+                .connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
+                .addInterceptor(new Interceptor() {
+                    @Override
+                    public Response intercept(Chain chain) throws IOException {
+                        Request request = chain.request().newBuilder()
+                                .addHeader("Content-Type", "application/json").build();
+                        return chain.proceed(request);
+                    }
+                })
+                .addInterceptor(new Interceptor() {
+                    @Override
+                    public Response intercept(Chain chain) throws IOException {
+                        Request builder = chain.request()
+                                .newBuilder().build();
+//                if (headers != null && headers.size() > 0) {
+//                    Set<String> keys = headers.keySet();
+//                    for (String headerKey : keys) {
+//                        builder.addHeader(headerKey, headers.get(headerKey)).build();
+//                    }
+//                }
+                        return chain.proceed(builder);
+                    }
+                })
+                .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+                .addNetworkInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.HEADERS))
                 .build();
     }
 
