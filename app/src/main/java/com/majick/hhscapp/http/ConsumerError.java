@@ -1,7 +1,9 @@
 package com.majick.hhscapp.http;
 
 
+import android.net.Network;
 
+import java.net.ConnectException;
 import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
@@ -9,9 +11,7 @@ import java.net.UnknownHostException;
 import io.reactivex.functions.Consumer;
 
 
-
 public abstract class ConsumerError<T extends Throwable> implements Consumer<T> {
-
     @Override
     public void accept(T t) throws Exception {
         String errorMessage = "";
@@ -25,6 +25,8 @@ public abstract class ConsumerError<T extends Throwable> implements Consumer<T> 
         } else if (t instanceof ServerException) {//服务器返回异常
             errorMessage = t.getMessage();
             errorCode = ((ServerException) t).getErrorCode();
+        } else if (t instanceof ConnectException) {
+            errorMessage = "网络连接失败";
         }
         onError(errorCode, errorMessage);
     }

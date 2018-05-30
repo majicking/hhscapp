@@ -26,6 +26,10 @@ public class HttpErrorCode {
      * 请求成功
      */
     public static final int HTTP_NO_ERROR = 200;
+    /**
+     * 请求失败
+     */
+    public static final int ERROR_400 = 400;
 
     /**
      * 自定义异常

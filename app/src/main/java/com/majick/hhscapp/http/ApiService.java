@@ -1,7 +1,6 @@
 package com.majick.hhscapp.http;
 
 
-import com.majick.hhscapp.BuildConfig;
 import com.majick.hhscapp.app.Constants;
 import com.majick.hhscapp.bean.LoginBean;
 import com.majick.hhscapp.bean.UserInfo;
@@ -10,7 +9,6 @@ import io.reactivex.Observable;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
-import retrofit2.http.Query;
 
 /**
  * Author:  andy.xwt
@@ -26,7 +24,7 @@ public interface ApiService {
     // 用户相关
     ///////////////////////////////////////////////////////////////////////////
     String LOGIN = Constants.INDEX + "act=login";
-
+    String LOGININFO = Constants.INDEX + "act=member_chat&op=get_info";
     /**
      * 用户登录
      */
@@ -37,7 +35,8 @@ public interface ApiService {
     /**
      * 获取用户信息
      */
-    @POST("act=member_chat&op=get_info")
+    @FormUrlEncoded
+    @POST(LOGININFO)
     Observable<Result<UserInfo>> getUserInfo(@Field("key") String key, @Field("u_id") String u_id, @Field("t") String t);
 //
 //    /**

@@ -35,7 +35,7 @@ public class Logutils {
         String callerClazzName = caller.getClassName();
         callerClazzName = callerClazzName.substring(callerClazzName.lastIndexOf(".") + 1);
         tag = String.format(tag, callerClazzName, caller.getMethodName(), caller.getLineNumber());
-        tag = TextUtils.isEmpty(customTagPrefix) ? "---—▶►►"+tag : customTagPrefix + ":" + tag;
+        tag = TextUtils.isEmpty(customTagPrefix) ? "---▶►►"+tag : customTagPrefix + ":" + tag;
         return tag;
     }
 

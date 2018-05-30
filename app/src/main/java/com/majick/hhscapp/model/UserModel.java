@@ -15,20 +15,17 @@ public class UserModel extends BaseModel {
     /**
      * 登录
      */
-    public Observable<Result<LoginBean>> login(String userName, String passWord) {
+    public Observable<LoginBean> login(String userName, String passWord) {
         return Api.getDefault()
                 .login(userName, passWord, "android")
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+                .compose(RxHelper.handleResult());
     }
 
     /**
      * 获取用户信息
      */
-    public Observable<Result<UserInfo>> getUserInfo(String key, String id) {
+    public Observable<UserInfo> getUserInfo(String key, String id) {
         return Api.getDefault()
-                .getUserInfo(key, id, "member_id")
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+                .getUserInfo(key, id, "member_id").compose(RxHelper.handleResult());
     }
 }

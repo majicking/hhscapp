@@ -1,6 +1,10 @@
 package com.majick.hhscapp.http;
 
 
+import com.majick.hhscapp.base.BaseModel;
+import com.majick.hhscapp.bean.ErrorInfo;
+
+import org.json.JSONObject;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
@@ -23,8 +27,7 @@ public class RxHelper {
      * 对请求状态吗进行分析，如果成功获取result 中的data
      */
     public static <T> ObservableTransformer<Result<T>, T> handleResult() {
-        return upstream -> upstream.flatMap(
-                result -> {
+        return upstream -> upstream.flatMap(result -> {
             if (result.code == HttpErrorCode.HTTP_NO_ERROR) {
                 if (result.datas == null) {
                     Class<RxHelper> rxHelperClass = RxHelper.class;
@@ -35,12 +38,28 @@ public class RxHelper {
                     result.datas = clazz.newInstance();
                 }
                 return createSuccessData(result.datas);
+            } else if (result.code == HttpErrorCode.ERROR_400) {
+                BaseModel error = null;
+                try {
+                    error = (BaseModel) result.datas;
+                } catch (Exception e) {
+                    return Observable.error(new ServerException(result.code, "返回数据格式不正确"));
+                }
+                return Observable.error(new ServerException(result.code, error.error));
             } else {
                 return Observable.error(new ServerException(result.code, ""));
             }
         }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
     }
-
+//    public static <T> ObservableTransformer<Result<T>, T> handleResult() {
+//
+////        return upstream -> upstream.flatMap(result -> {
+////            if (result.code == HttpErrorCode.HTTP_NO_ERROR) {
+////                return Observable.error(new ServerException(result.code, ""));
+////            }
+////
+////        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+//    }
 
     /**
      * 处理没有data的Result

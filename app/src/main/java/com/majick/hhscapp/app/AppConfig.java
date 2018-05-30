@@ -12,7 +12,7 @@ import com.majick.hhscapp.bean.UserInfo;
 public class AppConfig {
 
     private static LoginBean loginBean;
-    private static UserInfo userInfo;
+    private static UserInfo UserInfo;
 
     public static LoginBean getLoginBean() {
         return loginBean;
@@ -23,10 +23,10 @@ public class AppConfig {
     }
 
     public static UserInfo getUserInfo() {
-        return userInfo;
+        return UserInfo;
     }
 
-    public static void setUserInfo(UserInfo userInfo) {
-        AppConfig.userInfo = userInfo;
+    public static void setUserInfo(UserInfo UserInfo) {
+        AppConfig.UserInfo = UserInfo;
     }
 }
