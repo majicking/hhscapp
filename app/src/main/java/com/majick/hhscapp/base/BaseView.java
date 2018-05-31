@@ -73,6 +73,4 @@ public interface BaseView {
      * 显示内容
      */
     void showContent();
-
-
 }

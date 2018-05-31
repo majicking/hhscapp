@@ -2,12 +2,16 @@ package com.majick.hhscapp.http;
 
 
 import com.majick.hhscapp.app.Constants;
+import com.majick.hhscapp.bean.ImgCodeKey;
 import com.majick.hhscapp.bean.LoginBean;
+import com.majick.hhscapp.bean.RegisterInfo;
+import com.majick.hhscapp.bean.SMSCode;
 import com.majick.hhscapp.bean.UserInfo;
 
 import io.reactivex.Observable;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
 
 /**
@@ -25,19 +29,71 @@ public interface ApiService {
     ///////////////////////////////////////////////////////////////////////////
     String LOGIN = Constants.INDEX + "act=login";
     String LOGININFO = Constants.INDEX + "act=member_chat&op=get_info";
+    String REGISTER = Constants.INDEX + "act=login&op=register";
+    String REGISTERMOBILE = Constants.INDEX + "act=connect&op=sms_register";
+    String IMGKEYCODE = Constants.INDEX + "act=seccode&op=makecodekey";
+    String SMSKEYCODE = Constants.INDEX + "act=connect&op=get_sms_captcha";
+
     /**
      * 用户登录
      */
     @FormUrlEncoded
     @POST(LOGIN)
-    Observable<Result<LoginBean>> login(@Field("username") String userName, @Field("password") String passWord, @Field("client") String client);
+    Observable<Result<LoginBean>> login(@Field("username") String userName,
+                                        @Field("password") String passWord,
+                                        @Field("client") String client);
 
     /**
      * 获取用户信息
      */
     @FormUrlEncoded
     @POST(LOGININFO)
-    Observable<Result<UserInfo>> getUserInfo(@Field("key") String key, @Field("u_id") String u_id, @Field("t") String t);
+    Observable<Result<UserInfo>> getUserInfo(@Field("key") String key,
+                                             @Field("u_id") String u_id,
+                                             @Field("t") String t);
+
+    /**
+     * 用户注册
+     */
+    @FormUrlEncoded
+    @POST(REGISTER)
+    Observable<Result<RegisterInfo>> register(@Field("username") String username,
+                                              @Field("password") String password,
+                                              @Field("password_confirm") String password_confirm,
+                                              @Field("email") String email,
+                                              @Field("client") String client,
+                                              @Field("referral_code") String code);
+
+    /**
+     * 手机用户注册
+     */
+    @FormUrlEncoded
+    @POST(REGISTERMOBILE)
+    Observable<Result<RegisterInfo>> registerMobile(@Field("phone") String phone,
+                                                    @Field("password") String password,
+                                                    @Field("captcha") String captcha,
+                                                    @Field("email") String email,
+                                                    @Field("client") String client,
+                                                    @Field("referral_code") String code);
+
+    /**
+     * 获取短信动态
+     */
+    @FormUrlEncoded
+    @GET(SMSKEYCODE + "&phone={mobile}&type=1&sec_key={codeKey}&sec_val={sec_val}")
+    Observable<Result<SMSCode>> getSMSCode(@Field("mobile") String mobile,
+                                           @Field("codeKey") String codeKey,
+                                           @Field("sec_val") String sec_val);
+
+
+    /**
+     * 加载图片验证码
+     */
+    @FormUrlEncoded
+    @GET(IMGKEYCODE)
+    Observable<Result<ImgCodeKey>> getImgCodeKey();
+
+
 //
 //    /**
 //     * 用户登录
@@ -52,20 +108,8 @@ public interface ApiService {
 //    @POST("user/loginOut")
 //    Observable<Result> logOut();
 //
-//    /**
-//     * 用户注册
-//     */
-//    @FormUrlEncoded
-//    @POST("user/registUser")
-//    Observable<Result<UserInfo>> registerUser(@Field("username") String userName, @Field("passwd") String passWord, @Field("code") String authCode);
 //
-//    /**
-//     * 获取短信验证码
-//     */
-//    @FormUrlEncoded
-//    @POST("netease/sms/sendCode")
-//    Observable<Result> getAuthCode(@Field("mobile") String mobile, @Field("typeFlag") int type);
-//
+
 //    /**
 //     * 重置密码(需要短信验证码)
 //     */

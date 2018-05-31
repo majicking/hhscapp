@@ -57,34 +57,13 @@ public class Api {
 
 
     private Api() {
-//        initHeadInterceptor();
-//        initRequestInterceptor();
-//        initLoggingInterceptor();
-//        initCachePathAndSize();
-//        initCacheTime();
+        initCachePathAndSize();
         initOkHttpClient();
         initRetrofit();
     }
 
     private static class ApiHolder {
         static Api instance = new Api();
-    }
-
-    /**
-     * 配置全局的头部信息
-     */
-    private void initHeadInterceptor() {
-
-        mHeadInterceptor = new Interceptor() {
-            @Override
-            public Response intercept(Chain chain) throws IOException {
-                Request request = chain.request().newBuilder()
-                        .addHeader("Content-Type", "application/json")
-                        .build();
-                return chain.proceed(request);
-            }
-
-        };
     }
 
     /**
@@ -95,90 +74,7 @@ public class Api {
         mCache = new Cache(cacheFile, FILE_CACHE_SIZE);
     }
 
-    /**
-     * 配置全局请求参数
-     */
-    private void initRequestInterceptor() {
-
-        mRequestInterceptor = new Interceptor() {
-            @Override
-            public Response intercept(Chain chain) throws IOException {
-                Request.Builder builder = chain.request()
-                        .newBuilder();
-//                if (headers != null && headers.size() > 0) {
-//                    Set<String> keys = headers.keySet();
-//                    for (String headerKey : keys) {
-//                        builder.addHeader(headerKey, headers.get(headerKey)).build();
-//                    }
-//                }
-                return chain.proceed(builder.build());
-            }
-        };
-
-//        mRequestInterceptor = chain -> {
-//            HttpUrl.Builder builder = chain.request().url().newBuilder();
-//
-//            if (AppConfig.getLoginBean() != null) {//配置全局token
-//                String key = AppConfig.getLoginBean().key;
-//                builder.setEncodedQueryParameter("key", key);
-//            }
-//            Request request = chain.request().newBuilder()
-//                    .url(builder.build())
-//                    .build();
-//            return chain.proceed(request);
-//        };
-
-    }
-
-    /**
-     * 配置网络请求日志打印
-     */
-    private void initLoggingInterceptor() {
-        mHttpLoggingInterceptor = new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY);
-    }
-
-//    /**
-//     * 配置网络请求缓存路径与大小
-//     */
-//    private void initCachePathAndSize() {
-//        File cacheFile = new File(App.getAppContext().getCacheDir(), "cache");
-//        mCache = new Cache(cacheFile, FILE_CACHE_SIZE);
-//    }
-
-    /**
-     * 配置缓存时间
-     */
-    private void initCacheTime() {
-        mCacheInterceptor = chain -> {
-            String originalCacheString = chain.request().cacheControl().toString();
-            Response response = initResponseCacheTime(chain.proceed(chain.request()), originalCacheString);
-            return response;
-        };
-    }
-
-
-    /**
-     * 配置http响应的缓存时间 有网就根据之前设置的缓存时间去拿缓存，没网就拿之前的缓存
-     *
-     * @param originalResponse    响应
-     * @param originalCacheString 请求缓存设置
-     * @return
-     */
-    private Response initResponseCacheTime(Response originalResponse, String originalCacheString) {
-//        if (NetWorkUtils.isNetworkConnected(YZApplication.getAppContext())) {
-//            return originalResponse.newBuilder()
-//                    .header("Cache-Control", originalCacheString)
-//                    .removeHeader("Pragma")
-//                    .build();
-//        } else {
-//            return originalResponse.newBuilder()
-//                    .header("Cache-Control", "public, only-if-cached, max-stale=" + FILE_CACHE_STALE)
-//                    .build();
-//        }
-        return null;
-    }
-
-    private static final int DEFAULT_TIMEOUT = 5000;
+    private static final int DEFAULT_TIMEOUT = 5;
 
     /**
      * 配置okHttp
@@ -231,7 +127,6 @@ public class Api {
                 .build();
         sApiService = mRetrofit.create(ApiService.class);
     }
-
 
     public static ApiService getDefault() {
         return ApiHolder.instance.sApiService;

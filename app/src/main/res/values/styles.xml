@@ -8,6 +8,113 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="windowNoTitle">true</item>
     </style>
+
+    <style name="djk_text">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/djk_textcolor333</item>
+    </style>
+    <!-- 分隔线 -->
+    <style name="djk_line">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:background">@color/djk_linecolor</item>
+    </style>
+    <!-- 分隔线 -->
+    <style name="djk_line_black">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:background">@color/black</item>
+    </style>
+    <!-- 分隔线 -->
+    <style name="djk_line_gray">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:background">@color/gray</item>
+    </style>
+    <!-- 分隔线 -->
+    <style name="djk_line_big">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/dp_10</item>
+        <item name="android:background">@color/djk_linecolor</item>
+    </style>
+
+
+    <style name="warp">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+    </style>
+
+    <style name="match">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
+
+    <style name="match_warp">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="warp_match">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
+
+    <style name="left15" parent="warp">
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:layout_marginLeft">@dimen/dp_15</item>
+    </style>
+
+    <style name="right15" parent="warp">
+        <item name="android:layout_marginRight">@dimen/dp_15</item>
+    </style>
+
+    <style name="textleft15" parent="left15">
+        <item name="android:layout_centerVertical">true</item>
+    </style>
+
+    <style name="textright15" parent="right15">
+        <item name="android:layout_centerVertical">true</item>
+    </style>
+
+    <style name="RLayout_50">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/dp_50</item>
+    </style>
+
+    <style name="LLayout_50_v">
+        <item name="android:orientation">vertical</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/dp_50</item>
+    </style>
+
+    <style name="LLayout_50_h">
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/dp_50</item>
+    </style>
+
+    <style name="edittext">
+        <item name="android:background">@drawable/djk_bg_border_bottom</item>
+        <item name="android:textSize">@dimen/sp_12</item>
+        <item name="android:layout_height">@dimen/dp_40</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:textColorHint">@color/djk_edithitcolor</item>
+        <item name="android:paddingLeft">@dimen/dp_10</item>
+    </style>
+
+    <style name="btn">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/dp_36</item>
+        <item name="android:layout_marginLeft">@dimen/dp_15</item>
+        <item name="android:layout_marginRight">@dimen/dp_15</item>
+        <item name="android:textSize">@dimen/sp_14</item>
+        <item name="android:background">@drawable/djk_btn_bg</item>
+        <item name="android:textColor">@drawable/djk_btn_text_color</item>
+
+    </style>
+
     <!-- my loading dialog -->
     <style name="MyDialogStyle">
         <item name="android:windowBackground">@android:color/transparent</item>
@@ -18,6 +125,11 @@
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
         <item name="android:backgroundDimEnabled">true</item>
+    </style>
+
+    <!--check-->
+    <style name="checkbox" parent="@android:style/Widget.CompoundButton.CheckBox">
+        <item name="android:button">@drawable/checkbox_style</item>
     </style>
 
     <!--对话框样式-->

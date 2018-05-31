@@ -2,9 +2,6 @@ package com.majick.hhscapp.http;
 
 
 import com.majick.hhscapp.base.BaseModel;
-import com.majick.hhscapp.bean.ErrorInfo;
-
-import org.json.JSONObject;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
@@ -43,23 +40,14 @@ public class RxHelper {
                 try {
                     error = (BaseModel) result.datas;
                 } catch (Exception e) {
-                    return Observable.error(new ServerException(result.code, "返回数据格式不正确"));
+                    return Observable.error(new ServerException(result.code, e.getMessage()));
                 }
                 return Observable.error(new ServerException(result.code, error.error));
             } else {
-                return Observable.error(new ServerException(result.code, ""));
+                return Observable.error(new ServerException(result.code, "请求异常，请重试"));
             }
         }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
     }
-//    public static <T> ObservableTransformer<Result<T>, T> handleResult() {
-//
-////        return upstream -> upstream.flatMap(result -> {
-////            if (result.code == HttpErrorCode.HTTP_NO_ERROR) {
-////                return Observable.error(new ServerException(result.code, ""));
-////            }
-////
-////        }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
-//    }
 
     /**
      * 处理没有data的Result

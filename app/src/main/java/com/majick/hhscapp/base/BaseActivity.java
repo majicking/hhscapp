@@ -3,6 +3,7 @@ package com.majick.hhscapp.base;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import com.majick.hhscapp.http.RxManager;
 import com.majick.hhscapp.utils.Utils;
@@ -127,6 +128,15 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
         if (mDialog != null && mDialog.isShowing()) {
             mDialog.hide();
         }
+    }
+
+    private Toast toast;
+
+    public void showToast(Object msg) {
+        if (toast == null) {
+            toast = Toast.makeText(this, ""+msg, Toast.LENGTH_SHORT);
+        }
+        toast.show();
     }
 
 }

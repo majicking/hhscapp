@@ -12,12 +12,14 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
@@ -28,6 +30,7 @@ import com.majick.hhscapp.app.Constants;
 import com.majick.hhscapp.base.BaseActivity;
 import com.majick.hhscapp.base.BaseFragment;
 import com.majick.hhscapp.ui.main.fragment.HomeFragment;
+import com.majick.hhscapp.ui.main.fragment.OnFragmentInteractionListener;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -36,11 +39,9 @@ import butterknife.BindView;
 
 import static com.majick.hhscapp.app.Constants.MAINNUMBER;
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity implements OnFragmentInteractionListener {
     @BindView(R.id.fragment_group)
     FrameLayout fragmentGroup;
-    //    @BindView(R.id.bottom_navigation_view)
-//    BottomNavigationView bottomNavigationView;
     @BindView(R.id.nav_view)
     NavigationView navView;
     @BindView(R.id.drawer_layout)
@@ -55,6 +56,7 @@ public class MainActivity extends BaseActivity {
     BottomNavigationBar mBottomNavigationBar;
     private TextBadgeItem mTextBadgeItem;
     private ShapeBadgeItem mShapeBadgeItem;
+
 
     @Override
     protected int getContentViewLayoutID() {
@@ -138,8 +140,8 @@ public class MainActivity extends BaseActivity {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
-            if (action.equals(Constants.BROADCAST_CARTNUMBER)){
-                if (mTextBadgeItem!=null){
+            if (action.equals(Constants.BROADCAST_CARTNUMBER)) {
+                if (mTextBadgeItem != null) {
 
                 }
             }
@@ -237,5 +239,25 @@ public class MainActivity extends BaseActivity {
         }
         ft.show(targetFg);
         ft.commitAllowingStateLoss();
+    }
+
+    private long mExitTime;
+
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if ((System.currentTimeMillis() - mExitTime) > 2000) {
+                Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
+                mExitTime = System.currentTimeMillis();
+            } else {
+                finish();
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    public void doSomeThing(String key, Object value) {
+
     }
 }

@@ -16,16 +16,13 @@ public class UserModel extends BaseModel {
      * 登录
      */
     public Observable<LoginBean> login(String userName, String passWord) {
-        return Api.getDefault()
-                .login(userName, passWord, "android")
-                .compose(RxHelper.handleResult());
+        return Api.getDefault().login(userName, passWord, "android").compose(RxHelper.handleResult());
     }
 
     /**
      * 获取用户信息
      */
     public Observable<UserInfo> getUserInfo(String key, String id) {
-        return Api.getDefault()
-                .getUserInfo(key, id, "member_id").compose(RxHelper.handleResult());
+        return Api.getDefault().getUserInfo(key, id, "member_id").compose(RxHelper.handleResult());
     }
 }

@@ -3,7 +3,6 @@ package com.majick.hhscapp.ui.main.fragment;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -40,7 +39,7 @@ public class HomeFragment extends BaseFragment {
     private String mParam1;
     private String mParam2;
 
-//    private OnFragmentInteractionListener mListener;
+    private OnFragmentInteractionListener mListener;
 
     public HomeFragment() {
 
@@ -90,27 +89,27 @@ public class HomeFragment extends BaseFragment {
     }
 
     // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-//        if (mListener != null) {
-//            mListener.onFragmentInteraction(uri);
-//        }
+    public void onButtonPressed(String key,String value) {
+        if (mListener != null) {
+            mListener.doSomeThing(key, value);
+        }
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-//        if (context instanceof OnFragmentInteractionListener) {
-//            mListener = (OnFragmentInteractionListener) context;
-//        } else {
-//            throw new RuntimeException(context.toString()
-//                    + " must implement OnFragmentInteractionListener");
-//        }
+        if (context instanceof OnFragmentInteractionListener) {
+            mListener = (OnFragmentInteractionListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnFragmentInteractionListener");
+        }
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-//        mListener = null;
+        mListener = null;
     }
 
     @Override
@@ -127,18 +126,4 @@ public class HomeFragment extends BaseFragment {
         unbinder.unbind();
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-//    public interface OnFragmentInteractionListener {
-//        // TODO: Update argument type and name
-//        void onFragmentInteraction(Uri uri);
-//    }
 }

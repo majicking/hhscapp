@@ -1,4 +1,4 @@
-package com.majick.hhscapp.ui.login.view;
+package com.majick.hhscapp.ui.login;
 
 import com.majick.hhscapp.base.BaseView;
 

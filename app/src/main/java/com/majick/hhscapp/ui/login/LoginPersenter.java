@@ -1,11 +1,9 @@
-package com.majick.hhscapp.ui.login.persenter;
+package com.majick.hhscapp.ui.login;
 
 import com.majick.hhscapp.app.AppConfig;
 import com.majick.hhscapp.base.BasePresenter;
-import com.majick.hhscapp.bean.UserInfo;
 import com.majick.hhscapp.model.UserModel;
-import com.majick.hhscapp.ui.login.view.LoginView;
-import com.majick.hhscapp.utils.Logutils;
+import com.majick.hhscapp.ui.login.LoginView;
 
 public class LoginPersenter extends BasePresenter<LoginView, UserModel> {
 

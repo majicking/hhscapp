@@ -8,10 +8,9 @@
     android:orientation="vertical">
 
     <RelativeLayout
-
         android:layout_width="@dimen/dp_120"
         android:layout_height="@dimen/dp_120"
-        android:background="@drawable/circle_dialog">
+       >
 
 
         <com.wang.avi.AVLoadingIndicatorView
@@ -20,8 +19,8 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:layout_centerHorizontal="true"
-            app:indicator="LineScaleParty"
-            app:indicator_color="@color/deep_red" />
+            app:indicator="LineSpinFadeLoader"
+            app:indicator_color="@color/black" />
 
         <TextView
             android:textSize="@dimen/sp_16"
@@ -31,8 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/loading"
             android:layout_centerHorizontal="true"
-            android:text="加载中"
-            android:textColor="@color/deep_red" />
+            android:textColor="@color/djk_textcolor444" />
     </RelativeLayout>
 
 </LinearLayout>

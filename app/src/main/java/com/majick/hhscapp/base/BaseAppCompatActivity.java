@@ -9,11 +9,14 @@ import android.os.Handler;
 import android.support.annotation.ColorInt;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.LayoutRes;
+import android.support.annotation.StringRes;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.TextView;
 
 import com.majick.hhscapp.R;
 import com.majick.hhscapp.utils.StatusBarUtils;
@@ -43,12 +46,12 @@ public abstract class BaseAppCompatActivity extends FragmentActivity {
     }
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         init();
     }
+
     /**
      * 初始化
      */
@@ -87,39 +90,48 @@ public abstract class BaseAppCompatActivity extends FragmentActivity {
         return super.onOptionsItemSelected(item);
     }
 
-//
-//    /**
-//     * 初始化toolbar (只有标题）
-//     *
-//     * @param title 标题
-//     */
-//    protected void initToolBarNav(Toolbar toolbar, String title) {
-//        toolbar.setNavigationOnClickListener((View v) -> {
-//            showKeyboard(false);
-//            getHandler().postDelayed(() -> finish(), 200);
-//
-//        });
-//        toolbar.setTitle(title);
-//    }
-//
-//    protected void initToolBarNav(Toolbar toolbar, @StringRes int title) {
-//        initToolBarNav(toolbar, getString(title));
-//    }
-//
-//
-//    /**
-//     * 初始化toolbar(只有标题）
-//     *
-//     * @param runnable 导航点击事件
-//     */
-//    protected void initToolBarNav(Toolbar toolbar, String title, final Runnable runnable) {
-//        toolbar.setNavigationOnClickListener(v -> {
-//            showKeyboard(false);
-//            getHandler().postDelayed(runnable, 200);
-//
-//        });
-//        toolbar.setTitle(title);
-//    }
+
+    /**
+     * 初始化toolbar (只有标题）
+     *
+     * @param title 标题
+     */
+    protected void initToolBarNav(Toolbar toolbar, String title) {
+        toolbar.setNavigationOnClickListener((View v) -> {
+            showKeyboard(false);
+            getHandler().postDelayed(() -> finish(), 200);
+
+        });
+        toolbar.setTitle(title);
+    }
+
+    protected void initToolBarNav(Toolbar toolbar, TextView textView, String title) {
+        toolbar.setNavigationOnClickListener((View v) -> {
+            showKeyboard(false);
+            getHandler().postDelayed(() -> finish(), 200);
+
+        });
+        textView.setText(title);
+    }
+
+    protected void initToolBarNav(Toolbar toolbar, @StringRes int title) {
+        initToolBarNav(toolbar, getString(title));
+    }
+
+
+    /**
+     * 初始化toolbar(只有标题）
+     *
+     * @param runnable 导航点击事件
+     */
+    protected void initToolBarNav(Toolbar toolbar, String title, final Runnable runnable) {
+        toolbar.setNavigationOnClickListener(v -> {
+            showKeyboard(false);
+            getHandler().postDelayed(runnable, 200);
+
+        });
+        toolbar.setTitle(title);
+    }
 
     /**
      * 设置contentView
@@ -413,6 +425,5 @@ public abstract class BaseAppCompatActivity extends FragmentActivity {
             }
         }
     }
-
 
 }

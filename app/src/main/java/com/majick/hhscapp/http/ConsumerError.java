@@ -1,8 +1,6 @@
 package com.majick.hhscapp.http;
 
 
-import android.net.Network;
-
 import java.net.ConnectException;
 import java.net.SocketException;
 import java.net.SocketTimeoutException;
