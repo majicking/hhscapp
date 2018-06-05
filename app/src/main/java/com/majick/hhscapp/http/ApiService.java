@@ -4,7 +4,6 @@ package com.majick.hhscapp.http;
 import com.majick.hhscapp.app.Constants;
 import com.majick.hhscapp.bean.ImgCodeKey;
 import com.majick.hhscapp.bean.LoginBean;
-import com.majick.hhscapp.bean.RegisterInfo;
 import com.majick.hhscapp.bean.SMSCode;
 import com.majick.hhscapp.bean.UserInfo;
 
@@ -13,6 +12,7 @@ import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Query;
 
 /**
  * Author:  andy.xwt
@@ -57,39 +57,37 @@ public interface ApiService {
      */
     @FormUrlEncoded
     @POST(REGISTER)
-    Observable<Result<RegisterInfo>> register(@Field("username") String username,
-                                              @Field("password") String password,
-                                              @Field("password_confirm") String password_confirm,
-                                              @Field("email") String email,
-                                              @Field("client") String client,
-                                              @Field("referral_code") String code);
+    Observable<Result<LoginBean>> register(@Field("username") String username,
+                                           @Field("password") String password,
+                                           @Field("password_confirm") String password_confirm,
+                                           @Field("email") String email,
+                                           @Field("client") String client,
+                                           @Field("referral_code") String code);
 
     /**
      * 手机用户注册
      */
     @FormUrlEncoded
     @POST(REGISTERMOBILE)
-    Observable<Result<RegisterInfo>> registerMobile(@Field("phone") String phone,
-                                                    @Field("password") String password,
-                                                    @Field("captcha") String captcha,
-                                                    @Field("email") String email,
-                                                    @Field("client") String client,
-                                                    @Field("referral_code") String code);
+    Observable<Result<LoginBean>> registerMobile(@Field("phone") String phone,
+                                                 @Field("username") String username,
+                                                 @Field("password") String password,
+                                                 @Field("captcha") String captcha,
+                                                 @Field("client") String client,
+                                                 @Field("referral_code") String code);
 
     /**
-     * 获取短信动态
+     * 获取短信动态&phone={mobile}&sec_key={codeKey}&sec_val={sec_val}
      */
-    @FormUrlEncoded
-    @GET(SMSKEYCODE + "&phone={mobile}&type=1&sec_key={codeKey}&sec_val={sec_val}")
-    Observable<Result<SMSCode>> getSMSCode(@Field("mobile") String mobile,
-                                           @Field("codeKey") String codeKey,
-                                           @Field("sec_val") String sec_val);
+    @GET(SMSKEYCODE + "&type=1")
+    Observable<Result<SMSCode>> getSMSCode(@Query("phone") String mobile,
+                                           @Query("sec_key") String codeKey,
+                                           @Query("sec_val") String sec_val);
 
 
     /**
      * 加载图片验证码
      */
-    @FormUrlEncoded
     @GET(IMGKEYCODE)
     Observable<Result<ImgCodeKey>> getImgCodeKey();
 

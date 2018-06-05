@@ -2,6 +2,7 @@ package com.majick.hhscapp.http;
 
 
 import com.majick.hhscapp.base.BaseModel;
+import com.majick.hhscapp.bean.BaseInfo;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
@@ -36,9 +37,9 @@ public class RxHelper {
                 }
                 return createSuccessData(result.datas);
             } else if (result.code == HttpErrorCode.ERROR_400) {
-                BaseModel error = null;
+                BaseInfo error = null;
                 try {
-                    error = (BaseModel) result.datas;
+                    error = (BaseInfo) result.datas;
                 } catch (Exception e) {
                     return Observable.error(new ServerException(result.code, e.getMessage()));
                 }

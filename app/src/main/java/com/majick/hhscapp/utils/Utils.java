@@ -1,5 +1,8 @@
 package com.majick.hhscapp.utils;
 
+import android.text.TextUtils;
+import android.widget.EditText;
+
 import java.lang.reflect.ParameterizedType;
 
 /**
@@ -31,4 +34,27 @@ public class Utils {
         return null;
     }
 
+
+    public static boolean isEmpty(EditText editText) {
+        if (editText != null) {
+            String string = editText.getText().toString().trim();
+            return isEmpty(string);
+        }
+        return false;
+    }
+
+
+    public static boolean isEmpty(String string) {
+        if (string != null && string.length() > 0 && !"".equals(string) && !"[]".equals(string) && !"null".equals(string)) {
+            return true;
+        }
+        return false;
+    }
+
+    public static String getEditText(EditText editText) {
+        if (editText != null) {
+            return TextUtils.isEmpty(editText.getText().toString().trim())? "" : editText.getText().toString().trim();
+        }
+        return "";
+    }
 }

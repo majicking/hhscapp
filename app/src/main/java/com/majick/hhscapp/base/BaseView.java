@@ -7,6 +7,10 @@ import android.view.View;
 
 public interface BaseView {
 
+
+
+
+
     /**
      * 显示正在加载
      */

@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.register.Register2Activity">
+
+    <include layout="@layout/common_toolbar" />
+
+    <LinearLayout
+        android:id="@+id/registerselect3"
+        style="@style/match_warp"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <View style="@style/djk_line" />
+
+        <LinearLayout style="@style/LLayout_50_h">
+
+            <TextView
+                style="@style/left15"
+                android:text="用户名：" />
+
+            <EditText
+                android:id="@+id/edusername"
+                style="@style/edittext"
+                android:hint="请输入6-20位用户名"
+                android:maxLength="20"
+                android:maxLines="1" />
+
+        </LinearLayout>
+
+        <View style="@style/djk_line" />
+
+
+        <LinearLayout style="@style/LLayout_50_h">
+
+            <TextView
+                style="@style/left15"
+                android:text="设置密码：" />
+
+            <EditText
+                android:id="@+id/etPassword"
+                style="@style/edittext"
+                android:hint="请输入6-20位密码"
+                android:inputType="textPassword"
+                android:maxLength="20"
+                android:maxLines="1" />
+
+        </LinearLayout>
+
+        <View style="@style/djk_line" />
+
+        <LinearLayout style="@style/LLayout_50_h">
+
+            <TextView
+                style="@style/left15"
+                android:text="确认密码：" />
+
+            <EditText
+                android:id="@+id/etPassword1"
+                style="@style/edittext"
+                android:hint="请输入6-20位密码"
+                android:inputType="textPassword"
+                android:maxLength="20"
+                android:maxLines="1" />
+
+        </LinearLayout>
+
+        <TextView style="@style/djk_line" />
+
+        <LinearLayout style="@style/LLayout_50_h">
+
+            <TextView
+                style="@style/left15"
+                android:text="推荐码：" />
+
+            <EditText
+                android:id="@+id/etcode"
+                style="@style/edittext"
+                android:hint="请输入推荐码（选填）" />
+
+        </LinearLayout>
+
+        <View style="@style/djk_line" />
+
+
+        <LinearLayout
+            style="@style/LLayout_50_h"
+            android:layout_width="wrap_content">
+
+            <CheckBox
+                android:id="@+id/btnShowPassword"
+                android:layout_width="@dimen/dp_20"
+                android:layout_height="@dimen/dp_20"
+                android:layout_marginLeft="@dimen/dp_15"
+                android:background="@drawable/djk_check"
+                android:button="@null" />
+
+            <Button
+                android:id="@+id/register_showpwd"
+                android:layout_width="wrap_content"
+                android:layout_height="48dp"
+                android:background="@null"
+                android:text="显示密码"
+                android:textColor="#7F7F7F"
+                android:textSize="12dp" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btnRegSubmit"
+            style="@style/btn"
+            android:layout_width="match_parent"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:text="完成" />
+    </LinearLayout>
+</LinearLayout>

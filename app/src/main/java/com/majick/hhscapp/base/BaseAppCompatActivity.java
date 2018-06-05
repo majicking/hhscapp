@@ -1,7 +1,6 @@
 package com.majick.hhscapp.base;
 
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -99,8 +98,6 @@ public abstract class BaseAppCompatActivity extends FragmentActivity {
     protected void initToolBarNav(Toolbar toolbar, String title) {
         toolbar.setNavigationOnClickListener((View v) -> {
             showKeyboard(false);
-            getHandler().postDelayed(() -> finish(), 200);
-
         });
         toolbar.setTitle(title);
     }
@@ -108,7 +105,7 @@ public abstract class BaseAppCompatActivity extends FragmentActivity {
     protected void initToolBarNav(Toolbar toolbar, TextView textView, String title) {
         toolbar.setNavigationOnClickListener((View v) -> {
             showKeyboard(false);
-            getHandler().postDelayed(() -> finish(), 200);
+//            getHandler().postDelayed(() -> finish(), 200);
 
         });
         textView.setText(title);
@@ -278,6 +275,7 @@ public abstract class BaseAppCompatActivity extends FragmentActivity {
         startActivity(intent);
     }
 
+
     /**
      * 跳转到相应的activity，然后干掉自己
      *
@@ -335,6 +333,10 @@ public abstract class BaseAppCompatActivity extends FragmentActivity {
      */
     public void toggleShowContent() {
         mMultipleStatusLayout.showContent();
+    }
+
+    public void hideLoadingView() {
+        mMultipleStatusLayout.hideLoadView();
     }
 
     /**
@@ -423,6 +425,7 @@ public abstract class BaseAppCompatActivity extends FragmentActivity {
             if (getCurrentFocus() != null) {
                 imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
             }
+            getHandler().postDelayed(() -> finish(), 200);
         }
     }
 

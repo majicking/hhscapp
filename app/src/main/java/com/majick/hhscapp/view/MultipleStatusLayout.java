@@ -401,4 +401,17 @@ public class MultipleStatusLayout extends RelativeLayout {
             errorStateRelativeLayout.setVisibility(GONE);
         }
     }
+
+    public void hideLoadView(){
+        if (errorStateRelativeLayout != null) {
+            errorStateRelativeLayout.setVisibility(GONE);
+        }
+        if (emptyStateRelativeLayout != null) {
+            emptyStateRelativeLayout.setVisibility(GONE);
+        }
+        if (loadingStateRelativeLayout != null) {
+            loadingStateRelativeLayout.setVisibility(GONE);
+
+        }
+    }
 }

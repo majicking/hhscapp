@@ -13,15 +13,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.majick.hhscapp.R;
+import com.majick.hhscapp.app.AppConfig;
 import com.majick.hhscapp.base.BaseActivity;
-import com.majick.hhscapp.model.UserModel;
+import com.majick.hhscapp.base.BaseModel;
 import com.majick.hhscapp.ui.main.MainActivity;
 import com.majick.hhscapp.ui.register.RegisterActivity;
+import com.majick.hhscapp.utils.Logutils;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
-public class LoginActivity extends BaseActivity<LoginPersenter, UserModel> implements LoginView {
+import static com.majick.hhscapp.app.Constants.MAINNUMBER;
+
+public class LoginActivity extends BaseActivity<LoginPersenter, BaseModel> implements LoginView {
     @BindView(R.id.title)
     TextView title;
     @BindView(R.id.btnLogin)
@@ -95,19 +98,15 @@ public class LoginActivity extends BaseActivity<LoginPersenter, UserModel> imple
     @Override
     public void sucess(String message) {
         Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show();
-        hideLoadingDialog();
-        readyGo(MainActivity.class);
+        Logutils.i("获取登陆信息key="+ AppConfig.getKey());
+        Bundle bundle = new Bundle();
+        bundle.putInt(MAINNUMBER, 3);
+        readyGoThenKill(MainActivity.class, bundle);
     }
 
-    @Override
-    public void start() {
-        showLoadingDialog("登陆中...");
-    }
 
     @Override
     public void faild(String message) {
-        hideLoadingDialog();
         Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show();
-
     }
 }

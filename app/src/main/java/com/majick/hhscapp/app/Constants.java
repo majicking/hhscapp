@@ -15,13 +15,14 @@ public interface Constants {
     String HOST = BuildConfig.HOST;
     String PORT = BuildConfig.PORT;
     String APP = BuildConfig.APP;
-    String URLHEAD = HEAD + HOST + ":"+PORT + APP;
+    String URLHEAD = HEAD + HOST + ":" + PORT + APP;
     String INDEX = "index.php?";
     String URL = URLHEAD + INDEX;
-    String CHAT_SERVER_URL =  HEAD + HOST+":33/socket.io/socket.io.js?_=1524556674600";
-
-
-
+    String CHAT_SERVER_URL = HEAD + HOST + ":33/socket.io/socket.io.js?_=1524556674600";
+    /**
+     * 显示验证图片
+     */
+    String KEYCODEURL = URL + "act=seccode&op=makecode&k=";
 
 
     /**
@@ -38,6 +39,10 @@ public interface Constants {
      * 底部栏购物车数量
      */
     String BROADCAST_CARTNUMBER = "1";
-
+    /**
+     * 注册页面参数传递
+     */
+    String PHONE = "phone";
+    String CAPTCHA = "captcha";
 
 }

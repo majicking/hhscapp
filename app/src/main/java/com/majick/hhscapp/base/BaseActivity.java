@@ -59,6 +59,8 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
         if (mRxManager != null) {
             mRxManager.clear();
         }
+
+        hideLoadingDialog();
     }
 
     /**
@@ -120,6 +122,8 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
         mDialog.show();
     }
 
+
+
     /**
      * 隐藏对话框
      */
@@ -128,13 +132,16 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
         if (mDialog != null && mDialog.isShowing()) {
             mDialog.hide();
         }
+        hideLoadingView();
     }
 
     private Toast toast;
 
     public void showToast(Object msg) {
         if (toast == null) {
-            toast = Toast.makeText(this, ""+msg, Toast.LENGTH_SHORT);
+            toast = Toast.makeText(this, "" + msg, Toast.LENGTH_SHORT);
+        } else {
+            toast.setText("" + msg);
         }
         toast.show();
     }

@@ -41,7 +41,8 @@
         android:id="@+id/registerselect1"
         style="@style/match_warp"
         android:background="@color/white"
-        android:orientation="vertical">
+        android:orientation="vertical"
+      >
 
         <LinearLayout style="@style/LLayout_50_h">
 
@@ -53,7 +54,8 @@
             <EditText
                 android:id="@+id/register_username"
                 style="@style/edittext"
-                android:hint="请输入6-20个字符" />
+                android:hint="请输入6-20个字符"
+                android:maxLength="20" />
         </LinearLayout>
 
         <LinearLayout style="@style/LLayout_50_h">
@@ -66,7 +68,8 @@
                 android:id="@+id/register_pwd"
                 style="@style/edittext"
                 android:hint="请输入6-20位密码"
-                android:inputType="textPassword" />
+                android:inputType="textPassword"
+                android:maxLength="20" />
         </LinearLayout>
 
         <LinearLayout style="@style/LLayout_50_h">
@@ -79,7 +82,8 @@
                 android:id="@+id/register_checkpwd"
                 style="@style/edittext"
                 android:hint="请输入6-20位密码"
-                android:inputType="textPassword" />
+                android:inputType="textPassword"
+                android:maxLength="20" />
         </LinearLayout>
 
         <LinearLayout style="@style/LLayout_50_h">
@@ -103,7 +107,7 @@
             <EditText
                 android:id="@+id/register_invitationcode"
                 style="@style/edittext"
-                android:hint="请输入6-20个字符" />
+                android:hint="请输入邀请码(选填)" />
         </LinearLayout>
 
         <LinearLayout style="@style/LLayout_50_h">
@@ -147,14 +151,14 @@
             <TextView
                 style="@style/left15"
                 android:layout_width="0dp"
-                android:layout_weight="0.8"
+                android:layout_weight="1"
                 android:text="手机号：" />
 
             <EditText
                 android:id="@+id/register_mobile"
                 style="@style/edittext"
                 android:layout_width="0dp"
-                android:layout_weight="4.2"
+                android:layout_weight="4"
                 android:hint="请输入手机号码" />
         </LinearLayout>
 
@@ -164,7 +168,7 @@
                 style="@style/left15"
                 android:layout_width="0dp"
                 android:layout_centerVertical="true"
-                android:layout_weight="0.8"
+                android:layout_weight="1"
                 android:text="验证码：" />
 
             <EditText
@@ -181,6 +185,36 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1.2" />
+
+
+        </LinearLayout>
+
+        <LinearLayout style="@style/LLayout_50_h"
+
+            >
+
+            <TextView
+                style="@style/left15"
+                android:layout_width="@dimen/dp_0"
+                android:layout_weight="1.2"
+                android:text="短信验证码:" />
+
+            <EditText
+                android:id="@+id/register_smscode"
+                style="@style/edittext"
+                android:layout_width="@dimen/dp_0"
+                android:layout_weight="2"
+                android:hint="请输入短信验证码" />
+
+            <Button
+                android:id="@+id/register_btngetsmscode"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/dp_40"
+                android:layout_marginRight="@dimen/dp_15"
+                android:layout_weight="1.2"
+                android:background="@drawable/djk_btn_bg"
+                android:text="获取验证码"
+                android:textColor="@drawable/djk_btn_text_color" />
 
 
         </LinearLayout>
@@ -209,8 +243,10 @@
         </LinearLayout>
 
         <Button
-            android:id="@+id/register_getcheckcode"
+            android:id="@+id/register_next"
             style="@style/btn"
-            android:text="获取验证码" />
+            android:text="下一步" />
     </LinearLayout>
+
+
 </LinearLayout>

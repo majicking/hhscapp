@@ -11,22 +11,42 @@ import com.majick.hhscapp.bean.UserInfo;
 
 public class AppConfig {
 
-    private static LoginBean loginBean;
-    private static UserInfo UserInfo;
 
-    public static LoginBean getLoginBean() {
-        return loginBean;
+    private static String key;
+    private static String userid;
+    private static String username;
+
+    private static UserInfo.Member_info info;
+
+    public static UserInfo.Member_info getInfo() {
+        return info;
     }
 
-    public static void setLoginBean(LoginBean loginBean) {
-        AppConfig.loginBean = loginBean;
+    public static void setInfo(UserInfo.Member_info info) {
+        AppConfig.info = info;
     }
 
-    public static UserInfo getUserInfo() {
-        return UserInfo;
+    public static String getKey() {
+        return key;
     }
 
-    public static void setUserInfo(UserInfo UserInfo) {
-        AppConfig.UserInfo = UserInfo;
+    public static void setKey(String key) {
+        AppConfig.key = key;
+    }
+
+    public static String getUserid() {
+        return userid;
+    }
+
+    public static void setUserid(String userid) {
+        AppConfig.userid = userid;
+    }
+
+    public static String getUsername() {
+        return username;
+    }
+
+    public static void setUsername(String username) {
+        AppConfig.username = username;
     }
 }

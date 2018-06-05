@@ -107,7 +107,7 @@ public class MainActivity extends BaseActivity implements OnFragmentInteractionL
                         .setBadgeItem(mTextBadgeItem))
                 .addItem(new BottomNavigationItem(R.mipmap.main_index_my_mine_p, "我的")
                         .setInactiveIcon(ContextCompat.getDrawable(MainActivity.this, R.mipmap.main_index_my_mine_n)))
-                .setFirstSelectedPosition(0)//设置默认选择的按钮
+                .setFirstSelectedPosition(getIntent().getIntExtra(MAINNUMBER, 0))//设置默认选择的按钮
                 .initialise();//所有的设置需在调用该方法前完成
 
         setBottomNavigationItem(mBottomNavigationBar, 8, 25, 14);
