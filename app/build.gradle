@@ -24,7 +24,7 @@ android {
         buildConfigField "String", "HEAD", '"http://"'
         buildConfigField "String", "PORT", '"80"'
         buildConfigField "String", "APP", '"/mobile/"'
-        resValue "string", "app_name", "国翰大健康商城"
+        resValue "string", "app_name", "国翰大健康"
     }
     signingConfigs {
         debug {
@@ -36,7 +36,6 @@ android {
         }
         release {
             println("1111--------------------------------release")
-
             storeFile file("keystore/keystore.jks")
             keyAlias "android"
             keyPassword "android"
@@ -44,8 +43,6 @@ android {
         }
     }
     buildTypes {
-
-
         release {
             println("--------------------------------release")
             signingConfig signingConfigs.release
@@ -66,7 +63,7 @@ android {
             buildConfigField "boolean", "ISDEBUG", 'true'
             android.applicationVariants.all { variant ->
                 variant.outputs.all {
-                    outputFileName = "华翰商城${defaultConfig.versionName}_${buildTime()}_debug.apk"
+                    outputFileName = "国翰商城${defaultConfig.versionName}_${buildTime()}_debug.apk"
                 }
             }
         }

@@ -1,14 +1,119 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/djk_bgcolor"
+    android:orientation="vertical"
     tools:context=".ui.main.fragment.MineFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+    <LinearLayout
+        style="@style/match"
+        android:orientation="vertical">
 
-</FrameLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_150"
+            android:background="@color/background_color20">
+
+            <ImageView
+                style="@style/match"
+                android:scaleType="fitXY"
+                android:src="@mipmap/member_top_bg" />
+
+            <LinearLayout
+                style="@style/LLayout_50_h"
+                android:layout_alignParentBottom="true"
+                android:background="@drawable/mine_banner_bg">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="@dimen/dp_20"
+                        android:layout_height="@dimen/dp_20"
+                        android:src="@mipmap/mine_icon_fav_goods" />
+
+                    <TextView
+                        style="@style/warp"
+                        android:text="商品收藏" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="@dimen/dp_20"
+                        android:layout_height="@dimen/dp_20"
+                        android:src="@mipmap/mine_icon_fav_store" />
+
+                    <TextView
+                        style="@style/warp"
+                        android:text="商品收藏" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="@dimen/dp_20"
+                        android:layout_height="@dimen/dp_20"
+                        android:src="@mipmap/mine_icon_goods_browse" />
+
+                    <TextView
+                        style="@style/warp"
+                        android:text="商品收藏" />
+                </LinearLayout>
+            </LinearLayout>
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_120"
+            android:layout_marginTop="@dimen/dp_10"
+            android:orientation="vertical">
+
+            <LinearLayout
+                style="@style/LLayout_50_h"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:layout_width="@dimen/dp_40"
+                    android:layout_height="@dimen/dp_40"
+                    android:layout_marginLeft="@dimen/dp_15"
+                    android:src="@mipmap/mc_01" />
+
+                <TextView
+                    style="@style/warp"
+                    android:text="我的订单" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/dp_15"
+                    android:drawableRight="@mipmap/arrow_right_b"
+                    android:gravity="right"
+                    android:text="查看全部订单" />
+            </LinearLayout>
+
+            <View style="@style/djk_line" />
+
+            <LinearLayout style="@style/match">
+
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+</ScrollView>

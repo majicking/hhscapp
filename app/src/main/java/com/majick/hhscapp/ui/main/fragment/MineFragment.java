@@ -2,15 +2,12 @@ package com.majick.hhscapp.ui.main.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.majick.hhscapp.R;
+import com.majick.hhscapp.base.BaseFragment;
 
 
-public class MineFragment extends Fragment {
+public class MineFragment extends BaseFragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
@@ -22,15 +19,6 @@ public class MineFragment extends Fragment {
     public MineFragment() {
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment MineFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static MineFragment newInstance(String param1, String param2) {
         MineFragment fragment = new MineFragment();
         Bundle args = new Bundle();
@@ -49,13 +37,18 @@ public class MineFragment extends Fragment {
         }
     }
 
+
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_mine, container, false);
+    protected int getContentViewLayoutID() {
+        return R.layout.fragment_mine;
     }
-    // TODO: Rename method, update argument and hook method into UI event
+
+    @Override
+    protected void initView(Bundle savedInstanceState) {
+
+    }
+
     public void onButtonPressed(String key,String value) {
         if (mListener != null) {
             mListener.doSomeThing(key, value);
