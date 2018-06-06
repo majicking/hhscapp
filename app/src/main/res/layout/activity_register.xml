@@ -42,7 +42,7 @@
         style="@style/match_warp"
         android:background="@color/white"
         android:orientation="vertical"
-      >
+        >
 
         <LinearLayout style="@style/LLayout_50_h">
 

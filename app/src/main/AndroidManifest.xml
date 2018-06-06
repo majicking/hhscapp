@@ -3,11 +3,6 @@
     package="com.majick.hhscapp">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <!-- 短信自动填写 -->
-    <!-- 阅读消息 -->
-    <uses-permission android:name="android.permission.READ_SMS" />
-    <!-- 接收消息 -->
-    <uses-permission android:name="android.permission.RECEIVE_SMS" />
 
     <application
         android:name=".app.App"
@@ -29,10 +24,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.register.RegisterActivity" />
-        <activity android:name=".ui.register.sms.GetPermissionActivity" />
-
-        <receiver android:name=".ui.register.SMSReceiver" />
-
         <activity android:name=".ui.register.Register2Activity"></activity>
     </application>
 
