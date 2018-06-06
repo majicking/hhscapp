@@ -1,5 +1,6 @@
 package com.majick.hhscapp.base;
 
+import com.majick.hhscapp.app.App;
 import com.majick.hhscapp.bean.ImgCodeKey;
 import com.majick.hhscapp.bean.LoginBean;
 import com.majick.hhscapp.bean.SMSCode;
@@ -10,6 +11,8 @@ import com.majick.hhscapp.http.RxHelper;
 import io.reactivex.Observable;
 
 public class BaseModel {
+    public String  key= App.getApp().getKey();
+
     /**
      * 获取用户信息
      */

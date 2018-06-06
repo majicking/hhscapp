@@ -1,4 +1,4 @@
-package com.majick.hhscapp.ui.main.fragment;
+package com.majick.hhscapp.ui.main.fragment.home;
 
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.majick.hhscapp.R;
 import com.majick.hhscapp.base.BaseFragment;
+import com.majick.hhscapp.ui.main.fragment.OnFragmentInteractionListener;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

@@ -1,8 +1,7 @@
 package com.majick.hhscapp.ui.register;
 
-import com.majick.hhscapp.app.AppConfig;
+import com.majick.hhscapp.app.App;
 import com.majick.hhscapp.base.BasePresenter;
-import com.majick.hhscapp.model.RegisterModel;
 import com.majick.hhscapp.utils.Logutils;
 
 public class RegisterPersenter extends BasePresenter<RegisterView, RegisterModel> {
@@ -30,9 +29,9 @@ public class RegisterPersenter extends BasePresenter<RegisterView, RegisterModel
             Logutils.i(registerInfo);
             mView.hideLoadingDialog();
             mView.success("注册成功");
-            AppConfig.setKey(registerInfo.key);
-            AppConfig.setUserid(registerInfo.userid);
-            AppConfig.setUsername(registerInfo.username);
+            App.getApp().setKey(registerInfo.key);
+            App.getApp().setUserid(registerInfo.userid);
+            App.getApp().setUsername(registerInfo.username);
         }, throwable -> {
             mView.hideLoadingDialog();
             mView.fail(throwable.getMessage());
@@ -41,9 +40,9 @@ public class RegisterPersenter extends BasePresenter<RegisterView, RegisterModel
 
 
     public void getUserInfo() {
-        mRxManager.add(mModel.getUserInfo(AppConfig.getKey(), AppConfig.getUserid()).subscribe(
+        mRxManager.add(mModel.getUserInfo(App.getApp().getKey(), App.getApp().getUserid()).subscribe(
                 userInfo -> {
-                    AppConfig.setInfo(userInfo.member_info);
+                    App.getApp().setInfo(userInfo.member_info);
                     mView.loginSuccess();
                 }, throwable -> {
                     mView.loginFail(throwable.getMessage());

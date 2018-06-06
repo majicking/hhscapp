@@ -1,4 +1,4 @@
-package com.majick.hhscapp.model;
+package com.majick.hhscapp.ui.login;
 
 import com.majick.hhscapp.base.BaseModel;
 

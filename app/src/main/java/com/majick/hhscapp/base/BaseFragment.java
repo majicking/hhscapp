@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.majick.hhscapp.http.RxManager;
 import com.majick.hhscapp.utils.Utils;
@@ -90,5 +91,15 @@ public abstract class BaseFragment<T extends BasePresenter, E extends BaseModel>
         }
     }
 
+    private Toast toast;
+
+    public void showToast(Object msg) {
+        if (toast == null) {
+            toast = Toast.makeText(getActivity(), "" + msg, Toast.LENGTH_SHORT);
+        } else {
+            toast.setText("" + msg);
+        }
+        toast.show();
+    }
 
 }

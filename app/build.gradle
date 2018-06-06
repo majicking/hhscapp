@@ -52,7 +52,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             android.applicationVariants.all { variant ->
                 variant.outputs.all {
-                    outputFileName = "华翰商城${defaultConfig.versionName}_${buildTime()}_release.apk"
+                    outputFileName = "国翰大健康${defaultConfig.versionName}_${buildTime()}_release.apk"
                 }
             }
         }

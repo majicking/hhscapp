@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.os.CountDownTimer;
 import android.os.Bundle;
 
-import com.majick.hhscapp.ui.main.MainActivity;
+import com.majick.hhscapp.ui.main.activity.MainActivity;
 
 public class WelcomActivity extends Activity {
     int time = 1;

@@ -1,4 +1,4 @@
-package com.majick.hhscapp.ui.main;
+package com.majick.hhscapp.ui.main.activity;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -29,8 +29,8 @@ import com.majick.hhscapp.R;
 import com.majick.hhscapp.app.Constants;
 import com.majick.hhscapp.base.BaseActivity;
 import com.majick.hhscapp.base.BaseFragment;
-import com.majick.hhscapp.ui.main.fragment.HomeFragment;
-import com.majick.hhscapp.ui.main.fragment.MineFragment;
+import com.majick.hhscapp.ui.main.fragment.home.HomeFragment;
+import com.majick.hhscapp.ui.main.fragment.mine.MineFragment;
 import com.majick.hhscapp.ui.main.fragment.OnFragmentInteractionListener;
 
 import java.lang.reflect.Field;
@@ -106,8 +106,8 @@ public class MainActivity extends BaseActivity implements OnFragmentInteractionL
                 .addItem(new BottomNavigationItem(R.mipmap.main_index_my_cart_p, "购物车")
                         .setInactiveIcon(ContextCompat.getDrawable(MainActivity.this, R.mipmap.main_index_my_cart_n))
                         .setBadgeItem(mTextBadgeItem))
-                .addItem(new BottomNavigationItem(R.mipmap.member_b, "我的")
-                        .setInactiveIcon(ContextCompat.getDrawable(MainActivity.this, R.mipmap.member_b_2)))
+                .addItem(new BottomNavigationItem(R.mipmap.member_b_2, "我的")
+                        .setInactiveIcon(ContextCompat.getDrawable(MainActivity.this, R.mipmap.member_b)))
                 .setFirstSelectedPosition(0)//设置默认选择的按钮
                 .initialise();//所有的设置需在调用该方法前完成
 

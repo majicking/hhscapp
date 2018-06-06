@@ -119,9 +119,9 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
         if (mDialog == null) {
             mDialog = new LoadingDialog(mContext, notice);
         }
-        mDialog.show();
+        if (!mDialog.isShowing())
+            mDialog.show();
     }
-
 
 
     /**

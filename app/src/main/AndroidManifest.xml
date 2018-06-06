@@ -15,7 +15,7 @@
         <activity
             android:name=".WelcomActivity"
             android:theme="@style/AppTheme" />
-        <activity android:name=".ui.main.MainActivity" />
+        <activity android:name=".ui.main.activity.MainActivity" />
         <activity android:name=".ui.login.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,6 +25,7 @@
         </activity>
         <activity android:name=".ui.register.RegisterActivity" />
         <activity android:name=".ui.register.Register2Activity"></activity>
+        <activity android:name=".ui.WebViewActivity"/>
     </application>
 
 </manifest>

@@ -15,6 +15,7 @@ import com.majick.hhscapp.R;
 import com.majick.hhscapp.view.MultipleStatusLayout;
 
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 
 /**
@@ -32,6 +33,7 @@ public abstract class BaseAppCompatFragment extends Fragment {
     protected Context mContext;
     protected View mView;
     private MultipleStatusLayout mMultipleStatusLayout;
+    private Unbinder unbinder;
 
     /**
      * 当fragment创建的时候获取测试的tag,绑定相应的eventBus
@@ -69,7 +71,7 @@ public abstract class BaseAppCompatFragment extends Fragment {
      */
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        ButterKnife.bind(this, view);
+        unbinder = ButterKnife.bind(this, view);
     }
 
 
@@ -222,7 +224,7 @@ public abstract class BaseAppCompatFragment extends Fragment {
      * 显示没有数据
      */
     public void showEmpty() {
-        showEmpty(R.drawable.ic_no_data, getString(R.string.empty_data_message));
+        showEmpty(R.mipmap.ic_no_data, getString(R.string.empty_data_message));
     }
 
     /**
@@ -231,7 +233,7 @@ public abstract class BaseAppCompatFragment extends Fragment {
      * @param message 提示信息
      */
     public void showEmpty(String message) {
-        showEmpty(R.drawable.ic_no_data, message);
+        showEmpty(R.mipmap.ic_no_data, message);
     }
 
     /**
@@ -265,7 +267,7 @@ public abstract class BaseAppCompatFragment extends Fragment {
      * @param listener 提示信息
      */
     public void showNetError(String msg, View.OnClickListener listener) {
-        showNetError(R.drawable.ic_no_data, msg, getString(R.string.click_refresh), listener);
+        showNetError(R.mipmap.ic_no_data, msg, getString(R.string.click_refresh), listener);
     }
 
     /**
@@ -280,7 +282,7 @@ public abstract class BaseAppCompatFragment extends Fragment {
         mMultipleStatusLayout.showError(drawId, msg, errorButtonText, listener);
     }
 
- //   protected void showKeyboard(boolean isShow) {
+    //   protected void showKeyboard(boolean isShow) {
 //        InputMethodManager imm = (InputMethodManager) _mActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
 //        if (isShow) {
 //            if (_mActivity.getCurrentFocus() == null) {
@@ -293,12 +295,18 @@ public abstract class BaseAppCompatFragment extends Fragment {
 //                imm.hideSoftInputFromWindow(_mActivity.getCurrentFocus().getWindowToken(), 0);
 //            }
 //        }
- //   }
-
+    //   }
 
 
 //    public Handler getHandler() {
 //        return new Handler(/*_mActivity.getMainLooper()*/);
 //    }
+
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        unbinder.unbind();
+    }
 
 }

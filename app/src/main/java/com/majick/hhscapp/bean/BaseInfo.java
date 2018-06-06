@@ -1,7 +1,5 @@
 package com.majick.hhscapp.bean;
 
-import com.majick.hhscapp.base.BaseModel;
-
-public class BaseInfo extends BaseModel {
+public class BaseInfo  {
     public String error;
 }

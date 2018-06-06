@@ -16,11 +16,11 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 import com.majick.hhscapp.R;
-import com.majick.hhscapp.app.AppConfig;
+import com.majick.hhscapp.app.App;
 import com.majick.hhscapp.app.Constants;
 import com.majick.hhscapp.base.BaseActivity;
-import com.majick.hhscapp.model.RegisterModel;
-import com.majick.hhscapp.ui.main.MainActivity;
+import com.majick.hhscapp.ui.WebViewActivity;
+import com.majick.hhscapp.ui.main.activity.MainActivity;
 import com.majick.hhscapp.utils.Logutils;
 import com.majick.hhscapp.utils.Utils;
 
@@ -176,7 +176,16 @@ public class RegisterActivity extends BaseActivity<RegisterPersenter, RegisterMo
             }
         });
 
-
+        registerAgreement.setOnClickListener(v -> {
+            Bundle bundle = new Bundle();
+            bundle.putString("url", Constants.REGISTERARGMENT);
+            readyGo(WebViewActivity.class, bundle);
+        });
+        registerAgreement1.setOnClickListener(v -> {
+            Bundle bundle = new Bundle();
+            bundle.putString("url", Constants.REGISTERARGMENT);
+            readyGo(WebViewActivity.class, bundle);
+        });
     }
 
 
@@ -295,7 +304,7 @@ public class RegisterActivity extends BaseActivity<RegisterPersenter, RegisterMo
 
     @Override
     public void loginSuccess() {
-        Logutils.i("获取登陆信息成功" + AppConfig.getInfo().toString());
+        Logutils.i("获取登陆信息成功" + App.getApp().getInfo().toString());
         Bundle bundle = new Bundle();
         bundle.putInt(MAINNUMBER, 3);
         readyGoThenKill(MainActivity.class, bundle);
@@ -305,7 +314,6 @@ public class RegisterActivity extends BaseActivity<RegisterPersenter, RegisterMo
     public void loginFail(String msg) {
         showToast(msg);
     }
-
 
 
     /**

@@ -343,7 +343,7 @@ public abstract class BaseAppCompatActivity extends FragmentActivity {
      * 显示没有数据
      */
     public void toggleShowEmpty() {
-        toggleShowEmpty(R.drawable.ic_no_data, getString(R.string.empty_data_message));
+        toggleShowEmpty(R.mipmap.ic_no_data, getString(R.string.empty_data_message));
     }
 
     /**
@@ -352,7 +352,7 @@ public abstract class BaseAppCompatActivity extends FragmentActivity {
      * @param message 提示信息
      */
     public void toggleShowEmpty(String message) {
-        toggleShowEmpty(R.drawable.ic_no_data, message);
+        toggleShowEmpty(R.mipmap.ic_no_data, message);
     }
 
     /**
@@ -386,7 +386,7 @@ public abstract class BaseAppCompatActivity extends FragmentActivity {
      * @param listener 提示信息
      */
     public void toggleShowNetError(String msg, View.OnClickListener listener) {
-        toggleShowNetError(R.drawable.ic_no_data, msg, getString(R.string.click_refresh), listener);
+        toggleShowNetError(R.mipmap.ic_no_data, msg, getString(R.string.click_refresh), listener);
     }
 
     /**

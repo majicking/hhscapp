@@ -3,16 +3,13 @@ package com.majick.hhscapp.http;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.majick.hhscapp.app.App;
-import com.majick.hhscapp.app.AppConfig;
 import com.majick.hhscapp.app.Constants;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Cache;
-import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -70,7 +67,7 @@ public class Api {
      * 配置网络请求缓存路径与大小
      */
     private void initCachePathAndSize() {
-        File cacheFile = new File(App.getAppContext().getCacheDir(), "cache");
+        File cacheFile = new File(App.getApp().getCacheDir(), "cache");
         mCache = new Cache(cacheFile, FILE_CACHE_SIZE);
     }
 

@@ -77,9 +77,15 @@
         <item name="android:layout_centerVertical">true</item>
     </style>
 
-    <style name="RLayout_50">
+    <style name="RLayout_48">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">@dimen/dp_50</item>
+        <item name="android:layout_height">@dimen/dp_48</item>
+    </style>
+
+    <style name="LLayout_48_v">
+        <item name="android:orientation">vertical</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/dp_48</item>
     </style>
 
     <style name="LLayout_50_v">
@@ -88,11 +94,25 @@
         <item name="android:layout_height">@dimen/dp_50</item>
     </style>
 
+    <style name="LLayout_48_h">
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/dp_48</item>
+    </style>
+
     <style name="LLayout_50_h">
         <item name="android:gravity">center_vertical</item>
         <item name="android:orientation">horizontal</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/dp_50</item>
+    </style>
+
+    <style name="LLayout_55_h">
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/dp_55</item>
     </style>
 
     <style name="edittext">
@@ -114,6 +134,43 @@
         <item name="android:textColor">@drawable/djk_btn_text_color</item>
     </style>
 
+    <style name="layout_weight_h">
+        <item name="android:layout_width">@dimen/dp_0</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">1</item>
+    </style>
+
+    <style name="layout_weight_v">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/dp_0</item>
+        <item name="android:layout_weight">1</item>
+    </style>
+    <!--我的页面图片-->
+    <style name="mine_img">
+        <item name="android:layout_width">@dimen/dp_23</item>
+        <item name="android:layout_height">@dimen/dp_23</item>
+        <item name="android:layout_centerHorizontal">true</item>
+    </style>
+    <!--订单图片-->
+    <style name="mine_text" parent="warp">
+        <item name="android:textSize">@dimen/dp_14</item>
+        <item name="android:layout_centerHorizontal">true</item>
+    </style>
+
+
+    <!--显示订单数量-->
+    <style name="mine_order_number">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:background">@drawable/mine_order_number</item>
+        <item name="android:maxHeight">@dimen/dp_14</item>
+        <item name="android:maxWidth">@dimen/dp_14</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/dp_10</item>
+
+    </style>
 
 
     <!-- my loading dialog -->

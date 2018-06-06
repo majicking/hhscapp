@@ -4,6 +4,7 @@ package com.majick.hhscapp.http;
 import com.majick.hhscapp.app.Constants;
 import com.majick.hhscapp.bean.ImgCodeKey;
 import com.majick.hhscapp.bean.LoginBean;
+import com.majick.hhscapp.bean.MineInfo;
 import com.majick.hhscapp.bean.SMSCode;
 import com.majick.hhscapp.bean.UserInfo;
 
@@ -33,6 +34,7 @@ public interface ApiService {
     String REGISTERMOBILE = Constants.INDEX + "act=connect&op=sms_register";
     String IMGKEYCODE = Constants.INDEX + "act=seccode&op=makecodekey";
     String SMSKEYCODE = Constants.INDEX + "act=connect&op=get_sms_captcha";
+    String MINEINFO = Constants.INDEX + "act=member_index";
 
     /**
      * 用户登录
@@ -90,6 +92,13 @@ public interface ApiService {
      */
     @GET(IMGKEYCODE)
     Observable<Result<ImgCodeKey>> getImgCodeKey();
+
+    /**
+     * 初始化加载我的信息
+     */
+    @FormUrlEncoded
+    @POST(MINEINFO)
+    Observable<Result<MineInfo>> getMineInfo(@Field("key") String key);
 
 
 //

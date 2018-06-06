@@ -43,7 +43,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:adjustViewBounds="true"
-        android:src="@drawable/nc_login_pic" />
+        android:src="@mipmap/nc_login_pic" />
 
     <include layout="@layout/line" />
 
@@ -100,6 +100,7 @@
                 android:layout_toRightOf="@id/text_password"
                 android:background="@drawable/djk_bg_border_bottom"
                 android:hint="请输入密码"
+                android:inputType="textPassword"
                 android:paddingLeft="@dimen/dp_10"
                 android:textColorHint="@color/djk_edithitcolor"
                 android:textSize="@dimen/sp_12"
@@ -129,7 +130,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
         android:adjustViewBounds="true"
-        android:src="@drawable/nc_login_split" />
+        android:src="@mipmap/nc_login_split" />
 
     <LinearLayout
         android:id="@+id/ThreebtnLogin"
@@ -145,7 +146,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@null"
-            android:src="@drawable/nc_icon_qq" />
+            android:src="@mipmap/nc_icon_qq" />
 
         <ImageButton
             android:id="@+id/btnWeiXin"
@@ -153,7 +154,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@null"
-            android:src="@drawable/nc_icon_wx" />
+            android:src="@mipmap/nc_icon_wx" />
 
         <ImageButton
             android:id="@+id/btnSina"
@@ -161,7 +162,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@null"
-            android:src="@drawable/nc_icon_weibo" />
+            android:src="@mipmap/nc_icon_weibo" />
     </LinearLayout>
 
 </LinearLayout>

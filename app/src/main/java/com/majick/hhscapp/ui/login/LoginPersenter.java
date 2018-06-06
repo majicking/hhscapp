@@ -1,22 +1,21 @@
 package com.majick.hhscapp.ui.login;
 
-import com.majick.hhscapp.app.AppConfig;
-import com.majick.hhscapp.base.BaseModel;
+import com.majick.hhscapp.app.App;
 import com.majick.hhscapp.base.BasePresenter;
 
-public class LoginPersenter extends BasePresenter<LoginView, BaseModel> {
+public class LoginPersenter extends BasePresenter<LoginView, UserModel> {
 
 
     public void login(String name, String password) {
         mView.showLoadingDialog("登陆中...");
         mRxManager.add(mModel.login(name, password).flatMap(registerInfo -> {
-                    AppConfig.setKey(registerInfo.key);
-                    AppConfig.setKey(registerInfo.userid);
-                    AppConfig.setKey(registerInfo.username);
+                    App.getApp().setKey(registerInfo.key);
+                    App.getApp().setUserid(registerInfo.userid);
+                    App.getApp().setUsername(registerInfo.username);
                     return mModel.getUserInfo(registerInfo.key, registerInfo.userid);
                 }).subscribe(userInfoResult -> {
                     mView.hideLoadingDialog();
-                    AppConfig.setInfo(userInfoResult.member_info);
+                    App.getApp().setInfo(userInfoResult.member_info);
                     mView.sucess("登陆成功");
                 }, throwable -> {
                     mView.hideLoadingDialog();
