@@ -7,9 +7,11 @@ import com.majick.hhscapp.app.Constants;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Cache;
+import okhttp3.Headers;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -82,27 +84,33 @@ public class Api {
                 .writeTimeout(WRITE_TIME_OUT, TimeUnit.MILLISECONDS)
                 .cache(mCache)
                 .connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
-                .addInterceptor(new Interceptor() {
-                    @Override
-                    public Response intercept(Chain chain) throws IOException {
-                        Request request = chain.request().newBuilder()
-                                .addHeader("Content-Type", "application/json").build();
-                        return chain.proceed(request);
-                    }
+                .retryOnConnectionFailure(true)//连接失败后是否重新连接
+                .addInterceptor(chain -> {
+                    Request request = chain.request().newBuilder()
+                            .addHeader("Content-Type", "application/json").build();
+                    return chain.proceed(request);
                 })
-                .addInterceptor(new Interceptor() {
-                    @Override
-                    public Response intercept(Chain chain) throws IOException {
-                        Request builder = chain.request()
-                                .newBuilder().build();
+                .addInterceptor(chain -> {
+                    Request builder = chain.request()
+                            .newBuilder().build();
+                  Headers headers= builder.headers();
 //                if (headers != null && headers.size() > 0) {
 //                    Set<String> keys = headers.keySet();
 //                    for (String headerKey : keys) {
 //                        builder.addHeader(headerKey, headers.get(headerKey)).build();
 //                    }
 //                }
-                        return chain.proceed(builder);
-                    }
+                    return chain.proceed(builder);
+                })
+                .addNetworkInterceptor(chain -> {
+                    Request request = chain.request();
+                    Response response = chain.proceed(request);
+                    int maxAge = 60;
+                    return response.newBuilder()
+                            .removeHeader("Pragma")// 清除头信息，因为服务器如果不支持，会返回一些干扰信息，不清除下面无法生效
+                            .removeHeader("Cache-Control")
+                            .header("Cache-Control", "public, max-age=" + maxAge)
+                            .build();
                 })
                 .addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
                 .addNetworkInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.HEADERS))
