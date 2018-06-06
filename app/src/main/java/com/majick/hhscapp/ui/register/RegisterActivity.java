@@ -1,9 +1,7 @@
 package com.majick.hhscapp.ui.register;
 
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -14,7 +12,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
@@ -24,9 +21,6 @@ import com.majick.hhscapp.app.Constants;
 import com.majick.hhscapp.base.BaseActivity;
 import com.majick.hhscapp.model.RegisterModel;
 import com.majick.hhscapp.ui.main.MainActivity;
-import com.majick.hhscapp.ui.register.sms.AutoVerifyCode;
-import com.majick.hhscapp.ui.register.sms.callback.PermissionCallBack;
-import com.majick.hhscapp.ui.register.sms.callback.SmsCallBack;
 import com.majick.hhscapp.utils.Logutils;
 import com.majick.hhscapp.utils.Utils;
 
@@ -34,7 +28,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import cn.carbs.android.segmentcontrolview.library.SegmentControlView;
 
 import static com.majick.hhscapp.app.Constants.MAINNUMBER;
@@ -90,7 +83,6 @@ public class RegisterActivity extends BaseActivity<RegisterPersenter, RegisterMo
     private String code;
     private long time = 60;
     private CountDownTimer timer;
-    private SMSReceiver receiver;
 
     @Override
     protected int getContentViewLayoutID() {
@@ -151,7 +143,6 @@ public class RegisterActivity extends BaseActivity<RegisterPersenter, RegisterMo
         });
         registerBtngetsmscode.setOnClickListener(v -> {
             if (registerBtngetsmscode.isActivated()) {
-                showLoadingDialog("短信正在发送");
                 mPresenter.getSMSCode(registerMobile.getText().toString(), code, registerCheckcode.getText().toString());
             }
         });
@@ -286,7 +277,6 @@ public class RegisterActivity extends BaseActivity<RegisterPersenter, RegisterMo
 //                })
 //                .into(registerCheckcode)  //要输入的View
 //                .start();       //开始
-        autoGetSMS();
         timer = new CountDownTimer(time * 1000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
@@ -316,12 +306,6 @@ public class RegisterActivity extends BaseActivity<RegisterPersenter, RegisterMo
         showToast(msg);
     }
 
-    private void autoGetSMS() {
-        IntentFilter filter = new IntentFilter("android.provider.Telephony.SMS_RECEIVED");
-        filter.setPriority(IntentFilter.SYSTEM_HIGH_PRIORITY);
-        receiver = new SMSReceiver(mContext, registerCheckcode);
-        registerReceiver(receiver, filter);
-    }
 
 
     /**
@@ -343,65 +327,6 @@ public class RegisterActivity extends BaseActivity<RegisterPersenter, RegisterMo
             return m.group(0);
         }
         return null;
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
-
-    /**
-     * 获取短信回调接口
-     */
-    class MessageCallBack extends SmsCallBack {
-        @Override
-        public void onGetCode(String code) {
-            Logutils.i("验证码为：" + code);
-        }
-
-        @Override
-        public void onGetMessage(String mess) {
-            Logutils.i("短信内容为：" + mess);
-
-        }
-
-        @Override
-        public void onGetSender(@Nullable String phoneNumber) {
-            Logutils.i("发送者为：" + phoneNumber);
-
-        }
-    }
-
-
-    class PerCallBack implements PermissionCallBack {
-
-        @Override
-        public void onSuccess() {
-            //获取短信权限成功
-            Logutils.i("获取短信权限成功：");
-        }
-
-        @Override
-        public boolean onFail() {
-            //获取短信权限失败
-            Toast.makeText(mContext, "拒绝获取短信权限", Toast.LENGTH_SHORT).show();
-            Logutils.i("获取短信权限失败,返回真则重试获取权限,或者你自己手动获取了之后再返回真也行");
-
-
-            return false;
-
-        }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        //因为一般只用一次，所以页面销毁就释放。
-        AutoVerifyCode.getInstance().release();
-        if (receiver != null)
-            unregisterReceiver(receiver);
     }
 
 

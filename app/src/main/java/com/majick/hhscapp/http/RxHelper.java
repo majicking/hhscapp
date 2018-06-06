@@ -1,7 +1,6 @@
 package com.majick.hhscapp.http;
 
 
-import com.majick.hhscapp.base.BaseModel;
 import com.majick.hhscapp.bean.BaseInfo;
 
 import java.lang.reflect.Method;
