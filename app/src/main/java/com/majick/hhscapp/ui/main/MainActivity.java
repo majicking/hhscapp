@@ -30,6 +30,7 @@ import com.majick.hhscapp.app.Constants;
 import com.majick.hhscapp.base.BaseActivity;
 import com.majick.hhscapp.base.BaseFragment;
 import com.majick.hhscapp.ui.main.fragment.HomeFragment;
+import com.majick.hhscapp.ui.main.fragment.MineFragment;
 import com.majick.hhscapp.ui.main.fragment.OnFragmentInteractionListener;
 
 import java.lang.reflect.Field;
@@ -51,7 +52,7 @@ public class MainActivity extends BaseActivity implements OnFragmentInteractionL
     private HomeFragment homeFragment1;
     private HomeFragment homeFragment2;
     private HomeFragment homeFragment3;
-    private HomeFragment homeFragment4;
+    private MineFragment homeFragment4;
     @BindView(R.id.bottom_navigation_bar)
     BottomNavigationBar mBottomNavigationBar;
     private TextBadgeItem mTextBadgeItem;
@@ -68,7 +69,7 @@ public class MainActivity extends BaseActivity implements OnFragmentInteractionL
         homeFragment1 = HomeFragment.newInstance("0", "");
         homeFragment2 = HomeFragment.newInstance("1", "");
         homeFragment3 = HomeFragment.newInstance("2", "");
-        homeFragment4 = HomeFragment.newInstance("3", "");
+        homeFragment4 = MineFragment.newInstance("3", "");
         mFragments = new ArrayList<>();
         mFragments.add(homeFragment1);
         mFragments.add(homeFragment2);
@@ -105,8 +106,8 @@ public class MainActivity extends BaseActivity implements OnFragmentInteractionL
                 .addItem(new BottomNavigationItem(R.mipmap.main_index_my_cart_p, "购物车")
                         .setInactiveIcon(ContextCompat.getDrawable(MainActivity.this, R.mipmap.main_index_my_cart_n))
                         .setBadgeItem(mTextBadgeItem))
-                .addItem(new BottomNavigationItem(R.mipmap.main_index_my_mine_p, "我的")
-                        .setInactiveIcon(ContextCompat.getDrawable(MainActivity.this, R.mipmap.main_index_my_mine_n)))
+                .addItem(new BottomNavigationItem(R.mipmap.member_b, "我的")
+                        .setInactiveIcon(ContextCompat.getDrawable(MainActivity.this, R.mipmap.member_b_2)))
                 .setFirstSelectedPosition(getIntent().getIntExtra(MAINNUMBER, 0))//设置默认选择的按钮
                 .initialise();//所有的设置需在调用该方法前完成
 
