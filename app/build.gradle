@@ -13,7 +13,7 @@ android {
     compileSdkVersion config.compileSdkVersion
     buildToolsVersion config.buildToolsVersion
     defaultConfig {
-        applicationId "com.majick.hhscapp"
+        applicationId "com.majick.guohanhealth"
         minSdkVersion config.minSdkVersion
         targetSdkVersion config.targetSdkVersion
 //        multiDexEnabled true
