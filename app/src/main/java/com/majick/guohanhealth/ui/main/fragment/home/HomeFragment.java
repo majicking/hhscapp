@@ -76,16 +76,16 @@ public class HomeFragment extends BaseFragment {
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        text.setText(mParam1);
-
-        text.setOnClickListener(v->{
-            ClipboardManager cm = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
-// 创建普通字符型ClipData
-            ClipData mClipData = ClipData.newPlainText("Label", "这里是要复制的文字");
-// 将ClipData内容放到系统剪贴板里。
-            cm.setPrimaryClip(mClipData);
-            Toast.makeText(getActivity(),"复制成功",Toast.LENGTH_SHORT).show();
-        });
+//        text.setText(mParam1);
+//
+//        text.setOnClickListener(v->{
+//            ClipboardManager cm = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
+//// 创建普通字符型ClipData
+//            ClipData mClipData = ClipData.newPlainText("Label", "这里是要复制的文字");
+//// 将ClipData内容放到系统剪贴板里。
+//            cm.setPrimaryClip(mClipData);
+//            Toast.makeText(getActivity(),"复制成功",Toast.LENGTH_SHORT).show();
+//        });
 
     }
 

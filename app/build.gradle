@@ -141,4 +141,5 @@ dependencies {
     }
     //选择按钮左中右
     api 'cn.carbs.android:SegmentControlView:1.0.0'
+    api 'com.google.zxing:core:3.2.1'
 }

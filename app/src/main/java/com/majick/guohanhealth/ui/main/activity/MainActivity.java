@@ -29,12 +29,15 @@ import com.majick.guohanhealth.R;
 import com.majick.guohanhealth.app.Constants;
 import com.majick.guohanhealth.base.BaseActivity;
 import com.majick.guohanhealth.base.BaseFragment;
+import com.majick.guohanhealth.ui.main.fragment.cart.CartFragment;
+import com.majick.guohanhealth.ui.main.fragment.classtype.ClassTypeFragment;
 import com.majick.guohanhealth.ui.main.fragment.home.HomeFragment;
 import com.majick.guohanhealth.ui.main.fragment.mine.MineFragment;
 import com.majick.guohanhealth.ui.main.fragment.OnFragmentInteractionListener;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 
@@ -48,10 +51,10 @@ public class MainActivity extends BaseActivity implements OnFragmentInteractionL
     @BindView(R.id.drawer_layout)
     DrawerLayout drawerLayout;
     private ArrayList<BaseFragment> mFragments;
-    private int mLastFgIndex;
+    private int mLastFgIndex;//最后显示的fragment
     private HomeFragment homeFragment1;
-    private HomeFragment homeFragment2;
-    private HomeFragment homeFragment3;
+    private ClassTypeFragment homeFragment2;
+    private CartFragment homeFragment3;
     private MineFragment homeFragment4;
     @BindView(R.id.bottom_navigation_bar)
     BottomNavigationBar mBottomNavigationBar;
@@ -67,8 +70,8 @@ public class MainActivity extends BaseActivity implements OnFragmentInteractionL
     @Override
     protected void initView(Bundle savedInstanceState) {
         homeFragment1 = HomeFragment.newInstance("0", "");
-        homeFragment2 = HomeFragment.newInstance("1", "");
-        homeFragment3 = HomeFragment.newInstance("2", "");
+        homeFragment2 = ClassTypeFragment.newInstance("1", "");
+        homeFragment3 = CartFragment.newInstance("2", "");
         homeFragment4 = MineFragment.newInstance("3", "");
         mFragments = new ArrayList<>();
         mFragments.add(homeFragment1);
@@ -233,8 +236,12 @@ public class MainActivity extends BaseActivity implements OnFragmentInteractionL
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         Fragment targetFg = mFragments.get(position);
         Fragment lastFg = mFragments.get(mLastFgIndex);
+//        if (mLastFgIndex == mFragments.size() - 1) {
+            ft.remove(lastFg);//我的界面 每次移除 下次重新请求
+//        } else {
+//            ft.hide(lastFg);
+//        }
         mLastFgIndex = position;
-        ft.hide(lastFg);
         if (!targetFg.isAdded()) {
             ft.add(R.id.fragment_group, targetFg);
         }
@@ -247,7 +254,7 @@ public class MainActivity extends BaseActivity implements OnFragmentInteractionL
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             if ((System.currentTimeMillis() - mExitTime) > 2000) {
-                Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
+                showToast("再按一次退出程序");
                 mExitTime = System.currentTimeMillis();
             } else {
                 finish();
@@ -261,4 +268,17 @@ public class MainActivity extends BaseActivity implements OnFragmentInteractionL
     public void doSomeThing(String key, Object value) {
 
     }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        List<Fragment> fragments = getSupportFragmentManager().getFragments();
+        if (fragments != null) {
+            for (Fragment fragment : fragments) {
+                if (fragment != null) {
+                    fragment.onRequestPermissionsResult(requestCode, permissions, grantResults);
+                }
+            }
+        }
+    }
+
 }

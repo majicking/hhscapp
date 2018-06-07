@@ -96,8 +96,8 @@ public class LoginActivity extends BaseActivity<LoginPersenter, UserModel> imple
 
     @Override
     public void sucess(String message) {
-        Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show();
-        Logutils.i("获取登陆信息key="+ App.getApp().getKey());
+        showToast(message);
+        Logutils.i("获取登陆信息key=" + App.getApp().getKey());
         Bundle bundle = new Bundle();
         bundle.putInt(MAINNUMBER, 3);
         readyGoThenKill(MainActivity.class, bundle);
@@ -106,6 +106,6 @@ public class LoginActivity extends BaseActivity<LoginPersenter, UserModel> imple
 
     @Override
     public void faild(String message) {
-        Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show();
+        showToast(message);
     }
 }

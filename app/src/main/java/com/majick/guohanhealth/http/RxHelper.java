@@ -1,6 +1,7 @@
 package com.majick.guohanhealth.http;
 
 
+import com.majick.guohanhealth.app.App;
 import com.majick.guohanhealth.bean.BaseInfo;
 
 import java.lang.reflect.Method;
@@ -33,6 +34,9 @@ public class RxHelper {
                     ParameterizedType t = (ParameterizedType) type[0];
                     Class<T> clazz = (Class) (t.getActualTypeArguments()[0]);//获取泛型class
                     result.datas = clazz.newInstance();
+                }
+                if ("0".equals(result.login)) {
+                    App.getApp().setKey("");
                 }
                 return createSuccessData(result.datas);
             } else if (result.code == HttpErrorCode.ERROR_400) {

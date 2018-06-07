@@ -27,6 +27,7 @@ ext {
             multidexVersion      = '1.0.3'
             bannerVersion        = '1.4.10'
             smartrefreshVersion  = '1.0.5.1'
+            BaseRecyclerViewAdapterHelperVersion  = '2.9.34'
     dependencies = [
             //base
             appcompatV7                : "com.android.support:appcompat-v7:${supportLibraryVersion}",
@@ -43,6 +44,7 @@ ext {
             //刷新
             SmartRefreshLayout         : "com.scwang.smartrefresh:SmartRefreshLayout:${smartrefreshVersion}",
             SmartRefreshHeader         : "com.scwang.smartrefresh:SmartRefreshHeader:${smartrefreshVersion}",
+            BaseRecyclerViewAdapterHelper:"com.github.CymChad:BaseRecyclerViewAdapterHelper:${BaseRecyclerViewAdapterHelperVersion}",
 
             //解析对象
             gson                       : "com.google.code.gson:gson:${gsonVersion}",

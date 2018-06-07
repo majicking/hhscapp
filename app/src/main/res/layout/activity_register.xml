@@ -15,7 +15,7 @@
     <!--7.可以设置回调响应事件-->
     <include layout="@layout/common_toolbar" />
 
-    <View style="@style/djk_line_gray" />
+    <View style="@style/djk_line" />
 
     <cn.carbs.android.segmentcontrolview.library.SegmentControlView
         android:id="@+id/segmentcontrolview"

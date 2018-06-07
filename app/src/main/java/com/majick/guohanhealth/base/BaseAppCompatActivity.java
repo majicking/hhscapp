@@ -336,7 +336,8 @@ public abstract class BaseAppCompatActivity extends FragmentActivity {
     }
 
     public void hideLoadingView() {
-        mMultipleStatusLayout.hideLoadView();
+        if (mMultipleStatusLayout.isShown())
+            mMultipleStatusLayout.hideLoadView();
     }
 
     /**

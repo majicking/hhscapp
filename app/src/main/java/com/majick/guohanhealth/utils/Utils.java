@@ -1,7 +1,12 @@
 package com.majick.guohanhealth.utils;
 
+import android.content.Context;
+import android.content.Intent;
 import android.text.TextUtils;
 import android.widget.EditText;
+
+import com.majick.guohanhealth.app.App;
+import com.majick.guohanhealth.ui.login.LoginActivity;
 
 import java.lang.reflect.ParameterizedType;
 
@@ -53,8 +58,28 @@ public class Utils {
 
     public static String getEditText(EditText editText) {
         if (editText != null) {
-            return TextUtils.isEmpty(editText.getText().toString().trim())? "" : editText.getText().toString().trim();
+            return TextUtils.isEmpty(editText.getText().toString().trim()) ? "" : editText.getText().toString().trim();
         }
         return "";
+    }
+
+    /**
+     * 相当于三元运算
+     */
+    public static String getString(String string) {
+        if (isEmpty(string))
+            return string;
+        return "";
+    }
+
+    /**
+     * 检查是否已登录，如果未登录直接弹出登录页面
+     */
+    public static boolean isLogin(Context context) {
+        if (isEmpty(App.getApp().getKey()))
+            return true;
+        Intent intent = new Intent(context, LoginActivity.class);
+        context.startActivity(intent);
+        return false;
     }
 }

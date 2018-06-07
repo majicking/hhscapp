@@ -1,17 +1,24 @@
 package com.majick.guohanhealth.base;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.majick.guohanhealth.R;
 import com.majick.guohanhealth.http.RxManager;
 import com.majick.guohanhealth.utils.Utils;
 import com.majick.guohanhealth.view.LoadingDialog;
 import com.tbruyelle.rxpermissions2.RxPermissions;
+
+import java.util.List;
 
 
 public abstract class BaseFragment<T extends BasePresenter, E extends BaseModel> extends BaseAppCompatFragment implements BaseView {
@@ -94,12 +101,33 @@ public abstract class BaseFragment<T extends BasePresenter, E extends BaseModel>
     private Toast toast;
 
     public void showToast(Object msg) {
-        if (toast == null) {
-            toast = Toast.makeText(getActivity(), "" + msg, Toast.LENGTH_SHORT);
-        } else {
-            toast.setText("" + msg);
-        }
+//        if (toast == null) {
+//            toast = Toast.makeText(getActivity(), "" + msg, Toast.LENGTH_SHORT);
+//        } else {
+//            toast.setText("" + msg);
+//        }
+//        toast.show();
+        showToast(mContext,"" + msg);
+    }
+
+    /**
+     * 短暂显示Toast消息
+     *
+     * @param context
+     * @param message
+     */
+    public static void showToast(Context context, String message) {
+        LayoutInflater inflater = (LayoutInflater) context
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View view = inflater.inflate(R.layout.custom_toast, null);
+        TextView text = (TextView) view.findViewById(R.id.toast_message);
+        text.setText(message);
+        Toast toast = new Toast(context);
+        toast.setDuration(Toast.LENGTH_SHORT);
+        toast.setGravity(Gravity.BOTTOM, 0, 300);
+        toast.setView(view);
         toast.show();
     }
+
 
 }

@@ -21,6 +21,7 @@ import com.majick.guohanhealth.bean.UserInfo;
 import com.majick.guohanhealth.http.Result;
 import com.majick.guohanhealth.ui.login.LoginActivity;
 import com.majick.guohanhealth.ui.main.fragment.OnFragmentInteractionListener;
+import com.majick.guohanhealth.ui.main.fragment.mine.setting.SettingActivity;
 import com.majick.guohanhealth.utils.Logutils;
 import com.majick.guohanhealth.utils.Utils;
 import com.majick.guohanhealth.utils.engine.GlideEngine;
@@ -152,6 +153,22 @@ public class MineFragment extends BaseFragment<MinePersenter, MineModel> impleme
 
     @Override
     protected void initView(Bundle savedInstanceState) {
+        //背景变色
+        setbgChange();
+        //登陆按钮
+        mineBtnviewlogin.setOnClickListener(v -> {
+            if (!Utils.isEmpty(App.getApp().getKey())) {
+                readyGo(LoginActivity.class);
+            }
+        });
+        //设置
+        mineSetting.setOnClickListener(v -> {
+            if (Utils.isLogin(mContext))
+                readyGo(SettingActivity.class);
+        });
+    }
+
+    private void setbgChange() {
         bgcolor = new int[]{
                 mContext.getResources().getColor(R.color.background_color00),
                 mContext.getResources().getColor(R.color.background_color10),
@@ -171,14 +188,16 @@ public class MineFragment extends BaseFragment<MinePersenter, MineModel> impleme
             }
         });
         thread.start();
+    }
 
-        mineBtnviewlogin.setOnClickListener(v -> {
-            if (!Utils.isEmpty(App.getApp().getKey())) {
-                readyGoThenKill(LoginActivity.class);
-            }
-        });
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        //每次进入检测个人信息和订单信息
         setLoginInfo();
     }
+
 
     /**
      * 检测是否登录
@@ -188,14 +207,11 @@ public class MineFragment extends BaseFragment<MinePersenter, MineModel> impleme
         if (Utils.isEmpty(loginKey)) {
             mPresenter.getMineInfo(loginKey);
         } else {
+            mineUsername.setText("点击登陆");
+            mineMemberVip.setVisibility(View.GONE);
+            GlideEngine.getInstance().loadCircleImage(mContext, 50, R.mipmap.djk_icon_member, mineUserheadimg, "");
 
         }
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
     }
 
 
@@ -233,8 +249,9 @@ public class MineFragment extends BaseFragment<MinePersenter, MineModel> impleme
     public void getMineInfo(MineInfo info) {
         Logutils.i(info.toString());
         mineUsername.setText(info.member_info.user_name);
+        mineMemberVip.setVisibility(View.VISIBLE);
         mineMemberVip.setText(info.member_info.level_name);
-        GlideEngine.getInstance().loadCircleImage(mContext, 50,R.mipmap.djk_icon_member, mineUserheadimg, info.member_info.avatar);
+        GlideEngine.getInstance().loadCircleImage(mContext, 50, R.mipmap.djk_icon_member, mineUserheadimg, info.member_info.avatar);
     }
 
     @Override

@@ -1,10 +1,15 @@
 package com.majick.guohanhealth.base;
 
 
+import android.content.Context;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.majick.guohanhealth.R;
 import com.majick.guohanhealth.http.RxManager;
 import com.majick.guohanhealth.utils.Utils;
 import com.majick.guohanhealth.view.LoadingDialog;
@@ -138,12 +143,33 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
     private Toast toast;
 
     public void showToast(Object msg) {
-        if (toast == null) {
-            toast = Toast.makeText(this, "" + msg, Toast.LENGTH_SHORT);
-        } else {
-            toast.setText("" + msg);
-        }
+//        if (toast == null) {
+//            toast = Toast.makeText(this, "" + msg, Toast.LENGTH_SHORT);
+//        } else {
+//            toast.setText("" + msg);
+//        }
+//        toast.show();
+        showToast(this, "" + msg);
+    }
+
+    /**
+     * 短暂显示Toast消息
+     *
+     * @param context
+     * @param message
+     */
+    public static void showToast(Context context, String message) {
+        LayoutInflater inflater = (LayoutInflater) context
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View view = inflater.inflate(R.layout.custom_toast, null);
+        TextView text = (TextView) view.findViewById(R.id.toast_message);
+        text.setText(message);
+        Toast toast = new Toast(context);
+        toast.setDuration(Toast.LENGTH_SHORT);
+        toast.setGravity(Gravity.BOTTOM, 0, 300);
+        toast.setView(view);
         toast.show();
     }
+
 
 }

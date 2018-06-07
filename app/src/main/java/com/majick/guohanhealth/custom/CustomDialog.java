@@ -195,12 +195,9 @@ public class CustomDialog extends Dialog {
             //点击外边 不消失
             if (cancelable != null)
                 dialog.setCancelable(cancelable);
-            else
-                dialog.setCancelable(false);
             if (canceledOnTouchOutside != null)
                 dialog.setCanceledOnTouchOutside(canceledOnTouchOutside);
-            else
-                dialog.setCanceledOnTouchOutside(false);
+
 
             return dialog;
         }

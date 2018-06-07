@@ -2,6 +2,9 @@ package com.majick.guohanhealth.http;
 
 
 import com.majick.guohanhealth.app.Constants;
+import com.majick.guohanhealth.bean.BrandListInfo;
+import com.majick.guohanhealth.bean.GoodsClassChildInfo;
+import com.majick.guohanhealth.bean.GoodsClassInfo;
 import com.majick.guohanhealth.bean.ImgCodeKey;
 import com.majick.guohanhealth.bean.LoginBean;
 import com.majick.guohanhealth.bean.MineInfo;
@@ -35,6 +38,9 @@ public interface ApiService {
     String IMGKEYCODE = Constants.INDEX + "act=seccode&op=makecodekey";
     String SMSKEYCODE = Constants.INDEX + "act=connect&op=get_sms_captcha";
     String MINEINFO = Constants.INDEX + "act=member_index";
+    String GOODSCLASS = Constants.INDEX + "act=goods_class";
+    String BRAND = Constants.INDEX + "act=brand&op=recommend_list";
+    String GOODSCLASSCHILD = Constants.INDEX + "act=goods_class&op=get_child_all";
 
     /**
      * 用户登录
@@ -99,6 +105,24 @@ public interface ApiService {
     @FormUrlEncoded
     @POST(MINEINFO)
     Observable<Result<MineInfo>> getMineInfo(@Field("key") String key);
+
+    /**
+     * 获取商品大类
+     */
+    @GET(GOODSCLASS)
+    Observable<Result<GoodsClassInfo>> getGoodsClass();
+
+    /**
+     * 获取商品推荐
+     */
+    @GET(BRAND)
+    Observable<Result<BrandListInfo>> getBrandList();
+
+    /**
+     * 根据id返回相应商品种类数据
+     */
+    @GET(GOODSCLASSCHILD)
+    Observable<Result<GoodsClassChildInfo>> getGoodsChild(@Query("gc_id") String gc_id);
 
 
 //

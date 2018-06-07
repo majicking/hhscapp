@@ -14,6 +14,8 @@ import android.view.ViewGroup;
 import com.majick.guohanhealth.R;
 import com.majick.guohanhealth.view.MultipleStatusLayout;
 
+import java.util.List;
+
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
@@ -303,10 +305,9 @@ public abstract class BaseAppCompatFragment extends Fragment {
 //    }
 
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        unbinder.unbind();
-    }
-
+//    @Override
+//    public void onDestroy() {
+//        super.onDestroy();
+//        unbinder.unbind();
+//    }
 }

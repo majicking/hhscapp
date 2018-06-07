@@ -4,8 +4,14 @@ import android.app.Application;
 import android.content.SharedPreferences;
 
 import com.majick.guohanhealth.BuildConfig;
+import com.majick.guohanhealth.bean.LoginBean;
 import com.majick.guohanhealth.bean.UserInfo;
 import com.majick.guohanhealth.bean.UserInfo.*;
+import com.majick.guohanhealth.http.Api;
+import com.majick.guohanhealth.http.RxHelper;
+import com.majick.guohanhealth.http.RxManager;
+import com.majick.guohanhealth.utils.Logutils;
+import com.majick.guohanhealth.utils.Utils;
 
 import java.net.URISyntaxException;
 
@@ -54,13 +60,17 @@ public class App extends Application {
 
     public void setInfo(Member_info info) {
         this.info = info;
-        sharedPreferences.edit().putString(Constants.MEMBER_ID, this.info.member_id).commit();
-        sharedPreferences.edit().putString(Constants.MEMBER_NAME, this.info.member_name).commit();
-        sharedPreferences.edit().putString(Constants.MEMBER_AVATAR, this.info.member_avatar).commit();
-        sharedPreferences.edit().putString(Constants.STORE_NAME, this.info.store_name).commit();
-        sharedPreferences.edit().putString(Constants.GRADE_ID, this.info.grade_id).commit();
-        sharedPreferences.edit().putString(Constants.STORE_ID, this.info.store_id).commit();
-        sharedPreferences.edit().putString(Constants.SELLER_NAME, this.info.seller_name).commit();
+        try {
+            sharedPreferences.edit().putString(Constants.MEMBER_ID, this.info == null ? "" : Utils.getString(this.info.member_id)).commit();
+            sharedPreferences.edit().putString(Constants.MEMBER_NAME, this.info == null ? "" : Utils.getString(this.info.member_name)).commit();
+            sharedPreferences.edit().putString(Constants.MEMBER_AVATAR, this.info == null ? "" : Utils.getString(this.info.member_avatar)).commit();
+            sharedPreferences.edit().putString(Constants.STORE_NAME, this.info == null ? "" : Utils.getString(this.info.store_name)).commit();
+            sharedPreferences.edit().putString(Constants.GRADE_ID, this.info == null ? "" : Utils.getString(this.info.grade_id)).commit();
+            sharedPreferences.edit().putString(Constants.STORE_ID, this.info == null ? "" : Utils.getString(this.info.store_id)).commit();
+            sharedPreferences.edit().putString(Constants.SELLER_NAME, this.info == null ? "" : Utils.getString(this.info.seller_name)).commit();
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
     }
 
     public String getKey() {
@@ -97,6 +107,15 @@ public class App extends Application {
         app = this;
         initLogger();
         sharedPreferences = getSharedPreferences(BuildConfig.APPLICATION_ID, MODE_PRIVATE);
+//        UpdataUserInfo(getKey(), getUserid());
+    }
+
+    private void UpdataUserInfo(String key, String userid) {
+        new RxManager().add((Api.getDefault().getUserInfo(key, userid, "member_id").compose(RxHelper.handleResult())).subscribe(userinfo -> {
+            App.getApp().setInfo(userinfo.member_info);
+        }, throwable -> {
+            Logutils.i(throwable.getMessage());
+        }));
     }
 
     private void initLogger() {

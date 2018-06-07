@@ -53,11 +53,15 @@ public interface Constants {
     String USERNAME = "userName";
     String USERID = "userId";
     String KEY = "key";
-    String MEMBER_ID="member_id;";
-    String MEMBER_NAME="member_name;";
-    String MEMBER_AVATAR="member_avatar;";
-    String STORE_NAME="store_name;";
-    String GRADE_ID="grade_id;";
-    String STORE_ID="store_id;";
-    String SELLER_NAME="seller_name;";
+    String MEMBER_ID = "member_id;";
+    String MEMBER_NAME = "member_name;";
+    String MEMBER_AVATAR = "member_avatar;";
+    String STORE_NAME = "store_name;";
+    String GRADE_ID = "grade_id;";
+    String STORE_ID = "store_id;";
+    String SELLER_NAME = "seller_name;";
+    /**
+     * 相机权限请求
+     * */
+    int REQUEST_CAMERA = 1;
 }
