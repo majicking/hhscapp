@@ -128,16 +128,18 @@ public class ClassTypeFragment extends BaseFragment<ClassTypePersenter, ClassTyp
         goodsClassInfos = new ArrayList<>();
         brandListInfos = new ArrayList<>();
         goodsClassChildInfos = new ArrayList<>();
-        goodclassAdapter = new BaseRecyclerAdapter<GoodsClassInfo.Class_list>(mContext, android.R.layout.simple_list_item_1, goodsClassInfos) {
+        goodclassAdapter = new BaseRecyclerAdapter<GoodsClassInfo.Class_list>(mContext, R.layout.classtype_item_goodsclass, goodsClassInfos) {
             //            @Override
             public void convert(BaseViewHolder holder, GoodsClassInfo.Class_list s) {
-                holder.setText(android.R.id.text1, s.gc_name);
+                holder.setText(R.id.text, s.gc_name);
+                holder.setImageByUrl(R.id.img,s.image);
             }
         };
         brandAdapter = new BaseRecyclerAdapter<BrandListInfo.Brand_list>(mContext, android.R.layout.simple_list_item_1, brandListInfos) {
             //            @Override
             public void convert(BaseViewHolder holder, BrandListInfo.Brand_list s) {
                 holder.setText(android.R.id.text1, s.brand_name);
+
             }
         };
         goodclasschildAdapter = new BaseRecyclerAdapter<GoodsClassChildInfo.Class_list>(mContext, android.R.layout.simple_list_item_1, goodsClassChildInfos) {
