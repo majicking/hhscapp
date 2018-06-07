@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.majick.hhscapp">
+    package="com.majick.guohanhealth">
 
+    <!-- 访问网络权限 -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
-
+    <!-- 访问摄像头权限 -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <application
         android:name=".app.App"
         android:allowBackup="true"
@@ -14,18 +20,20 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".WelcomActivity"
-            android:theme="@style/AppTheme" />
-        <activity android:name=".ui.main.activity.MainActivity" />
-        <activity android:name=".ui.login.LoginActivity">
+            android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ui.main.activity.MainActivity" />
+        <activity android:name=".ui.login.LoginActivity" />
         <activity android:name=".ui.register.RegisterActivity" />
-        <activity android:name=".ui.register.Register2Activity"></activity>
-        <activity android:name=".ui.WebViewActivity"/>
+        <activity android:name=".ui.register.Register2Activity" />
+        <activity android:name=".ui.WebViewActivity" />
+        <activity android:name=".ui.main.fragment.mine.setting.SettingActivity"></activity>
+        <activity android:name=".view.scannercode.android.CaptureActivity"/>
     </application>
 
 </manifest>

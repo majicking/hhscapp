@@ -65,9 +65,8 @@
     <color name="djk_type_text_on">#ED5564</color>
     <color name="djk_type_text">#333</color>
     <color name="djk_bgcolor">#F5F5F5</color>
-
-
-
+    <!--自定义toast颜色-->
+    <color name="toast_color">#ff2E76B9</color>
 
 
 </resources>
