@@ -53,6 +53,9 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
         return (T) view;
     }
 
+    public View getmConvertView() {
+        return mConvertView;
+    }
 
     /**
      * 给TextView设置setText方法
@@ -97,6 +100,13 @@ public class BaseViewHolder extends RecyclerView.ViewHolder {
     public BaseViewHolder setOnClickListener(int viewId, View.OnClickListener listener) {
         View view = getView(viewId);
         view.setOnClickListener(listener);
+        return this;
+    }
+    /**
+     * 添加点击事件
+     */
+    public BaseViewHolder setOnClickListener(View itemView, View.OnClickListener listener) {
+        itemView.setOnClickListener(listener);
         return this;
     }
 

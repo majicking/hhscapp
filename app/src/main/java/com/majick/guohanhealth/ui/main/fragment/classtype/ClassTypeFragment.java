@@ -12,12 +12,8 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.majick.guohanhealth.R;
 import com.majick.guohanhealth.adapter.BaseRecyclerAdapter;
@@ -30,24 +26,12 @@ import com.majick.guohanhealth.bean.GoodsClassInfo;
 import com.majick.guohanhealth.ui.main.fragment.OnFragmentInteractionListener;
 import com.majick.guohanhealth.view.scannercode.android.CaptureActivity;
 import com.scwang.smartrefresh.header.DeliveryHeader;
-import com.scwang.smartrefresh.header.FlyRefreshHeader;
-import com.scwang.smartrefresh.header.MaterialHeader;
-import com.scwang.smartrefresh.header.TaurusHeader;
-import com.scwang.smartrefresh.header.WaterDropHeader;
-import com.scwang.smartrefresh.header.WaveSwipeHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
-import com.scwang.smartrefresh.layout.api.RefreshLayout;
-import com.scwang.smartrefresh.layout.constant.SpinnerStyle;
-import com.scwang.smartrefresh.layout.footer.BallPulseFooter;
-import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
-import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -128,18 +112,21 @@ public class ClassTypeFragment extends BaseFragment<ClassTypePersenter, ClassTyp
         goodsClassInfos = new ArrayList<>();
         brandListInfos = new ArrayList<>();
         goodsClassChildInfos = new ArrayList<>();
-        goodclassAdapter = new BaseRecyclerAdapter<GoodsClassInfo.Class_list>(mContext, R.layout.classtype_item_goodsclass, goodsClassInfos) {
+        goodclassAdapter = new BaseRecyclerAdapter<GoodsClassInfo.Class_list>(mContext, R.layout.classtype_item, goodsClassInfos) {
             //            @Override
             public void convert(BaseViewHolder holder, GoodsClassInfo.Class_list s) {
                 holder.setText(R.id.text, s.gc_name);
                 holder.setImageByUrl(R.id.img,s.image);
+                holder.setOnClickListener(holder.getmConvertView(),v->{
+                    mPresenter.getGoodsChild(s.gc_id);
+                });
             }
         };
-        brandAdapter = new BaseRecyclerAdapter<BrandListInfo.Brand_list>(mContext, android.R.layout.simple_list_item_1, brandListInfos) {
+        brandAdapter = new BaseRecyclerAdapter<BrandListInfo.Brand_list>(mContext, R.layout.classtype_item, brandListInfos) {
             //            @Override
             public void convert(BaseViewHolder holder, BrandListInfo.Brand_list s) {
-                holder.setText(android.R.id.text1, s.brand_name);
-
+                holder.setText(R.id.text, s.brand_name);
+                holder.setImageByUrl(R.id.img,s.brand_pic);
             }
         };
         goodclasschildAdapter = new BaseRecyclerAdapter<GoodsClassChildInfo.Class_list>(mContext, android.R.layout.simple_list_item_1, goodsClassChildInfos) {
@@ -230,6 +217,7 @@ public class ClassTypeFragment extends BaseFragment<ClassTypePersenter, ClassTyp
     @Override
     public void getGoodsChild(List<GoodsClassChildInfo.Class_list> info) {
         goodsClassChildInfos.addAll(info);
+        classtypeRecycleTwo.setAdapter(goodclasschildAdapter);
         goodclasschildAdapter.notifyDataSetChanged();
     }
 
