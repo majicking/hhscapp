@@ -48,10 +48,8 @@
 
     <!--文字颜色-->
     <color name="djk_textcolor555">#555</color>
-    <color name="djk_textcolor333">#333</color>
     <color name="djk_textcolor888">#888</color>
     <color name="djk_textcolor444">#444</color>
-
     <color name="djk_linecolor">#F5F5F5</color>
     <color name="djk_edithitcolor">#D5D5D5</color>
 

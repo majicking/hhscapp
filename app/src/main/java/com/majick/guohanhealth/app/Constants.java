@@ -1,6 +1,11 @@
 package com.majick.guohanhealth.app;
 
+import android.graphics.Color;
+
 import com.majick.guohanhealth.BuildConfig;
+import com.majick.guohanhealth.R;
+
+import java.util.Random;
 
 public interface Constants {
     /**
@@ -25,9 +30,10 @@ public interface Constants {
     String KEYCODEURL = URL + "act=seccode&op=makecode&k=";
     /**
      * 用户注册协议
-     * http://www.guohanhealth.com/wap/tmpl/member/document.html
      */
     String REGISTERARGMENT = HEAD + HOST + ":" + PORT + "/wap/tmpl/member/document.html";
+
+    String WAP_BRAND_ICON = HEAD + HOST + ":" + PORT + "/wap/images/degault.png";
     /**
      *
      * 常量 标识
@@ -62,6 +68,20 @@ public interface Constants {
     String SELLER_NAME = "seller_name;";
     /**
      * 相机权限请求
-     * */
+     */
     int REQUEST_CAMERA = 1;
+    int[] BGCOLORS = new int[]{
+            Color.parseColor("#ED5564"),
+            Color.parseColor("#FB6E52"),
+            Color.parseColor("#FFCE55"),
+            Color.parseColor("#A0D468"),
+            Color.parseColor("#48CFAE"),
+            Color.parseColor("#4FC0E8"),
+            Color.parseColor("#5D9CEC"),
+            Color.parseColor("#AC92ED"),
+            Color.parseColor("#EC87BF"),
+            Color.parseColor("#ED5564")
+    };
+
+  int RNDOMCOLOR=BGCOLORS[new Random().nextInt(10)];
 }

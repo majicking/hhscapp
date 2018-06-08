@@ -8,7 +8,7 @@ public class GoodsClassChildInfo {
     public class Class_list {
         public String gc_id;
         public String gc_name;
-        public Child child;
+        public List<Child> child;
 
         public class Child {
             public String gc_id;

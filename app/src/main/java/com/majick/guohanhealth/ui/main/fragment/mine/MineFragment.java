@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.majick.guohanhealth.R;
 import com.majick.guohanhealth.app.App;
+import com.majick.guohanhealth.app.Constants;
 import com.majick.guohanhealth.base.BaseFragment;
 import com.majick.guohanhealth.bean.MineInfo;
 import com.majick.guohanhealth.bean.UserInfo;
@@ -136,13 +137,12 @@ public class MineFragment extends BaseFragment<MinePersenter, MineModel> impleme
         }
     }
 
-    int[] bgcolor;
     Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             if (mineBannerView != null)
-                mineBannerView.setBackgroundColor(bgcolor[new Random().nextInt(10)]);
+                mineBannerView.setBackgroundColor(Constants.RNDOMCOLOR);
         }
     };
 
@@ -169,18 +169,7 @@ public class MineFragment extends BaseFragment<MinePersenter, MineModel> impleme
     }
 
     private void setbgChange() {
-        bgcolor = new int[]{
-                mContext.getResources().getColor(R.color.background_color00),
-                mContext.getResources().getColor(R.color.background_color10),
-                mContext.getResources().getColor(R.color.background_color20),
-                mContext.getResources().getColor(R.color.background_color30),
-                mContext.getResources().getColor(R.color.background_color40),
-                mContext.getResources().getColor(R.color.background_color50),
-                mContext.getResources().getColor(R.color.background_color60),
-                mContext.getResources().getColor(R.color.background_color70),
-                mContext.getResources().getColor(R.color.background_color80),
-                mContext.getResources().getColor(R.color.background_color90)
-        };
+
         thread = new Thread(() -> {
             while (true) {
                 SystemClock.sleep(5000);

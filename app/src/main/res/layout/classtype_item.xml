@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center"
+    android:id="@+id/itemview"
     android:orientation="vertical"
     android:padding="@dimen/dp_5">
 
@@ -17,5 +18,9 @@
         android:layout_height="wrap_content"
         android:maxLines="1" />
 
-    <View style="@style/djk_line" />
+    <View
+        android:layout_marginRight="@dimen/dp_7"
+        android:layout_marginLeft="@dimen/dp_7"
+        android:id="@+id/line"
+        style="@style/djk_line" />
 </LinearLayout>

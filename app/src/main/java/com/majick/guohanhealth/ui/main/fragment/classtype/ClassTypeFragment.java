@@ -4,17 +4,28 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.ColorStateList;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
+import android.media.Image;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.majick.guohanhealth.R;
 import com.majick.guohanhealth.adapter.BaseRecyclerAdapter;
 import com.majick.guohanhealth.adapter.BaseViewHolder;
@@ -24,12 +35,15 @@ import com.majick.guohanhealth.bean.BrandListInfo;
 import com.majick.guohanhealth.bean.GoodsClassChildInfo;
 import com.majick.guohanhealth.bean.GoodsClassInfo;
 import com.majick.guohanhealth.ui.main.fragment.OnFragmentInteractionListener;
+import com.majick.guohanhealth.utils.Utils;
+import com.majick.guohanhealth.utils.engine.GlideEngine;
 import com.majick.guohanhealth.view.scannercode.android.CaptureActivity;
 import com.scwang.smartrefresh.header.DeliveryHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import butterknife.BindView;
 
@@ -56,12 +70,14 @@ public class ClassTypeFragment extends BaseFragment<ClassTypePersenter, ClassTyp
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
-    private BaseRecyclerAdapter<GoodsClassInfo.Class_list> goodclassAdapter;
     private BaseRecyclerAdapter<BrandListInfo.Brand_list> brandAdapter;
     private BaseRecyclerAdapter<GoodsClassChildInfo.Class_list> goodclasschildAdapter;
     private List<GoodsClassInfo.Class_list> goodsClassInfos;
     private List<BrandListInfo.Brand_list> brandListInfos;
     private List<GoodsClassChildInfo.Class_list> goodsClassChildInfos;
+    private ClassAdapter classAdapter;
+    private ClassChildListAdapter classChildListAdapter;
+    private ClassChildAdapter classChildAdapter;
 
     public ClassTypeFragment() {
     }
@@ -94,7 +110,8 @@ public class ClassTypeFragment extends BaseFragment<ClassTypePersenter, ClassTyp
         //设置 Header 为 Material风格
         classtypeViewRefresh.setRefreshHeader(new DeliveryHeader(mContext));
         classtypeViewRefresh.setOnRefreshListener(refreshLayout -> {
-            classtypeViewRefresh.finishRefresh();
+            mPresenter.getBrandList();
+            mPresenter.getGoodsClass();
         });
         classtypeScanner.setOnClickListener(v -> {
             if (Build.VERSION.SDK_INT >= 23) {
@@ -112,36 +129,82 @@ public class ClassTypeFragment extends BaseFragment<ClassTypePersenter, ClassTyp
         goodsClassInfos = new ArrayList<>();
         brandListInfos = new ArrayList<>();
         goodsClassChildInfos = new ArrayList<>();
-        goodclassAdapter = new BaseRecyclerAdapter<GoodsClassInfo.Class_list>(mContext, R.layout.classtype_item, goodsClassInfos) {
-            //            @Override
-            public void convert(BaseViewHolder holder, GoodsClassInfo.Class_list s) {
-                holder.setText(R.id.text, s.gc_name);
-                holder.setImageByUrl(R.id.img,s.image);
-                holder.setOnClickListener(holder.getmConvertView(),v->{
-                    mPresenter.getGoodsChild(s.gc_id);
+        brandAdapter = new BaseRecyclerAdapter<BrandListInfo.Brand_list>(mContext, R.layout.classtype_item, brandListInfos) {
+            @Override
+            public void convert(BaseViewHolder holder, BrandListInfo.Brand_list brand_list) {
+                holder.setText(R.id.text, brand_list.brand_name);
+                GlideEngine.getInstance().loadImage(mContext, (ImageView) holder.getView(R.id.img), brand_list.brand_pic);
+                holder.getView(R.id.line).setVisibility(View.GONE);
+                holder.itemView.setOnClickListener(v -> {
+                    showToast(brand_list.brand_name);
                 });
             }
         };
-        brandAdapter = new BaseRecyclerAdapter<BrandListInfo.Brand_list>(mContext, R.layout.classtype_item, brandListInfos) {
-            //            @Override
-            public void convert(BaseViewHolder holder, BrandListInfo.Brand_list s) {
-                holder.setText(R.id.text, s.brand_name);
-                holder.setImageByUrl(R.id.img,s.brand_pic);
+        classAdapter = new ClassAdapter(R.layout.classtype_item, goodsClassInfos);
+        classChildListAdapter = new ClassChildListAdapter(R.layout.classtype_item_child, goodsClassChildInfos);
+        classAdapter.openLoadAnimation(BaseQuickAdapter.SLIDEIN_LEFT);
+        classChildListAdapter.openLoadAnimation(BaseQuickAdapter.SLIDEIN_RIGHT);
+        //设置重复执行动画
+        classAdapter.isFirstOnly(false);
+        classAdapter.setOnItemClickListener((adapter, view, i) -> {
+            setResetView(selectView);
+            setSelectView(view);
+            selectView = view;
+            if (goodsClassInfos.get(i).gc_id.equals("0")) {
+                mPresenter.getBrandList();
+            } else {
+                mPresenter.getGoodsChild(goodsClassInfos.get(i).gc_id);
             }
-        };
+        });
         goodclasschildAdapter = new BaseRecyclerAdapter<GoodsClassChildInfo.Class_list>(mContext, android.R.layout.simple_list_item_1, goodsClassChildInfos) {
+
             //            @Override
             public void convert(BaseViewHolder holder, GoodsClassChildInfo.Class_list s) {
                 holder.setText(android.R.id.text1, s.gc_name);
             }
         };
-        LinearLayoutManager manager = new LinearLayoutManager(mContext);
-        GridLayoutManager manager1 = new GridLayoutManager(mContext, 3);
-        classtypeRecycleOne.setLayoutManager(manager);
-        classtypeRecycleOne.setAdapter(goodclassAdapter);
-        classtypeRecycleTwo.setLayoutManager(manager1);
+        classtypeRecycleOne.setLayoutManager(new LinearLayoutManager(mContext));
+        classtypeRecycleOne.setAdapter(classAdapter);
+        classtypeRecycleTwo.setLayoutManager(new GridLayoutManager(mContext, 3));
         classtypeRecycleTwo.setAdapter(brandAdapter);
+        classtypeViewSearch.setOnClickListener(v -> {
+            showToast("查询");
+        });
         initData();
+    }
+
+    public void setSelectView(View view) {
+        TextView textView = view.findViewById(R.id.text);
+        View line = view.findViewById(R.id.line);
+        ImageView img = view.findViewById(R.id.img);
+        textView.setTextColor(mContext.getResources().getColor(R.color.blue_dark_btn));
+        line.setBackgroundColor(mContext.getResources().getColor(R.color.blue_dark_btn));
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                img.setBackground(tintDrawable(img.getDrawable(), mContext.getResources().getColor(R.color.blue_btn)));
+            }
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void setResetView(View view) {
+        TextView textView = view.findViewById(R.id.text);
+        View line = view.findViewById(R.id.line);
+        ImageView img = view.findViewById(R.id.img);
+        textView.setTextColor(mContext.getResources().getColor(R.color.nc_text));
+        line.setBackgroundColor(mContext.getResources().getColor(R.color.gray));
+        try {
+            img.getDrawable().setColorFilter(getResources().getColor(R.color.white), PorterDuff.Mode.MULTIPLY);
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private Drawable tintDrawable(Drawable drawable, int colors) {
+        Drawable wrappedDrawable = DrawableCompat.wrap(drawable);
+        DrawableCompat.setTintList(wrappedDrawable, ColorStateList.valueOf(colors));
+        return wrappedDrawable;
     }
 
     private void initData() {
@@ -149,18 +212,62 @@ public class ClassTypeFragment extends BaseFragment<ClassTypePersenter, ClassTyp
         mPresenter.getBrandList();
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    class ClassAdapter extends BaseQuickAdapter<GoodsClassInfo.Class_list, com.chad.library.adapter.base.BaseViewHolder> {
 
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK) {
-            switch (requestCode) {
-                case Constants.REQUEST_CAMERA:
-                    showToast(data.getStringExtra("codedContent"));
-                    break;
+        public ClassAdapter(int layoutResId, @Nullable List<GoodsClassInfo.Class_list> data) {
+            super(layoutResId, data);
+        }
+
+        @Override
+        protected void convert(com.chad.library.adapter.base.BaseViewHolder helper, GoodsClassInfo.Class_list item) {
+
+            helper.setText(R.id.text, item.gc_name);
+            GlideEngine.getInstance().loadImage(mContext, (ImageView) helper.getView(R.id.img), item.image);
+            boolean isClick = false;
+            if (item.gc_id.equals("0")) {
+                isClick = true;
+            }
+            if (isClick) {
+                selectView = helper.itemView;
+                setSelectView(helper.itemView);
+            } else {
+                setResetView(helper.itemView);
             }
         }
     }
+
+    class ClassChildListAdapter extends BaseQuickAdapter<GoodsClassChildInfo.Class_list, com.chad.library.adapter.base.BaseViewHolder> {
+        public ClassChildListAdapter(int layoutResId, @Nullable List<GoodsClassChildInfo.Class_list> data) {
+            super(layoutResId, data);
+        }
+
+        @Override
+        protected void convert(com.chad.library.adapter.base.BaseViewHolder helper, GoodsClassChildInfo.Class_list item) {
+            helper.setText(R.id.text, item.gc_name);
+            helper.getView(R.id.point).setBackgroundColor(Constants.RNDOMCOLOR);
+            RecyclerView recyclerView = helper.getView(R.id.recycleview);
+            classChildAdapter = new ClassChildAdapter(android.R.layout.simple_list_item_1, item.child);
+            classChildAdapter.openLoadAnimation(BaseQuickAdapter.SLIDEIN_LEFT);
+            recyclerView.setLayoutManager(new GridLayoutManager(mContext, 3));
+            recyclerView.setAdapter(classChildAdapter);
+            classChildAdapter.setOnItemClickListener((a, v, p) -> {
+                showToast(item.child.get(p).gc_name);
+            });
+        }
+    }
+
+    class ClassChildAdapter extends BaseQuickAdapter<GoodsClassChildInfo.Class_list.Child, com.chad.library.adapter.base.BaseViewHolder> {
+
+        public ClassChildAdapter(int layoutResId, @Nullable List<GoodsClassChildInfo.Class_list.Child> data) {
+            super(layoutResId, data);
+        }
+
+        @Override
+        protected void convert(com.chad.library.adapter.base.BaseViewHolder helper, GoodsClassChildInfo.Class_list.Child item) {
+            helper.setText(android.R.id.text1, item.gc_name);
+        }
+    }
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
@@ -202,27 +309,59 @@ public class ClassTypeFragment extends BaseFragment<ClassTypePersenter, ClassTyp
         mListener = null;
     }
 
+    View selectView;
+
     @Override
     public void getGoodsClass(List<GoodsClassInfo.Class_list> info) {
+        if (classtypeViewRefresh != null)
+            classtypeViewRefresh.finishRefresh();
+        goodsClassInfos.clear();
         goodsClassInfos.addAll(info);
-        goodclassAdapter.notifyDataSetChanged();
+        GoodsClassInfo.Class_list list = new GoodsClassInfo().new Class_list();
+        list.gc_id = "0";
+        list.gc_name = "品牌推荐";
+        list.image = Constants.WAP_BRAND_ICON;
+        goodsClassInfos.add(0, list);
+        classAdapter.notifyDataSetChanged();
     }
 
     @Override
     public void getBrandList(List<BrandListInfo.Brand_list> info) {
+        if (classtypeViewRefresh != null)
+            classtypeViewRefresh.finishRefresh();
+        brandListInfos.clear();
         brandListInfos.addAll(info);
+        classtypeRecycleTwo.setLayoutManager(new GridLayoutManager(mContext, 3));
+        classtypeRecycleTwo.setAdapter(brandAdapter);
         brandAdapter.notifyDataSetChanged();
     }
 
     @Override
     public void getGoodsChild(List<GoodsClassChildInfo.Class_list> info) {
+        goodsClassChildInfos.clear();
         goodsClassChildInfos.addAll(info);
-        classtypeRecycleTwo.setAdapter(goodclasschildAdapter);
-        goodclasschildAdapter.notifyDataSetChanged();
+        classtypeRecycleTwo.setAdapter(classChildListAdapter);
+        classtypeRecycleTwo.setLayoutManager(new LinearLayoutManager(mContext));
+        classChildListAdapter.notifyDataSetChanged();
     }
 
     @Override
     public void fail(String msg) {
         showToast(msg);
+        if (classtypeViewRefresh != null)
+            classtypeViewRefresh.finishRefresh();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case Constants.REQUEST_CAMERA:
+                    showToast(data.getStringExtra("codedContent"));
+                    break;
+            }
+        }
     }
 }

@@ -50,6 +50,7 @@
         android:id="@+id/classtype_view_refresh"
         style="@style/match">
         <LinearLayout
+            android:background="@color/white"
             style="@style/match"
             android:orientation="horizontal">
             <android.support.v7.widget.RecyclerView

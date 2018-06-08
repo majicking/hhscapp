@@ -236,11 +236,11 @@ public class MainActivity extends BaseActivity implements OnFragmentInteractionL
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         Fragment targetFg = mFragments.get(position);
         Fragment lastFg = mFragments.get(mLastFgIndex);
-//        if (mLastFgIndex == mFragments.size() - 1) {
+        if (mLastFgIndex != 1) {
             ft.remove(lastFg);//我的界面 每次移除 下次重新请求
-//        } else {
-//            ft.hide(lastFg);
-//        }
+        } else {
+            ft.hide(lastFg);
+        }
         mLastFgIndex = position;
         if (!targetFg.isAdded()) {
             ft.add(R.id.fragment_group, targetFg);

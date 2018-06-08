@@ -8,7 +8,7 @@ def buildTime() {
     def formattedDate = date.format('yyyyMMddHHmmss')
     return formattedDate
 }
-
+def appName="国翰大健康"
 android {
     compileSdkVersion config.compileSdkVersion
     buildToolsVersion config.buildToolsVersion
@@ -24,7 +24,7 @@ android {
         buildConfigField "String", "HEAD", '"http://"'
         buildConfigField "String", "PORT", '"80"'
         buildConfigField "String", "APP", '"/mobile/"'
-        resValue "string", "app_name", "国翰大健康"
+        resValue "string", "app_name", appName
     }
     signingConfigs {
         debug {
@@ -52,7 +52,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             android.applicationVariants.all { variant ->
                 variant.outputs.all {
-                    outputFileName = "国翰大健康${defaultConfig.versionName}_${buildTime()}_release.apk"
+                    outputFileName = "${appName}${defaultConfig.versionName}_${buildTime()}_release.apk"
                 }
             }
         }
@@ -63,7 +63,7 @@ android {
             buildConfigField "boolean", "ISDEBUG", 'true'
             android.applicationVariants.all { variant ->
                 variant.outputs.all {
-                    outputFileName = "国翰商城${defaultConfig.versionName}_${buildTime()}_debug.apk"
+                    outputFileName = "${appName}${defaultConfig.versionName}_debug.apk"
                 }
             }
         }
@@ -142,4 +142,5 @@ dependencies {
     //选择按钮左中右
     api 'cn.carbs.android:SegmentControlView:1.0.0'
     api 'com.google.zxing:core:3.2.1'
+    implementation lib.BaseRecyclerViewAdapterHelper
 }
