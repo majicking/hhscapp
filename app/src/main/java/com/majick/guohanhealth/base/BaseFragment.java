@@ -89,6 +89,16 @@ public abstract class BaseFragment<T extends BasePresenter, E extends BaseModel>
     }
 
     /**
+     * 获取控件
+     */
+    public <T extends View> T getView(View view,int viewId) {
+        if (view != null) {
+            view = view.findViewById(viewId);
+        }
+        return (T) view;
+    }
+
+    /**
      * 隐藏对话框
      */
     @Override

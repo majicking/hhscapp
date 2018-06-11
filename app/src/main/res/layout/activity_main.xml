@@ -12,18 +12,19 @@
         android:layout_height="match_parent">
 
 
-        <FrameLayout
-            android:id="@+id/fragment_group"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-        />
+            <FrameLayout
+                android:id="@+id/fragment_group"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                />
 
-        <com.ashokvarma.bottomnavigation.BottomNavigationBar
-            android:id="@+id/bottom_navigation_bar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:layout_alignParentBottom="true"/>
+            <com.ashokvarma.bottomnavigation.BottomNavigationBar
+                android:id="@+id/bottom_navigation_bar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_gravity="bottom" />
+
     </android.support.design.widget.CoordinatorLayout>
 
     <android.support.design.widget.NavigationView
@@ -31,9 +32,9 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:fitsSystemWindows="true"
+
         android:background="@color/drawer_item_bg_n"
         app:headerLayout="@layout/nav_header_main"
-        app:menu="@menu/nav_menu"
-        app:itemBackground="@drawable/drawer_item_bg" />
+        app:itemBackground="@drawable/drawer_item_bg"
+        app:menu="@menu/nav_menu" />
 </android.support.v4.widget.DrawerLayout>

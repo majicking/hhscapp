@@ -65,6 +65,7 @@ public class Api {
         static Api instance = new Api();
     }
 
+
     /**
      * 配置网络请求缓存路径与大小
      */
@@ -74,6 +75,11 @@ public class Api {
     }
 
     private static final int DEFAULT_TIMEOUT = 5;
+
+
+    public static OkHttpClient getOkHttp(){
+        return ApiHolder.instance.mOkHttpClient;
+    }
 
     /**
      * 配置okHttp

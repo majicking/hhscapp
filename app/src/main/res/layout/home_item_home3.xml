@@ -1,0 +1,31 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/title"
+            style="@style/home_title" />
+
+        <View style="@style/djk_line" />
+    </LinearLayout>
+
+    <com.majick.guohanhealth.view.NoScrollGridView
+        android:id="@+id/gridview"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@null"
+        android:horizontalSpacing="5dp"
+        android:listSelector="@null"
+        android:numColumns="2"
+        android:verticalSpacing="5dp" />
+
+
+</LinearLayout>

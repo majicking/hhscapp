@@ -19,6 +19,7 @@ import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -78,6 +79,7 @@ public class ClassTypeFragment extends BaseFragment<ClassTypePersenter, ClassTyp
     private ClassAdapter classAdapter;
     private ClassChildListAdapter classChildListAdapter;
     private ClassChildAdapter classChildAdapter;
+    private BaseRecyclerAdapter<GoodsClassInfo.Class_list> goodsClassAdapter;
 
     public ClassTypeFragment() {
     }
@@ -109,6 +111,7 @@ public class ClassTypeFragment extends BaseFragment<ClassTypePersenter, ClassTyp
     protected void initView(Bundle savedInstanceState) {
         //设置 Header 为 Material风格
         classtypeViewRefresh.setRefreshHeader(new DeliveryHeader(mContext));
+        classtypeViewRefresh.setEnableLoadMore(false);
         classtypeViewRefresh.setOnRefreshListener(refreshLayout -> {
             mPresenter.getBrandList();
             mPresenter.getGoodsClass();
@@ -140,6 +143,38 @@ public class ClassTypeFragment extends BaseFragment<ClassTypePersenter, ClassTyp
                 });
             }
         };
+        goodsClassAdapter = new BaseRecyclerAdapter<GoodsClassInfo.Class_list>(mContext, R.layout.classtype_item, goodsClassInfos) {
+
+            @Override
+            public void convert(BaseViewHolder holder, GoodsClassInfo.Class_list class_list) {
+
+                holder.setText(R.id.text, class_list.gc_name);
+                GlideEngine.getInstance().loadImage(mContext, (ImageView) holder.getView(R.id.img), class_list.image);
+                boolean isClick = false;
+                if (class_list.gc_id.equals("0")) {
+                    isClick = true;
+                }
+                if (isClick) {
+                    selectView = holder.itemView;
+                    setSelectView(holder.itemView);
+                } else {
+                    setResetView(holder.itemView);
+                }
+
+                holder.itemView.setOnClickListener(v -> {
+                    setResetView(selectView);
+                    setSelectView(v);
+                    selectView = v;
+                    if (class_list.gc_id.equals("0")) {
+                        mPresenter.getBrandList();
+                    } else {
+                        mPresenter.getGoodsChild(class_list.gc_id);
+                    }
+                });
+
+
+            }
+        };
         classAdapter = new ClassAdapter(R.layout.classtype_item, goodsClassInfos);
         classChildListAdapter = new ClassChildListAdapter(R.layout.classtype_item_child, goodsClassChildInfos);
         classAdapter.openLoadAnimation(BaseQuickAdapter.SLIDEIN_LEFT);
@@ -163,8 +198,10 @@ public class ClassTypeFragment extends BaseFragment<ClassTypePersenter, ClassTyp
                 holder.setText(android.R.id.text1, s.gc_name);
             }
         };
+
+
         classtypeRecycleOne.setLayoutManager(new LinearLayoutManager(mContext));
-        classtypeRecycleOne.setAdapter(classAdapter);
+        classtypeRecycleOne.setAdapter(goodsClassAdapter);
         classtypeRecycleTwo.setLayoutManager(new GridLayoutManager(mContext, 3));
         classtypeRecycleTwo.setAdapter(brandAdapter);
         classtypeViewSearch.setOnClickListener(v -> {
@@ -264,7 +301,10 @@ public class ClassTypeFragment extends BaseFragment<ClassTypePersenter, ClassTyp
 
         @Override
         protected void convert(com.chad.library.adapter.base.BaseViewHolder helper, GoodsClassChildInfo.Class_list.Child item) {
-            helper.setText(android.R.id.text1, item.gc_name);
+            TextView textView = helper.getView(android.R.id.text1);
+            textView.setEllipsize(TextUtils.TruncateAt.END);
+            textView.setMaxLines(1);
+            textView.setText(item.gc_name);
         }
     }
 
@@ -322,7 +362,9 @@ public class ClassTypeFragment extends BaseFragment<ClassTypePersenter, ClassTyp
         list.gc_name = "品牌推荐";
         list.image = Constants.WAP_BRAND_ICON;
         goodsClassInfos.add(0, list);
-        classAdapter.notifyDataSetChanged();
+
+
+        goodsClassAdapter.notifyDataSetChanged();
     }
 
     @Override

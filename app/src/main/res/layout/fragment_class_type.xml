@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     style="@style/match"
     android:orientation="vertical">
 
@@ -49,15 +48,17 @@
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
         android:id="@+id/classtype_view_refresh"
         style="@style/match">
+
         <LinearLayout
-            android:background="@color/white"
             style="@style/match"
+            android:background="@color/white"
             android:orientation="horizontal">
+
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/classtype_recycle_one"
                 android:layout_width="@dimen/dp_85"
-                android:layout_height="match_parent">
-            </android.support.v7.widget.RecyclerView>
+                android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/classtype_recycle_two"
                 android:layout_width="0dp"

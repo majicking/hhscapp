@@ -115,7 +115,7 @@ public class MainActivity extends BaseActivity implements OnFragmentInteractionL
                 .initialise();//所有的设置需在调用该方法前完成
 
         setBottomNavigationItem(mBottomNavigationBar, 8, 25, 14);
-        switchFragment(getIntent().getIntExtra(MAINNUMBER, 0));
+
         mBottomNavigationBar.setTabSelectedListener(new BottomNavigationBar.OnTabSelectedListener() {
             @Override
             public void onTabSelected(int position) {
@@ -157,6 +157,12 @@ public class MainActivity extends BaseActivity implements OnFragmentInteractionL
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(Constants.BROADCAST_CARTNUMBER);
         registerReceiver(mBroadcastReceiver, intentFilter); //注册广播
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        switchFragment(getIntent().getIntExtra(MAINNUMBER, 0));
     }
 
     @Override
@@ -236,17 +242,17 @@ public class MainActivity extends BaseActivity implements OnFragmentInteractionL
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         Fragment targetFg = mFragments.get(position);
         Fragment lastFg = mFragments.get(mLastFgIndex);
-        if (mLastFgIndex != 1) {
-            ft.remove(lastFg);//我的界面 每次移除 下次重新请求
-        } else {
+//        if (mLastFgIndex != 1) {
+//            ft.remove(lastFg);//我的界面 每次移除 下次重新请求
+//        } else {
             ft.hide(lastFg);
-        }
+//        }
         mLastFgIndex = position;
         if (!targetFg.isAdded()) {
             ft.add(R.id.fragment_group, targetFg);
         }
         ft.show(targetFg);
-        ft.commitAllowingStateLoss();
+        ft.commit();
     }
 
     private long mExitTime;

@@ -13,6 +13,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
+import com.majick.guohanhealth.app.Constants;
 import com.majick.guohanhealth.ui.main.activity.MainActivity;
 
 public class WelcomActivity extends Activity {
@@ -47,7 +48,7 @@ public class WelcomActivity extends Activity {
             public void onAnimationEnd(Animation animation) {
                 // TODO Auto-generated method stub
                 //启动homeactivty，相当于Intent
-                startActivity(new Intent(WelcomActivity.this, MainActivity.class));
+                startActivity(new Intent(WelcomActivity.this, MainActivity.class).putExtra(Constants.MAINNUMBER,0));
 
                 overridePendingTransition(R.anim.fade_in,
                         R.anim.fade_out);

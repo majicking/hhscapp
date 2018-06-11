@@ -106,31 +106,25 @@ dependencies {
     //刷新
     implementation lib.SmartRefreshLayout
     implementation lib.SmartRefreshHeader
-
     //解析对象
     implementation lib.gson
-
     //网络请求
     implementation lib.okhttp3_okhttp
     implementation lib.okhttp3_logging_interceptor
     implementation lib.retrofit2_retrofit
     implementation lib.retrofit2_converter_gson
     implementation lib.retrofit2_adapter_rxjava2
-
     //图片加载框架
     implementation lib.glide
     annotationProcessor lib.glide_compiler
-
     //rx
     implementation lib.rxjava2_rxjava
     implementation lib.rxjava2_rxandroid
     implementation lib.rxbinding2_rxbinding
     implementation lib.rxpermissions
-
     //黄油刀注解
     implementation lib.butterknife
     annotationProcessor lib.butterknife_compiler
-
     //日志
     implementation lib.logger
     //dialog AVLoadingIndicatorView
@@ -143,4 +137,5 @@ dependencies {
     api 'cn.carbs.android:SegmentControlView:1.0.0'
     api 'com.google.zxing:core:3.2.1'
     implementation lib.BaseRecyclerViewAdapterHelper
+    implementation lib.fastjson
 }

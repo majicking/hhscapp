@@ -41,6 +41,7 @@ public interface ApiService {
     String GOODSCLASS = Constants.INDEX + "act=goods_class";
     String BRAND = Constants.INDEX + "act=brand&op=recommend_list";
     String GOODSCLASSCHILD = Constants.INDEX + "act=goods_class&op=get_child_all";
+    String HOMEINDEX = Constants.INDEX + "act=index&op=index";
 
     /**
      * 用户登录
@@ -125,13 +126,11 @@ public interface ApiService {
     Observable<Result<GoodsClassChildInfo>> getGoodsChild(@Query("gc_id") String gc_id);
 
 
-//
 //    /**
-//     * 用户登录
+//     * 获取首页数据
 //     */
-//    @FormUrlEncoded
-//    @POST("user/login")
-//    Observable<Result<UserLoginInfo>> login(@Field("username") String userName, @Field("passwd") String passWord);
+//    @GET(HOMEINDEX)
+//    Observable<Result<HomeInfo>> getHomeData();
 //
 //    /**
 //     * 退出登录

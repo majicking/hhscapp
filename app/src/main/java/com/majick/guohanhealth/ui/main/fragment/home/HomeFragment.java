@@ -1,42 +1,60 @@
 package com.majick.guohanhealth.ui.main.fragment.home;
 
-import android.content.ClipData;
-import android.content.ClipboardManager;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.majick.guohanhealth.R;
+import com.majick.guohanhealth.adapter.CommonAdapter;
+import com.majick.guohanhealth.adapter.ViewHolder;
 import com.majick.guohanhealth.base.BaseFragment;
+import com.majick.guohanhealth.bean.Adv_list;
+import com.majick.guohanhealth.bean.Home1Info;
+import com.majick.guohanhealth.bean.Home2Info;
+import com.majick.guohanhealth.bean.Home3Info;
+import com.majick.guohanhealth.bean.Home4Info;
+import com.majick.guohanhealth.bean.Home5Info;
 import com.majick.guohanhealth.ui.main.fragment.OnFragmentInteractionListener;
+import com.majick.guohanhealth.utils.Utils;
+import com.majick.guohanhealth.utils.engine.GlideEngine;
+import com.majick.guohanhealth.view.NoScrollGridView;
+import com.scwang.smartrefresh.header.DeliveryHeader;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.youth.banner.Banner;
+import com.youth.banner.BannerConfig;
+import com.youth.banner.loader.ImageLoader;
+
+import org.json.JSONObject;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * // * {@link } interface
- * // * to handle interaction events.
- * Use the {@link HomeFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class HomeFragment extends BaseFragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+public class HomeFragment extends BaseFragment<HomePersenter, HomeModel> implements HomeView {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    @BindView(R.id.text)
-    TextView text;
-    Unbinder unbinder;
+    @BindView(R.id.home_scanner)
+    ImageView homeScanner;
+    @BindView(R.id.home_view_search)
+    LinearLayout homeViewSearch;
+    @BindView(R.id.home_view_im)
+    LinearLayout homeViewIm;
+    @BindView(R.id.banner)
+    Banner banner;
+    @BindView(R.id.smartrefreshlayout)
+    SmartRefreshLayout smartrefreshlayout;
+    @BindView(R.id.home_view_layout)
+    LinearLayout homeViewLayout;
 
-    // TODO: Rename and change types of parameters
+
     private String mParam1;
     private String mParam2;
 
@@ -44,10 +62,6 @@ public class HomeFragment extends BaseFragment {
 
     public HomeFragment() {
 
-    }
-    String str;
-    public  void setArgParam1(String str) {
-        this.str = str;
     }
 
     public static HomeFragment newInstance(String param1, String param2) {
@@ -76,21 +90,19 @@ public class HomeFragment extends BaseFragment {
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-//        text.setText(mParam1);
-//
-//        text.setOnClickListener(v->{
-//            ClipboardManager cm = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
-//// 创建普通字符型ClipData
-//            ClipData mClipData = ClipData.newPlainText("Label", "这里是要复制的文字");
-//// 将ClipData内容放到系统剪贴板里。
-//            cm.setPrimaryClip(mClipData);
-//            Toast.makeText(getActivity(),"复制成功",Toast.LENGTH_SHORT).show();
-//        });
-
+        smartrefreshlayout.setRefreshHeader(new DeliveryHeader(mContext));
+        banner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR);
+        banner.setDelayTime(2000);
+        banner.setIndicatorGravity(BannerConfig.CENTER);
+        mPresenter.getHomeData();
+        smartrefreshlayout.setOnRefreshListener(refreshLayout -> {
+            homeViewLayout.removeAllViews();
+            mPresenter.getHomeData();
+        });
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(String key,String value) {
+
+    public void onButtonPressed(String key, String value) {
         if (mListener != null) {
             mListener.doSomeThing(key, value);
         }
@@ -113,18 +125,165 @@ public class HomeFragment extends BaseFragment {
         mListener = null;
     }
 
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // TODO: inflate a fragment view
-        View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        unbinder = ButterKnife.bind(this, rootView);
-        return rootView;
+    public void fail(String msg) {
+        showToast(msg);
+        smartrefreshlayout.finishRefresh();
     }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
+    public void showHome1(Home1Info jsonobj) {
+        View view = getActivity().getLayoutInflater().inflate(R.layout.home_item_home1, null);
+        TextView title = ButterKnife.findById(view, R.id.title);
+        ImageView img = ButterKnife.findById(view, R.id.img);
+        if (Utils.isEmpty(jsonobj.title)) {
+            title.setText(jsonobj.title);
+        } else {
+            title.setVisibility(View.GONE);
+        }
+        GlideEngine.getInstance().loadImage(mContext, img, jsonobj.image);
+        view.setOnClickListener(v -> {
+            showToast(jsonobj.title);
+        });
+        homeViewLayout.addView(view);
+        smartrefreshlayout.finishRefresh();
     }
+
+    @Override
+    public void showHome2(Home2Info jsonobj) {
+        View view = getActivity().getLayoutInflater().inflate(R.layout.home_item_home2, null);
+        TextView title = ButterKnife.findById(view, R.id.title);
+        ImageView img1 = ButterKnife.findById(view, R.id.img1);
+        ImageView img2 = ButterKnife.findById(view, R.id.img2);
+        ImageView img3 = ButterKnife.findById(view, R.id.img3);
+        if (Utils.isEmpty(jsonobj.title)) {
+            title.setText(jsonobj.title);
+        } else {
+            title.setVisibility(View.GONE);
+        }
+        GlideEngine.getInstance().loadImage(mContext, img1, jsonobj.square_image);
+        GlideEngine.getInstance().loadImage(mContext, img2, jsonobj.rectangle1_image);
+        GlideEngine.getInstance().loadImage(mContext, img3, jsonobj.rectangle2_image);
+        img1.setOnClickListener(v -> goToType(jsonobj.square_type, jsonobj.square_data));
+        img2.setOnClickListener(v -> goToType(jsonobj.rectangle1_type, jsonobj.rectangle1_data));
+        img3.setOnClickListener(v -> goToType(jsonobj.rectangle2_type, jsonobj.rectangle2_data));
+        homeViewLayout.addView(view);
+        smartrefreshlayout.finishRefresh();
+    }
+
+    @Override
+    public void showHome3(Home3Info jsonobj) {
+        View view = getActivity().getLayoutInflater().inflate(R.layout.home_item_home3, null);
+        TextView title = ButterKnife.findById(view, R.id.title);
+        if (Utils.isEmpty(jsonobj.title)) {
+            title.setText(jsonobj.title);
+            title.setVisibility(View.VISIBLE);
+        } else {
+            title.setVisibility(View.GONE);
+        }
+        NoScrollGridView gridView = ButterKnife.findById(view, R.id.gridview);
+        CommonAdapter<Home3Info.Item> adapter = new CommonAdapter<Home3Info.Item>(mContext, jsonobj.item, R.layout.home_item_home3_adapteritem) {
+            @Override
+            public void convert(ViewHolder viewHolder, Home3Info.Item item, int position, View convertView, ViewGroup parentViewGroup) {
+                GlideEngine.getInstance().loadImage(mContext, viewHolder.getView(R.id.img), item.image);
+                goToType(item.type, item.data);
+            }
+        };
+        gridView.setAdapter(adapter);
+        homeViewLayout.addView(view);
+    }
+
+    @Override
+    public void showHome4(Home4Info jsonobj) {
+        View view = getActivity().getLayoutInflater().inflate(R.layout.home_item_home4, null);
+        TextView title = ButterKnife.findById(view, R.id.title);
+        ImageView img1 = ButterKnife.findById(view, R.id.img1);
+        ImageView img2 = ButterKnife.findById(view, R.id.img2);
+        ImageView img3 = ButterKnife.findById(view, R.id.img3);
+        if (Utils.isEmpty(jsonobj.title)) {
+            title.setText(jsonobj.title);
+            title.setVisibility(View.VISIBLE);
+        } else {
+            title.setVisibility(View.GONE);
+        }
+        GlideEngine.getInstance().loadImage(mContext, img1, jsonobj.rectangle1_image);
+        GlideEngine.getInstance().loadImage(mContext, img2, jsonobj.rectangle2_image);
+        GlideEngine.getInstance().loadImage(mContext, img3, jsonobj.square_image);
+        img1.setOnClickListener(v -> goToType(jsonobj.rectangle1_type, jsonobj.rectangle1_data));
+        img2.setOnClickListener(v -> goToType(jsonobj.rectangle2_type, jsonobj.rectangle2_data));
+        img3.setOnClickListener(v -> goToType(jsonobj.square_type, jsonobj.square_data));
+        homeViewLayout.addView(view);
+        smartrefreshlayout.finishRefresh();
+    }
+
+    @Override
+    public void showHome5(Home5Info jsonobj) {
+        smartrefreshlayout.finishRefresh();
+        View view = getActivity().getLayoutInflater().inflate(R.layout.home_item_home5, null);
+        View titlelayout = ButterKnife.findById(view, R.id.titlelayout);
+        TextView title1 = ButterKnife.findById(view, R.id.title1);
+        TextView title2 = ButterKnife.findById(view, R.id.title2);
+        ImageView img1 = ButterKnife.findById(view, R.id.img1);
+        ImageView img2 = ButterKnife.findById(view, R.id.img2);
+        ImageView img3 = ButterKnife.findById(view, R.id.img3);
+        ImageView img4 = ButterKnife.findById(view, R.id.img4);
+        GlideEngine.getInstance().loadImage(mContext, img1, jsonobj.square_image);
+        GlideEngine.getInstance().loadImage(mContext, img2, jsonobj.rectangle1_image);
+        GlideEngine.getInstance().loadImage(mContext, img3, jsonobj.rectangle2_image);
+        GlideEngine.getInstance().loadImage(mContext, img4, jsonobj.rectangle3_image);
+        img1.setOnClickListener(v -> goToType(jsonobj.square_type, jsonobj.square_data));
+        img2.setOnClickListener(v -> goToType(jsonobj.rectangle1_type, jsonobj.rectangle1_data));
+        img3.setOnClickListener(v -> goToType(jsonobj.rectangle2_type, jsonobj.rectangle2_data));
+        img4.setOnClickListener(v -> goToType(jsonobj.rectangle3_type, jsonobj.rectangle3_data));
+        String titlemain = jsonobj.title;
+        String titlemain1 = jsonobj.stitle;
+        if (!TextUtils.isEmpty(titlemain) || TextUtils.isEmpty(titlemain1)) {
+            titlelayout.setVisibility(View.VISIBLE);
+            title1.setText(TextUtils.isEmpty(titlemain) ? "" : titlemain);
+            title2.setText(TextUtils.isEmpty(titlemain1) ? "" : titlemain1);
+        } else {
+            titlelayout.setVisibility(View.GONE);
+        }
+        homeViewLayout.addView(view);
+    }
+
+
+    @Override
+    public void showAdvList(List<Adv_list.Item> jsonobj) {
+        banner.setImages(jsonobj);
+        banner.setImageLoader(new ImageLoader() {
+            @Override
+            public void displayImage(Context context, Object path, ImageView imageView) {
+                GlideEngine.getInstance().loadImage(context, imageView, ((Adv_list.Item) path).image);
+            }
+        });
+        banner.start();
+    }
+
+    @Override
+    public void showVideoView(JSONObject jsonobj) {
+
+    }
+
+    @Override
+    public void showGoods(JSONObject jsonobj) {
+        smartrefreshlayout.finishRefresh();
+    }
+
+    @Override
+    public void showGoods1(JSONObject jsonobj) {
+        smartrefreshlayout.finishRefresh();
+    }
+
+    @Override
+    public void showGoods2(JSONObject jsonobj) {
+        smartrefreshlayout.finishRefresh();
+    }
+
+    public void goToType(String type, String square_data) {
+
+    }
+
 
 }
