@@ -7,5 +7,4 @@ import com.majick.guohanhealth.http.Result;
 
 public interface MineView extends BaseView{
     void getMineInfo(MineInfo info);
-    void fail(String msg);
 }

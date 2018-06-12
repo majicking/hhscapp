@@ -20,7 +20,9 @@ public interface Constants {
     String HOST = BuildConfig.HOST;
     String PORT = BuildConfig.PORT;
     String APP = BuildConfig.APP;
+    String WEB = BuildConfig.WEB;
     String URLHEAD = HEAD + HOST + ":" + PORT + APP;
+    String URLHEAD_WEB = HEAD + HOST + ":" + PORT +WEB ;
     String INDEX = "index.php?";
     String URL = URLHEAD + INDEX;
     String CHAT_SERVER_URL = HEAD + HOST + ":33/socket.io/socket.io.js?_=1524556674600";
@@ -66,6 +68,9 @@ public interface Constants {
     String GRADE_ID = "grade_id;";
     String STORE_ID = "store_id;";
     String SELLER_NAME = "seller_name;";
+    String HOTNAME = "hotname;";
+    String HOTVALUE = "hotvalue;";
+    String KEYWORD = "keyword;";
     /**
      * 相机权限请求
      */

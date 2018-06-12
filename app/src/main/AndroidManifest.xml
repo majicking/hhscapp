@@ -10,6 +10,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
     <application
         android:name=".app.App"
         android:allowBackup="true"
@@ -32,8 +33,10 @@
         <activity android:name=".ui.register.RegisterActivity" />
         <activity android:name=".ui.register.Register2Activity" />
         <activity android:name=".ui.WebViewActivity" />
-        <activity android:name=".ui.main.fragment.mine.setting.SettingActivity"></activity>
-        <activity android:name=".view.scannercode.android.CaptureActivity"/>
+        <activity android:name=".ui.main.fragment.mine.setting.SettingActivity" />
+        <activity android:name=".view.scannercode.android.CaptureActivity" />
+        <activity android:name=".ui.search.SearchActivity" />
+        <activity android:name=".ui.goods.goodslist.GoodsListActivity"></activity>
     </application>
 
 </manifest>

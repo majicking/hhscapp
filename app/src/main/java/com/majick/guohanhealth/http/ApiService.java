@@ -5,10 +5,13 @@ import com.majick.guohanhealth.app.Constants;
 import com.majick.guohanhealth.bean.BrandListInfo;
 import com.majick.guohanhealth.bean.GoodsClassChildInfo;
 import com.majick.guohanhealth.bean.GoodsClassInfo;
+import com.majick.guohanhealth.bean.GoodsListInfo;
 import com.majick.guohanhealth.bean.ImgCodeKey;
 import com.majick.guohanhealth.bean.LoginBean;
 import com.majick.guohanhealth.bean.MineInfo;
 import com.majick.guohanhealth.bean.SMSCode;
+import com.majick.guohanhealth.bean.SearchInfo;
+import com.majick.guohanhealth.bean.SearchWordsInfo;
 import com.majick.guohanhealth.bean.UserInfo;
 
 import io.reactivex.Observable;
@@ -42,6 +45,10 @@ public interface ApiService {
     String BRAND = Constants.INDEX + "act=brand&op=recommend_list";
     String GOODSCLASSCHILD = Constants.INDEX + "act=goods_class&op=get_child_all";
     String HOMEINDEX = Constants.INDEX + "act=index&op=index";
+    String SEARCHDATALIST = Constants.INDEX + "act=index&op=search_key_list";
+    String SEARCHDATAWORDS = Constants.INDEX + "act=index&op=search_hot_info";
+    String GOODSLIST = Constants.INDEX + "act=goods&op=goods_list";
+
 
     /**
      * 用户登录
@@ -126,19 +133,38 @@ public interface ApiService {
     Observable<Result<GoodsClassChildInfo>> getGoodsChild(@Query("gc_id") String gc_id);
 
 
-//    /**
-//     * 获取首页数据
-//     */
-//    @GET(HOMEINDEX)
-//    Observable<Result<HomeInfo>> getHomeData();
-//
-//    /**
-//     * 退出登录
-//     */
-//    @POST("user/loginOut")
-//    Observable<Result> logOut();
-//
-//
+    /**
+     * 获取热门搜索数据列表
+     */
+    @GET(SEARCHDATALIST)
+    Observable<Result<SearchInfo>> getSearchDataList();
+
+    /**
+     * 获取热门搜索数据
+     */
+    @GET(SEARCHDATAWORDS)
+    Observable<Result<SearchWordsInfo>> getSearchDataWords();
+
+    /**
+     * 获取商品列表
+     */
+    @GET(GOODSLIST)
+    Observable<Result<GoodsListInfo>> getGoodsList(
+            @Query("curpage") String curpage,
+            @Query("page") String page,
+            @Query("keyword") String keyword,
+            @Query("key") String key,
+            @Query("order") String order,
+            @Query("price_from") String price_from,
+            @Query("price_to") String price_to,
+            @Query("area_id") String area_id,
+            @Query("gift") String gift,
+            @Query("groupbuy") String groupbuy,
+            @Query("xianshi") String xianshi,
+            @Query("virtual") String virtual,
+            @Query("own_shop") String own_shop,
+            @Query("ci") String ci
+    );
 
 //    /**
 //     * 重置密码(需要短信验证码)

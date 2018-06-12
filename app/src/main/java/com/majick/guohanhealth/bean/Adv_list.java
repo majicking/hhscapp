@@ -2,7 +2,7 @@ package com.majick.guohanhealth.bean;
 
 import java.util.List;
 
-public class Adv_list {
+public class Adv_list extends BaseInfo{
     public List<Item> item;
 
     public class Item {

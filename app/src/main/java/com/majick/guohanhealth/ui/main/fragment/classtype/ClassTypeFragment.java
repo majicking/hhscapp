@@ -30,12 +30,14 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.majick.guohanhealth.R;
 import com.majick.guohanhealth.adapter.BaseRecyclerAdapter;
 import com.majick.guohanhealth.adapter.BaseViewHolder;
+import com.majick.guohanhealth.app.App;
 import com.majick.guohanhealth.app.Constants;
 import com.majick.guohanhealth.base.BaseFragment;
 import com.majick.guohanhealth.bean.BrandListInfo;
 import com.majick.guohanhealth.bean.GoodsClassChildInfo;
 import com.majick.guohanhealth.bean.GoodsClassInfo;
 import com.majick.guohanhealth.ui.main.fragment.OnFragmentInteractionListener;
+import com.majick.guohanhealth.ui.search.SearchActivity;
 import com.majick.guohanhealth.utils.Utils;
 import com.majick.guohanhealth.utils.engine.GlideEngine;
 import com.majick.guohanhealth.view.scannercode.android.CaptureActivity;
@@ -66,6 +68,8 @@ public class ClassTypeFragment extends BaseFragment<ClassTypePersenter, ClassTyp
     RecyclerView classtypeRecycleTwo;
     @BindView(R.id.classtype_view_refresh)
     SmartRefreshLayout classtypeViewRefresh;
+    @BindView(R.id.hottext)
+    TextView hottext;
 
     private String mParam1;
     private String mParam2;
@@ -205,7 +209,7 @@ public class ClassTypeFragment extends BaseFragment<ClassTypePersenter, ClassTyp
         classtypeRecycleTwo.setLayoutManager(new GridLayoutManager(mContext, 3));
         classtypeRecycleTwo.setAdapter(brandAdapter);
         classtypeViewSearch.setOnClickListener(v -> {
-            showToast("查询");
+            readyGo(SearchActivity.class);
         });
         initData();
     }
@@ -247,6 +251,7 @@ public class ClassTypeFragment extends BaseFragment<ClassTypePersenter, ClassTyp
     private void initData() {
         mPresenter.getGoodsClass();
         mPresenter.getBrandList();
+        hottext.setText(App.getApp().getHotname());
     }
 
     class ClassAdapter extends BaseQuickAdapter<GoodsClassInfo.Class_list, com.chad.library.adapter.base.BaseViewHolder> {
@@ -388,7 +393,7 @@ public class ClassTypeFragment extends BaseFragment<ClassTypePersenter, ClassTyp
     }
 
     @Override
-    public void fail(String msg) {
+    public void faild(String msg) {
         showToast(msg);
         if (classtypeViewRefresh != null)
             classtypeViewRefresh.finishRefresh();

@@ -15,7 +15,7 @@ public class Register2Persenter extends BasePresenter<RegisterView, RegisterMode
                     mView.success("注册成功");
                 }, throwable -> {
                     mView.hideLoadingDialog();
-                    mView.fail(throwable.getMessage());
+                    mView.faild(throwable.getMessage());
                 }
         ));
     }

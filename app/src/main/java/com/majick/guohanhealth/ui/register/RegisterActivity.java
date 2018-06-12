@@ -245,7 +245,7 @@ public class RegisterActivity extends BaseActivity<RegisterPersenter, RegisterMo
 
 
     @Override
-    public void fail(String msg) {
+    public void faild(String msg) {
         showToast(msg);
     }
 

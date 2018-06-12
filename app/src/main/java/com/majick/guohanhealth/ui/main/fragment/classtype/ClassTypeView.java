@@ -14,5 +14,4 @@ public interface ClassTypeView extends BaseView {
 
     void getGoodsChild(List<GoodsClassChildInfo.Class_list> info);
 
-    void fail(String msg);
 }

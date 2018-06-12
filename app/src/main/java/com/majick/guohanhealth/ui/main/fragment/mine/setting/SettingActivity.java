@@ -61,4 +61,8 @@ public class SettingActivity extends BaseActivity {
     }
 
 
+    @Override
+    public void faild(String msg) {
+
+    }
 }

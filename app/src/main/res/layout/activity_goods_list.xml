@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.goods.goodslist.GoodsListActivity">
+
+    <LinearLayout
+        style="@style/match"
+        android:orientation="vertical">
+
+        <LinearLayout
+            style="@style/LLayout_48_h"
+            android:background="@color/white"
+            android:gravity="center_vertical">
+
+
+            <ImageView
+                android:layout_width="@dimen/dp_48"
+                android:layout_height="@dimen/dp_48"
+                android:padding="@dimen/dp_10"
+                android:src="@drawable/ic_back" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="@dimen/dp_30"
+                android:layout_weight="1"
+                android:background="@color/djk_linecolor"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:src="@drawable/ic_search" />
+
+                <EditText
+                    android:id="@+id/search_edit"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:gravity="center_vertical"
+                    android:hint="搜索商城商品"
+                    android:singleLine="true"
+                    android:textColor="@color/djk_textcolor444"
+                    android:textColorHint="@color/nc_text"
+                    android:textSize="16sp" />
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:layout_width="@dimen/dp_48"
+                android:layout_height="@dimen/dp_48">
+
+                <ImageView
+                    android:id="@+id/search_btn"
+                    android:layout_width="@dimen/dp_38"
+                    android:layout_height="@dimen/dp_38"
+                    android:layout_centerInParent="true"
+                    android:padding="@dimen/dp_10"
+                    android:src="@mipmap/dian" />
+            </RelativeLayout>
+        </LinearLayout>
+
+        <View style="@style/djk_line" />
+
+        <LinearLayout
+            style="@style/LLayout_48_h"
+            android:layout_marginTop="@dimen/dp_5"
+            android:background="@color/white">
+
+            <LinearLayout
+                android:id="@+id/goodslist_view_sort"
+                style="@style/layout_weight_h"
+                android:layout_weight="2.2">
+
+                <TextView
+                    android:id="@+id/goodslist_sort_text"
+                    style="@style/warp"
+                    android:drawableRight="@drawable/text_btn_drawable"
+                    android:text="综合排序" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/goodslist_view_advance"
+                style="@style/layout_weight_h"
+                android:layout_weight="1.9">
+
+                <TextView
+                    style="@style/warp"
+                    android:text="销量优先" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/goodslist_view_select"
+                style="@style/layout_weight_h"
+                android:layout_weight="1.9">
+
+                <TextView
+                    style="@style/warp"
+                    android:drawableRight="@drawable/text_btn_drawable"
+                    android:text="筛选" />
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/layout_weight_h"
+                android:layout_weight="1"
+                android:gravity="center">
+
+                <ImageView
+                    android:id="@+id/goodslist_img_change"
+                    android:layout_width="@dimen/dp_36"
+                    android:layout_height="@dimen/dp_36"
+                    android:src="@drawable/goods_list_type_change" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <com.scwang.smartrefresh.layout.SmartRefreshLayout
+            android:id="@+id/goodslist_view_smartrefresh"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/goodslist_recycleview"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+
+                <android.support.design.widget.FloatingActionButton
+                    android:src="@mipmap/zujibtn"
+                    android:id="@+id/goodslist_flaybtn"
+                    android:layout_width="@dimen/dp_30"
+                    android:layout_height="@dimen/dp_30"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_margin="@dimen/dp_30"
+                   />
+            </RelativeLayout>
+        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

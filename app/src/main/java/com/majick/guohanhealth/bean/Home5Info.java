@@ -1,6 +1,6 @@
 package com.majick.guohanhealth.bean;
 
-public class Home5Info {
+public class Home5Info extends BaseInfo{
     public String title;
     public String stitle;
     public String square_image;

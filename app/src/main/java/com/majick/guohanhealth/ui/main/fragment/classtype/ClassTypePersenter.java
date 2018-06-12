@@ -11,7 +11,7 @@ public class ClassTypePersenter extends BasePresenter<ClassTypeView, ClassTypeMo
         mRxManager.add(mModel.getGoodsClass().subscribe(goodsClassInfo -> {
             mView.getGoodsClass(goodsClassInfo.class_list);
         }, throwable -> {
-            mView.fail(throwable.getMessage());
+            mView.faild(throwable.getMessage());
         }));
     }
 
@@ -22,7 +22,7 @@ public class ClassTypePersenter extends BasePresenter<ClassTypeView, ClassTypeMo
         mRxManager.add(mModel.getBrandList().subscribe(brandListInfo -> {
             mView.getBrandList(brandListInfo.brand_list);
         }, throwable -> {
-            mView.fail(throwable.getMessage());
+            mView.faild(throwable.getMessage());
         }));
     }
 
@@ -33,7 +33,7 @@ public class ClassTypePersenter extends BasePresenter<ClassTypeView, ClassTypeMo
         mRxManager.add(mModel.getGoodsChild(gc_id).subscribe(goodsChild -> {
             mView.getGoodsChild(goodsChild.class_list);
         }, throwable -> {
-            mView.fail(throwable.getMessage());
+            mView.faild(throwable.getMessage());
         }));
     }
 }

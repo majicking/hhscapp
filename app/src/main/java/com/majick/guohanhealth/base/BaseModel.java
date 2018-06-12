@@ -4,6 +4,7 @@ import com.majick.guohanhealth.app.App;
 import com.majick.guohanhealth.bean.ImgCodeKey;
 import com.majick.guohanhealth.bean.LoginBean;
 import com.majick.guohanhealth.bean.SMSCode;
+import com.majick.guohanhealth.bean.SearchWordsInfo;
 import com.majick.guohanhealth.bean.UserInfo;
 import com.majick.guohanhealth.http.Api;
 import com.majick.guohanhealth.http.RxHelper;
@@ -11,7 +12,7 @@ import com.majick.guohanhealth.http.RxHelper;
 import io.reactivex.Observable;
 
 public class BaseModel {
-    public String  key= App.getApp().getKey();
+    public String key = App.getApp().getKey();
 
     /**
      * 获取用户信息
@@ -42,5 +43,10 @@ public class BaseModel {
         return Api.getDefault().login(userName, passWord, "android").compose(RxHelper.handleResult());
     }
 
-
+    /**
+     * 获取热门搜索词自动填写
+     */
+    public Observable<SearchWordsInfo> getSearchDataWords() {
+        return Api.getDefault().getSearchDataWords().compose(RxHelper.handleResult());
+    }
 }

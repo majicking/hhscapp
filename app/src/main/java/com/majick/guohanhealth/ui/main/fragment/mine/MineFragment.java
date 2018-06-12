@@ -244,7 +244,7 @@ public class MineFragment extends BaseFragment<MinePersenter, MineModel> impleme
     }
 
     @Override
-    public void fail(String msg) {
+    public void faild(String msg) {
         showToast(msg);
     }
 }

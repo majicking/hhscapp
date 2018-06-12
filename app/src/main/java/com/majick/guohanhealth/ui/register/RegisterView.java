@@ -7,8 +7,6 @@ public interface RegisterView extends BaseView {
 
     void success(String msg);
 
-    void fail(String msg);
-
     void smsfail(String msg);
 
     void smsSuccess(String time);

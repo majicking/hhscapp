@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 
 import com.majick.guohanhealth.BuildConfig;
 import com.majick.guohanhealth.bean.LoginBean;
+import com.majick.guohanhealth.bean.SearchWordsInfo;
 import com.majick.guohanhealth.bean.UserInfo;
 import com.majick.guohanhealth.bean.UserInfo.*;
 import com.majick.guohanhealth.http.Api;
@@ -43,8 +44,28 @@ public class App extends Application {
     private String key;
     private String userid;
     private String username;
+    private String hotname;
+    private String hotvalue;
     private SharedPreferences sharedPreferences;
     private Member_info info;
+
+    public String getHotname() {
+        return sharedPreferences.getString(Constants.HOTNAME, "");
+    }
+
+    public void setHotname(String hotname) {
+        this.hotname = hotname;
+        sharedPreferences.edit().putString(Constants.HOTNAME, hotname).commit();
+    }
+
+    public String getHotvalue() {
+        return sharedPreferences.getString(Constants.HOTVALUE, "");
+    }
+
+    public void setHotvalue(String hotvalue) {
+        this.hotvalue = hotvalue;
+        sharedPreferences.edit().putString(Constants.HOTVALUE, hotvalue).commit();
+    }
 
     public Member_info getInfo() {
         Member_info info = (new UserInfo()).member_info;
@@ -106,7 +127,10 @@ public class App extends Application {
         super.onCreate();
         app = this;
         initLogger();
+        /**获取热门词*/
+        getHotWords();
         sharedPreferences = getSharedPreferences(BuildConfig.APPLICATION_ID, MODE_PRIVATE);
+//        /**更新用户信息*/
 //        UpdataUserInfo(getKey(), getUserid());
     }
 
@@ -121,4 +145,14 @@ public class App extends Application {
     private void initLogger() {
     }
 
+    private void getHotWords() {
+        Logutils.i("11111111111111111111");
+        new RxManager().add(Api.getDefault().getSearchDataWords().compose(RxHelper.handleResult()).subscribe(info -> {
+            App.getApp().setHotname(info.hot_info.name);
+            App.getApp().setHotvalue(info.hot_info.value);
+            Logutils.i(info);
+        }, throwable -> {
+            Logutils.i(throwable.getMessage());
+        }));
+    }
 }

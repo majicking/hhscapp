@@ -274,4 +274,9 @@ public class WebViewActivity extends BaseActivity {
         }
         return super.onKeyDown(keyCode, event);
     }
+
+    @Override
+    public void faild(String msg) {
+
+    }
 }

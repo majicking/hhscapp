@@ -8,7 +8,7 @@ public class MinePersenter extends BasePresenter<MineView, MineModel> {
         mRxManager.add(mModel.getMineInfo(key).subscribe(userInfo -> {
             mView.getMineInfo(userInfo);
         }, throwable -> {
-            mView.fail(throwable.getMessage());
+            mView.faild(throwable.getMessage());
         }));
     }
 }

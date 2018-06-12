@@ -77,7 +77,7 @@ public class CartFragment extends BaseFragment<CartPersenter,CartModel>implement
     }
 
     @Override
-    public void fail(String msg) {
+    public void faild(String msg) {
 
     }
 }

@@ -1,6 +1,8 @@
 package com.majick.guohanhealth.ui.main.fragment.home;
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -13,6 +15,8 @@ import android.widget.TextView;
 import com.majick.guohanhealth.R;
 import com.majick.guohanhealth.adapter.CommonAdapter;
 import com.majick.guohanhealth.adapter.ViewHolder;
+import com.majick.guohanhealth.app.App;
+import com.majick.guohanhealth.app.Constants;
 import com.majick.guohanhealth.base.BaseFragment;
 import com.majick.guohanhealth.bean.Adv_list;
 import com.majick.guohanhealth.bean.Home1Info;
@@ -20,10 +24,14 @@ import com.majick.guohanhealth.bean.Home2Info;
 import com.majick.guohanhealth.bean.Home3Info;
 import com.majick.guohanhealth.bean.Home4Info;
 import com.majick.guohanhealth.bean.Home5Info;
+import com.majick.guohanhealth.bean.HomeMenuBtn;
+import com.majick.guohanhealth.bean.SearchWordsInfo;
 import com.majick.guohanhealth.ui.main.fragment.OnFragmentInteractionListener;
+import com.majick.guohanhealth.ui.search.SearchActivity;
 import com.majick.guohanhealth.utils.Utils;
 import com.majick.guohanhealth.utils.engine.GlideEngine;
 import com.majick.guohanhealth.view.NoScrollGridView;
+import com.majick.guohanhealth.view.scannercode.android.CaptureActivity;
 import com.scwang.smartrefresh.header.DeliveryHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.youth.banner.Banner;
@@ -37,6 +45,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+
+import static android.app.Activity.RESULT_OK;
 
 public class HomeFragment extends BaseFragment<HomePersenter, HomeModel> implements HomeView {
     private static final String ARG_PARAM1 = "param1";
@@ -53,6 +63,10 @@ public class HomeFragment extends BaseFragment<HomePersenter, HomeModel> impleme
     SmartRefreshLayout smartrefreshlayout;
     @BindView(R.id.home_view_layout)
     LinearLayout homeViewLayout;
+    @BindView(R.id.gridview)
+    NoScrollGridView gridview;
+    @BindView(R.id.home_hot)
+    TextView homeHot;
 
 
     private String mParam1;
@@ -99,10 +113,47 @@ public class HomeFragment extends BaseFragment<HomePersenter, HomeModel> impleme
             homeViewLayout.removeAllViews();
             mPresenter.getHomeData();
         });
+        gridview.setAdapter(new CommonAdapter<HomeMenuBtn>(mContext, HomeMenuBtn.getHomeBtn(), R.layout.home_menu_item) {
+            @Override
+            public void convert(ViewHolder viewHolder, HomeMenuBtn item, int position, View convertView, ViewGroup parentViewGroup) {
+                viewHolder.setText(R.id.title, item.title);
+                GlideEngine.getInstance().loadImage(mContext, viewHolder.getView(R.id.img), item.icon);
+                GradientDrawable mm = (GradientDrawable) viewHolder.getView(R.id.view).getBackground();
+                mm.setColor(item.backgroundCoror);
+            }
+        });
+        gridview.setOnItemClickListener((parent, view, position, id) -> {
+            switch (position) {
+                case 0:
+                    onButtonPressed("type", 1);
+                    break;
+                case 1:
+                    onButtonPressed("type", 2);
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    break;
+                case 4:
+                    onButtonPressed("type", 0);
+                    break;
+                case 5:
+                    break;
+                case 6:
+                    break;
+                case 7:
+                    break;
+            }
+        });
+        homeViewSearch.setOnClickListener(v -> {
+            readyGo(SearchActivity.class);
+        });
+        homeScanner.setOnClickListener(v -> readyGoForResult(CaptureActivity.class, Constants.REQUEST_CAMERA));
+        homeHot.setText(App.getApp().getHotname());
     }
 
 
-    public void onButtonPressed(String key, String value) {
+    public void onButtonPressed(String key, int value) {
         if (mListener != null) {
             mListener.doSomeThing(key, value);
         }
@@ -127,7 +178,7 @@ public class HomeFragment extends BaseFragment<HomePersenter, HomeModel> impleme
 
 
     @Override
-    public void fail(String msg) {
+    public void faild(String msg) {
         showToast(msg);
         smartrefreshlayout.finishRefresh();
     }
@@ -281,9 +332,22 @@ public class HomeFragment extends BaseFragment<HomePersenter, HomeModel> impleme
         smartrefreshlayout.finishRefresh();
     }
 
+
     public void goToType(String type, String square_data) {
 
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case Constants.REQUEST_CAMERA:
+                    showToast(data.getStringExtra("codedContent"));
+                    break;
+            }
+        }
+    }
 
 }

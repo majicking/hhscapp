@@ -9,7 +9,7 @@ public interface BaseView {
 
 
 
-
+    void faild(String msg);
 
     /**
      * 显示正在加载

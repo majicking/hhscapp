@@ -34,7 +34,7 @@ public class RegisterPersenter extends BasePresenter<RegisterView, RegisterModel
             App.getApp().setUsername(registerInfo.username);
         }, throwable -> {
             mView.hideLoadingDialog();
-            mView.fail(throwable.getMessage());
+            mView.faild(throwable.getMessage());
         }));
     }
 
@@ -58,7 +58,7 @@ public class RegisterPersenter extends BasePresenter<RegisterView, RegisterModel
                     mView.success("注册成功");
                 }, throwable -> {
                     mView.hideLoadingDialog();
-                    mView.fail(throwable.getMessage());
+                    mView.faild(throwable.getMessage());
                     Logutils.i(throwable.getMessage());
                 }));
     }

@@ -89,4 +89,6 @@ public class HomePersenter extends BasePresenter<HomeView, HomeModel> {
             }
         });
     }
+
+
 }

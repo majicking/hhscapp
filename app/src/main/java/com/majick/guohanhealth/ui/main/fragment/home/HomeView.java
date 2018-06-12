@@ -7,13 +7,13 @@ import com.majick.guohanhealth.bean.Home2Info;
 import com.majick.guohanhealth.bean.Home3Info;
 import com.majick.guohanhealth.bean.Home4Info;
 import com.majick.guohanhealth.bean.Home5Info;
+import com.majick.guohanhealth.bean.SearchWordsInfo;
 
 import org.json.JSONObject;
 
 import java.util.List;
 
 public interface HomeView extends BaseView {
-    void fail(String msg);
 
     void showHome1(Home1Info info);
 
@@ -34,4 +34,5 @@ public interface HomeView extends BaseView {
     void showGoods1(JSONObject jsonobj);
 
     void showGoods2(JSONObject jsonobj);
+
 }

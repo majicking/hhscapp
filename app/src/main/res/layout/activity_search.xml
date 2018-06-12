@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.search.SearchActivity">
+
+    <LinearLayout
+        android:background="@color/white"
+        style="@style/LLayout_48_h"
+        android:gravity="center_vertical">
+
+        <RelativeLayout
+            android:id="@+id/search_back"
+            android:layout_width="@dimen/dp_48"
+            android:layout_height="@dimen/dp_48"
+            android:gravity="center">
+
+            <ImageView
+
+                android:layout_width="@dimen/dp_28"
+                android:layout_height="@dimen/dp_28"
+                android:src="@drawable/ic_back" />
+        </RelativeLayout>
+
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="@dimen/dp_30"
+            android:layout_weight="1"
+            android:background="@color/djk_linecolor"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:src="@drawable/ic_search" />
+
+            <EditText
+                android:id="@+id/search_edit"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@null"
+                android:gravity="center_vertical"
+                android:hint="搜索商城商品"
+                android:singleLine="true"
+                android:textColor="@color/djk_textcolor444"
+                android:textColorHint="@color/nc_text"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/search_btn"
+            android:layout_width="@dimen/dp_48"
+            android:layout_height="@dimen/dp_48"
+            android:background="@null"
+            android:text="搜索"
+            android:textSize="@dimen/sp_14" />
+
+    </LinearLayout>
+
+    <View style="@style/djk_line" />
+
+    <TextView
+        style="@style/left15"
+        android:layout_marginBottom="@dimen/dp_5"
+        android:layout_marginTop="@dimen/dp_5"
+        android:text="热门搜索" />
+
+    <View style="@style/djk_line" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <com.majick.guohanhealth.view.NoScrollGridView
+            android:id="@+id/gridview"
+            android:padding="@dimen/dp_15"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:horizontalSpacing="@dimen/dp_10"
+            android:numColumns="4"
+            android:verticalSpacing="@dimen/dp_5"></com.majick.guohanhealth.view.NoScrollGridView>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/search_recycleview_hot"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_100"
+            android:visibility="gone"></android.support.v7.widget.RecyclerView>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/search_view_history"
+        style="@style/match"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+
+        <View style="@style/djk_line_big" />
+
+        <TextView
+            style="@style/left15"
+            android:layout_marginBottom="@dimen/dp_5"
+            android:layout_marginTop="@dimen/dp_5"
+            android:text="历史记录" />
+
+        <View style="@style/djk_line" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/search_recycleview_history"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
+
+        <Button
+            android:id="@+id/search_del"
+            style="@style/btn"
+            android:layout_height="@dimen/dp_25"
+            android:layout_marginTop="@dimen/dp_15"
+            android:text="清空历史记录" />
+    </LinearLayout>
+</LinearLayout>
