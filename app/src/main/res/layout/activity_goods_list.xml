@@ -17,12 +17,14 @@
 
 
             <ImageView
+                android:id="@+id/back"
                 android:layout_width="@dimen/dp_48"
                 android:layout_height="@dimen/dp_48"
                 android:padding="@dimen/dp_10"
                 android:src="@drawable/ic_back" />
 
             <LinearLayout
+                android:id="@+id/goodslist_view_search"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/dp_30"
                 android:layout_weight="1"
@@ -37,8 +39,8 @@
                     android:layout_marginRight="5dp"
                     android:src="@drawable/ic_search" />
 
-                <EditText
-                    android:id="@+id/search_edit"
+                <TextView
+                    android:id="@+id/goodslist_hot_text"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -47,7 +49,6 @@
                     android:hint="搜索商城商品"
                     android:singleLine="true"
                     android:textColor="@color/djk_textcolor444"
-                    android:textColorHint="@color/nc_text"
                     android:textSize="16sp" />
 
             </LinearLayout>
@@ -76,37 +77,46 @@
             <LinearLayout
                 android:id="@+id/goodslist_view_sort"
                 style="@style/layout_weight_h"
-                android:layout_weight="2.2">
+                android:layout_weight="2">
 
                 <TextView
-                    android:id="@+id/goodslist_sort_text"
+                    android:drawablePadding="@dimen/dp_8"
+                    android:textSize="@dimen/dp_16"
+                    android:id="@+id/goodslist_text_sort"
                     style="@style/warp"
                     android:drawableRight="@drawable/text_btn_drawable"
+                    android:gravity="center"
                     android:text="综合排序" />
 
             </LinearLayout>
-
+            <View style="@style/djk_line_v"/>
             <LinearLayout
                 android:id="@+id/goodslist_view_advance"
                 style="@style/layout_weight_h"
-                android:layout_weight="1.9">
+                android:layout_weight="2">
 
                 <TextView
+                    android:textSize="@dimen/dp_16"
+                    android:id="@+id/goodslist_text_advance"
                     style="@style/warp"
                     android:text="销量优先" />
             </LinearLayout>
-
+            <View style="@style/djk_line_v"/>
             <LinearLayout
                 android:id="@+id/goodslist_view_select"
                 style="@style/layout_weight_h"
-                android:layout_weight="1.9">
+                android:layout_weight="2">
 
                 <TextView
+                    android:drawablePadding="@dimen/dp_8"
+                    android:textSize="@dimen/dp_16"
+                    android:id="@+id/goodslist_text_select"
                     style="@style/warp"
                     android:drawableRight="@drawable/text_btn_drawable"
-                    android:text="筛选" />
+                    android:gravity="center"
+                    android:text="条件筛选" />
             </LinearLayout>
-
+<View style="@style/djk_line_v"/>
             <LinearLayout
                 style="@style/layout_weight_h"
                 android:layout_weight="1"
@@ -119,6 +129,8 @@
                     android:src="@drawable/goods_list_type_change" />
             </LinearLayout>
         </LinearLayout>
+
+        <View style="@style/djk_line" />
 
         <com.scwang.smartrefresh.layout.SmartRefreshLayout
             android:id="@+id/goodslist_view_smartrefresh"
@@ -134,15 +146,19 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
 
+                <com.majick.guohanhealth.custom.EmptyView
+                    android:id="@+id/emptyview"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"></com.majick.guohanhealth.custom.EmptyView>
+
                 <android.support.design.widget.FloatingActionButton
-                    android:src="@mipmap/zujibtn"
                     android:id="@+id/goodslist_flaybtn"
                     android:layout_width="@dimen/dp_30"
                     android:layout_height="@dimen/dp_30"
                     android:layout_alignParentBottom="true"
                     android:layout_alignParentRight="true"
                     android:layout_margin="@dimen/dp_30"
-                   />
+                    android:src="@mipmap/zujibtn" />
             </RelativeLayout>
         </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 

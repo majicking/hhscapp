@@ -48,7 +48,6 @@ public class App extends Application {
     private String hotvalue;
     private SharedPreferences sharedPreferences;
     private Member_info info;
-
     public String getHotname() {
         return sharedPreferences.getString(Constants.HOTNAME, "");
     }

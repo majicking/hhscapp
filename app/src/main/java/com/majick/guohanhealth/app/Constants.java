@@ -88,5 +88,5 @@ public interface Constants {
             Color.parseColor("#ED5564")
     };
 
-  int RNDOMCOLOR=BGCOLORS[new Random().nextInt(10)];
+  int RANDOMCOLOR =BGCOLORS[new Random().nextInt(10)];
 }

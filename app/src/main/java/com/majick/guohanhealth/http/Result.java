@@ -13,6 +13,8 @@ public class Result<T> implements Serializable {
     /** 状态码:200 | 304 | 404 | 500 */
     public int code;
     /** 是否有下一页 */
+    public int page_total;
+
     public boolean hasMore;
     /** JSON格式的字符串 */
     public String json;

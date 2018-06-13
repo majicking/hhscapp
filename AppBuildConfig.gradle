@@ -28,6 +28,7 @@ ext {
             bannerVersion        = '1.4.10'
             smartrefreshVersion  = '1.0.5.1'
             baserecyclerviewAdapterHelperVersion  = '2.9.34'
+            fastjsonVersion  = '1.2.47'
     dependencies = [
             //base
             appcompatV7                : "com.android.support:appcompat-v7:${supportLibraryVersion}",
@@ -48,7 +49,7 @@ ext {
 
             //解析对象
             gson                       : "com.google.code.gson:gson:${gsonVersion}",
-
+            fastjson                   : "com.alibaba:fastjson:${fastjsonVersion}",
             //网络请求
             okhttp3_okhttp             : "com.squareup.okhttp3:okhttp:${okhttpVersion}",
             okhttp3_logging_interceptor: "com.squareup.okhttp3:logging-interceptor:${okhttpVersion}",

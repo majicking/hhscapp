@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <LinearLayout
+        style="@style/LLayout_48_h"
+        android:layout_height="@dimen/dp_30"
+        android:layout_marginTop="@dimen/dp_20">
+
+        <TextView
+            style="@style/left15"
+            android:text="价格区间" />
+
+    </LinearLayout>
+
+    <View style="@style/djk_line" />
+
+    <LinearLayout style="@style/LLayout_48_h">
+
+        <EditText
+            android:id="@+id/select_pop_minprice"
+            style="@style/left15"
+            android:layout_width="@dimen/dp_100"
+            android:layout_height="@dimen/dp_28"
+            android:background="@color/djk_bgcolor"
+            android:gravity="center"
+            android:hint="最低价"
+            android:textSize="@dimen/sp_12" />
+
+        <TextView
+            android:layout_width="@dimen/dp_18"
+            android:layout_height="@dimen/dp_2"
+            android:layout_marginLeft="@dimen/dp_5"
+            android:background="@color/black" />
+
+        <EditText
+            android:id="@+id/select_pop_maxprice"
+            style="@style/left15"
+            android:layout_width="@dimen/dp_100"
+            android:layout_height="@dimen/dp_28"
+            android:background="@color/djk_bgcolor"
+            android:gravity="center"
+            android:hint="最高价"
+            android:textSize="@dimen/sp_12" />
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/LLayout_48_h"
+        android:layout_height="@dimen/dp_30">
+
+        <TextView
+            style="@style/left15"
+            android:text="商品所在地" />
+    </LinearLayout>
+
+    <View style="@style/djk_line" />
+
+    <RelativeLayout style="@style/LLayout_48_h">
+
+        <TextView
+            android:id="@+id/select_pop_location"
+            android:layout_width="@dimen/dp_100"
+            android:layout_height="@dimen/dp_28"
+            android:layout_marginLeft="@dimen/dp_15"
+            android:background="@color/djk_bgcolor"
+            android:drawableRight="@mipmap/icon_loca"
+            android:gravity="center"
+            android:text="不限"
+            android:textSize="@dimen/sp_14" />
+    </RelativeLayout>
+
+    <LinearLayout
+        style="@style/LLayout_48_h"
+        android:layout_height="@dimen/dp_30">
+
+        <TextView
+            style="@style/left15"
+            android:text="商品类型" />
+    </LinearLayout>
+
+    <View style="@style/djk_line" />
+
+    <LinearLayout style="@style/LLayout_50_h">
+
+        <Button
+            android:id="@+id/select_pop_gift"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dp_25"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:background="@drawable/djk_btn_bg"
+            android:gravity="center"
+            android:paddingLeft="@dimen/dp_15"
+            android:paddingRight="@dimen/dp_15"
+            android:text="赠品"
+            android:textColor="@color/nc_text" />
+
+        <Button
+            android:id="@+id/select_pop_groupbuy"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dp_25"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:background="@drawable/djk_btn_bg"
+            android:gravity="center"
+            android:paddingLeft="@dimen/dp_15"
+            android:paddingRight="@dimen/dp_15"
+            android:text="团购"
+            android:textColor="@color/nc_text" />
+
+        <Button
+            android:id="@+id/select_pop_timelimit"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dp_25"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:background="@drawable/djk_btn_bg"
+            android:gravity="center"
+            android:paddingLeft="@dimen/dp_15"
+            android:paddingRight="@dimen/dp_15"
+            android:text="限时折扣"
+            android:textColor="@color/nc_text" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/select_pop_virtul"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dp_25"
+        android:layout_marginLeft="@dimen/dp_10"
+        android:background="@drawable/djk_btn_bg"
+        android:gravity="center"
+        android:paddingLeft="@dimen/dp_15"
+        android:paddingRight="@dimen/dp_15"
+        android:text="虚拟"
+        android:textColor="@color/nc_text" />
+
+    <LinearLayout
+        style="@style/LLayout_48_h"
+        android:layout_height="@dimen/dp_30">
+
+        <TextView
+            style="@style/left15"
+            android:text="店铺类型" />
+    </LinearLayout>
+
+    <View style="@style/djk_line" />
+
+    <LinearLayout style="@style/LLayout_50_h">
+
+        <Button
+            android:id="@+id/select_pop_onw"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dp_25"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:background="@drawable/djk_btn_bg"
+            android:gravity="center"
+            android:paddingLeft="@dimen/dp_15"
+            android:paddingRight="@dimen/dp_15"
+            android:text="平台自营" />
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/LLayout_48_h"
+        android:layout_height="@dimen/dp_30">
+
+        <TextView
+            style="@style/left15"
+            android:text="店铺服务" />
+    </LinearLayout>
+
+    <View style="@style/djk_line" />
+
+    <LinearLayout style="@style/LLayout_50_h">
+
+        <Button
+            android:id="@+id/select_pop_sevendayreturn"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dp_25"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:background="@drawable/djk_btn_bg"
+            android:gravity="center"
+            android:paddingLeft="@dimen/dp_15"
+            android:paddingRight="@dimen/dp_15"
+            android:text="七天退货"
+            android:textColor="@color/nc_text" />
+
+        <Button
+            android:id="@+id/select_pop_quality"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dp_25"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:background="@drawable/djk_btn_bg"
+            android:gravity="center"
+            android:paddingLeft="@dimen/dp_15"
+            android:paddingRight="@dimen/dp_15"
+            android:text="品质承诺"
+            android:textColor="@color/nc_text" />
+
+        <Button
+            android:id="@+id/select_pop_mailing"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dp_25"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:background="@drawable/djk_btn_bg"
+            android:gravity="center"
+            android:paddingLeft="@dimen/dp_15"
+            android:paddingRight="@dimen/dp_15"
+            android:text="破损补寄"
+            android:textColor="@color/nc_text" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/select_pop_rapid"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dp_25"
+        android:layout_marginLeft="@dimen/dp_10"
+        android:background="@drawable/djk_btn_bg"
+        android:gravity="center"
+        android:paddingLeft="@dimen/dp_15"
+        android:paddingRight="@dimen/dp_15"
+        android:text="急速物流"
+        android:textColor="@color/nc_text" />
+
+    <Button
+        android:id="@+id/select_pop_btn"
+        style="@style/btn"
+        android:layout_marginBottom="@dimen/dp_40"
+        android:layout_marginTop="@dimen/dp_20"
+        android:text="筛选商品" />
+
+</LinearLayout>

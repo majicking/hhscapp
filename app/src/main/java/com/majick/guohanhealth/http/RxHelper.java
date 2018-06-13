@@ -38,6 +38,9 @@ public class RxHelper {
                 if ("0".equals(result.login)) {
                     App.getApp().setKey("");
                 }
+                if (result.hasMore){
+//                    App.getApp().s
+                }
 
                 return createSuccessData(result.datas);
             } else if (result.code == HttpErrorCode.ERROR_400) {

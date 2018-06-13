@@ -5,9 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.SystemClock;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -18,8 +16,6 @@ import com.majick.guohanhealth.app.App;
 import com.majick.guohanhealth.app.Constants;
 import com.majick.guohanhealth.base.BaseFragment;
 import com.majick.guohanhealth.bean.MineInfo;
-import com.majick.guohanhealth.bean.UserInfo;
-import com.majick.guohanhealth.http.Result;
 import com.majick.guohanhealth.ui.login.LoginActivity;
 import com.majick.guohanhealth.ui.main.fragment.OnFragmentInteractionListener;
 import com.majick.guohanhealth.ui.main.fragment.mine.setting.SettingActivity;
@@ -27,11 +23,7 @@ import com.majick.guohanhealth.utils.Logutils;
 import com.majick.guohanhealth.utils.Utils;
 import com.majick.guohanhealth.utils.engine.GlideEngine;
 
-import java.util.Random;
-
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 
 
 public class MineFragment extends BaseFragment<MinePersenter, MineModel> implements MineView {
@@ -142,7 +134,7 @@ public class MineFragment extends BaseFragment<MinePersenter, MineModel> impleme
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             if (mineBannerView != null)
-                mineBannerView.setBackgroundColor(Constants.RNDOMCOLOR);
+                mineBannerView.setBackgroundColor(Constants.RANDOMCOLOR);
         }
     };
 

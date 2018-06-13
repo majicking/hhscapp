@@ -21,4 +21,12 @@
         <item>普通注册</item>
         <item>手机注册</item>
     </string-array>
+
+    <string name="text_sole">手机专享</string>
+    <string name="text_groupbuy">团购</string>
+    <string name="text_xianshi">限时</string>
+    <string name="text_appoint">预约</string>
+    <string name="text_fcode">F码</string>
+    <string name="text_presell">预售</string>
+    <string name="text_virtual">虚拟</string>
 </resources>

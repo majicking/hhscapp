@@ -7,10 +7,8 @@ import android.content.pm.PackageManager;
 import android.content.res.ColorStateList;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
-import android.media.Image;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -20,7 +18,6 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -38,7 +35,6 @@ import com.majick.guohanhealth.bean.GoodsClassChildInfo;
 import com.majick.guohanhealth.bean.GoodsClassInfo;
 import com.majick.guohanhealth.ui.main.fragment.OnFragmentInteractionListener;
 import com.majick.guohanhealth.ui.search.SearchActivity;
-import com.majick.guohanhealth.utils.Utils;
 import com.majick.guohanhealth.utils.engine.GlideEngine;
 import com.majick.guohanhealth.view.scannercode.android.CaptureActivity;
 import com.scwang.smartrefresh.header.DeliveryHeader;
@@ -46,7 +42,6 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import butterknife.BindView;
 
@@ -286,7 +281,7 @@ public class ClassTypeFragment extends BaseFragment<ClassTypePersenter, ClassTyp
         @Override
         protected void convert(com.chad.library.adapter.base.BaseViewHolder helper, GoodsClassChildInfo.Class_list item) {
             helper.setText(R.id.text, item.gc_name);
-            helper.getView(R.id.point).setBackgroundColor(Constants.RNDOMCOLOR);
+            helper.getView(R.id.point).setBackgroundColor(Constants.RANDOMCOLOR);
             RecyclerView recyclerView = helper.getView(R.id.recycleview);
             classChildAdapter = new ClassChildAdapter(android.R.layout.simple_list_item_1, item.child);
             classChildAdapter.openLoadAnimation(BaseQuickAdapter.SLIDEIN_LEFT);
