@@ -7,7 +7,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,11 +27,16 @@ import com.majick.guohanhealth.adapter.ViewHolder;
 import com.majick.guohanhealth.app.Constants;
 import com.majick.guohanhealth.base.BaseActivity;
 import com.majick.guohanhealth.bean.GoodsListInfo;
+import com.majick.guohanhealth.bean.SelectedInfo;
 import com.majick.guohanhealth.custom.EmptyView;
+import com.majick.guohanhealth.http.Api;
+import com.majick.guohanhealth.http.RxHelper;
+import com.majick.guohanhealth.http.RxManager;
 import com.majick.guohanhealth.ui.search.SearchActivity;
 import com.majick.guohanhealth.utils.Logutils;
 import com.majick.guohanhealth.utils.Utils;
 import com.majick.guohanhealth.utils.engine.GlideEngine;
+import com.majick.guohanhealth.view.NoScrollGridView;
 import com.scwang.smartrefresh.header.WaterDropHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
@@ -41,7 +45,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 public class GoodsListActivity extends BaseActivity<GoodsListPersenter, GoodsListModel> implements GoodsListView {
     @BindView(R.id.search_btn)
@@ -220,6 +223,29 @@ public class GoodsListActivity extends BaseActivity<GoodsListPersenter, GoodsLis
         popupWindow.setTouchable(true);
         popupWindow.setOutsideTouchable(true);
         popupWindow.setBackgroundDrawable(new BitmapDrawable(getResources(), (Bitmap) null));
+        NoScrollGridView gridView=view.findViewById(R.id.gridview);
+        new RxManager().add(Api.getDefault().getSelectedInfo().compose(RxHelper.handleResult()).subscribe(info -> {
+            Logutils.i(info);
+            gridView.setAdapter(new CommonAdapter<SelectedInfo.Contract_list>(mContext, info.contract_list, R.layout.select_pop_contract) {
+                @Override
+                public void convert(ViewHolder viewHolder, SelectedInfo.Contract_list item, int position, View convertView, ViewGroup parentViewGroup) {
+                    viewHolder.setText(R.id.select_btn,item.name);
+                    ((TextView)viewHolder.getView(R.id.select_btn)).setHint(item.id);
+                }
+            });
+            gridView.setOnItemClickListener((a,v,p,i)->{
+                LinearLayout relativeLayout=(LinearLayout) gridView.getAdapter().getView(p,view,null);
+                Button button=relativeLayout.findViewById(R.id.select_btn);
+                if (v.isActivated()){
+                    button.setHintTextColor(getResources().getColor(R.color.nc_text));
+                }else{
+                    button.setHintTextColor(getResources().getColor(R.color.white));
+                }
+                v.setActivated(!v.isActivated());
+            });
+        }, throwable -> {
+            showToast(throwable.getMessage());
+        }));
         EditText minprice = view.findViewById(R.id.select_pop_minprice);
         EditText maxprice = view.findViewById(R.id.select_pop_maxprice);
         TextView location = view.findViewById(R.id.select_pop_location);
@@ -233,7 +259,16 @@ public class GoodsListActivity extends BaseActivity<GoodsListPersenter, GoodsLis
         Button mailing = view.findViewById(R.id.select_pop_mailing);
         Button rapid = view.findViewById(R.id.select_pop_rapid);
         Button btn = view.findViewById(R.id.select_pop_btn);
-
+        selectButton(gift);
+        selectButton(groupbuy);
+        selectButton(timelimit);
+        selectButton(virtul);
+        selectButton(onw);
+        selectButton(sevendayreturn);
+        selectButton(quality);
+        selectButton(mailing);
+        selectButton(rapid);
+        selectButton(btn);
         WindowManager.LayoutParams lp = getWindow().getAttributes();
         lp.alpha = 0.8f;
         getWindow().setAttributes(lp);
@@ -245,7 +280,14 @@ public class GoodsListActivity extends BaseActivity<GoodsListPersenter, GoodsLis
     }
 
     public void selectButton(Button btn) {
-        btn.setOnClickListener(v -> btn.setActivated(!btn.isActivated()));
+        btn.setOnClickListener(v -> {
+            if (btn.isActivated()) {
+                btn.setTextColor(getResources().getColor(R.color.nc_text));
+            } else {
+                btn.setTextColor(getResources().getColor(R.color.white));
+            }
+            btn.setActivated(!btn.isActivated());
+        });
     }
 
     public void Reset() {

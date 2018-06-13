@@ -12,6 +12,7 @@ import com.majick.guohanhealth.bean.MineInfo;
 import com.majick.guohanhealth.bean.SMSCode;
 import com.majick.guohanhealth.bean.SearchInfo;
 import com.majick.guohanhealth.bean.SearchWordsInfo;
+import com.majick.guohanhealth.bean.SelectedInfo;
 import com.majick.guohanhealth.bean.UserInfo;
 
 import io.reactivex.Observable;
@@ -48,6 +49,7 @@ public interface ApiService {
     String SEARCHDATALIST = Constants.INDEX + "act=index&op=search_key_list";
     String SEARCHDATAWORDS = Constants.INDEX + "act=index&op=search_hot_info";
     String GOODSLIST = Constants.INDEX + "act=goods&op=goods_list";
+    String SEARCH_ADV = Constants.INDEX + "act=index&op=search_adv";
 
 
     /**
@@ -165,6 +167,15 @@ public interface ApiService {
             @Query("own_shop") String own_shop,
             @Query("ci") String ci
     );
+
+
+    /**
+     * //     * 获取最近点单商品信息
+     * //
+     */
+    @GET(SEARCH_ADV)
+    Observable<Result<SelectedInfo>> getSelectedInfo();
+
 
 //    /**
 //     * 重置密码(需要短信验证码)
