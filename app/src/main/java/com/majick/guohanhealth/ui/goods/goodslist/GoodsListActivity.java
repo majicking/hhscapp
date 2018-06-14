@@ -3,6 +3,8 @@ package com.majick.guohanhealth.ui.goods.goodslist;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,12 +13,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.majick.guohanhealth.R;
@@ -32,8 +36,8 @@ import com.majick.guohanhealth.custom.EmptyView;
 import com.majick.guohanhealth.http.Api;
 import com.majick.guohanhealth.http.RxHelper;
 import com.majick.guohanhealth.http.RxManager;
+import com.majick.guohanhealth.ui.goods.goodsdetailed.activity.GoodsDetailsActivity;
 import com.majick.guohanhealth.ui.search.SearchActivity;
-import com.majick.guohanhealth.utils.Logutils;
 import com.majick.guohanhealth.utils.Utils;
 import com.majick.guohanhealth.utils.engine.GlideEngine;
 import com.majick.guohanhealth.view.NoScrollGridView;
@@ -78,6 +82,8 @@ public class GoodsListActivity extends BaseActivity<GoodsListPersenter, GoodsLis
     @BindView(R.id.goodslist_text_sort)
     TextView goodslistTextSort;
     private BaseRecyclerAdapter<GoodsListInfo.GoodsListBean> adapter;
+    private List<SelectedInfo.Area_list> area_list;
+    private List<SelectedInfo.Contract_list> contract_list;
 
     @Override
     protected int getContentViewLayoutID() {
@@ -150,6 +156,7 @@ public class GoodsListActivity extends BaseActivity<GoodsListPersenter, GoodsLis
 
         });
         getData();
+
     }
 
     PopupWindow popupWindow;
@@ -217,58 +224,148 @@ public class GoodsListActivity extends BaseActivity<GoodsListPersenter, GoodsLis
         });
     }
 
+    static SelectedInfo selectedInfo;
+
     public void showSelectPopu() {
+        selectedInfo = new SelectedInfo();
+        area_list = new ArrayList<>();
+        contract_list = new ArrayList<>();
+        selectedInfo.area_list = area_list;
+        selectedInfo.contract_list = contract_list;
         View view = LayoutInflater.from(mContext).inflate(R.layout.goodlist_select_pop, null);
         popupWindow = new PopupWindow(view, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
         popupWindow.setTouchable(true);
         popupWindow.setOutsideTouchable(true);
         popupWindow.setBackgroundDrawable(new BitmapDrawable(getResources(), (Bitmap) null));
-        NoScrollGridView gridView=view.findViewById(R.id.gridview);
-        new RxManager().add(Api.getDefault().getSelectedInfo().compose(RxHelper.handleResult()).subscribe(info -> {
-            Logutils.i(info);
-            gridView.setAdapter(new CommonAdapter<SelectedInfo.Contract_list>(mContext, info.contract_list, R.layout.select_pop_contract) {
-                @Override
-                public void convert(ViewHolder viewHolder, SelectedInfo.Contract_list item, int position, View convertView, ViewGroup parentViewGroup) {
-                    viewHolder.setText(R.id.select_btn,item.name);
-                    ((TextView)viewHolder.getView(R.id.select_btn)).setHint(item.id);
-                }
-            });
-            gridView.setOnItemClickListener((a,v,p,i)->{
-                LinearLayout relativeLayout=(LinearLayout) gridView.getAdapter().getView(p,view,null);
-                Button button=relativeLayout.findViewById(R.id.select_btn);
-                if (v.isActivated()){
-                    button.setHintTextColor(getResources().getColor(R.color.nc_text));
-                }else{
-                    button.setHintTextColor(getResources().getColor(R.color.white));
-                }
-                v.setActivated(!v.isActivated());
-            });
-        }, throwable -> {
-            showToast(throwable.getMessage());
-        }));
+        NoScrollGridView gridView = view.findViewById(R.id.gridview);
+        Spinner spinner = view.findViewById(R.id.select_pop_spinner);
+        TextView location = view.findViewById(R.id.select_pop_location);
         EditText minprice = view.findViewById(R.id.select_pop_minprice);
         EditText maxprice = view.findViewById(R.id.select_pop_maxprice);
-        TextView location = view.findViewById(R.id.select_pop_location);
-        Button gift = view.findViewById(R.id.select_pop_gift);
-        Button groupbuy = view.findViewById(R.id.select_pop_groupbuy);
-        Button timelimit = view.findViewById(R.id.select_pop_timelimit);
-        Button virtul = view.findViewById(R.id.select_pop_virtul);
-        Button onw = view.findViewById(R.id.select_pop_onw);
-        Button sevendayreturn = view.findViewById(R.id.select_pop_sevendayreturn);
-        Button quality = view.findViewById(R.id.select_pop_quality);
-        Button mailing = view.findViewById(R.id.select_pop_mailing);
-        Button rapid = view.findViewById(R.id.select_pop_rapid);
-        Button btn = view.findViewById(R.id.select_pop_btn);
-        selectButton(gift);
-        selectButton(groupbuy);
-        selectButton(timelimit);
-        selectButton(virtul);
-        selectButton(onw);
-        selectButton(sevendayreturn);
-        selectButton(quality);
-        selectButton(mailing);
-        selectButton(rapid);
-        selectButton(btn);
+        final Button giftbtn = view.findViewById(R.id.select_pop_gift);
+        final Button groupbuybtn = view.findViewById(R.id.select_pop_groupbuy);
+        final Button timelimitbtn = view.findViewById(R.id.select_pop_timelimit);
+        final Button virtulbtn = view.findViewById(R.id.select_pop_virtul);
+        final Button onwbtn = view.findViewById(R.id.select_pop_onw);
+        final Button selectbtn = view.findViewById(R.id.select_pop_btn);
+        final Button resetbtn = view.findViewById(R.id.select_pop_reset);
+        selectbtn.setActivated(true);
+        resetbtn.setActivated(true);
+        selectButton(giftbtn);
+        selectButton(groupbuybtn);
+        selectButton(timelimitbtn);
+        selectButton(virtulbtn);
+        selectButton(onwbtn);
+        SelectedInfo.Area_list list = new SelectedInfo.Area_list();
+        list.area_id = "0";
+        list.area_name = "不限";
+        location.setOnClickListener(v -> {
+            spinner.performClick();
+        });
+
+        CommonAdapter adapter = new CommonAdapter<SelectedInfo.Contract_list>(mContext, contract_list, R.layout.select_pop_contract) {
+            @Override
+            public void convert(ViewHolder viewHolder, SelectedInfo.Contract_list item, int position, View convertView, ViewGroup parentViewGroup) {
+                Button btn = (Button) viewHolder.getView(R.id.select_btn);
+                btn.setText(item.name);
+                btn.setHint(item.id);
+                btn.setActivated(false);
+                selectButton(btn);
+            }
+        };
+
+        CommonAdapter adapter1 = new CommonAdapter<SelectedInfo.Area_list>(mContext, area_list, R.layout.item_text) {
+            @Override
+            public void convert(ViewHolder viewHolder, SelectedInfo.Area_list item, int position, View convertView, ViewGroup parentViewGroup) {
+                TextView text = viewHolder.getView(R.id.text);
+                text.setText(item.area_name);
+                text.setHint(item.area_id);
+            }
+        };
+        Handler handler = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                super.handleMessage(msg);
+                area_list.clear();
+                contract_list.clear();
+                if (msg.obj != null) {
+                    selectedInfo = ((SelectedInfo) msg.obj);
+                }
+                area_list = selectedInfo.area_list;
+                contract_list = selectedInfo.contract_list;
+                location.setText(list.area_name);
+                location.setHint(list.area_id);
+                minprice.setText("");
+                maxprice.setText("");
+                giftbtn.setActivated(false);
+                groupbuybtn.setActivated(false);
+                timelimitbtn.setActivated(false);
+                virtulbtn.setActivated(false);
+                onwbtn.setActivated(false);
+                area_list.add(0, list);
+                adapter.updataAdapter(contract_list);
+                adapter.notifyDataSetChanged();
+                adapter1.updataAdapter(area_list);
+                adapter1.notifyDataSetChanged();
+            }
+        };
+        gridView.setAdapter(adapter);
+        spinner.setAdapter(adapter1);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                SelectedInfo.Area_list area_list = (SelectedInfo.Area_list) spinner.getItemAtPosition(position);
+                location.setText(area_list.area_name);
+                location.setHint(area_list.area_id);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        getSelectData(handler);
+        resetbtn.setOnClickListener(v -> {
+            getSelectData(handler);
+        });
+        selectbtn.setOnClickListener(v -> {
+            if (Utils.isEmpty(minprice)) {
+                price_from = Utils.getEditViewText(minprice);
+            }
+            if (Utils.isEmpty(maxprice)) {
+                price_to = Utils.getEditViewText(maxprice);
+            }
+
+            if (!Utils.getTextViewText(location).equals("不限")) {
+                area_id = location.getHint().toString();
+            }
+
+            if (giftbtn.isActivated()) {
+                gift = "1";
+            }
+            if (groupbuybtn.isActivated()) {
+                groupbuy = "1";
+            }
+            if (timelimitbtn.isActivated()) {
+                xianshi = "1";
+            }
+            if (virtulbtn.isActivated()) {
+                virtual = "1";
+            }
+            if (onwbtn.isActivated()) {
+                own_shop = "1";
+            }
+            for (int i = 0; i < gridView.getChildCount(); i++) {
+                LinearLayout item = (LinearLayout) gridView.getChildAt(i);
+                Button button = item.findViewById(R.id.select_btn);
+                if (button.isActivated()) {
+                    ci += button.getHint().toString() + "_";
+                }
+            }
+            getData();
+            popupWindow.dismiss();
+
+        });
         WindowManager.LayoutParams lp = getWindow().getAttributes();
         lp.alpha = 0.8f;
         getWindow().setAttributes(lp);
@@ -277,6 +374,17 @@ public class GoodsListActivity extends BaseActivity<GoodsListPersenter, GoodsLis
             lp.alpha = 1f;
             getWindow().setAttributes(lp);
         });
+    }
+
+    private void getSelectData(Handler handler) {
+        new RxManager().add(Api.getDefault().getSelectedInfo().compose(RxHelper.handleResult()).subscribe(info -> {
+            Message ms = new Message();
+            ms.what = 1;
+            ms.obj = info;
+            handler.sendMessage(ms);
+        }, throwable -> {
+            showToast(throwable.getMessage());
+        }));
     }
 
     public void selectButton(Button btn) {
@@ -316,6 +424,11 @@ public class GoodsListActivity extends BaseActivity<GoodsListPersenter, GoodsLis
 
             @Override
             public void convert(BaseViewHolder holder, GoodsListInfo.GoodsListBean item) {
+                holder.itemView.setOnClickListener(v -> {
+                    Bundle bundle = new Bundle();
+                    bundle.putString("goods_id", item.goods_id);
+                    readyGo(GoodsDetailsActivity.class, bundle);
+                });
                 holder.setText(R.id.goodslist_item_list_name1, Utils.getString(item.goods_name));
                 holder.setText(R.id.goodslist_item_list_name2, Utils.getString(item.goods_jingle));
                 holder.setText(R.id.goodslist_item_list_salenumber, "销量：" + Utils.getString(item.goods_salenum));
@@ -393,11 +506,11 @@ public class GoodsListActivity extends BaseActivity<GoodsListPersenter, GoodsLis
         list.clear();
         if (info != null && info.size() > 0) {
             list.addAll(info);
-            adapter.notifyDataSetChanged();
             emptyview.setVisibility(View.GONE);
         } else {
             emptyview.setVisibility(View.VISIBLE);
         }
+        adapter.notifyDataSetChanged();
     }
 
 

@@ -168,8 +168,8 @@ public class RegisterActivity extends BaseActivity<RegisterPersenter, RegisterMo
         registerNext.setOnClickListener(v -> {
             if (isRegister) {
                 Bundle bundle = new Bundle();
-                bundle.putString(Constants.PHONE, Utils.getEditText(registerMobile));
-                bundle.putString(Constants.CAPTCHA, Utils.getEditText(registerSmscode));
+                bundle.putString(Constants.PHONE, Utils.getEditViewText(registerMobile));
+                bundle.putString(Constants.CAPTCHA, Utils.getEditViewText(registerSmscode));
                 readyGo(Register2Activity.class, bundle);
             } else {
                 showToast("请完善资料");

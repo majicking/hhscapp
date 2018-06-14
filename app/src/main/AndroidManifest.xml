@@ -36,7 +36,8 @@
         <activity android:name=".ui.main.fragment.mine.setting.SettingActivity" />
         <activity android:name=".view.scannercode.android.CaptureActivity" />
         <activity android:name=".ui.search.SearchActivity" />
-        <activity android:name=".ui.goods.goodslist.GoodsListActivity"></activity>
+        <activity android:name=".ui.goods.goodslist.GoodsListActivity" />
+        <activity android:name=".ui.goods.goodsdetailed.activity.GoodsDetailsActivity"></activity>
     </application>
 
 </manifest>

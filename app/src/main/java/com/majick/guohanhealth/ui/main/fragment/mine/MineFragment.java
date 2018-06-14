@@ -17,7 +17,7 @@ import com.majick.guohanhealth.app.Constants;
 import com.majick.guohanhealth.base.BaseFragment;
 import com.majick.guohanhealth.bean.MineInfo;
 import com.majick.guohanhealth.ui.login.LoginActivity;
-import com.majick.guohanhealth.ui.main.fragment.OnFragmentInteractionListener;
+import com.majick.guohanhealth.event.OnFragmentInteractionListener;
 import com.majick.guohanhealth.ui.main.fragment.mine.setting.SettingActivity;
 import com.majick.guohanhealth.utils.Logutils;
 import com.majick.guohanhealth.utils.Utils;

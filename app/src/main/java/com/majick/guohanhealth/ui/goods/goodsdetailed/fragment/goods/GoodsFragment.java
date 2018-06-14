@@ -1,4 +1,4 @@
-package com.majick.guohanhealth.ui.main.fragment.cart;
+package com.majick.guohanhealth.ui.goods.goodsdetailed.fragment.goods;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -7,7 +7,8 @@ import com.majick.guohanhealth.R;
 import com.majick.guohanhealth.base.BaseFragment;
 import com.majick.guohanhealth.event.OnFragmentInteractionListener;
 
-public class CartFragment extends BaseFragment<CartPersenter,CartModel>implements CartView {
+
+public class GoodsFragment extends BaseFragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
@@ -16,11 +17,11 @@ public class CartFragment extends BaseFragment<CartPersenter,CartModel>implement
 
     private OnFragmentInteractionListener mListener;
 
-    public CartFragment() {
+    public GoodsFragment() {
     }
 
-    public static CartFragment newInstance(String param1, String param2) {
-        CartFragment fragment = new CartFragment();
+    public static GoodsFragment newInstance(String param1, String param2) {
+        GoodsFragment fragment = new GoodsFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -38,15 +39,17 @@ public class CartFragment extends BaseFragment<CartPersenter,CartModel>implement
     }
 
 
+
     @Override
     protected int getContentViewLayoutID() {
-        return R.layout.fragment_cart;
+        return R.layout.fragment_goods;
     }
 
     @Override
     protected void initView(Bundle savedInstanceState) {
 
     }
+
 
     public void onButtonPressed(String key, Object value) {
         if (mListener != null) {
@@ -69,11 +72,6 @@ public class CartFragment extends BaseFragment<CartPersenter,CartModel>implement
     public void onDetach() {
         super.onDetach();
         mListener = null;
-    }
-
-    @Override
-    public void getData() {
-
     }
 
     @Override

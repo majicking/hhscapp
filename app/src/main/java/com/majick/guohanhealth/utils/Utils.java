@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.majick.guohanhealth.app.App;
 import com.majick.guohanhealth.ui.login.LoginActivity;
@@ -48,6 +49,14 @@ public class Utils {
         return false;
     }
 
+    public static boolean isEmpty(TextView textView) {
+        if (textView != null) {
+            String string = textView.getText().toString().trim();
+            return isEmpty(string);
+        }
+        return false;
+    }
+
 
     public static boolean isEmpty(String string) {
         if (string != null && string.length() > 0 && !"".equals(string) && !"[]".equals(string) && !"null".equals(string)) {
@@ -56,9 +65,16 @@ public class Utils {
         return false;
     }
 
-    public static String getEditText(EditText editText) {
+    public static String getEditViewText(EditText editText) {
         if (editText != null) {
-            return TextUtils.isEmpty(editText.getText().toString().trim()) ? "" : editText.getText().toString().trim();
+            return isEmpty(editText.getText().toString().trim()) ? editText.getText().toString().trim() : "";
+        }
+        return "";
+    }
+
+    public static String getTextViewText(TextView textView) {
+        if (textView != null) {
+            return isEmpty(textView.getText().toString().trim()) ? textView.getText().toString().trim() : "";
         }
         return "";
     }

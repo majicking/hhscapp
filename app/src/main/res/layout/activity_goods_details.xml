@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.goods.goodsdetailed.activity.GoodsDetailsActivity">
+
+    <RelativeLayout style="@style/match">
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/goodsdetail_view_viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <LinearLayout
+            style="@style/LLayout_48_h"
+            android:background="@color/translucent">
+
+            <ImageView
+                android:id="@+id/goodsdetail_back"
+                android:layout_width="@dimen/dp_28"
+                android:layout_height="match_parent"
+                android:src="@drawable/icon_back_select" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <View style="@style/layout_weight_h" />
+
+                <LinearLayout
+                    style="@style/layout_weight_h"
+                    android:layout_weight="3">
+
+                    <android.support.design.widget.TabLayout
+                        android:id="@+id/goodsdetail_view_tablayout"
+                        style="@style/match"
+                        app:tabGravity="fill"
+                        app:tabIndicatorColor="@color/appColor"
+                        app:tabMode="fixed"
+                        app:tabSelectedTextColor="@color/appColor"
+                        app:tabTextColor="#000000" />
+                </LinearLayout>
+
+                <View style="@style/layout_weight_h" />
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/goodsdetail_more"
+                android:layout_width="@dimen/dp_48"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:padding="@dimen/dp_10"
+                android:src="@drawable/icon_more" />
+        </LinearLayout>
+    </RelativeLayout>
+
+</LinearLayout>

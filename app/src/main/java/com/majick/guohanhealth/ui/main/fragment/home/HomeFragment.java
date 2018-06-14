@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -25,8 +24,7 @@ import com.majick.guohanhealth.bean.Home3Info;
 import com.majick.guohanhealth.bean.Home4Info;
 import com.majick.guohanhealth.bean.Home5Info;
 import com.majick.guohanhealth.bean.HomeMenuBtn;
-import com.majick.guohanhealth.bean.SearchWordsInfo;
-import com.majick.guohanhealth.ui.main.fragment.OnFragmentInteractionListener;
+import com.majick.guohanhealth.event.OnFragmentInteractionListener;
 import com.majick.guohanhealth.ui.search.SearchActivity;
 import com.majick.guohanhealth.utils.Utils;
 import com.majick.guohanhealth.utils.engine.GlideEngine;
@@ -44,7 +42,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.Unbinder;
 
 import static android.app.Activity.RESULT_OK;
 

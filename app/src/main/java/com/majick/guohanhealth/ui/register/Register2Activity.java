@@ -88,10 +88,10 @@ public class Register2Activity extends BaseActivity<Register2Persenter, Register
             if (isRegister) {
                 mPresenter.registerMobile(
                         getIntent().getStringExtra(Constants.PHONE),
-                        Utils.getEditText(edusername),
-                        Utils.getEditText(etPassword),
+                        Utils.getEditViewText(edusername),
+                        Utils.getEditViewText(etPassword),
                         getIntent().getStringExtra(Constants.CAPTCHA),
-                        Utils.getEditText(etcode));
+                        Utils.getEditViewText(etcode));
             } else {
                 showToast("请完善资料");
             }

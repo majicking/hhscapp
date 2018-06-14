@@ -22,7 +22,7 @@ public interface Constants {
     String APP = BuildConfig.APP;
     String WEB = BuildConfig.WEB;
     String URLHEAD = HEAD + HOST + ":" + PORT + APP;
-    String URLHEAD_WEB = HEAD + HOST + ":" + PORT +WEB ;
+    String URLHEAD_WEB = HEAD + HOST + ":" + PORT + WEB;
     String INDEX = "index.php?";
     String URL = URLHEAD + INDEX;
     String CHAT_SERVER_URL = HEAD + HOST + ":33/socket.io/socket.io.js?_=1524556674600";
@@ -37,27 +37,13 @@ public interface Constants {
 
     String WAP_BRAND_ICON = HEAD + HOST + ":" + PORT + "/wap/images/degault.png";
     /**
-     *
      * 常量 标识
-     *
-     * */
-
-    /**
-     * 首页跳转
+     * 页面参数传递
      */
     String MAINNUMBER = "main_number";
-    /**
-     * 底部栏购物车数量
-     */
     String BROADCAST_CARTNUMBER = "1";
-    /**
-     * 注册页面参数传递
-     */
     String PHONE = "phone";
     String CAPTCHA = "captcha";
-    /**
-     * 保存用户信息
-     */
     String USERNAME = "userName";
     String USERID = "userId";
     String KEY = "key";
@@ -71,6 +57,7 @@ public interface Constants {
     String HOTNAME = "hotname;";
     String HOTVALUE = "hotvalue;";
     String KEYWORD = "keyword;";
+    String GOODS_ID = "goods_id";
     /**
      * 相机权限请求
      */
@@ -88,5 +75,6 @@ public interface Constants {
             Color.parseColor("#ED5564")
     };
 
-  int RANDOMCOLOR =BGCOLORS[new Random().nextInt(10)];
+    int RANDOMCOLOR = BGCOLORS[new Random().nextInt(10)];
+
 }

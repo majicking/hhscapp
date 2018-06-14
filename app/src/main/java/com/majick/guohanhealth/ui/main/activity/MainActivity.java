@@ -19,7 +19,6 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
@@ -34,7 +33,7 @@ import com.majick.guohanhealth.ui.main.fragment.cart.CartFragment;
 import com.majick.guohanhealth.ui.main.fragment.classtype.ClassTypeFragment;
 import com.majick.guohanhealth.ui.main.fragment.home.HomeFragment;
 import com.majick.guohanhealth.ui.main.fragment.mine.MineFragment;
-import com.majick.guohanhealth.ui.main.fragment.OnFragmentInteractionListener;
+import com.majick.guohanhealth.event.OnFragmentInteractionListener;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;

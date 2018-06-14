@@ -33,7 +33,7 @@ import com.majick.guohanhealth.base.BaseFragment;
 import com.majick.guohanhealth.bean.BrandListInfo;
 import com.majick.guohanhealth.bean.GoodsClassChildInfo;
 import com.majick.guohanhealth.bean.GoodsClassInfo;
-import com.majick.guohanhealth.ui.main.fragment.OnFragmentInteractionListener;
+import com.majick.guohanhealth.event.OnFragmentInteractionListener;
 import com.majick.guohanhealth.ui.search.SearchActivity;
 import com.majick.guohanhealth.utils.engine.GlideEngine;
 import com.majick.guohanhealth.view.scannercode.android.CaptureActivity;

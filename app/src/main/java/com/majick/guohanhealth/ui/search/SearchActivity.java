@@ -22,7 +22,6 @@ import com.majick.guohanhealth.app.App;
 import com.majick.guohanhealth.app.Constants;
 import com.majick.guohanhealth.base.BaseActivity;
 import com.majick.guohanhealth.bean.SearchInfo;
-import com.majick.guohanhealth.bean.SearchWordsInfo;
 import com.majick.guohanhealth.ui.goods.goodslist.GoodsListActivity;
 import com.majick.guohanhealth.utils.Utils;
 import com.majick.guohanhealth.view.NoScrollGridView;
@@ -32,7 +31,6 @@ import java.util.List;
 import java.util.Random;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 public class SearchActivity extends BaseActivity<SearchPercenter, SearchModel> implements SearchView {
 
@@ -68,7 +66,7 @@ public class SearchActivity extends BaseActivity<SearchPercenter, SearchModel> i
     protected void initView(Bundle savedInstanceState) {
         searchBack.setOnClickListener(v -> finish());
         searchBtn.setOnClickListener(v -> {
-            doSomeThing(Utils.getEditText(searchEdit));
+            doSomeThing(Utils.getEditViewText(searchEdit));
         });
         hotlist = new ArrayList<>();
         historylist = new ArrayList<>();
