@@ -14,6 +14,12 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">@color/djk_textcolor444</item>
     </style>
+    <!--占位-->
+    <style name="linearlayout_zw">
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_height">@dimen/dp_0</item>
+        <item name="android:layout_width">@dimen/dp_0</item>
+    </style>
     <!-- 分隔线 -->
     <style name="djk_line">
         <item name="android:layout_width">match_parent</item>
@@ -21,7 +27,7 @@
         <item name="android:background">@color/djk_linecolor</item>
     </style>
     <!-- 分隔线 -->
-    <style name="djk_line_v">
+    <style name="djk_line_h">
         <item name="android:layout_width">@dimen/dp_1</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:background">@color/djk_linecolor</item>
@@ -45,6 +51,12 @@
         <item name="android:background">@color/djk_linecolor</item>
     </style>
 
+    <style name="icon_48">
+        <item name="android:padding">@dimen/dp_10</item>
+        <item name="android:layout_width">@dimen/dp_48</item>
+        <item name="android:layout_height">@dimen/dp_48</item>
+
+    </style>
 
     <style name="warp">
         <item name="android:layout_height">wrap_content</item>
@@ -67,11 +79,14 @@
     </style>
 
     <style name="left15" parent="warp">
+        <item name="android:layout_alignParentLeft">true</item>
         <item name="android:layout_centerVertical">true</item>
         <item name="android:layout_marginLeft">@dimen/dp_15</item>
     </style>
 
     <style name="right15" parent="warp">
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:layout_centerVertical">true</item>
         <item name="android:layout_marginRight">@dimen/dp_15</item>
     </style>
 

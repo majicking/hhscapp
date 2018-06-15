@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/white"
+    android:layout_height="match_parent"
     android:orientation="vertical">
-
+    <LinearLayout
+        android:orientation="vertical"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
     <LinearLayout
         style="@style/LLayout_48_h"
         android:layout_height="@dimen/dp_30"
@@ -28,6 +31,7 @@
             android:background="@color/djk_bgcolor"
             android:gravity="center"
             android:hint="最低价"
+            android:inputType="numberDecimal|number"
             android:textColorHint="@color/nc_text"
             android:textSize="@dimen/sp_12" />
 
@@ -38,6 +42,7 @@
             android:background="@color/black" />
 
         <EditText
+            android:inputType="numberDecimal|number"
             android:id="@+id/select_pop_maxprice"
             style="@style/left15"
             android:layout_width="@dimen/dp_100"
@@ -182,6 +187,9 @@
             android:layout_weight="1"
             android:text="筛选商品" />
     </LinearLayout>
-
-
+    </LinearLayout>
+<View
+    android:background="@color/translucent1"
+    android:id="@+id/nullview"
+    style="@style/match"/>
 </LinearLayout>

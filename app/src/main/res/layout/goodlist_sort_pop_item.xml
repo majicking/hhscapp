@@ -2,15 +2,17 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/white"
     android:orientation="vertical">
 
     <TextView
         android:id="@+id/text"
         android:paddingRight="@dimen/dp_15"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_35"
+        android:layout_height="@dimen/dp_48"
         android:drawableRight="@drawable/goodslist_popu_check_mark"
         android:gravity="center_vertical"
+        android:textColor="@color/blue_dark_btn"
         android:paddingLeft="@dimen/dp_15"
         android:textSize="@dimen/sp_14" />
 </LinearLayout>

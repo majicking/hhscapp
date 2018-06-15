@@ -5,6 +5,7 @@ import com.majick.guohanhealth.app.Constants;
 import com.majick.guohanhealth.bean.BrandListInfo;
 import com.majick.guohanhealth.bean.GoodsClassChildInfo;
 import com.majick.guohanhealth.bean.GoodsClassInfo;
+import com.majick.guohanhealth.bean.GoodsInfo;
 import com.majick.guohanhealth.bean.GoodsListInfo;
 import com.majick.guohanhealth.bean.ImgCodeKey;
 import com.majick.guohanhealth.bean.LoginBean;
@@ -50,6 +51,7 @@ public interface ApiService {
     String SEARCHDATAWORDS = Constants.INDEX + "act=index&op=search_hot_info";
     String GOODSLIST = Constants.INDEX + "act=goods&op=goods_list";
     String SEARCH_ADV = Constants.INDEX + "act=index&op=search_adv";
+    String GOODS_DETAIL = Constants.INDEX + "act=goods&op=goods_detail";
 
 
     /**
@@ -170,11 +172,17 @@ public interface ApiService {
 
 
     /**
-     * //     * 获取最近点单商品信息
-     * //
+     * 获取地区和服务
      */
     @GET(SEARCH_ADV)
     Observable<Result<SelectedInfo>> getSelectedInfo();
+
+
+    /**
+     * 获取商品详细
+     */
+    @GET(GOODS_DETAIL)
+    Observable<Result<GoodsInfo>> getGoodsDetails(@Query("goods_id") String goods_id, @Query("key") String key);
 
 
 //    /**

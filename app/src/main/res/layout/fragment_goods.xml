@@ -1,61 +1,335 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.goods.goodsdetailed.fragment.goods.GoodsFragment">
 
-    <ScrollView
-        android:id="@+id/scrollview"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:background="@color/background_color40"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_320">
+
+            <com.youth.banner.Banner
+                android:id="@+id/goods_banner"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"></com.youth.banner.Banner>
+
+            <ImageView
+                android:id="@+id/goods_collect"
+                style="@style/icon_48"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:padding="@dimen/dp_15"
+                android:src="@drawable/goodsdetail_collectbg" />
+
+            <ImageView
+                android:id="@+id/goods_share"
+                style="@style/icon_48"
+                android:layout_alignParentBottom="true"
+                android:layout_toLeftOf="@+id/goods_collect"
+                android:padding="@dimen/dp_14"
+                android:src="@drawable/icon_share" />
+
+        </RelativeLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_228"
-                android:background="@color/background_color30">
+            <TextView
+                android:id="@+id/goods_name1"
+                style="@style/left15"
+                android:text="@string/app_name" />
 
-                <com.youth.banner.Banner
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"></com.youth.banner.Banner>
+            <TextView
+                android:id="@+id/goods_name2"
+                style="@style/djk_text"
+                android:layout_marginLeft="@dimen/dp_15"
+                android:text="@string/app_name" />
 
-                <ImageView
-                    android:id="@+id/goods_collect"
-                    android:layout_width="@dimen/dp_38"
-                    android:layout_height="@dimen/dp_38"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_margin="@dimen/dp_15"
-                    android:src="@drawable/goodsdetail_collectbg" />
-
-                <ImageView
-                    android:layout_width="@dimen/dp_38"
-                    android:layout_height="@dimen/dp_38"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginBottom="@dimen/dp_15"
-
-                    android:layout_toLeftOf="@+id/goods_collect"
-                    android:src="@drawable/icon_like" />
-
-            </RelativeLayout>
-
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+            <RelativeLayout style="@style/RLayout_48">
 
                 <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:id="@+id/goods_price"
+                    style="@style/left15"
+                    android:text="￥0.00"
+                    android:textColor="@color/appColor" />
+
+                <TextView
+                    android:id="@+id/goods_solenum"
+                    style="@style/right15"
+                    android:text="销量：0件" />
+            </RelativeLayout>
+
+            <View style="@style/djk_line" />
+
+            <LinearLayout
+                android:id="@+id/goods_view_loca"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_55"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/left15"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:gravity="center"
-                    android:text="@string/app_name" />
+                    android:text="送\n至" />
+
+                <View style="@style/djk_line_h" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="7"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        style="@style/match_warp"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical">
+
+                        <TextView
+                            android:id="@+id/goods_loca"
+                            style="@style/left15"
+                            android:text="全国" />
+
+                        <TextView
+                            android:id="@+id/goods_havegoods"
+                            style="@style/left15"
+                            android:text="有货"
+                            android:textColor="@color/appColor" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/goods_runmoney"
+                        style="@style/left15"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text="运费:0.00" />
+                </LinearLayout>
+
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:layout_width="@dimen/dp_20"
+                        android:layout_height="@dimen/dp_20"
+                        android:src="@mipmap/icon_loca" />
+                </RelativeLayout>
+            </LinearLayout>
+
+            <View style="@style/djk_line" />
+
+            <LinearLayout style="@style/LLayout_48_h">
+
+                <TextView
+                    style="@style/left15"
+                    android:text="已选" />
+
+                <TextView
+                    style="@style/left15"
+                    android:text="数量 x1" />
+
+                <View style="@style/linearlayout_zw" />
+<TextView style="@style/warp" android:text="已选择默认" />
+                <ImageView
+                    style="@style/icon_48"
+                    android:src="@mipmap/more" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/left15"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="服\n务" />
+
+                <View style="@style/djk_line_h" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="9"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        style="@style/match_warp"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical">
+
+
+                        <TextView
+                            style="@style/left15"
+                            android:textColor="@color/appColor"
+                            android:textSize="@dimen/dp_14" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"></LinearLayout>
+
+                    <LinearLayout
+                        style="@style/match_warp"
+                        android:orientation="horizontal">
+
+                        <com.majick.guohanhealth.view.NoScrollGridView
+                            android:id="@+id/goods_view_gridview"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:numColumns="3"
+                            android:visibility="gone"></com.majick.guohanhealth.view.NoScrollGridView>
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout style="@style/LLayout_48_h">
+
+                <TextView
+                    style="@style/left15"
+                    android:text="商品评价：" />
+
+                <TextView
+                    style="@style/left15"
+                    android:text="好评率100%"
+                    android:textColor="@color/appColor" />
+
+                <View style="@style/linearlayout_zw" />
+
+                <TextView
+                    style="@style/warp"
+                    android:text="(0)人评价" />
+
+                <ImageView
+                    style="@style/icon_48"
+                    android:src="@mipmap/more" />
+            </LinearLayout>
+
+            <View style="@style/djk_line" />
+
+            <LinearLayout style="@style/LLayout_48_h">
+
+                <ImageView
+                    android:layout_width="@dimen/dp_28"
+                    android:layout_height="@dimen/dp_28"
+                    android:layout_marginLeft="@dimen/dp_15"
+                    android:src="@mipmap/nc_icon_store" />
+
+                <TextView
+                    style="@style/left15"
+                    android:layout_marginLeft="@dimen/dp_5"
+                    android:text="karcher凯驰旗舰店" />
+
+                <View style="@style/linearlayout_zw" />
+
+                <ImageView
+                    style="@style/icon_48"
+                    android:src="@mipmap/more" />
+            </LinearLayout>
+
+            <View style="@style/djk_line" />
+
+            <LinearLayout style="@style/match_warp">
+
+                <LinearLayout style="@style/layout_weight_h">
+
+                    <TextView
+                        style="@style/left15"
+                        android:text="描述相符:" />
+
+                    <TextView
+                        style="@style/warp"
+                        android:text="5.0"
+                        android:textColor="@color/appColor" />
+
+                    <TextView
+                        style="@style/warp"
+                        android:background="@color/appColor"
+                        android:text="平"
+                        android:textColor="@color/white" />
+
+                </LinearLayout>
+
+                <LinearLayout style="@style/layout_weight_h">
+
+                    <TextView
+                        style="@style/warp"
+                        android:text="描述相符:" />
+
+                    <TextView
+                        style="@style/warp"
+                        android:text="5.0"
+                        android:textColor="@color/appColor" />
+
+                    <TextView
+                        style="@style/warp"
+                        android:background="@color/appColor"
+                        android:text="平"
+                        android:textColor="@color/white" />
+
+                </LinearLayout>
+
+                <LinearLayout style="@style/layout_weight_h">
+
+                    <TextView
+                        style="@style/warp"
+                        android:text="描述相符:" />
+
+                    <TextView
+                        style="@style/warp"
+                        android:text="5.0"
+                        android:textColor="@color/appColor" />
+
+                    <TextView
+                        style="@style/warp"
+                        android:background="@color/appColor"
+                        android:text="平"
+                        android:textColor="@color/white" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/match_warp"
+                android:orientation="vertical">
+
+                <LinearLayout style="@style/LLayout_48_h">
+
+                    <TextView
+                        style="@style/left15"
+                        android:text="店铺推荐" />
+
+                </LinearLayout>
+
+                <com.majick.guohanhealth.view.NoScrollGridView
+                    android:id="@+id/goods_view_gridview1"
+                    style="@style/match_warp"></com.majick.guohanhealth.view.NoScrollGridView>
+
             </LinearLayout>
         </LinearLayout>
-    </ScrollView>
-</LinearLayout>
+
+
+    </LinearLayout>
+</ScrollView>

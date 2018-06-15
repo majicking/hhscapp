@@ -17,8 +17,11 @@
     <color name="blue_text">#0080FF</color>
     <color name="black">#000000</color>
     <color name="translucent">#00000000</color>
+    <color name="translucent1">#80000000</color>
+    <color name="translucent2">#80FFFFFF</color>
+    <color name="translucent3">#4Dca0d0d</color>
     <color name="colorText">#2C2C2C</color>
-    <color name="colorBackground">#EEEEEE</color>
+    <color name="colorBackground">#F0EFF4</color>
     <color name="comment_line">#dddddd</color>
     <color name="grey">#cccccc</color>
 

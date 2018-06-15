@@ -53,7 +53,7 @@
                         android:scaleType="fitXY" />
                 </LinearLayout>
 
-                <View style="@style/djk_line_v" />
+                <View style="@style/djk_line_h" />
 
                 <ImageView
                     android:id="@+id/img3"

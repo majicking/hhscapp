@@ -34,7 +34,7 @@
                     android:layout_weight="1"
                     android:scaleType="fitXY" />
 
-                <View style="@style/djk_line_v" />
+                <View style="@style/djk_line_h" />
 
                 <LinearLayout
                     android:layout_width="0dp"

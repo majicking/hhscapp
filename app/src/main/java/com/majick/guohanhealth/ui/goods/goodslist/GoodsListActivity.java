@@ -169,6 +169,8 @@ public class GoodsListActivity extends BaseActivity<GoodsListPersenter, GoodsLis
         popupWindow.setOutsideTouchable(true);
         popupWindow.setBackgroundDrawable(new BitmapDrawable(getResources(), (Bitmap) null));
         ListView listView = view.findViewById(R.id.pop_recycle);
+        View nullview = view.findViewById(R.id.nullview);
+        nullview.setOnClickListener(v -> popupWindow.dismiss());
         List<String> list = new ArrayList<>(Arrays.asList("综合排序", "价格降序", "价格升序", "人气排行"));
         for (int i = 0; i < list.size(); i++) {
             if (list.get(i).equals(goodslistTextSort.getText().toString())) {
@@ -214,14 +216,7 @@ public class GoodsListActivity extends BaseActivity<GoodsListPersenter, GoodsLis
             getData();
             popupWindow.dismiss();
         });
-        WindowManager.LayoutParams lp = getWindow().getAttributes();
-        lp.alpha = 0.5f;
-        getWindow().setAttributes(lp);
         popupWindow.showAsDropDown(goodslistViewSort);
-        popupWindow.setOnDismissListener(() -> {
-            lp.alpha = 1f;
-            getWindow().setAttributes(lp);
-        });
     }
 
     static SelectedInfo selectedInfo;
@@ -237,6 +232,8 @@ public class GoodsListActivity extends BaseActivity<GoodsListPersenter, GoodsLis
         popupWindow.setTouchable(true);
         popupWindow.setOutsideTouchable(true);
         popupWindow.setBackgroundDrawable(new BitmapDrawable(getResources(), (Bitmap) null));
+        View nullview = view.findViewById(R.id.nullview);
+        nullview.setOnClickListener(v -> popupWindow.dismiss());
         NoScrollGridView gridView = view.findViewById(R.id.gridview);
         Spinner spinner = view.findViewById(R.id.select_pop_spinner);
         TextView location = view.findViewById(R.id.select_pop_location);
@@ -297,11 +294,11 @@ public class GoodsListActivity extends BaseActivity<GoodsListPersenter, GoodsLis
                 location.setHint(list.area_id);
                 minprice.setText("");
                 maxprice.setText("");
-                giftbtn.setActivated(false);
-                groupbuybtn.setActivated(false);
-                timelimitbtn.setActivated(false);
-                virtulbtn.setActivated(false);
-                onwbtn.setActivated(false);
+                resetButton(giftbtn);
+                resetButton(groupbuybtn);
+                resetButton(timelimitbtn);
+                resetButton(virtulbtn);
+                resetButton(onwbtn);
                 area_list.add(0, list);
                 adapter.updataAdapter(contract_list);
                 adapter.notifyDataSetChanged();
@@ -366,14 +363,7 @@ public class GoodsListActivity extends BaseActivity<GoodsListPersenter, GoodsLis
             popupWindow.dismiss();
 
         });
-        WindowManager.LayoutParams lp = getWindow().getAttributes();
-        lp.alpha = 0.8f;
-        getWindow().setAttributes(lp);
         popupWindow.showAsDropDown(goodslistViewSelect);
-        popupWindow.setOnDismissListener(() -> {
-            lp.alpha = 1f;
-            getWindow().setAttributes(lp);
-        });
     }
 
     private void getSelectData(Handler handler) {
@@ -396,6 +386,11 @@ public class GoodsListActivity extends BaseActivity<GoodsListPersenter, GoodsLis
             }
             btn.setActivated(!btn.isActivated());
         });
+    }
+
+    public void resetButton(Button btn) {
+        btn.setActivated(false);
+        btn.setTextColor(getResources().getColor(R.color.nc_text));
     }
 
     public void Reset() {
