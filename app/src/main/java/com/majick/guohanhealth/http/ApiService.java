@@ -5,7 +5,7 @@ import com.majick.guohanhealth.app.Constants;
 import com.majick.guohanhealth.bean.BrandListInfo;
 import com.majick.guohanhealth.bean.GoodsClassChildInfo;
 import com.majick.guohanhealth.bean.GoodsClassInfo;
-import com.majick.guohanhealth.bean.GoodsInfo;
+import com.majick.guohanhealth.bean.GoodsDetailedInfo;
 import com.majick.guohanhealth.bean.GoodsListInfo;
 import com.majick.guohanhealth.bean.ImgCodeKey;
 import com.majick.guohanhealth.bean.LoginBean;
@@ -182,7 +182,7 @@ public interface ApiService {
      * 获取商品详细
      */
     @GET(GOODS_DETAIL)
-    Observable<Result<GoodsInfo>> getGoodsDetails(@Query("goods_id") String goods_id, @Query("key") String key);
+    Observable<Result<GoodsDetailedInfo>> getGoodsDetails(@Query("goods_id") String goods_id, @Query("key") String key);
 
 
 //    /**

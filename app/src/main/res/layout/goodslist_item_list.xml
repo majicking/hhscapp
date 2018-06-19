@@ -132,6 +132,7 @@
                     android:textSize="12dp" />
 
                 <TextView
+                    android:visibility="invisible"
                     android:id="@+id/goodslist_item_list_ownstore"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

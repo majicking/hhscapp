@@ -224,6 +224,7 @@
                         android:padding="@dimen/dp_3">
 
                         <TextView
+                            android:text="1"
                             android:id="@+id/mine_order_num_2"
                             style="@style/mine_order_number"
                             android:visibility="invisible" />

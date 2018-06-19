@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.majick.guohanhealth.R;
+import com.majick.guohanhealth.app.App;
 import com.majick.guohanhealth.app.Constants;
 import com.majick.guohanhealth.base.BaseActivity;
 import com.majick.guohanhealth.event.OnFragmentInteractionListener;
@@ -55,14 +56,15 @@ public class GoodsDetailsActivity extends BaseActivity<GoodsDetailsPersenter, Go
         goods_id = getIntent().getStringExtra(Constants.GOODS_ID);
         goodsdetailBack.setOnClickListener(v -> finish());
         fragmentList = new ArrayList<>();
-        fragmentList.add(GoodsFragment.newInstance("", ""));
-        fragmentList.add(GoodsDetailFragment.newInstance("", ""));
-        fragmentList.add(CommentFragment.newInstance("", ""));
+        fragmentList.add(GoodsFragment.newInstance(goods_id, ""));
+        fragmentList.add(GoodsDetailFragment.newInstance(goods_id, ""));
+        fragmentList.add(CommentFragment.newInstance(goods_id, ""));
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         goodsdetailViewViewpager.setAdapter(adapter);
         goodsdetailViewViewpager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(goodsdetailViewTablayout));
         goodsdetailViewTablayout.setupWithViewPager(goodsdetailViewViewpager);
         goodsdetailViewViewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+
 
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -74,7 +76,7 @@ public class GoodsDetailsActivity extends BaseActivity<GoodsDetailsPersenter, Go
                 if (position == 0) {
                     line.setVisibility(View.GONE);
                     goodsdetailViewTablayout.setSelectedTabIndicatorColor(getResources().getColor(R.color.translucent));
-                    goodsdetailViewTablayout.setTabTextColors(getResources().getColor(R.color.white),getResources().getColor(R.color.appColor));
+                    goodsdetailViewTablayout.setTabTextColors(getResources().getColor(R.color.white), getResources().getColor(R.color.appColor));
                     goodsdetailViewTitle.setBackgroundColor(getResources().getColor(R.color.translucent));
                     goodsdetailViewTitle.setSelected(false);
                     goodsdetailBack.setSelected(false);
@@ -82,7 +84,7 @@ public class GoodsDetailsActivity extends BaseActivity<GoodsDetailsPersenter, Go
                 } else {
                     goodsdetailViewTablayout.setSelectedTabIndicatorColor(getResources().getColor(R.color.appColor));
                     goodsdetailViewTitle.setBackgroundColor(getResources().getColor(R.color.white));
-                    goodsdetailViewTablayout.setTabTextColors(getResources().getColor(R.color.nc_text),getResources().getColor(R.color.appColor));
+                    goodsdetailViewTablayout.setTabTextColors(getResources().getColor(R.color.nc_text), getResources().getColor(R.color.appColor));
                     line.setVisibility(View.VISIBLE);
                     goodsdetailViewTablayout.setSelected(true);
                     goodsdetailMore.setSelected(true);
@@ -99,11 +101,6 @@ public class GoodsDetailsActivity extends BaseActivity<GoodsDetailsPersenter, Go
 
     @Override
     public void doSomeThing(String key, Object value) {
-
-    }
-
-    @Override
-    public void getGoodsDetails(Object o) {
 
     }
 

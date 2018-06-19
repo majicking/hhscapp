@@ -10,6 +10,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -34,6 +35,7 @@ import com.majick.guohanhealth.ui.main.fragment.classtype.ClassTypeFragment;
 import com.majick.guohanhealth.ui.main.fragment.home.HomeFragment;
 import com.majick.guohanhealth.ui.main.fragment.mine.MineFragment;
 import com.majick.guohanhealth.event.OnFragmentInteractionListener;
+import com.majick.guohanhealth.utils.Logutils;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -205,17 +207,12 @@ public class MainActivity extends BaseActivity implements OnFragmentInteractionL
                         FrameLayout container = (FrameLayout) view.findViewById(R.id.fixed_bottom_navigation_container);
                         container.setLayoutParams(params);
                         container.setPadding(dip2px(12), dip2px(0), dip2px(12), dip2px(0));
-
-                        TextView badge = (TextView) view.findViewById(R.id.fixed_bottom_navigation_badge);
-                        badge.setTextSize(12);
-
                         //获取到Tab内的文字控件
                         TextView labelView = (TextView) view.findViewById(com.ashokvarma.bottomnavigation.R.id.fixed_bottom_navigation_title);
                         //计算文字的高度DP值并设置，setTextSize为设置文字正方形的对角线长度，所以：文字高度（总内容高度减去间距和图片高度）*根号2即为对角线长度，此处用DP值，设置该值即可。
                         labelView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, textSize);
                         labelView.setIncludeFontPadding(false);
                         labelView.setPadding(0, 0, 0, dip2px(20 - textSize - space / 2));
-
                         //获取到Tab内的图像控件
                         ImageView iconView = (ImageView) view.findViewById(com.ashokvarma.bottomnavigation.R.id.fixed_bottom_navigation_icon);
                         //设置图片参数，其中，MethodUtils.dip2px()：换算dp值
@@ -223,6 +220,15 @@ public class MainActivity extends BaseActivity implements OnFragmentInteractionL
                         params.setMargins(0, 0, 0, space / 2);
                         params.gravity = Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL;
                         iconView.setLayoutParams(params);
+
+                        TextView badge = (TextView) view.findViewById(R.id.fixed_bottom_navigation_badge);
+                        FrameLayout.LayoutParams params1 = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                        badge.post(() -> {
+                            params1.setMargins(labelView.getWidth() - labelView.getWidth() / 2, 35, 0, 0);
+                            badge.setLayoutParams(params1);
+                        });
+                        badge.setTextSize(12);
+
                     }
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
