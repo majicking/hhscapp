@@ -10,6 +10,7 @@ import com.majick.guohanhealth.app.App;
 import com.majick.guohanhealth.ui.login.LoginActivity;
 
 import java.lang.reflect.ParameterizedType;
+import java.util.List;
 
 /**
  * 2018/4/27 15:14
@@ -46,6 +47,18 @@ public class Utils {
             String string = editText.getText().toString().trim();
             return isEmpty(string);
         }
+        return false;
+    }
+
+    public static boolean isEmpty(List<?> list) {
+        if (list != null && list.size() > 0)
+            return true;
+        return false;
+    }
+
+    public static boolean isEmpty(Object[] list) {
+        if (list != null && list.length > 0)
+            return true;
         return false;
     }
 

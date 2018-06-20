@@ -48,6 +48,25 @@ public class App extends Application {
     private String hotvalue;
     private SharedPreferences sharedPreferences;
     private Member_info info;
+    private int page_total=1;
+    private String hasmore;
+
+    public int getPage_total() {
+        return page_total;
+    }
+
+    public void setPage_total(int page_total) {
+        this.page_total = page_total;
+    }
+
+    public String Hasmore() {
+        return hasmore;
+    }
+
+    public void setHasmore(String hasmore) {
+        this.hasmore = hasmore;
+    }
+
     public String getHotname() {
         return sharedPreferences.getString(Constants.HOTNAME, "");
     }

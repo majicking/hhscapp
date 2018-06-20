@@ -12,7 +12,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -28,6 +27,7 @@ import com.majick.guohanhealth.adapter.BaseRecyclerAdapter;
 import com.majick.guohanhealth.adapter.BaseViewHolder;
 import com.majick.guohanhealth.adapter.CommonAdapter;
 import com.majick.guohanhealth.adapter.ViewHolder;
+import com.majick.guohanhealth.app.App;
 import com.majick.guohanhealth.app.Constants;
 import com.majick.guohanhealth.base.BaseActivity;
 import com.majick.guohanhealth.bean.GoodsListInfo;
@@ -108,13 +108,26 @@ public class GoodsListActivity extends BaseActivity<GoodsListPersenter, GoodsLis
     String virtual;
     String own_shop;
     String ci;
+    boolean isload;
 
     @Override
     protected void initView(Bundle savedInstanceState) {
         back.setOnClickListener(v -> finish());
         goodslistViewSearch.setOnClickListener(v -> readyGoThenKill(SearchActivity.class));
         goodslistViewSmartrefresh.setRefreshHeader(new WaterDropHeader(mContext));
-        goodslistViewSmartrefresh.setOnRefreshListener((v) -> getData());
+        goodslistViewSmartrefresh.setOnRefreshListener((v) -> {
+            getData();
+        });
+        goodslistViewSmartrefresh.setOnLoadMoreListener((v) -> {
+            if (App.getApp().Hasmore().equals("true")) {
+                curpage = "" + App.getApp().getPage_total();
+                isload = true;
+                getData();
+            } else {
+                goodslistViewSmartrefresh.finishLoadMore();
+            }
+        });
+
         emptyview.setEmptyText1("点击重新加载").setOnClickListener(v -> {
             goodslistViewSmartrefresh.finishRefresh(false);
             getData();
@@ -139,8 +152,9 @@ public class GoodsListActivity extends BaseActivity<GoodsListPersenter, GoodsLis
         });
         goodslistViewSort.setOnClickListener(v -> {
             Reset();
-            showSortPopu();
+            showSortPopu();//
             goodslistTextSort.setTextColor(getResources().getColor(R.color.appColor));
+            goodslistTextSort.setSelected(true);
         });
         goodslistViewAdvance.setOnClickListener(v -> {
             Reset();
@@ -153,7 +167,7 @@ public class GoodsListActivity extends BaseActivity<GoodsListPersenter, GoodsLis
             Reset();
             showSelectPopu();
             goodslistTextSelect.setTextColor(getResources().getColor(R.color.appColor));
-
+            goodslistTextSelect.setSelected(true);
         });
         getData();
 
@@ -394,6 +408,8 @@ public class GoodsListActivity extends BaseActivity<GoodsListPersenter, GoodsLis
     }
 
     public void Reset() {
+        goodslistTextSort.setSelected(false);
+        goodslistTextSelect.setSelected(false);
         goodslistTextSort.setTextColor(getResources().getColor(R.color.nc_text));
         goodslistTextAdvance.setTextColor(getResources().getColor(R.color.nc_text));
         goodslistTextSelect.setTextColor(getResources().getColor(R.color.nc_text));
@@ -498,7 +514,10 @@ public class GoodsListActivity extends BaseActivity<GoodsListPersenter, GoodsLis
     @Override
     public void getGoodsListData(List<GoodsListInfo.GoodsListBean> info) {
         goodslistViewSmartrefresh.finishRefresh();
-        list.clear();
+        goodslistViewSmartrefresh.finishLoadMore();
+        if (!isload) {
+            list.clear();
+        }
         if (info != null && info.size() > 0) {
             list.addAll(info);
             emptyview.setVisibility(View.GONE);

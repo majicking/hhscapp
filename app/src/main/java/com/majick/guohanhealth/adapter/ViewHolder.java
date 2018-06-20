@@ -18,8 +18,7 @@ import com.majick.guohanhealth.utils.engine.GlideEngine;
 
 /**
  * 每一行里面的所有控件      父类View
- *
- * @author Tony
+ * @author majick
  */
 public class ViewHolder {
     private SparseArray<View> mViews;//稀疏数组    每一行里面的所有控件(虽然它的名字叫数组但是使用和map一样)

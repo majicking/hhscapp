@@ -3,6 +3,7 @@ package com.majick.guohanhealth.http;
 
 import com.majick.guohanhealth.app.App;
 import com.majick.guohanhealth.bean.BaseInfo;
+import com.majick.guohanhealth.utils.Utils;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
@@ -35,13 +36,17 @@ public class RxHelper {
                     Class<T> clazz = (Class) (t.getActualTypeArguments()[0]);//获取泛型class
                     result.datas = clazz.newInstance();
                 }
-                if ("0".equals(result.login)) {
+                if (Utils.isEmpty("" + result.login) && "0".equals(result.login)) {
                     App.getApp().setKey("");
                 }
-                if (result.hasMore){
-//                    App.getApp().s
+                if (Utils.isEmpty(result.hasmore) && result.hasmore.equals("true")) {
+                    App.getApp().setHasmore("true");
+                } else {
+                    App.getApp().setHasmore("false");
                 }
-
+                if (Utils.isEmpty("" + result.page_total) && result.page_total > 1) {
+                    App.getApp().setPage_total(result.page_total);
+                }
                 return createSuccessData(result.datas);
             } else if (result.code == HttpErrorCode.ERROR_400) {
                 BaseInfo error = null;

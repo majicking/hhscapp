@@ -1,6 +1,5 @@
 package com.majick.guohanhealth.ui.goods.goodsdetailed.activity;
 
-import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -13,7 +12,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.majick.guohanhealth.R;
-import com.majick.guohanhealth.app.App;
 import com.majick.guohanhealth.app.Constants;
 import com.majick.guohanhealth.base.BaseActivity;
 import com.majick.guohanhealth.event.OnFragmentInteractionListener;
@@ -26,7 +24,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 public class GoodsDetailsActivity extends BaseActivity<GoodsDetailsPersenter, GoodsDetailsModel> implements GoodsDetailsView, OnFragmentInteractionListener {
 
@@ -45,6 +42,7 @@ public class GoodsDetailsActivity extends BaseActivity<GoodsDetailsPersenter, Go
     @BindView(R.id.line)
     View line;
     private List<Fragment> fragmentList;
+    private ViewPagerAdapter adapter;
 
     @Override
     protected int getContentViewLayoutID() {
@@ -59,7 +57,7 @@ public class GoodsDetailsActivity extends BaseActivity<GoodsDetailsPersenter, Go
         fragmentList.add(GoodsFragment.newInstance(goods_id, ""));
         fragmentList.add(GoodsDetailFragment.newInstance(goods_id, ""));
         fragmentList.add(CommentFragment.newInstance(goods_id, ""));
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        adapter = new ViewPagerAdapter(getSupportFragmentManager());
         goodsdetailViewViewpager.setAdapter(adapter);
         goodsdetailViewViewpager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(goodsdetailViewTablayout));
         goodsdetailViewTablayout.setupWithViewPager(goodsdetailViewViewpager);
@@ -68,7 +66,6 @@ public class GoodsDetailsActivity extends BaseActivity<GoodsDetailsPersenter, Go
 
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
             }
 
             @Override
@@ -77,7 +74,7 @@ public class GoodsDetailsActivity extends BaseActivity<GoodsDetailsPersenter, Go
                     line.setVisibility(View.GONE);
                     goodsdetailViewTablayout.setSelectedTabIndicatorColor(getResources().getColor(R.color.translucent));
                     goodsdetailViewTablayout.setTabTextColors(getResources().getColor(R.color.white), getResources().getColor(R.color.appColor));
-                    goodsdetailViewTitle.setBackgroundColor(getResources().getColor(R.color.translucent));
+                    goodsdetailViewTitle.setBackgroundColor(getResources().getColor(R.color.translucent4));
                     goodsdetailViewTitle.setSelected(false);
                     goodsdetailBack.setSelected(false);
                     goodsdetailMore.setSelected(false);
@@ -99,8 +96,19 @@ public class GoodsDetailsActivity extends BaseActivity<GoodsDetailsPersenter, Go
         });
     }
 
+
     @Override
     public void doSomeThing(String key, Object value) {
+        if ("type".equals(key)) {
+            goodsdetailViewViewpager.setCurrentItem((Integer) value);
+        } else if ("goods_id".equals(key)) {
+            goods_id = (String) value;
+            fragmentList.clear();
+            fragmentList.add(GoodsFragment.newInstance(goods_id, ""));
+            fragmentList.add(GoodsDetailFragment.newInstance(goods_id, ""));
+            fragmentList.add(CommentFragment.newInstance(goods_id, ""));
+            adapter.notifyDataSetChanged();
+        }
 
     }
 
