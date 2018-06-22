@@ -10,6 +10,7 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.majick.guohanhealth.R;
 import com.majick.guohanhealth.app.Constants;
@@ -24,6 +25,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class GoodsDetailsActivity extends BaseActivity<GoodsDetailsPersenter, GoodsDetailsModel> implements GoodsDetailsView, OnFragmentInteractionListener {
 
@@ -41,6 +43,18 @@ public class GoodsDetailsActivity extends BaseActivity<GoodsDetailsPersenter, Go
     LinearLayout goodsdetailViewTitle;
     @BindView(R.id.line)
     View line;
+    @BindView(R.id.goodsdetail_view_customer)
+    LinearLayout goodsdetailViewCustomer;
+    @BindView(R.id.goodsdetail_view_cart)
+    LinearLayout goodsdetailViewCart;
+    @BindView(R.id.goodsdetail_text_cartnumber)
+    TextView goodsdetailTextCartnumber;
+    @BindView(R.id.goodsdetail_text_buy)
+    TextView goodsdetailTextBuy;
+    @BindView(R.id.goodsdetail_text_addcart)
+    TextView goodsdetailTextAddcart;
+    @BindView(R.id.goodsdetail_view_order)
+    LinearLayout goodsdetailViewOrder;
     private List<Fragment> fragmentList;
     private ViewPagerAdapter adapter;
 
@@ -96,6 +110,9 @@ public class GoodsDetailsActivity extends BaseActivity<GoodsDetailsPersenter, Go
         });
     }
 
+    public View getButtomView() {
+        return goodsdetailViewOrder;
+    }
 
     @Override
     public void doSomeThing(String key, Object value) {
@@ -110,6 +127,13 @@ public class GoodsDetailsActivity extends BaseActivity<GoodsDetailsPersenter, Go
             adapter.notifyDataSetChanged();
         }
 
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
     }
 
 

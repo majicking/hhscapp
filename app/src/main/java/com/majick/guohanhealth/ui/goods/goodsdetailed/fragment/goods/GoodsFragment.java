@@ -1,48 +1,51 @@
 package com.majick.guohanhealth.ui.goods.goodsdetailed.fragment.goods;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
-import android.os.Build;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.os.Debug;
 import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.text.Layout;
-import android.util.Log;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewParent;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.majick.guohanhealth.R;
+import com.majick.guohanhealth.adapter.BaseRecyclerAdapter;
+import com.majick.guohanhealth.adapter.BaseViewHolder;
 import com.majick.guohanhealth.adapter.CommonAdapter;
 import com.majick.guohanhealth.adapter.ViewHolder;
-import com.majick.guohanhealth.adapter.ViewPageAdapter;
 import com.majick.guohanhealth.app.App;
 import com.majick.guohanhealth.base.BaseFragment;
+import com.majick.guohanhealth.bean.Area_list;
 import com.majick.guohanhealth.bean.GoodsDetailedInfo;
-import com.majick.guohanhealth.custom.CustomDialog;
+import com.majick.guohanhealth.bean.Goods_hair_info;
+import com.majick.guohanhealth.custom.CustomPopuWindow;
 import com.majick.guohanhealth.custom.MyViewPager;
 import com.majick.guohanhealth.event.OnFragmentInteractionListener;
-import com.majick.guohanhealth.utils.Logutils;
+import com.majick.guohanhealth.http.Api;
+import com.majick.guohanhealth.http.RxHelper;
+import com.majick.guohanhealth.http.RxManager;
+import com.majick.guohanhealth.ui.goods.goodsdetailed.activity.GoodsDetailsActivity;
+import com.majick.guohanhealth.ui.goods.goodslist.GoodsListActivity;
 import com.majick.guohanhealth.utils.Utils;
 import com.majick.guohanhealth.utils.engine.GlideEngine;
 import com.majick.guohanhealth.view.NoScrollGridView;
-import com.youth.banner.Banner;
-import com.youth.banner.BannerConfig;
-import com.youth.banner.listener.OnBannerListener;
-import com.youth.banner.loader.ImageLoader;
 import com.youth.banner.view.BannerViewPager;
 
 import java.util.ArrayList;
@@ -82,7 +85,6 @@ public class GoodsFragment extends BaseFragment<GoodsPersenter, GoodsModel> impl
     NoScrollGridView goodsViewGridview;
     @BindView(R.id.goods_view_gridview1)
     NoScrollGridView goodsViewGridview1;
-    Unbinder unbinder;
     @BindView(R.id.goods_text_selectclass)
     TextView goodsTextSelectclass;
     @BindView(R.id.goods_text_selectdescribe)
@@ -120,6 +122,9 @@ public class GoodsFragment extends BaseFragment<GoodsPersenter, GoodsModel> impl
     LinearLayout goodsViewRecommend;
     @BindView(R.id.goods_view_scrollview)
     ScrollView goodsViewScrollview;
+    @BindView(R.id.goods_view_selectclass)
+    LinearLayout goodsViewSelectclass;
+    Unbinder unbinder;
     private String mParam1;
     private String mParam2;
     private List<String> imglist;
@@ -127,6 +132,8 @@ public class GoodsFragment extends BaseFragment<GoodsPersenter, GoodsModel> impl
     private CommonAdapter<GoodsDetailedInfo.Goods_commend_list> commonAdapter;
     private PagerAdapter pagerAdapter;
     private ShowPagerAdapter showpageradapter;
+    private BaseRecyclerAdapter recyclerAdapter;
+    private TextView areaText1;
 
     public GoodsFragment() {
 
@@ -207,7 +214,151 @@ public class GoodsFragment extends BaseFragment<GoodsPersenter, GoodsModel> impl
             onButtonPressed("goods_id", goods_commend_lists.get(p).goods_id);
         });
         mPresenter.getGoodsDetails(mParam1, App.getApp().getKey());
+        goodsViewLoca.setOnClickListener(v -> {
+            showLocationWindow();
+        });
+        goodsViewSelectclass.setOnClickListener(v -> {
+            showOrder();
+        });
+    }
 
+    boolean isOpenPopwindown;
+
+    private void showOrder() {
+        isOpenPopwindown = true;
+        View view = getView(R.layout.goods_view_order);
+        CustomPopuWindow popuWindow = new CustomPopuWindow.PopupWindowBuilder(mContext)
+                .setOnDissmissListener(() -> isOpenPopwindown = false)
+                .setView(view).setFocusable(true).setOnDissmissListener(() -> backgroundAlpha(1)).create()
+                .showAtLocation(view, Gravity.BOTTOM, 0, 0);
+        backgroundAlpha(0.5f);
+    }
+
+    /**
+     * 设置添加屏幕的背景透明度
+     *
+     * @param bgAlpha
+     */
+    public void backgroundAlpha(float bgAlpha) {
+        Window window = getActivity().getWindow();
+        WindowManager.LayoutParams lp = window.getAttributes();
+        lp.alpha = bgAlpha; //0.0-1.0
+        window.setAttributes(lp);
+    }
+
+    int areaNumber;
+    StringBuffer areaText;
+
+    /**
+     * 地区选择
+     */
+    public void showLocationWindow() {
+        areaNumber = 1;
+        areaText = new StringBuffer("");
+        View view = LayoutInflater.from(mContext).inflate(R.layout.area_list, null);
+        areaText1 = view.findViewById(R.id.text1);
+        Button reset = view.findViewById(R.id.reset);
+        View nullview = view.findViewById(R.id.nullview);
+        RecyclerView recyclerView = view.findViewById(R.id.recycleview);
+        recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
+        CustomPopuWindow s = new CustomPopuWindow.PopupWindowBuilder(mContext).setView(view).size(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT).create();
+
+        Handler handler = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                super.handleMessage(msg);
+                switch (msg.what) {
+                    case 3:
+                        if (msg.obj != null && ((List<Area_list>) msg.obj).size() > 0) {
+                            recyclerAdapter.upDataAdapter((List<Area_list>) msg.obj);
+                            break;
+                        }
+                        getAreaInfo(mParam1, areaText1.getHint().toString(), new Handler() {
+                            @Override
+                            public void handleMessage(Message msg) {
+                                super.handleMessage(msg);
+                                if (msg.what == 4) {
+                                    setLocationInfo(msg);
+                                }
+                            }
+                        }, 4);
+                        s.dissmiss();
+                        break;
+                    case 4:
+                        setLocationInfo(msg);
+                        break;
+                    default:
+                        if (msg.obj == null) {
+                            s.dissmiss();
+                            areaText1.setText(areaText);
+                        }
+                        recyclerAdapter.upDataAdapter((List<Area_list>) msg.obj);
+                        break;
+                }
+            }
+        };
+        reset.setOnClickListener(v -> {
+            areaText1.setText("请选择");
+            areaText.delete(0, areaText.length());
+            areaNumber = 1;
+            getAreaData("0", handler, areaNumber);
+        });
+        nullview.setOnClickListener(v -> {
+            s.dissmiss();
+        });
+
+        recyclerAdapter = new BaseRecyclerAdapter<Area_list>(mContext, R.layout.area_list_item, new ArrayList<>()) {
+            @Override
+            public void convert(BaseViewHolder holder, Area_list o) {
+                TextView t = holder.getView(R.id.text);
+                t.setText(o.area_name);
+                t.setHint(o.area_id);
+                t.setOnClickListener(v -> {
+                    switch (areaNumber) {
+                        default:
+                            areaText.append(o.area_name);
+                            areaText1.setText(areaText);
+                            areaText1.setHint(o.area_id);
+                            areaNumber++;
+                            getAreaData(o.area_id, handler, areaNumber);
+                            break;
+                        case 3:
+                            areaText.append(o.area_name + " ");
+                            areaText1.setText(areaText);
+                            getAreaInfo(mParam1, o.area_id, handler, 4);
+                            areaNumber = 1;
+                            s.dissmiss();
+                            break;
+                    }
+
+
+                });
+            }
+        };
+        recyclerView.setAdapter(recyclerAdapter);
+        s.setBackgroundDrawable(new BitmapDrawable(getResources(), (Bitmap) null)).showAtLocation(view, Gravity.BOTTOM, 0, 0);
+        getAreaData("0", handler, areaNumber);
+    }
+
+    private void setLocationInfo(Message msg) {
+        Goods_hair_info info = (Goods_hair_info) msg.obj;
+        goodsLoca.setText(areaText);
+        goodsHavegoods.setText(Utils.getString(info.if_store_cn));
+        goodsRunmoney.setText(Utils.getString(info.content));
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // TODO: inflate a fragment view
+        View rootView = super.onCreateView(inflater, container, savedInstanceState);
+        unbinder = ButterKnife.bind(this, rootView);
+        return rootView;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
     }
 
     interface OnPagerViewItemClickListener {
@@ -372,7 +523,6 @@ public class GoodsFragment extends BaseFragment<GoodsPersenter, GoodsModel> impl
                 /**展示图片banner*/
                 imglist.clear();
                 imglist.addAll(getImageList(info.goods_image));
-                imglist.addAll(getImageList(info.goods_image));
                 pagerAdapter.updataAdapter(imglist);
                 showpageradapter.updataAdapter(imglist);
                 /**商品基本信息*/
@@ -389,8 +539,8 @@ public class GoodsFragment extends BaseFragment<GoodsPersenter, GoodsModel> impl
                 goodsLoca.setText(Utils.getString(info.goods_hair_info.area_name));
                 goodsHavegoods.setText(Utils.getString(info.goods_hair_info.if_store_cn));
                 goodsRunmoney.setText(Utils.getString(info.goods_hair_info.content));
-                goodsTextStorename.setText(Utils.getString(info.store_info.store_name));
                 /**店铺信息*/
+                goodsTextStorename.setText(Utils.getString(info.store_info.store_name));
                 goodsTextDescribe1.setText(Utils.getString(info.store_info.store_credit.store_servicecredit.text));
                 goodsTextDescribe2.setText(Utils.getString(info.store_info.store_credit.store_deliverycredit.text));
                 goodsTextDescribe3.setText(Utils.getString(info.store_info.store_credit.store_desccredit.text));
@@ -412,8 +562,33 @@ public class GoodsFragment extends BaseFragment<GoodsPersenter, GoodsModel> impl
                 }
             } catch (NullPointerException e) {
                 e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
+    }
+
+    private void getAreaData(String id, Handler handler, int what) {
+        new RxManager().add(Api.getDefault().getAreaList(id).compose(RxHelper.handleResult()).subscribe(info -> {
+
+            Message ms = new Message();
+            ms.what = what;
+            ms.obj = info.area_list;
+            handler.sendMessage(ms);
+        }, throwable -> {
+            showToast(throwable.getMessage());
+        }));
+    }
+
+    private void getAreaInfo(String goods_id, String id, Handler handler, int what) {
+        new RxManager().add(Api.getDefault().getAreaInfo(goods_id, id).compose(RxHelper.handleResult()).subscribe(info -> {
+            Message ms = new Message();
+            ms.what = what;
+            ms.obj = info;
+            handler.sendMessage(ms);
+        }, throwable -> {
+            showToast(throwable.getMessage());
+        }));
     }
 
     private List<String> getImageList(String info) {
@@ -421,8 +596,8 @@ public class GoodsFragment extends BaseFragment<GoodsPersenter, GoodsModel> impl
         if (Utils.isEmpty(info)) {
             String[] strings = info.split(",");
             if (strings != null && strings.length > 0) {
+                imglist.clear();
                 for (int i = 0; i < strings.length; i++) {
-                    imglist.clear();
                     imglist.add(strings[i]);
                 }
             }
@@ -430,17 +605,5 @@ public class GoodsFragment extends BaseFragment<GoodsPersenter, GoodsModel> impl
         return imglist;
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // TODO: inflate a fragment view
-        View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        unbinder = ButterKnife.bind(this, rootView);
-        return rootView;
-    }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
-    }
 }

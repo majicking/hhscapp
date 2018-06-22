@@ -2,6 +2,8 @@ package com.majick.guohanhealth.http;
 
 
 import com.majick.guohanhealth.app.Constants;
+import com.majick.guohanhealth.bean.Adv_list;
+import com.majick.guohanhealth.bean.Goods_hair_info;
 import com.majick.guohanhealth.bean.BrandListInfo;
 import com.majick.guohanhealth.bean.GoodsClassChildInfo;
 import com.majick.guohanhealth.bean.GoodsClassInfo;
@@ -52,7 +54,8 @@ public interface ApiService {
     String GOODSLIST = Constants.INDEX + "act=goods&op=goods_list";
     String SEARCH_ADV = Constants.INDEX + "act=index&op=search_adv";
     String GOODS_DETAIL = Constants.INDEX + "act=goods&op=goods_detail";
-
+    String AREA_LIST = Constants.INDEX + "act=area&op=area_list";
+    String AREAINFO = Constants.INDEX + "act=goods&op=calc";
 
     /**
      * 用户登录
@@ -176,6 +179,18 @@ public interface ApiService {
      */
     @GET(SEARCH_ADV)
     Observable<Result<SelectedInfo>> getSelectedInfo();
+
+    /**
+     * 获取地区地址
+     */
+    @GET(AREA_LIST)
+    Observable<Result<Adv_list>> getAreaList(@Query("area_id") String area_id);
+
+    /**
+     * 获取地区地址返回信息
+     */
+    @GET(AREAINFO)
+    Observable<Result<Goods_hair_info>> getAreaInfo(@Query("goods_id") String goods_id, @Query("area_id") String area_id);
 
 
     /**

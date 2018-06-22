@@ -2,6 +2,8 @@ package com.majick.guohanhealth.base;
 
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -9,6 +11,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -91,7 +94,7 @@ public abstract class BaseFragment<T extends BasePresenter, E extends BaseModel>
     /**
      * 获取控件
      */
-    public <T extends View> T getView(View view,int viewId) {
+    public <T extends View> T getView(View view, int viewId) {
         if (view != null) {
             view = view.findViewById(viewId);
         }
@@ -117,7 +120,7 @@ public abstract class BaseFragment<T extends BasePresenter, E extends BaseModel>
 //            toast.setText("" + msg);
 //        }
 //        toast.show();
-        showToast(mContext,"" + msg);
+        showToast(mContext, "" + msg);
     }
 
     /**
@@ -139,5 +142,9 @@ public abstract class BaseFragment<T extends BasePresenter, E extends BaseModel>
         toast.show();
     }
 
+    public View getView(int layoutid) {
+        View v = LayoutInflater.from(mContext).inflate(layoutid, null);
+        return v;
+    }
 
 }

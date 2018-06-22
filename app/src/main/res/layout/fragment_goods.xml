@@ -142,7 +142,9 @@
 
             <View style="@style/djk_line" />
 
-            <LinearLayout style="@style/LLayout_48_h">
+            <LinearLayout
+                android:id="@+id/goods_view_selectclass"
+                style="@style/LLayout_48_h">
 
                 <TextView
                     style="@style/left15"

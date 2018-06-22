@@ -30,6 +30,7 @@ import com.majick.guohanhealth.adapter.ViewHolder;
 import com.majick.guohanhealth.app.App;
 import com.majick.guohanhealth.app.Constants;
 import com.majick.guohanhealth.base.BaseActivity;
+import com.majick.guohanhealth.bean.Area_list;
 import com.majick.guohanhealth.bean.GoodsListInfo;
 import com.majick.guohanhealth.bean.SelectedInfo;
 import com.majick.guohanhealth.custom.EmptyView;
@@ -82,7 +83,7 @@ public class GoodsListActivity extends BaseActivity<GoodsListPersenter, GoodsLis
     @BindView(R.id.goodslist_text_sort)
     TextView goodslistTextSort;
     private BaseRecyclerAdapter<GoodsListInfo.GoodsListBean> adapter;
-    private List<SelectedInfo.Area_list> area_list;
+    private List<Area_list> area_list;
     private List<SelectedInfo.Contract_list> contract_list;
 
     @Override
@@ -116,6 +117,8 @@ public class GoodsListActivity extends BaseActivity<GoodsListPersenter, GoodsLis
         goodslistViewSearch.setOnClickListener(v -> readyGoThenKill(SearchActivity.class));
         goodslistViewSmartrefresh.setRefreshHeader(new WaterDropHeader(mContext));
         goodslistViewSmartrefresh.setOnRefreshListener((v) -> {
+            isload = false;
+            curpage = "1";
             getData();
         });
         goodslistViewSmartrefresh.setOnLoadMoreListener((v) -> {
@@ -267,7 +270,7 @@ public class GoodsListActivity extends BaseActivity<GoodsListPersenter, GoodsLis
         selectButton(timelimitbtn);
         selectButton(virtulbtn);
         selectButton(onwbtn);
-        SelectedInfo.Area_list list = new SelectedInfo.Area_list();
+        Area_list list = new Area_list();
         list.area_id = "0";
         list.area_name = "不限";
         location.setOnClickListener(v -> {
@@ -285,9 +288,9 @@ public class GoodsListActivity extends BaseActivity<GoodsListPersenter, GoodsLis
             }
         };
 
-        CommonAdapter adapter1 = new CommonAdapter<SelectedInfo.Area_list>(mContext, area_list, R.layout.item_text) {
+        CommonAdapter adapter1 = new CommonAdapter<Area_list>(mContext, area_list, R.layout.item_text) {
             @Override
-            public void convert(ViewHolder viewHolder, SelectedInfo.Area_list item, int position, View convertView, ViewGroup parentViewGroup) {
+            public void convert(ViewHolder viewHolder, Area_list item, int position, View convertView, ViewGroup parentViewGroup) {
                 TextView text = viewHolder.getView(R.id.text);
                 text.setText(item.area_name);
                 text.setHint(item.area_id);
@@ -325,7 +328,7 @@ public class GoodsListActivity extends BaseActivity<GoodsListPersenter, GoodsLis
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                SelectedInfo.Area_list area_list = (SelectedInfo.Area_list) spinner.getItemAtPosition(position);
+                Area_list area_list = (Area_list) spinner.getItemAtPosition(position);
                 location.setText(area_list.area_name);
                 location.setHint(area_list.area_id);
             }

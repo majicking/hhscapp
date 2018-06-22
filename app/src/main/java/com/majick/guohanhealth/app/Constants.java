@@ -17,6 +17,7 @@ public interface Constants {
      */
 
     String HEAD = BuildConfig.HEAD;
+    //    String HOST = "test.shopnctest.com";
     String HOST = BuildConfig.HOST;
     String PORT = BuildConfig.PORT;
     String APP = BuildConfig.APP;

@@ -69,7 +69,9 @@
 
     <View style="@style/djk_line" />
 
-    <LinearLayout style="@style/LLayout_48_h"
+    <LinearLayout
+        android:id="@+id/goodsdetail_view_order"
+        style="@style/LLayout_48_h"
         android:layout_height="@dimen/dp_40"
         >
 

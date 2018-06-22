@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <View
+        android:id="@+id/nullview"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/translucent1" />
+
+    <LinearLayout
+        style="@style/match_warp"
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <LinearLayout style="@style/LLayout_48_h">
+
+            <TextView
+                android:id="@+id/text1"
+                style="@style/layout_weight_h"
+                android:text="请选择"
+                android:textColor="@color/appColor" />
+
+        </LinearLayout>
+
+        <View style="@style/djk_line" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycleview"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_115"></android.support.v7.widget.RecyclerView>
+
+        <Button
+            android:id="@+id/reset"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_36"
+            android:background="@color/appColor"
+            android:text="重置"
+            android:textColor="@color/white"
+            android:textSize="@dimen/dp_16" />
+    </LinearLayout>
+</LinearLayout>

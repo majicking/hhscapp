@@ -2,13 +2,17 @@ package com.majick.guohanhealth.ui.main.fragment.home;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.majick.guohanhealth.R;
@@ -24,6 +28,7 @@ import com.majick.guohanhealth.bean.Home3Info;
 import com.majick.guohanhealth.bean.Home4Info;
 import com.majick.guohanhealth.bean.Home5Info;
 import com.majick.guohanhealth.bean.HomeMenuBtn;
+import com.majick.guohanhealth.custom.MyScrollView;
 import com.majick.guohanhealth.event.OnFragmentInteractionListener;
 import com.majick.guohanhealth.ui.search.SearchActivity;
 import com.majick.guohanhealth.utils.Utils;
@@ -42,6 +47,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -64,6 +70,11 @@ public class HomeFragment extends BaseFragment<HomePersenter, HomeModel> impleme
     NoScrollGridView gridview;
     @BindView(R.id.home_hot)
     TextView homeHot;
+    @BindView(R.id.home_view_scrollview)
+    MyScrollView homeViewScrollview;
+    @BindView(R.id.home_view_titleview)
+    LinearLayout homeViewTitleview;
+    Unbinder unbinder;
 
 
     private String mParam1;
@@ -147,6 +158,18 @@ public class HomeFragment extends BaseFragment<HomePersenter, HomeModel> impleme
         });
         homeScanner.setOnClickListener(v -> readyGoForResult(CaptureActivity.class, Constants.REQUEST_CAMERA));
         homeHot.setText(App.getApp().getHotname());
+        homeViewScrollview.setOnScrollListener(scrollY -> {
+            if (scrollY < 150) {
+                homeViewTitleview.setBackgroundColor(getResources().getColor(R.color.translucent));
+            } else if (scrollY > 150 && scrollY < 600) {
+                float scale = (float) scrollY / 600;
+                float alpha = (255 * scale);
+                homeViewTitleview.setBackgroundColor(Color.argb((int) alpha, 237, 89, 104));
+            } else {
+                homeViewTitleview.setBackgroundColor(getResources().getColor(R.color.appColor));
+
+            }
+        });
     }
 
 
@@ -347,4 +370,17 @@ public class HomeFragment extends BaseFragment<HomePersenter, HomeModel> impleme
         }
     }
 
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // TODO: inflate a fragment view
+        View rootView = super.onCreateView(inflater, container, savedInstanceState);
+        unbinder = ButterKnife.bind(this, rootView);
+        return rootView;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
+    }
 }

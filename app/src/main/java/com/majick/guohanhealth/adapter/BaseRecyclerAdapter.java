@@ -24,6 +24,15 @@ public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<BaseVi
         this.mData = mData;
     }
 
+    public void upDataAdapter(List<T> mData) {
+        if (mData != null && mData.size() > 0) {
+            this.mData = mData;
+        } else {
+            this.mData.clear();
+        }
+        notifyDataSetChanged();
+    }
+
     @Override
     public BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         BaseViewHolder viewHolder = BaseViewHolder.getRecyclerHolder(mContext, parent, mLayoutId);

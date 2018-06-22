@@ -5,13 +5,6 @@ import java.util.List;
 public class GoodsDetailedInfo extends BaseInfo {
     public Goods_hair_info goods_hair_info;
 
-    public static class Goods_hair_info {
-        public String content;
-        public String if_store_cn;
-        public boolean if_store;
-        public String area_name;
-    }
-
     public int IsHaveBuy;
 
     public List<Goods_commend_list> goods_commend_list;
