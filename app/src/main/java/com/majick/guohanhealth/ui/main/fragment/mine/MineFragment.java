@@ -149,7 +149,7 @@ public class MineFragment extends BaseFragment<MinePersenter, MineModel> impleme
         setbgChange();
         //登陆按钮
         mineBtnviewlogin.setOnClickListener(v -> {
-            if (!Utils.isEmpty(App.getApp().getKey())) {
+            if (!App.getApp().isLogin()||!Utils.isEmpty(App.getApp().getKey())) {
                 readyGo(LoginActivity.class);
             }
         });
@@ -175,7 +175,7 @@ public class MineFragment extends BaseFragment<MinePersenter, MineModel> impleme
     @Override
     public void onResume() {
         super.onResume();
-        //每次进入检测个人信息和订单信息
+        /**每次进入检测个人信息和订单信息*/
         setLoginInfo();
     }
 
@@ -191,7 +191,6 @@ public class MineFragment extends BaseFragment<MinePersenter, MineModel> impleme
             mineUsername.setText("点击登陆");
             mineMemberVip.setVisibility(View.GONE);
             GlideEngine.getInstance().loadCircleImage(mContext, 50, R.mipmap.djk_icon_member, mineUserheadimg, "");
-
         }
     }
 
@@ -229,6 +228,7 @@ public class MineFragment extends BaseFragment<MinePersenter, MineModel> impleme
     @Override
     public void getMineInfo(MineInfo info) {
         Logutils.i(info.toString());
+        App.getApp().setIsLogin(true);
         mineUsername.setText(info.member_info.user_name);
         mineMemberVip.setVisibility(View.VISIBLE);
         mineMemberVip.setText(info.member_info.level_name);
@@ -238,5 +238,6 @@ public class MineFragment extends BaseFragment<MinePersenter, MineModel> impleme
     @Override
     public void faild(String msg) {
         showToast(msg);
+        App.getApp().setIsLogin(false);
     }
 }

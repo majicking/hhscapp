@@ -12,7 +12,7 @@ import java.util.List;
  * 普通类型的适配器
  */
 
-public abstract class BaseRecyclerAdapter<T> extends RecyclerView.Adapter<BaseViewHolder> {
+public abstract class BaseRecyclerAdapter<T, B extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<BaseViewHolder> {
     private Context mContext;
     private int mLayoutId;
     private List<T> mData;

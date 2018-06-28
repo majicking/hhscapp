@@ -3,6 +3,9 @@ package com.majick.guohanhealth.http;
 
 import com.majick.guohanhealth.app.Constants;
 import com.majick.guohanhealth.bean.Adv_list;
+import com.majick.guohanhealth.bean.BaseInfo;
+import com.majick.guohanhealth.bean.CardNumberInfo;
+import com.majick.guohanhealth.bean.EvalInfo;
 import com.majick.guohanhealth.bean.Goods_hair_info;
 import com.majick.guohanhealth.bean.BrandListInfo;
 import com.majick.guohanhealth.bean.GoodsClassChildInfo;
@@ -56,6 +59,11 @@ public interface ApiService {
     String GOODS_DETAIL = Constants.INDEX + "act=goods&op=goods_detail";
     String AREA_LIST = Constants.INDEX + "act=area&op=area_list";
     String AREAINFO = Constants.INDEX + "act=goods&op=calc";
+    String CART_COUNT = Constants.INDEX + "act=member_cart&op=cart_count";
+    String BUY_STEP1 = Constants.INDEX + "act=member_buy&op=buy_step1";
+    String VBUY_STEP1 = Constants.INDEX + "act=member_vr_buy&op=buy_step1";
+    String GOODS_BODY = Constants.INDEX + "act=goods&op=goods_body";
+    String GOODS_EVALUATE = Constants.INDEX + "act=goods&op=goods_evaluate";
 
     /**
      * 用户登录
@@ -198,6 +206,36 @@ public interface ApiService {
      */
     @GET(GOODS_DETAIL)
     Observable<Result<GoodsDetailedInfo>> getGoodsDetails(@Query("goods_id") String goods_id, @Query("key") String key);
+
+    /**
+     * 获取购物车数量
+     */
+    @FormUrlEncoded
+    @POST(CART_COUNT)
+    Observable<Result<CardNumberInfo>> getCardNumber(@Field("key") String key);
+
+    /**
+     * 购买实体商品
+     */
+    @FormUrlEncoded
+    @POST(BUY_STEP1)
+    Observable<Result<BaseInfo>> buyStep1(@Field("key") String key, @Field("cart_id") String cart_id, @Field("ifcart") String ifcart);
+
+    /**
+     * 购买虚拟商品
+     */
+    @FormUrlEncoded
+    @POST(VBUY_STEP1)
+    Observable<Result<BaseInfo>> buyStep1V(@Field("key") String key, @Field("goods_id") String goods_id, @Field("quantity") String goodsNumber);
+
+    /**
+     * 获取评论
+     */
+    @GET(GOODS_EVALUATE)
+    Observable<Result<EvalInfo>> goodsEvaluate(@Query("goods_id") String goods_id,
+                                               @Query("curpage") String curpage,
+                                               @Query("type") String type,
+                                               @Query("page") String page);
 
 
 //    /**

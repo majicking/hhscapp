@@ -118,7 +118,7 @@ public class GoodsDetailedInfo extends BaseInfo {
         public String goods_click;
         public String goods_salenum;
         public String goods_collect;
-        public String goods_spec;
+//        public Object goods_spec;
         public String goods_storage;
         public String color_id;
         public String evaluation_good_star;

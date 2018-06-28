@@ -70,15 +70,15 @@ public class ClassTypeFragment extends BaseFragment<ClassTypePersenter, ClassTyp
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
-    private BaseRecyclerAdapter<BrandListInfo.Brand_list> brandAdapter;
-    private BaseRecyclerAdapter<GoodsClassChildInfo.Class_list> goodclasschildAdapter;
+    private BaseRecyclerAdapter<BrandListInfo.Brand_list, RecyclerView.ViewHolder> brandAdapter;
+    private BaseRecyclerAdapter<GoodsClassChildInfo.Class_list, RecyclerView.ViewHolder> goodclasschildAdapter;
     private List<GoodsClassInfo.Class_list> goodsClassInfos;
     private List<BrandListInfo.Brand_list> brandListInfos;
     private List<GoodsClassChildInfo.Class_list> goodsClassChildInfos;
     private ClassAdapter classAdapter;
     private ClassChildListAdapter classChildListAdapter;
     private ClassChildAdapter classChildAdapter;
-    private BaseRecyclerAdapter<GoodsClassInfo.Class_list> goodsClassAdapter;
+    private BaseRecyclerAdapter<GoodsClassInfo.Class_list, RecyclerView.ViewHolder> goodsClassAdapter;
 
     public ClassTypeFragment() {
     }
@@ -131,7 +131,7 @@ public class ClassTypeFragment extends BaseFragment<ClassTypePersenter, ClassTyp
         goodsClassInfos = new ArrayList<>();
         brandListInfos = new ArrayList<>();
         goodsClassChildInfos = new ArrayList<>();
-        brandAdapter = new BaseRecyclerAdapter<BrandListInfo.Brand_list>(mContext, R.layout.classtype_item, brandListInfos) {
+        brandAdapter = new BaseRecyclerAdapter<BrandListInfo.Brand_list, RecyclerView.ViewHolder>(mContext, R.layout.classtype_item, brandListInfos) {
             @Override
             public void convert(BaseViewHolder holder, BrandListInfo.Brand_list brand_list) {
                 holder.setText(R.id.text, brand_list.brand_name);
@@ -142,7 +142,7 @@ public class ClassTypeFragment extends BaseFragment<ClassTypePersenter, ClassTyp
                 });
             }
         };
-        goodsClassAdapter = new BaseRecyclerAdapter<GoodsClassInfo.Class_list>(mContext, R.layout.classtype_item, goodsClassInfos) {
+        goodsClassAdapter = new BaseRecyclerAdapter<GoodsClassInfo.Class_list, RecyclerView.ViewHolder>(mContext, R.layout.classtype_item, goodsClassInfos) {
 
             @Override
             public void convert(BaseViewHolder holder, GoodsClassInfo.Class_list class_list) {
@@ -190,7 +190,7 @@ public class ClassTypeFragment extends BaseFragment<ClassTypePersenter, ClassTyp
                 mPresenter.getGoodsChild(goodsClassInfos.get(i).gc_id);
             }
         });
-        goodclasschildAdapter = new BaseRecyclerAdapter<GoodsClassChildInfo.Class_list>(mContext, android.R.layout.simple_list_item_1, goodsClassChildInfos) {
+        goodclasschildAdapter = new BaseRecyclerAdapter<GoodsClassChildInfo.Class_list, RecyclerView.ViewHolder>(mContext, android.R.layout.simple_list_item_1, goodsClassChildInfos) {
 
             //            @Override
             public void convert(BaseViewHolder holder, GoodsClassChildInfo.Class_list s) {

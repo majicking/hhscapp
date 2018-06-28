@@ -37,6 +37,7 @@ import com.majick.guohanhealth.custom.EmptyView;
 import com.majick.guohanhealth.http.Api;
 import com.majick.guohanhealth.http.RxHelper;
 import com.majick.guohanhealth.http.RxManager;
+import com.majick.guohanhealth.ui.goods.GoodsModel;
 import com.majick.guohanhealth.ui.goods.goodsdetailed.activity.GoodsDetailsActivity;
 import com.majick.guohanhealth.ui.search.SearchActivity;
 import com.majick.guohanhealth.utils.Utils;
@@ -51,7 +52,7 @@ import java.util.List;
 
 import butterknife.BindView;
 
-public class GoodsListActivity extends BaseActivity<GoodsListPersenter, GoodsListModel> implements GoodsListView {
+public class GoodsListActivity extends BaseActivity<GoodsListPersenter, GoodsModel> implements GoodsListView {
     @BindView(R.id.search_btn)
     ImageView searchBtn;
     @BindView(R.id.goodslist_view_sort)
@@ -82,7 +83,7 @@ public class GoodsListActivity extends BaseActivity<GoodsListPersenter, GoodsLis
     TextView goodslistTextSelect;
     @BindView(R.id.goodslist_text_sort)
     TextView goodslistTextSort;
-    private BaseRecyclerAdapter<GoodsListInfo.GoodsListBean> adapter;
+    private BaseRecyclerAdapter<GoodsListInfo.GoodsListBean, RecyclerView.ViewHolder> adapter;
     private List<Area_list> area_list;
     private List<SelectedInfo.Contract_list> contract_list;
 
@@ -434,7 +435,7 @@ public class GoodsListActivity extends BaseActivity<GoodsListPersenter, GoodsLis
     }
 
     private void setAdapter(int layout) {
-        adapter = new BaseRecyclerAdapter<GoodsListInfo.GoodsListBean>(mContext, layout, list) {
+        adapter = new BaseRecyclerAdapter<GoodsListInfo.GoodsListBean, RecyclerView.ViewHolder>(mContext, layout, list) {
 
             @Override
             public void convert(BaseViewHolder holder, GoodsListInfo.GoodsListBean item) {

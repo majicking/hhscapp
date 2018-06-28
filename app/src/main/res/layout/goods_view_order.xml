@@ -4,20 +4,20 @@
     android:id="@+id/linearLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/translucent"
     android:orientation="vertical">
 
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_300"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="@color/white"
         android:orientation="vertical">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_100"
-            android:background="@color/translucent1"
+            android:background="@color/translucent"
             android:orientation="vertical">
 
             <LinearLayout
@@ -38,6 +38,7 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/goods_name"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
                         android:layout_marginBottom="@dimen/dp_5"
@@ -58,6 +59,7 @@
                             android:textColor="@color/appColor" />
 
                         <TextView
+                            android:id="@+id/goods_price"
                             style="@style/warp"
                             android:text="0.00"
                             android:textColor="@color/appColor"
@@ -67,6 +69,7 @@
                         <View style="@style/linearlayout_zw" />
 
                         <TextView
+                            android:id="@+id/goods_storage"
                             style="@style/right15"
                             android:layout_marginLeft="@dimen/dp_10"
                             android:text="库存：498件" />
@@ -75,35 +78,44 @@
             </LinearLayout>
 
             <android.support.v7.widget.CardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/dp_3"
                 android:layout_marginLeft="@dimen/dp_10"
-                android:layout_width="wrap_content"
                 app:cardBackgroundColor="@color/white"
-                android:layout_height="wrap_content"
                 app:cardCornerRadius="@dimen/dp_5"
-                app:cardPreventCornerOverlap="false"
-                app:cardElevation="@dimen/dp_3">
+                app:cardElevation="@dimen/dp_3"
+                app:cardPreventCornerOverlap="false">
 
                 <ImageView
-                    android:scaleType="fitXY"
+                    android:id="@+id/goods_image"
                     android:layout_width="@dimen/dp_100"
                     android:layout_height="@dimen/dp_100"
-
-                    android:background="@drawable/ic_setting" />
+                    android:scaleType="fitXY" />
             </android.support.v7.widget.CardView>
 
 
         </RelativeLayout>
 
-        <View
-            style="@style/djk_line"
-            android:layout_marginTop="@dimen/dp_2" />
 
         <LinearLayout
             style="@style/layout_weight_v"
+            android:background="@color/white"
             android:orientation="vertical">
 
-            <LinearLayout style="@style/layout_weight_v"></LinearLayout>
+            <View
+                style="@style/djk_line"
+                android:layout_marginTop="@dimen/dp_2" />
+
+            <LinearLayout
+                android:id="@+id/goods_spec"
+                style="@style/layout_weight_v"
+                android:gravity="left"
+                android:orientation="vertical"
+                android:padding="@dimen/dp_10">
+
+
+            </LinearLayout>
 
             <View style="@style/djk_line" />
 
@@ -129,12 +141,17 @@
                         android:orientation="horizontal">
 
                         <TextView
+                            android:id="@+id/goods_number_down"
                             style="@style/layout_weight_h"
                             android:background="@drawable/bg_gray_left"
+                            android:focusable="true"
+                            android:focusableInTouchMode="true"
                             android:text="-"
                             android:textStyle="bold" />
 
                         <EditText
+                            android:inputType="number"
+                            android:id="@+id/goods_number"
                             style="@style/layout_weight_h"
                             android:background="@mipmap/nc_icon_null"
                             android:gravity="center"
@@ -143,6 +160,7 @@
                             android:textSize="@dimen/dp_14" />
 
                         <TextView
+                            android:id="@+id/goods_number_up"
                             style="@style/layout_weight_h"
                             android:background="@drawable/bg_gray_right"
                             android:text="+"

@@ -1,6 +1,7 @@
 package com.majick.guohanhealth.adapter;
 
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 
 import java.util.List;
@@ -11,7 +12,7 @@ import java.util.List;
  * 如果列表的布局item有多种类型，则需要继承该适配器
  */
 
-public abstract class MultiItemCommonAdapter<T> extends BaseRecyclerAdapter<T> {
+public abstract class MultiItemCommonAdapter<T> extends BaseRecyclerAdapter<T, RecyclerView.ViewHolder> {
     private ConmonItemType<T> mConmonItemType;
     private List<T> mDatas;
     private Context mContext;

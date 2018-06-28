@@ -2,6 +2,7 @@ package com.majick.guohanhealth.ui.register;
 
 import com.majick.guohanhealth.app.App;
 import com.majick.guohanhealth.base.BasePresenter;
+import com.majick.guohanhealth.http.ConsumerError;
 import com.majick.guohanhealth.utils.Logutils;
 
 public class RegisterPersenter extends BasePresenter<RegisterView, RegisterModel> {
@@ -17,9 +18,14 @@ public class RegisterPersenter extends BasePresenter<RegisterView, RegisterModel
         mRxManager.add(mModel.getSMSCode(mobile, code, imgcode).subscribe(smsCode -> {
             mView.hideLoadingDialog();
             mView.smsSuccess(smsCode.sms_time);
-        }, throwable -> {
-            mView.hideLoadingDialog();
-            mView.smsfail(throwable.getMessage());
+        }, new ConsumerError<Throwable>() {
+            @Override
+            public void onError(int errorCode, String message) {
+                mView.faild(message);
+                mView.hideLoadingDialog();
+                mView.smsfail(message);
+            }
+
         }));
     }
 
@@ -32,9 +38,13 @@ public class RegisterPersenter extends BasePresenter<RegisterView, RegisterModel
             App.getApp().setKey(registerInfo.key);
             App.getApp().setUserid(registerInfo.userid);
             App.getApp().setUsername(registerInfo.username);
-        }, throwable -> {
-            mView.hideLoadingDialog();
-            mView.faild(throwable.getMessage());
+        }, new ConsumerError<Throwable>() {
+            @Override
+            public void onError(int errorCode, String message) {
+                mView.hideLoadingDialog();
+                mView.faild(message);
+            }
+
         }));
     }
 

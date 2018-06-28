@@ -1,6 +1,5 @@
 package com.majick.guohanhealth.ui.goods.goodsdetailed.fragment.goods;
 
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -9,7 +8,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
-import android.support.v4.view.PagerAdapter;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
@@ -19,9 +17,9 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -30,19 +28,23 @@ import com.majick.guohanhealth.adapter.BaseRecyclerAdapter;
 import com.majick.guohanhealth.adapter.BaseViewHolder;
 import com.majick.guohanhealth.adapter.CommonAdapter;
 import com.majick.guohanhealth.adapter.ViewHolder;
-import com.majick.guohanhealth.app.App;
+import com.majick.guohanhealth.app.Constants;
 import com.majick.guohanhealth.base.BaseFragment;
 import com.majick.guohanhealth.bean.Area_list;
 import com.majick.guohanhealth.bean.GoodsDetailedInfo;
 import com.majick.guohanhealth.bean.Goods_hair_info;
+import com.majick.guohanhealth.bean.SpecBean;
 import com.majick.guohanhealth.custom.CustomPopuWindow;
 import com.majick.guohanhealth.custom.MyViewPager;
+import com.majick.guohanhealth.event.GoodsDetailsEvent;
 import com.majick.guohanhealth.event.OnFragmentInteractionListener;
+import com.majick.guohanhealth.event.RxBus;
 import com.majick.guohanhealth.http.Api;
 import com.majick.guohanhealth.http.RxHelper;
 import com.majick.guohanhealth.http.RxManager;
+import com.majick.guohanhealth.ui.goods.GoodsModel;
 import com.majick.guohanhealth.ui.goods.goodsdetailed.activity.GoodsDetailsActivity;
-import com.majick.guohanhealth.ui.goods.goodslist.GoodsListActivity;
+import com.majick.guohanhealth.utils.JSONParser;
 import com.majick.guohanhealth.utils.Utils;
 import com.majick.guohanhealth.utils.engine.GlideEngine;
 import com.majick.guohanhealth.view.NoScrollGridView;
@@ -52,7 +54,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 
@@ -86,7 +87,7 @@ public class GoodsFragment extends BaseFragment<GoodsPersenter, GoodsModel> impl
     @BindView(R.id.goods_view_gridview1)
     NoScrollGridView goodsViewGridview1;
     @BindView(R.id.goods_text_selectclass)
-    TextView goodsTextSelectclass;
+    LinearLayout goodsTextSelectclass;
     @BindView(R.id.goods_text_selectdescribe)
     TextView goodsTextSelectdescribe;
     @BindView(R.id.goods_text_percent)
@@ -134,9 +135,13 @@ public class GoodsFragment extends BaseFragment<GoodsPersenter, GoodsModel> impl
     private ShowPagerAdapter showpageradapter;
     private BaseRecyclerAdapter recyclerAdapter;
     private TextView areaText1;
+    private View orderView;
+    private CustomPopuWindow popuWindow;
+    private EditText number;
+    private String goods_id;
+    private String is_virtual;
 
     public GoodsFragment() {
-
     }
 
 
@@ -148,6 +153,7 @@ public class GoodsFragment extends BaseFragment<GoodsPersenter, GoodsModel> impl
         fragment.setArguments(args);
         return fragment;
     }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -168,6 +174,7 @@ public class GoodsFragment extends BaseFragment<GoodsPersenter, GoodsModel> impl
 
     @Override
     protected void initView(Bundle savedInstanceState) {
+        goods_id = (String) onButtonPressed(Constants.GETGOODSID, "");
         imglist = new ArrayList<>();
         goods_commend_lists = new ArrayList<>();
         pagerAdapter = new PagerAdapter(imglist);
@@ -211,39 +218,46 @@ public class GoodsFragment extends BaseFragment<GoodsPersenter, GoodsModel> impl
         };
         goodsViewGridview1.setAdapter(commonAdapter);
         goodsViewGridview1.setOnItemClickListener((a, v, p, i) -> {
-            onButtonPressed("goods_id", goods_commend_lists.get(p).goods_id);
+            goods_id = goods_commend_lists.get(p).goods_id;
+            onButtonPressed(Constants.GOODS_ID, goods_id);
         });
-        mPresenter.getGoodsDetails(mParam1, App.getApp().getKey());
+
         goodsViewLoca.setOnClickListener(v -> {
             showLocationWindow();
         });
         goodsViewSelectclass.setOnClickListener(v -> {
-            showOrder();
+            onButtonPressed(Constants.SHOWORDER, 0);
+        });
+        ((GoodsDetailsActivity) mContext).setOnChangeGoodsInfoListener((type, data) -> {
+            if (type.equals("updata_goods_number")) {
+                goodsTextSelectdescribe.setText(Utils.getString(data));
+            }
+        });
+        RxBus.getDefault().register(this, GoodsDetailsEvent.class, info -> {
+            goodsdata = info.data;
+            getGoodsDetails(Utils.getString(info.data));
         });
     }
 
-    boolean isOpenPopwindown;
 
-    private void showOrder() {
-        isOpenPopwindown = true;
-        View view = getView(R.layout.goods_view_order);
-        CustomPopuWindow popuWindow = new CustomPopuWindow.PopupWindowBuilder(mContext)
-                .setOnDissmissListener(() -> isOpenPopwindown = false)
-                .setView(view).setFocusable(true).setOnDissmissListener(() -> backgroundAlpha(1)).create()
-                .showAtLocation(view, Gravity.BOTTOM, 0, 0);
-        backgroundAlpha(0.5f);
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if (Utils.isEmpty(goodsdata)) {
+            getGoodsDetails(goodsdata);
+        }
     }
 
-    /**
-     * 设置添加屏幕的背景透明度
-     *
-     * @param bgAlpha
-     */
-    public void backgroundAlpha(float bgAlpha) {
-        Window window = getActivity().getWindow();
-        WindowManager.LayoutParams lp = window.getAttributes();
-        lp.alpha = bgAlpha; //0.0-1.0
-        window.setAttributes(lp);
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
     }
 
     int areaNumber;
@@ -273,7 +287,7 @@ public class GoodsFragment extends BaseFragment<GoodsPersenter, GoodsModel> impl
                             recyclerAdapter.upDataAdapter((List<Area_list>) msg.obj);
                             break;
                         }
-                        getAreaInfo(mParam1, areaText1.getHint().toString(), new Handler() {
+                        getAreaInfo(goods_id, areaText1.getHint().toString(), new Handler() {
                             @Override
                             public void handleMessage(Message msg) {
                                 super.handleMessage(msg);
@@ -307,7 +321,7 @@ public class GoodsFragment extends BaseFragment<GoodsPersenter, GoodsModel> impl
             s.dissmiss();
         });
 
-        recyclerAdapter = new BaseRecyclerAdapter<Area_list>(mContext, R.layout.area_list_item, new ArrayList<>()) {
+        recyclerAdapter = new BaseRecyclerAdapter<Area_list, RecyclerView.ViewHolder>(mContext, R.layout.area_list_item, new ArrayList<>()) {
             @Override
             public void convert(BaseViewHolder holder, Area_list o) {
                 TextView t = holder.getView(R.id.text);
@@ -325,7 +339,7 @@ public class GoodsFragment extends BaseFragment<GoodsPersenter, GoodsModel> impl
                         case 3:
                             areaText.append(o.area_name + " ");
                             areaText1.setText(areaText);
-                            getAreaInfo(mParam1, o.area_id, handler, 4);
+                            getAreaInfo(goods_id, o.area_id, handler, 4);
                             areaNumber = 1;
                             s.dissmiss();
                             break;
@@ -336,7 +350,8 @@ public class GoodsFragment extends BaseFragment<GoodsPersenter, GoodsModel> impl
             }
         };
         recyclerView.setAdapter(recyclerAdapter);
-        s.setBackgroundDrawable(new BitmapDrawable(getResources(), (Bitmap) null)).showAtLocation(view, Gravity.BOTTOM, 0, 0);
+        s.setBackgroundDrawable(new BitmapDrawable(getResources(), (Bitmap) null))
+                .showAtLocation(view, Gravity.BOTTOM, 0, 0);
         getAreaData("0", handler, areaNumber);
     }
 
@@ -347,19 +362,6 @@ public class GoodsFragment extends BaseFragment<GoodsPersenter, GoodsModel> impl
         goodsRunmoney.setText(Utils.getString(info.content));
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // TODO: inflate a fragment view
-        View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        unbinder = ButterKnife.bind(this, rootView);
-        return rootView;
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
-    }
 
     interface OnPagerViewItemClickListener {
         void OnItemClick(View v, int position);
@@ -487,10 +489,11 @@ public class GoodsFragment extends BaseFragment<GoodsPersenter, GoodsModel> impl
         }
     }
 
-    public void onButtonPressed(String key, Object value) {
+    public Object onButtonPressed(String key, Object value) {
         if (mListener != null) {
-            mListener.doSomeThing(key, value);
+            return mListener.doSomeThing(key, value);
         }
+        return null;
     }
 
     @Override
@@ -507,7 +510,7 @@ public class GoodsFragment extends BaseFragment<GoodsPersenter, GoodsModel> impl
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
+
     }
 
     @Override
@@ -515,50 +518,81 @@ public class GoodsFragment extends BaseFragment<GoodsPersenter, GoodsModel> impl
 
     }
 
-    @Override
-    public void getGoodsDetails(GoodsDetailedInfo info) {
+    public String goodsdata;
+
+    public void getGoodsDetails(String data) {
+        GoodsDetailedInfo info = JSONParser.JSON2Object(data, GoodsDetailedInfo.class);
+        goodsdata = data;
         if (info != null) {
             try {
-                new Handler().postDelayed(() -> goodsViewScrollview.fullScroll(ScrollView.FOCUS_UP), 200);
-                /**展示图片banner*/
-                imglist.clear();
-                imglist.addAll(getImageList(info.goods_image));
-                pagerAdapter.updataAdapter(imglist);
-                showpageradapter.updataAdapter(imglist);
-                /**商品基本信息*/
-                goodsName1.setText(Utils.getString(info.goods_info.goods_name));
-                goodsName2.setText(Utils.getString(info.goods_info.goods_jingle));
-                goodsPrice.setText("￥ " + Utils.getString(info.goods_info.goods_price));
-                goodsSolenum.setText("销量：" + Utils.getString(info.goods_info.goods_salenum));
-                if (Utils.isEmpty(info.goods_info.goods_grade)) {
-                    GlideEngine.getInstance().loadImage(mContext, goodsImgRating, info.goods_info.goods_grade);
-                } else {
-                    goodsImgRating.setVisibility(View.GONE);
-                }
-                /**物流信息*/
-                goodsLoca.setText(Utils.getString(info.goods_hair_info.area_name));
-                goodsHavegoods.setText(Utils.getString(info.goods_hair_info.if_store_cn));
-                goodsRunmoney.setText(Utils.getString(info.goods_hair_info.content));
-                /**店铺信息*/
-                goodsTextStorename.setText(Utils.getString(info.store_info.store_name));
-                goodsTextDescribe1.setText(Utils.getString(info.store_info.store_credit.store_servicecredit.text));
-                goodsTextDescribe2.setText(Utils.getString(info.store_info.store_credit.store_deliverycredit.text));
-                goodsTextDescribe3.setText(Utils.getString(info.store_info.store_credit.store_desccredit.text));
-                goodsTextDescribecore1.setText(Utils.getString(info.store_info.store_credit.store_servicecredit.credit));
-                goodsTextDescribecore2.setText(Utils.getString(info.store_info.store_credit.store_deliverycredit.credit));
-                goodsTextDescribecore3.setText(Utils.getString(info.store_info.store_credit.store_desccredit.credit));
-                goodsTextDescribelevel1.setText(Utils.getString(info.store_info.store_credit.store_servicecredit.percent_text));
-                goodsTextDescribelevel2.setText(Utils.getString(info.store_info.store_credit.store_deliverycredit.percent_text));
-                goodsTextDescribelevel3.setText(Utils.getString(info.store_info.store_credit.store_desccredit.percent_text));
-                /**商品评价*/
-                goodsTextPercent.setText("好评率 " + Utils.getString(info.goods_evaluate_info.good_percent) + "%");
-                goodsTextPercentnum.setText("(" + Utils.getString(info.goods_evaluate_info.all) + "人评价)");
-                if (Utils.isEmpty(info.goods_commend_list)) {
-                    goods_commend_lists.clear();
-                    goods_commend_lists.addAll(info.goods_commend_list);
-                    commonAdapter.updataAdapter(goods_commend_lists);
-                } else {
-                    goodsViewRecommend.setVisibility(View.GONE);
+                is_virtual = Utils.getString(info.goods_info == null ? "0" : Utils.getString(info.goods_info.is_virtual));
+                if (is_virtual.equals("0")) {
+                    ((GoodsDetailsActivity) mContext).runOnUiThread(() -> {
+                        //此时已在主线程中，可以更新UI了
+                        new Handler().postDelayed(() -> goodsViewScrollview.fullScroll(ScrollView.FOCUS_UP), 50);
+                        /**展示图片banner*/
+                        imglist.clear();
+                        imglist.addAll(getImageList(info.goods_image));
+                        pagerAdapter.updataAdapter(imglist);
+                        showpageradapter.updataAdapter(imglist);
+                        /**商品基本信息*/
+                        goodsName1.setText(Utils.getString(info.goods_info.goods_name));
+                        goodsName2.setText(Utils.getString(info.goods_info.goods_jingle));
+                        goodsPrice.setText("￥ " + Utils.getString(info.goods_info.goods_price));
+                        goodsSolenum.setText("销量：" + Utils.getString(info.goods_info.goods_salenum));
+                        if (Utils.isEmpty(info.goods_info.goods_grade)) {
+                            GlideEngine.getInstance().loadImage(mContext, goodsImgRating, info.goods_info.goods_grade);
+                        } else {
+                            goodsImgRating.setVisibility(View.GONE);
+                        }
+                        /**物流信息*/
+                        goodsLoca.setText(Utils.getString(info.goods_hair_info.area_name));
+                        goodsHavegoods.setText(Utils.getString(info.goods_hair_info.if_store_cn));
+                        goodsRunmoney.setText(Utils.getString(info.goods_hair_info.content));
+                        /**店铺信息*/
+                        goodsTextStorename.setText(Utils.getString(info.store_info.store_name));
+                        goodsTextDescribe1.setText(Utils.getString(info.store_info.store_credit.store_servicecredit.text));
+                        goodsTextDescribe2.setText(Utils.getString(info.store_info.store_credit.store_deliverycredit.text));
+                        goodsTextDescribe3.setText(Utils.getString(info.store_info.store_credit.store_desccredit.text));
+                        goodsTextDescribecore1.setText(Utils.getString(info.store_info.store_credit.store_servicecredit.credit));
+                        goodsTextDescribecore2.setText(Utils.getString(info.store_info.store_credit.store_deliverycredit.credit));
+                        goodsTextDescribecore3.setText(Utils.getString(info.store_info.store_credit.store_desccredit.credit));
+                        goodsTextDescribelevel1.setText(Utils.getString(info.store_info.store_credit.store_servicecredit.percent_text));
+                        goodsTextDescribelevel2.setText(Utils.getString(info.store_info.store_credit.store_deliverycredit.percent_text));
+                        goodsTextDescribelevel3.setText(Utils.getString(info.store_info.store_credit.store_desccredit.percent_text));
+                        /**商品评价*/
+                        goodsTextPercent.setText("好评率 " + Utils.getString(info.goods_evaluate_info.good_percent) + "%");
+                        goodsTextPercentnum.setText("(" + Utils.getString(info.goods_evaluate_info.all) + "人评价)");
+                        if (Utils.isEmpty(info.goods_commend_list)) {
+                            goods_commend_lists.clear();
+                            goods_commend_lists.addAll(info.goods_commend_list);
+                            commonAdapter.updataAdapter(goods_commend_lists);
+                        } else {
+                            goodsViewRecommend.setVisibility(View.GONE);
+                        }
+
+                        String goods_info = JSONParser.getStringFromJsonString("goods_info", data);
+                        String goods_spec = JSONParser.getStringFromJsonString("goods_spec", goods_info);
+                        List<SpecBean> defaultList = ((GoodsDetailsActivity) mContext).getSpecList(goods_spec);
+                        goodsTextSelectclass.removeAllViews();
+                        if (defaultList != null && defaultList.size() > 0) {
+                            for (int i = 0; i < defaultList.size(); i++) {
+                                View view = getView(R.layout.spec_item);
+                                TextView textView = getView(view, R.id.text);
+                                textView.setText(defaultList.get(i).value);
+                                textView.setActivated(true);
+                                goodsTextSelectclass.addView(view);
+                            }
+                        } else {
+                            View view = getView(R.layout.spec_item);
+                            TextView textView = getView(view, R.id.text);
+                            textView.setText("默认");
+                            textView.setActivated(true);
+                            goodsTextSelectclass.addView(view);
+                        }
+
+//                        goodsTextSelectdescribe.setText("x" + goods_number);/**商品购买量*/
+                    });
                 }
             } catch (NullPointerException e) {
                 e.printStackTrace();
@@ -566,7 +600,9 @@ public class GoodsFragment extends BaseFragment<GoodsPersenter, GoodsModel> impl
                 e.printStackTrace();
             }
         }
+
     }
+
 
     private void getAreaData(String id, Handler handler, int what) {
         new RxManager().add(Api.getDefault().getAreaList(id).compose(RxHelper.handleResult()).subscribe(info -> {

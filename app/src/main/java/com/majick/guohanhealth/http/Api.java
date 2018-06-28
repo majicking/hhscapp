@@ -11,10 +11,13 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Cache;
+import okhttp3.Call;
+import okhttp3.Callback;
 import okhttp3.Headers;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -77,7 +80,7 @@ public class Api {
     private static final int DEFAULT_TIMEOUT = 5;
 
 
-    public static OkHttpClient getOkHttp(){
+    public static OkHttpClient getOkHttp() {
         return ApiHolder.instance.mOkHttpClient;
     }
 
@@ -99,7 +102,7 @@ public class Api {
                 .addInterceptor(chain -> {
                     Request builder = chain.request()
                             .newBuilder().build();
-                  Headers headers= builder.headers();
+                    Headers headers = builder.headers();
 //                if (headers != null && headers.size() > 0) {
 //                    Set<String> keys = headers.keySet();
 //                    for (String headerKey : keys) {
@@ -141,7 +144,14 @@ public class Api {
 
     public static ApiService getDefault() {
         return ApiHolder.instance.sApiService;
+    }
 
+    public static void get(String url, Callback callback) {
+        getOkHttp().newCall(new Request.Builder().url(Constants.URLHEAD+ url).get().build()).enqueue(callback);
+    }
+
+    public static void post(String url, RequestBody body, Callback callback) {
+        getOkHttp().newCall(new Request.Builder().url(Constants.URLHEAD + url).post(body).build()).enqueue(callback);
     }
 
 }

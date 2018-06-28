@@ -2,7 +2,11 @@ package com.majick.guohanhealth.base;
 
 
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,12 +14,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.majick.guohanhealth.R;
+import com.majick.guohanhealth.event.PermissionListener;
 import com.majick.guohanhealth.http.RxManager;
 import com.majick.guohanhealth.utils.Utils;
 import com.majick.guohanhealth.view.LoadingDialog;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import java.lang.reflect.ParameterizedType;
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.ButterKnife;
 
@@ -128,7 +135,20 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
             mDialog.show();
     }
 
+    public View getView(int layoutid) {
+        View v = LayoutInflater.from(mContext).inflate(layoutid, null);
+        return v;
+    }
 
+    /**
+     * 获取控件
+     */
+    public <T extends View> T getView(View view, int viewId) {
+        if (view != null) {
+            view = view.findViewById(viewId);
+        }
+        return (T) view;
+    }
     /**
      * 隐藏对话框
      */
@@ -175,4 +195,46 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
     }
 
 
+    /**
+     * 申请运行时权限
+     */
+    public void requestRuntimePermission(String[] permissions, PermissionListener permissionListener) {
+        mPermissionListener = permissionListener;
+        List<String> permissionList = new ArrayList<>();
+        for (String permission : permissions) {
+            if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
+                permissionList.add(permission);
+            }
+        }
+
+        if (!permissionList.isEmpty()) {
+            ActivityCompat.requestPermissions(this, permissionList.toArray(new String[permissionList.size()]), 1);
+        } else {
+            permissionListener.onGranted();
+        }
+    }
+    public PermissionListener mPermissionListener;
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case 1:
+                if (grantResults.length > 0) {
+                    List<String> deniedPermissions = new ArrayList<>();
+                    for (int i = 0; i < grantResults.length; i++) {
+                        int grantResult = grantResults[i];
+                        String permission = permissions[i];
+                        if (grantResult != PackageManager.PERMISSION_GRANTED) {
+                            deniedPermissions.add(permission);
+                        }
+                    }
+                    if (deniedPermissions.isEmpty()) {
+                        mPermissionListener.onGranted();
+                    } else {
+                        mPermissionListener.onDenied(deniedPermissions);
+                    }
+                }
+                break;
+        }
+    }
 }

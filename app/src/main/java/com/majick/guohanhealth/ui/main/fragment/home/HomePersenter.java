@@ -33,50 +33,58 @@ public class HomePersenter extends BasePresenter<HomeView, HomeModel> {
             @Override
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
-                String json = (String) msg.obj;
-                Logutils.i(json);
-                String code = JSONParser.getStringFromJsonString("code", json);
-                String datas = JSONParser.getStringFromJsonString("datas", json);
-                if (code.equals("200")) {
-                    try {
-                        JSONArray arr = new JSONArray(datas);
-                        int size = null == arr ? 0 : arr.length();
-                        for (int i = 0; i < size; i++) {
-                            JSONObject obj = arr.getJSONObject(i);
-                            JSONObject JsonObj = new JSONObject(obj.toString());
-                            if (!JsonObj.isNull("home1")) {
-                                mView.showHome1(JSONParser.JSON2Object(JsonObj.getString("home1"), Home1Info.class));
-                            } else if (!JsonObj.isNull("home2")) {
-                                mView.showHome2(JSONParser.JSON2Object(JsonObj.getString("home2"), Home2Info.class));
-                            } else if (!JsonObj.isNull("home3")) {
-                                mView.showHome3(JSONParser.JSON2Object(JsonObj.getString("home3"), Home3Info.class));
-                            } else if (!JsonObj.isNull("home4")) {
-                                mView.showHome4(JSONParser.JSON2Object(JsonObj.getString("home4"), Home4Info.class));
-                            } else if (!JsonObj.isNull("home5")) {
-                                mView.showHome5(JSONParser.JSON2Object(JsonObj.getString("home5"), Home5Info.class));
-                            } else if (!JsonObj.isNull("adv_list")) {//banner
-                                mView.showAdvList(JSONParser.JSON2Object(JsonObj.getString("adv_list"), Adv_list.class).item);
-                            } else if (!JsonObj.isNull("video_list")) {     //视频接口
-                                mView.showVideoView(JsonObj);
-                            } else if (!JsonObj.isNull("goods")) {//商品版块
-                                mView.showGoods(JsonObj);
-                            } else if (!JsonObj.isNull("goods1")) {    //限时商品
-                                mView.showGoods1(JsonObj);
-                            } else if (!JsonObj.isNull("goods2")) {     //抢购商品
-                                mView.showGoods2(JsonObj);
+                if (msg.what == 2) {
+                    mView.faild((String) msg.obj);
+                } else if (msg.what == 1) {
+                    String json = (String) msg.obj;
+                    Logutils.i(json);
+                    String code = JSONParser.getStringFromJsonString("code", json);
+                    String datas = JSONParser.getStringFromJsonString("datas", json);
+                    if (code.equals("200")) {
+                        try {
+                            JSONArray arr = new JSONArray(datas);
+                            int size = null == arr ? 0 : arr.length();
+                            for (int i = 0; i < size; i++) {
+                                JSONObject obj = arr.getJSONObject(i);
+                                JSONObject JsonObj = new JSONObject(obj.toString());
+                                if (!JsonObj.isNull("home1")) {
+                                    mView.showHome1(JSONParser.JSON2Object(JsonObj.getString("home1"), Home1Info.class));
+                                } else if (!JsonObj.isNull("home2")) {
+                                    mView.showHome2(JSONParser.JSON2Object(JsonObj.getString("home2"), Home2Info.class));
+                                } else if (!JsonObj.isNull("home3")) {
+                                    mView.showHome3(JSONParser.JSON2Object(JsonObj.getString("home3"), Home3Info.class));
+                                } else if (!JsonObj.isNull("home4")) {
+                                    mView.showHome4(JSONParser.JSON2Object(JsonObj.getString("home4"), Home4Info.class));
+                                } else if (!JsonObj.isNull("home5")) {
+                                    mView.showHome5(JSONParser.JSON2Object(JsonObj.getString("home5"), Home5Info.class));
+                                } else if (!JsonObj.isNull("adv_list")) {//banner
+                                    mView.showAdvList(JSONParser.JSON2Object(JsonObj.getString("adv_list"), Adv_list.class).item);
+                                } else if (!JsonObj.isNull("video_list")) {     //视频接口
+                                    mView.showVideoView(JsonObj);
+                                } else if (!JsonObj.isNull("goods")) {//商品版块
+                                    mView.showGoods(JsonObj);
+                                } else if (!JsonObj.isNull("goods1")) {    //限时商品
+                                    mView.showGoods1(JsonObj);
+                                } else if (!JsonObj.isNull("goods2")) {     //抢购商品
+                                    mView.showGoods2(JsonObj);
+                                }
                             }
+                        } catch (Exception e) {
+                            e.printStackTrace();
                         }
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                    } else {
+                        mView.faild("网络异常");
                     }
-                }else{
-
                 }
             }
         };
         Api.getOkHttp().newCall(new Request.Builder().url(Constants.URLHEAD + ApiService.HOMEINDEX).build()).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
+                Message message = new Message();
+                message.what = 2;
+                message.obj = e.getMessage();
+                handler.sendMessage(message);
             }
 
             @Override

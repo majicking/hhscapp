@@ -40,6 +40,14 @@ public class App extends Application {
         return mSocket;
     }
 
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        app = this;
+        sharedPreferences = getSharedPreferences(BuildConfig.APPLICATION_ID, MODE_PRIVATE);
+        getHotWords();  /**获取热门词*/
+        UpdataUserInfo(getKey(), getUserid());/**更新用户信息*/
+    }
 
     private String key;
     private String userid;
@@ -48,7 +56,7 @@ public class App extends Application {
     private String hotvalue;
     private SharedPreferences sharedPreferences;
     private Member_info info;
-    private int page_total=1;
+    private int page_total = 1;
     private String hasmore;
 
     public int getPage_total() {
@@ -140,37 +148,36 @@ public class App extends Application {
     }
 
 
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        app = this;
-        initLogger();
-        /**获取热门词*/
-        getHotWords();
-        sharedPreferences = getSharedPreferences(BuildConfig.APPLICATION_ID, MODE_PRIVATE);
-//        /**更新用户信息*/
-//        UpdataUserInfo(getKey(), getUserid());
-    }
-
     private void UpdataUserInfo(String key, String userid) {
         new RxManager().add((Api.getDefault().getUserInfo(key, userid, "member_id").compose(RxHelper.handleResult())).subscribe(userinfo -> {
+            Logutils.i("自动登陆成功" + userinfo.member_info.toString());
             App.getApp().setInfo(userinfo.member_info);
         }, throwable -> {
-            Logutils.i(throwable.getMessage());
+            Logutils.i("自动登陆失败：" + throwable.getMessage());
         }));
     }
 
-    private void initLogger() {
-    }
 
     private void getHotWords() {
-        Logutils.i("11111111111111111111");
         new RxManager().add(Api.getDefault().getSearchDataWords().compose(RxHelper.handleResult()).subscribe(info -> {
-            App.getApp().setHotname(info.hot_info.name);
-            App.getApp().setHotvalue(info.hot_info.value);
-            Logutils.i(info);
+            if (info != null && info.hot_info != null) {
+                App.getApp().setHotname(info.hot_info.name);
+                App.getApp().setHotvalue(info.hot_info.value);
+                Logutils.i("获取热词：" + info);
+            }
         }, throwable -> {
-            Logutils.i(throwable.getMessage());
+            Logutils.i("热词失败：" + throwable.getMessage());
         }));
     }
+
+    private boolean isLogin;
+
+    public boolean isLogin() {
+        return isLogin;
+    }
+
+    public void setIsLogin(boolean isLogin) {
+        this.isLogin = isLogin;
+    }
+
 }

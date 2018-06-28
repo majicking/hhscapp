@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.majick.guohanhealth.R;
 import com.majick.guohanhealth.app.App;
 import com.majick.guohanhealth.base.BaseActivity;
+import com.majick.guohanhealth.base.BaseAppManager;
 import com.majick.guohanhealth.ui.main.activity.MainActivity;
 import com.majick.guohanhealth.ui.register.RegisterActivity;
 import com.majick.guohanhealth.utils.Logutils;
@@ -98,14 +99,17 @@ public class LoginActivity extends BaseActivity<LoginPersenter, UserModel> imple
     public void sucess(String message) {
         showToast(message);
         Logutils.i("获取登陆信息key=" + App.getApp().getKey());
-        Bundle bundle = new Bundle();
-        bundle.putInt(MAINNUMBER, 3);
-        readyGoThenKill(MainActivity.class, bundle);
+        App.getApp().setIsLogin(true);
+        finish();
+//        Bundle bundle = new Bundle();
+//        bundle.putInt(MAINNUMBER, 3);
+//        readyGoThenKill(MainActivity.class, bundle);
     }
 
 
     @Override
     public void faild(String message) {
         showToast(message);
+        App.getApp().setIsLogin(false);
     }
 }

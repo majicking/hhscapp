@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -12,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.majick.guohanhealth.R;
@@ -199,15 +197,18 @@ public class HomeFragment extends BaseFragment<HomePersenter, HomeModel> impleme
 
     @Override
     public void faild(String msg) {
+
         showToast(msg);
-        smartrefreshlayout.finishRefresh();
+        if (smartrefreshlayout!=null&&smartrefreshlayout.isRefreshing()) {
+            smartrefreshlayout.finishRefresh();
+        }
     }
 
     @Override
     public void showHome1(Home1Info jsonobj) {
-        View view = getActivity().getLayoutInflater().inflate(R.layout.home_item_home1, null);
-        TextView title = ButterKnife.findById(view, R.id.title);
-        ImageView img = ButterKnife.findById(view, R.id.img);
+        View view = getView(R.layout.home_item_home1);
+        TextView title = getView(view, R.id.title);
+        ImageView img = getView(view, R.id.img);
         if (Utils.isEmpty(jsonobj.title)) {
             title.setText(jsonobj.title);
         } else {
@@ -223,11 +224,11 @@ public class HomeFragment extends BaseFragment<HomePersenter, HomeModel> impleme
 
     @Override
     public void showHome2(Home2Info jsonobj) {
-        View view = getActivity().getLayoutInflater().inflate(R.layout.home_item_home2, null);
-        TextView title = ButterKnife.findById(view, R.id.title);
-        ImageView img1 = ButterKnife.findById(view, R.id.img1);
-        ImageView img2 = ButterKnife.findById(view, R.id.img2);
-        ImageView img3 = ButterKnife.findById(view, R.id.img3);
+        View view = getView(R.layout.home_item_home2);
+        TextView title = getView(view, R.id.title);
+        ImageView img1 = getView(view, R.id.img1);
+        ImageView img2 = getView(view, R.id.img2);
+        ImageView img3 = getView(view, R.id.img3);
         if (Utils.isEmpty(jsonobj.title)) {
             title.setText(jsonobj.title);
         } else {
@@ -245,15 +246,15 @@ public class HomeFragment extends BaseFragment<HomePersenter, HomeModel> impleme
 
     @Override
     public void showHome3(Home3Info jsonobj) {
-        View view = getActivity().getLayoutInflater().inflate(R.layout.home_item_home3, null);
-        TextView title = ButterKnife.findById(view, R.id.title);
+        View view = getView(R.layout.home_item_home3);
+        TextView title = getView(view, R.id.title);
         if (Utils.isEmpty(jsonobj.title)) {
             title.setText(jsonobj.title);
             title.setVisibility(View.VISIBLE);
         } else {
             title.setVisibility(View.GONE);
         }
-        NoScrollGridView gridView = ButterKnife.findById(view, R.id.gridview);
+        NoScrollGridView gridView = getView(view, R.id.gridview);
         CommonAdapter<Home3Info.Item> adapter = new CommonAdapter<Home3Info.Item>(mContext, jsonobj.item, R.layout.home_item_home3_adapteritem) {
             @Override
             public void convert(ViewHolder viewHolder, Home3Info.Item item, int position, View convertView, ViewGroup parentViewGroup) {
@@ -267,11 +268,11 @@ public class HomeFragment extends BaseFragment<HomePersenter, HomeModel> impleme
 
     @Override
     public void showHome4(Home4Info jsonobj) {
-        View view = getActivity().getLayoutInflater().inflate(R.layout.home_item_home4, null);
-        TextView title = ButterKnife.findById(view, R.id.title);
-        ImageView img1 = ButterKnife.findById(view, R.id.img1);
-        ImageView img2 = ButterKnife.findById(view, R.id.img2);
-        ImageView img3 = ButterKnife.findById(view, R.id.img3);
+        View view = getView(R.layout.home_item_home4);
+        TextView title = getView(view, R.id.title);
+        ImageView img1 = getView(view, R.id.img1);
+        ImageView img2 = getView(view, R.id.img2);
+        ImageView img3 = getView(view, R.id.img3);
         if (Utils.isEmpty(jsonobj.title)) {
             title.setText(jsonobj.title);
             title.setVisibility(View.VISIBLE);
@@ -291,14 +292,14 @@ public class HomeFragment extends BaseFragment<HomePersenter, HomeModel> impleme
     @Override
     public void showHome5(Home5Info jsonobj) {
         smartrefreshlayout.finishRefresh();
-        View view = getActivity().getLayoutInflater().inflate(R.layout.home_item_home5, null);
-        View titlelayout = ButterKnife.findById(view, R.id.titlelayout);
-        TextView title1 = ButterKnife.findById(view, R.id.title1);
-        TextView title2 = ButterKnife.findById(view, R.id.title2);
-        ImageView img1 = ButterKnife.findById(view, R.id.img1);
-        ImageView img2 = ButterKnife.findById(view, R.id.img2);
-        ImageView img3 = ButterKnife.findById(view, R.id.img3);
-        ImageView img4 = ButterKnife.findById(view, R.id.img4);
+        View view = getView(R.layout.home_item_home5);
+        View titlelayout = getView(view, R.id.titlelayout);
+        TextView title1 = getView(view, R.id.title1);
+        TextView title2 = getView(view, R.id.title2);
+        ImageView img1 = getView(view, R.id.img1);
+        ImageView img2 = getView(view, R.id.img2);
+        ImageView img3 = getView(view, R.id.img3);
+        ImageView img4 = getView(view, R.id.img4);
         GlideEngine.getInstance().loadImage(mContext, img1, jsonobj.square_image);
         GlideEngine.getInstance().loadImage(mContext, img2, jsonobj.rectangle1_image);
         GlideEngine.getInstance().loadImage(mContext, img3, jsonobj.rectangle2_image);
@@ -330,6 +331,9 @@ public class HomeFragment extends BaseFragment<HomePersenter, HomeModel> impleme
             }
         });
         banner.start();
+        if (smartrefreshlayout!=null&&smartrefreshlayout.isRefreshing()) {
+            smartrefreshlayout.finishRefresh();
+        }
     }
 
     @Override

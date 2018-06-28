@@ -308,11 +308,16 @@ public class RegisterActivity extends BaseActivity<RegisterPersenter, RegisterMo
         Bundle bundle = new Bundle();
         bundle.putInt(MAINNUMBER, 3);
         readyGoThenKill(MainActivity.class, bundle);
+        App.getApp().setIsLogin(true);
     }
 
     @Override
     public void loginFail(String msg) {
         showToast(msg);
+        Bundle bundle = new Bundle();
+        bundle.putInt(MAINNUMBER, 3);
+        readyGoThenKill(MainActivity.class, bundle);
+        App.getApp().setIsLogin(false);
     }
 
 

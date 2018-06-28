@@ -93,7 +93,7 @@ public class CustomPopuWindow {
      * @return
      */
     public CustomPopuWindow showAtLocation(View parent, int gravity, int x, int y) {
-        if (mPopupWindow != null) {
+        if (mPopupWindow != null&&!mPopupWindow.isShowing()) {
             mPopupWindow.showAtLocation(parent, gravity, x, y);
         }
         return this;

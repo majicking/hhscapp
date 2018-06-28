@@ -140,4 +140,6 @@ dependencies {
     api 'com.google.zxing:core:3.2.1'
     implementation lib.BaseRecyclerViewAdapterHelper
     implementation lib.fastjson
+    implementation 'com.beloo.widget:ChipsLayoutManager:0.3.7@aar'
+
 }

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/goods_view_scrollview"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/goods_view_scrollview"
     tools:context=".ui.goods.goodsdetailed.fragment.goods.GoodsFragment">
 
 
@@ -65,12 +65,14 @@
                     style="@style/left15"
                     android:text="￥0.00"
                     android:textColor="@color/appColor" />
+
                 <ImageView
                     android:id="@+id/goods_img_rating"
-                    android:layout_centerVertical="true"
-                    android:layout_toRightOf="@id/goods_price"
                     android:layout_width="@dimen/dp_20"
-                    android:layout_height="@dimen/dp_20" />
+                    android:layout_height="@dimen/dp_20"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@id/goods_price" />
+
                 <TextView
                     android:id="@+id/goods_solenum"
                     style="@style/right15"
@@ -150,17 +152,23 @@
                     style="@style/left15"
                     android:text="已选" />
 
-                <TextView
+                <LinearLayout
                     android:id="@+id/goods_text_selectclass"
                     style="@style/left15"
-                    android:text="数量 x1" />
+                    android:minWidth="@dimen/dp_100"
+                    android:orientation="horizontal">
+
+                </LinearLayout>
 
                 <View style="@style/linearlayout_zw" />
 
                 <TextView
                     android:id="@+id/goods_text_selectdescribe"
                     style="@style/warp"
-                    android:text="已选择默认" />
+                    android:layout_margin="@dimen/dp_5"
+                    android:text="x1"
+                    android:textSize="@dimen/sp_16"
+                    android:textStyle="bold" />
 
                 <ImageView
                     style="@style/icon_48"
@@ -355,8 +363,8 @@
 
                 <com.majick.guohanhealth.view.NoScrollGridView
                     android:id="@+id/goods_view_gridview1"
-                    android:numColumns="4"
-                    style="@style/match_warp"></com.majick.guohanhealth.view.NoScrollGridView>
+                    style="@style/match_warp"
+                    android:numColumns="4"></com.majick.guohanhealth.view.NoScrollGridView>
 
             </LinearLayout>
         </LinearLayout>

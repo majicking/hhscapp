@@ -12,6 +12,10 @@ public class HttpErrorCode {
      * 系统内部错误
      */
     public static final int ERROR_500 = 500;
+    /**
+     * 商品详细
+     */
+    public static final int ERROR_700 = 700;
 
     /**
      * 程序内部异常

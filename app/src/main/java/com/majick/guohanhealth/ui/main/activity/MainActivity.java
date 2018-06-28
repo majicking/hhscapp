@@ -280,9 +280,10 @@ public class MainActivity extends BaseActivity implements OnFragmentInteractionL
     }
 
     @Override
-    public void doSomeThing(String key, Object value) {
+    public Object doSomeThing(String key, Object value) {
         if (key.equals("type"))
             switchFragment((Integer) value);
+        return null;
     }
 
     @Override

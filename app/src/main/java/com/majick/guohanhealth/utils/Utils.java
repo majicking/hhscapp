@@ -105,7 +105,7 @@ public class Utils {
      * 检查是否已登录，如果未登录直接弹出登录页面
      */
     public static boolean isLogin(Context context) {
-        if (isEmpty(App.getApp().getKey()))
+        if (isEmpty(App.getApp().getKey()) && App.getApp().isLogin())
             return true;
         Intent intent = new Intent(context, LoginActivity.class);
         context.startActivity(intent);
