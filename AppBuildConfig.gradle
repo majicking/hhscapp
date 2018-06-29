@@ -5,7 +5,7 @@ ext {
             minSdkVersion        : 15,
             targetSdkVersion     : 27,
             versionCode          : 1,
-            versionName          : "1.0"
+            versionName          : "1.0.0"
     ]
             supportLibraryVersion= '27.1.1'
             loggerVersion        = '2.1.1'
@@ -28,7 +28,7 @@ ext {
             bannerVersion        = '1.4.10'
             smartrefreshVersion  = '1.0.5.1'
             baserecyclerviewAdapterHelperVersion  = '2.9.34'
-            fastjsonVersion  = '1.2.47'
+            fastjsonVersion      = '1.2.47'
     dependencies = [
             //base
             appcompatV7                : "com.android.support:appcompat-v7:${supportLibraryVersion}",
