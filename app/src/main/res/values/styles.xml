@@ -122,6 +122,20 @@
         <item name="android:layout_height">@dimen/dp_48</item>
     </style>
 
+    <style name="LLayout_40_h">
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/dp_40</item>
+    </style>
+
+    <style name="bg_white_magin_left_top_right_5">
+        <item name="android:layout_marginRight">@dimen/dp_5</item>
+        <item name="android:layout_marginLeft">@dimen/dp_5</item>
+        <item name="android:layout_marginTop">@dimen/dp_5</item>
+        <item name="android:background">@drawable/bg_circle_white_5</item>
+    </style>
+
     <style name="LLayout_50_h">
         <item name="android:gravity">center_vertical</item>
         <item name="android:orientation">horizontal</item>
@@ -218,7 +232,6 @@
     <style name="specBtn">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">@dimen/dp_20</item>
-        <item name="android:maxWidth">@dimen/dp_100</item>
         <item name="android:minWidth">@dimen/dp_50</item>
         <item name="android:ellipsize">end</item>
         <item name="android:background">@drawable/btn_select</item>
@@ -227,6 +240,7 @@
         <item name="android:paddingLeft">@dimen/dp_5</item>
         <item name="android:textColor">@drawable/djk_btn_text_color</item>
     </style>
+
     <style name="commentBtn">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">@dimen/dp_25</item>

@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
+import android.support.v4.view.PagerAdapter;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
@@ -54,6 +55,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 
@@ -126,6 +128,9 @@ public class GoodsFragment extends BaseFragment<GoodsPersenter, GoodsModel> impl
     @BindView(R.id.goods_view_selectclass)
     LinearLayout goodsViewSelectclass;
     Unbinder unbinder;
+    @BindView(R.id.goods_view_percent)
+    LinearLayout goodsViewPercent;
+    Unbinder unbinder1;
     private String mParam1;
     private String mParam2;
     private List<String> imglist;
@@ -221,7 +226,9 @@ public class GoodsFragment extends BaseFragment<GoodsPersenter, GoodsModel> impl
             goods_id = goods_commend_lists.get(p).goods_id;
             onButtonPressed(Constants.GOODS_ID, goods_id);
         });
-
+        goodsViewPercent.setOnClickListener(v -> {
+            onButtonPressed(Constants.CURRENTITEM, 2);
+        });
         goodsViewLoca.setOnClickListener(v -> {
             showLocationWindow();
         });
@@ -237,6 +244,7 @@ public class GoodsFragment extends BaseFragment<GoodsPersenter, GoodsModel> impl
             goodsdata = info.data;
             getGoodsDetails(Utils.getString(info.data));
         });
+
     }
 
 
@@ -360,6 +368,20 @@ public class GoodsFragment extends BaseFragment<GoodsPersenter, GoodsModel> impl
         goodsLoca.setText(areaText);
         goodsHavegoods.setText(Utils.getString(info.if_store_cn));
         goodsRunmoney.setText(Utils.getString(info.content));
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // TODO: inflate a fragment view
+        View rootView = super.onCreateView(inflater, container, savedInstanceState);
+        unbinder1 = ButterKnife.bind(this, rootView);
+        return rootView;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder1.unbind();
     }
 
 
@@ -529,7 +551,11 @@ public class GoodsFragment extends BaseFragment<GoodsPersenter, GoodsModel> impl
                 if (is_virtual.equals("0")) {
                     ((GoodsDetailsActivity) mContext).runOnUiThread(() -> {
                         //此时已在主线程中，可以更新UI了
-                        new Handler().postDelayed(() -> goodsViewScrollview.fullScroll(ScrollView.FOCUS_UP), 50);
+                        new Handler().postDelayed(() -> {
+                            if (goodsViewScrollview!=null){
+                                goodsViewScrollview.fullScroll(ScrollView.FOCUS_UP);
+                            }
+                        }, 50);
                         /**展示图片banner*/
                         imglist.clear();
                         imglist.addAll(getImageList(info.goods_image));

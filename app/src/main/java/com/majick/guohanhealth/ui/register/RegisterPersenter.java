@@ -33,11 +33,11 @@ public class RegisterPersenter extends BasePresenter<RegisterView, RegisterModel
         mView.showLoadingDialog("注册中...");
         mRxManager.add(mModel.register(userName, passWord, password_confirm, email, referral_code).subscribe(registerInfo -> {
             Logutils.i(registerInfo);
-            mView.hideLoadingDialog();
-            mView.success("注册成功");
             App.getApp().setKey(registerInfo.key);
             App.getApp().setUserid(registerInfo.userid);
             App.getApp().setUsername(registerInfo.username);
+            mView.success("注册成功");
+            mView.hideLoadingDialog();
         }, new ConsumerError<Throwable>() {
             @Override
             public void onError(int errorCode, String message) {
@@ -49,8 +49,8 @@ public class RegisterPersenter extends BasePresenter<RegisterView, RegisterModel
     }
 
 
-    public void getUserInfo() {
-        mRxManager.add(mModel.getUserInfo(App.getApp().getKey(), App.getApp().getUserid()).subscribe(
+    public void getUserInfo(String key, String uid) {
+        mRxManager.add(mModel.getUserInfo(key, uid).subscribe(
                 userInfo -> {
                     App.getApp().setInfo(userInfo.member_info);
                     mView.loginSuccess();

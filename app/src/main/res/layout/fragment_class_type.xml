@@ -25,12 +25,14 @@
                 android:src="@mipmap/nc_icon_search" />
 
             <TextView
-                android:paddingLeft="@dimen/dp_10"
-                android:gravity="center_vertical"
                 android:id="@+id/hottext"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:ellipsize="end"
+                android:gravity="center_vertical"
+                android:maxLines="1"
+                android:paddingLeft="@dimen/dp_10"
                 android:textColor="@color/nc_text" />
 
             <ImageView

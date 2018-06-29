@@ -103,6 +103,33 @@
                             android:layout_alignParentRight="true"
                             android:layout_margin="5dp"
                             android:src="@mipmap/rating_rate" />
+
+                        <View style="@style/linearlayout_zw" />
+
+                        <TextView
+                            android:id="@+id/goodslist_item_list_fcode"
+                            style="@style/warp"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="@dimen/dp_5"
+                            android:background="@color/appColor"
+                            android:paddingLeft="4dp"
+                            android:paddingRight="4dp"
+                            android:text="F"
+                            android:textColor="@color/white"
+                            android:textSize="10dp" />
+
+                        <TextView
+                            android:id="@+id/goodslist_item_list_virtual"
+                            style="@style/warp"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:background="@color/appColor"
+                            android:paddingLeft="2dp"
+                            android:paddingRight="2dp"
+                            android:text="虚拟"
+                            android:textColor="@color/white"
+                            android:textSize="10dp" />
                     </LinearLayout>
 
                 </LinearLayout>
@@ -141,9 +168,13 @@
                     android:id="@+id/goodslist_item_list_storename"
                     style="@style/warp"
                     android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/dp_5"
                     android:layout_marginRight="@dimen/dp_5"
                     android:layout_toLeftOf="@+id/goodslist_item_list_ownstore"
-                    android:text="123123"
+                    android:layout_toRightOf="@+id/goodslist_item_list_salenumber"
+                    android:ellipsize="end"
+                    android:gravity="right"
+                    android:maxLines="1"
                     android:textColor="@color/nc_text"
                     android:textSize="12dp" />
 

@@ -107,18 +107,44 @@
                             android:layout_width="20dp"
                             android:layout_height="20dp"
                             android:layout_alignParentRight="true"
-                            android:layout_margin="5dp" />
+                            android:layout_margin="5dp"
+                            android:src="@mipmap/rating_rate" />
+
+                        <View style="@style/linearlayout_zw" />
+
+                        <TextView
+                            android:id="@+id/goodslist_item_list_fcode"
+                            style="@style/warp"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="@dimen/dp_5"
+                            android:background="@color/appColor"
+                            android:paddingLeft="4dp"
+                            android:paddingRight="4dp"
+                            android:text="F"
+                            android:textColor="@color/white"
+                            android:textSize="10dp" />
+                        <TextView
+                            android:id="@+id/goodslist_item_list_virtual"
+                            style="@style/warp"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:background="@color/appColor"
+                            android:paddingLeft="2dp"
+                            android:paddingRight="2dp"
+                            android:text="虚拟"
+                            android:textColor="@color/white"
+                            android:textSize="10dp" />
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
 
-                <TextView
-                    style="@style/djk_line"
-                    android:layout_alignParentBottom="true" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
 
                 <TextView
                     android:id="@+id/goodslist_item_list_salenumber"
@@ -131,13 +157,20 @@
                     android:textColor="@color/nc_text"
                     android:textSize="12dp" />
 
+                <View style="@style/linearlayout_zw" />
+
                 <TextView
-                    android:visibility="invisible"
+                    android:id="@+id/goodslist_item_list_storename"
+                    style="@style/warp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/dp_5"
+                    android:ellipsize="end"
+                    android:maxWidth="@dimen/dp_150" />
+
+                <TextView
                     android:id="@+id/goodslist_item_list_ownstore"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
                     android:layout_marginRight="5dp"
                     android:background="@color/appColor"
                     android:paddingLeft="2dp"
@@ -146,15 +179,11 @@
                     android:textColor="@color/white"
                     android:textSize="10dp" />
 
-                <TextView
-                    android:id="@+id/goodslist_item_list_storename"
-                    style="@style/warp"
-                    android:layout_centerVertical="true"
-                    android:layout_marginRight="@dimen/dp_5"
-                    android:layout_toLeftOf="@+id/goodslist_item_list_ownstore" />
+            </LinearLayout>
 
-            </RelativeLayout>
-
+            <TextView
+                style="@style/djk_line"
+                android:layout_alignParentBottom="true" />
         </LinearLayout>
     </LinearLayout>
 

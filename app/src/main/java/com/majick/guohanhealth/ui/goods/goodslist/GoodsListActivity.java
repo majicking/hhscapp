@@ -450,6 +450,12 @@ public class GoodsListActivity extends BaseActivity<GoodsListPersenter, GoodsMod
                 holder.setText(R.id.goodslist_item_list_storename, Utils.getString(item.store_name));
                 holder.setText(R.id.goodslist_item_list_price, "￥ " + Utils.getString(item.goods_price));
                 GlideEngine.getInstance().loadImage(mContext, holder.getView(R.id.goodslist_item_list_img), Utils.getString(item.goods_image_url));
+
+                TextView isownshop = holder.getView(R.id.goodslist_item_list_ownstore);
+                TextView fcode = holder.getView(R.id.goodslist_item_list_fcode);
+                TextView itemtype = holder.getView(R.id.goodslist_item_list_grouppurchase);
+                TextView virtual = holder.getView(R.id.goodslist_item_list_virtual);
+
                 /**星级*/
                 if (Utils.isEmpty(item.evaluation_good_star) && !item.evaluation_good_star.equals("0")) {
                     GlideEngine.getInstance().loadImage(mContext, holder.getView(R.id.goodslist_item_list_rating), Utils.getString(item.goods_grade));
@@ -462,8 +468,28 @@ public class GoodsListActivity extends BaseActivity<GoodsListPersenter, GoodsMod
                 } else {
                     holder.getView(R.id.goodslist_item_list_gift).setVisibility(View.GONE);
                 }
-                TextView itemtype = holder.getView(R.id.goodslist_item_list_grouppurchase);
 
+                /**平台自营*/
+                if (Utils.getString(item.is_own_shop).equals("1")) {
+                    isownshop.setVisibility(View.VISIBLE);
+                    isownshop.setBackgroundColor(Constants.RANDOMCOLOR);
+                } else {
+                    isownshop.setVisibility(View.GONE);
+                }
+                /**F商品*/
+                if (Utils.getString(item.is_fcode).equals("1")) {
+                    fcode.setVisibility(View.VISIBLE);
+                    fcode.setBackgroundColor(Constants.RANDOMCOLOR);
+                } else {
+                    fcode.setVisibility(View.GONE);
+                }
+                /**虚拟*/
+                if (Utils.getString(item.is_fcode).equals("1")) {
+                    virtual.setVisibility(View.VISIBLE);
+                    virtual.setBackgroundColor(Constants.RANDOMCOLOR);
+                } else {
+                    virtual.setVisibility(View.GONE);
+                }
                 if (item.group_flag) { /**团购*/
                     itemtype.setVisibility(View.VISIBLE);
                     itemtype.setText(getString(R.string.text_groupbuy));
@@ -479,20 +505,12 @@ public class GoodsListActivity extends BaseActivity<GoodsListPersenter, GoodsMod
                     itemtype.setVisibility(View.VISIBLE);
                     itemtype.setText(getString(R.string.text_appoint));
                     itemtype.setBackgroundColor(Constants.RANDOMCOLOR);
-                } else if (Utils.getString(item.is_fcode).equals("1")) {/**F码*/
-                    itemtype.setVisibility(View.VISIBLE);
-                    itemtype.setText(getString(R.string.text_fcode));
-                    itemtype.setBackgroundColor(Constants.RANDOMCOLOR);
                 } else if (Utils.getString(item.is_presell).equals("1")) {/**预售*/
                     itemtype.setVisibility(View.VISIBLE);
                     itemtype.setText(getString(R.string.text_presell));
                     itemtype.setBackgroundColor(Constants.RANDOMCOLOR);
-                } else if (Utils.getString(item.is_virtual).equals("1")) {/**虚拟*/
-                    itemtype.setVisibility(View.VISIBLE);
-                    itemtype.setText(getString(R.string.text_virtual));
-                    itemtype.setBackgroundColor(Constants.RANDOMCOLOR);
                 } else {
-                    holder.getView(R.id.goodslist_item_list_grouppurchase).setVisibility(View.GONE);
+                    itemtype.setVisibility(View.GONE);
                 }
 
             }

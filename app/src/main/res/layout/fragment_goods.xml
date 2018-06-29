@@ -229,7 +229,9 @@
 
             </LinearLayout>
 
-            <LinearLayout style="@style/LLayout_48_h">
+            <LinearLayout
+                android:id="@+id/goods_view_percent"
+                style="@style/LLayout_48_h">
 
                 <TextView
                     style="@style/left15"

@@ -11,11 +11,11 @@ public class Register2Persenter extends BasePresenter<RegisterView, RegisterMode
                     App.getApp().setKey(registerInfo.key);
                     App.getApp().setUserid(registerInfo.userid);
                     App.getApp().setUsername(registerInfo.username);
-                    mView.hideLoadingDialog();
                     mView.success("注册成功");
-                }, throwable -> {
                     mView.hideLoadingDialog();
+                }, throwable -> {
                     mView.faild(throwable.getMessage());
+                    mView.hideLoadingDialog();
                 }
         ));
     }

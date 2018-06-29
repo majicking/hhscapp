@@ -20,6 +20,7 @@ import com.majick.guohanhealth.app.App;
 import com.majick.guohanhealth.app.Constants;
 import com.majick.guohanhealth.base.BaseActivity;
 import com.majick.guohanhealth.ui.WebViewActivity;
+import com.majick.guohanhealth.ui.login.LoginActivity;
 import com.majick.guohanhealth.ui.main.activity.MainActivity;
 import com.majick.guohanhealth.utils.Logutils;
 import com.majick.guohanhealth.utils.Utils;
@@ -240,7 +241,7 @@ public class RegisterActivity extends BaseActivity<RegisterPersenter, RegisterMo
     @Override
     public void success(String msg) {
         showToast(msg);
-        mPresenter.getUserInfo();
+        mPresenter.getUserInfo(App.getApp().getKey(), App.getApp().getUserid());
     }
 
 
@@ -304,7 +305,7 @@ public class RegisterActivity extends BaseActivity<RegisterPersenter, RegisterMo
 
     @Override
     public void loginSuccess() {
-        Logutils.i("获取登陆信息成功" + App.getApp().getInfo().toString());
+        Logutils.i("获取登陆信息成功");
         Bundle bundle = new Bundle();
         bundle.putInt(MAINNUMBER, 3);
         readyGoThenKill(MainActivity.class, bundle);
@@ -315,8 +316,10 @@ public class RegisterActivity extends BaseActivity<RegisterPersenter, RegisterMo
     public void loginFail(String msg) {
         showToast(msg);
         Bundle bundle = new Bundle();
-        bundle.putInt(MAINNUMBER, 3);
-        readyGoThenKill(MainActivity.class, bundle);
+        bundle.putString("username", Utils.getEditViewText(registerUsername));
+        bundle.putString("password", Utils.getEditViewText(registerPwd));
+        bundle.putInt("type", 2);
+        readyGoThenKill(LoginActivity.class, bundle);
         App.getApp().setIsLogin(false);
     }
 

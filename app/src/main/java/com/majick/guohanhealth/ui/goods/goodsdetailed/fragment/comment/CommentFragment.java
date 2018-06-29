@@ -7,8 +7,8 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -21,12 +21,13 @@ import com.majick.guohanhealth.adapter.ViewHolder;
 import com.majick.guohanhealth.app.Constants;
 import com.majick.guohanhealth.base.BaseFragment;
 import com.majick.guohanhealth.bean.EvalInfo;
+import com.majick.guohanhealth.custom.EmptyView;
 import com.majick.guohanhealth.event.OnFragmentInteractionListener;
 import com.majick.guohanhealth.ui.goods.GoodsModel;
 import com.majick.guohanhealth.utils.Logutils;
+import com.majick.guohanhealth.utils.StringUtil;
 import com.majick.guohanhealth.utils.Utils;
-
-import org.w3c.dom.Text;
+import com.majick.guohanhealth.utils.engine.GlideEngine;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -44,6 +45,8 @@ public class CommentFragment extends BaseFragment<CommentPersenter, GoodsModel> 
     GridView gridview;
     @BindView(R.id.recycleview)
     RecyclerView recycleview;
+    @BindView(R.id.emptyview)
+    EmptyView emptyview;
 
     private String mParam1;
     private String mParam2;
@@ -82,6 +85,7 @@ public class CommentFragment extends BaseFragment<CommentPersenter, GoodsModel> 
     private String type = "";
     private String page = "10";
     private String[] title = {"全部评价", "好评", "中评", "差评", "订单晒图", "追加评论"};
+    private int steclectNumber = 0;
 
     @Override
     protected void initView(Bundle savedInstanceState) {
@@ -91,6 +95,11 @@ public class CommentFragment extends BaseFragment<CommentPersenter, GoodsModel> 
             public void convert(ViewHolder viewHolder, String item, int position, View convertView, ViewGroup parentViewGroup) {
                 TextView textView = viewHolder.getView(R.id.text);
                 textView.setText(item);
+                if (position == steclectNumber) {
+                    textView.setActivated(true);
+                } else {
+                    textView.setActivated(false);
+                }
             }
         });
         gridview.setOnItemClickListener((parent, view, position, id) -> {
@@ -104,7 +113,7 @@ public class CommentFragment extends BaseFragment<CommentPersenter, GoodsModel> 
                     textView.setActivated(false);
                 }
             }
-
+            steclectNumber = position;
         });
         ChipsLayoutManager chipsLayoutManager = ChipsLayoutManager.newBuilder(mContext)
                 .setChildGravity(Gravity.TOP)
@@ -115,17 +124,31 @@ public class CommentFragment extends BaseFragment<CommentPersenter, GoodsModel> 
                 .withLastRow(true)
                 .build();
         recycleview.setLayoutManager(chipsLayoutManager);
-        adapter = new BaseRecyclerAdapter<EvalInfo.Goods_eval_list, com.chad.library.adapter.base.BaseViewHolder>(mContext, R.layout.comment_item, new ArrayList<>()) {
+        adapter = new BaseRecyclerAdapter<EvalInfo.Goods_eval_list, com.chad.library.adapter.base.BaseViewHolder>(mContext, R.layout.comment_list_item, new ArrayList<>()) {
             @Override
             public void convert(BaseViewHolder holder, EvalInfo.Goods_eval_list s) {
-                TextView t = holder.getView(R.id.text);
-                t.setText(s.geval_content);
+                holder.setText(R.id.name, Utils.getString(s.geval_frommembername));
+                holder.setText(R.id.time, Utils.getString(s.geval_addtime_date));
+                holder.setText(R.id.content, Utils.getString(s.geval_content));
+                LinearLayout layout = holder.getView(R.id.ratinglayout);
+                GlideEngine.getInstance().loadImage(mContext, holder.getView(R.id.img), s.member_avatar);
+                layout.removeAllViews();
+                for (int i = 0; i < 5; i++) {
+                    LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(45, 45);
+                    ImageView imageView = (ImageView) getView(R.layout.img_star);
+                    imageView.setLayoutParams(layoutParams);
+                    if ((i + 1) <= StringUtil.toInt(s.geval_scores)) {
+                        imageView.setSelected(true);
+                    } else {
+                        imageView.setSelected(false);
+                    }
+                    layout.addView(imageView);
+                }
             }
         };
         recycleview.setAdapter(adapter);
 
     }
-
 
     @Override
     public void onResume() {
@@ -192,8 +215,12 @@ public class CommentFragment extends BaseFragment<CommentPersenter, GoodsModel> 
         Logutils.i(list.toString());
 
         if (Utils.isEmpty(list)) {
+            emptyview.setVisibility(View.GONE);
             adapter.upDataAdapter(list);
         } else {
+            emptyview.setVisibility(View.VISIBLE);
+            emptyview.setEmptyText("期待您的评价哟");
+            emptyview.setEmptyText1("评价占沙发");
             adapter.upDataAdapter(new ArrayList<>());
         }
     }

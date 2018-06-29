@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.majick.guohanhealth.R;
 import com.majick.guohanhealth.event.PermissionListener;
 import com.majick.guohanhealth.http.RxManager;
+import com.majick.guohanhealth.utils.Logutils;
 import com.majick.guohanhealth.utils.Utils;
 import com.majick.guohanhealth.view.LoadingDialog;
 import com.tbruyelle.rxpermissions2.RxPermissions;
@@ -149,6 +150,9 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
         }
         return (T) view;
     }
+
+
+
     /**
      * 隐藏对话框
      */
@@ -170,6 +174,11 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
 //        }
 //        toast.show();
         showToast(this, "" + msg);
+    }
+
+    @Override
+    public void faild(String msg) {
+        Logutils.i(msg);
     }
 
     /**
@@ -213,7 +222,9 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
             permissionListener.onGranted();
         }
     }
+
     public PermissionListener mPermissionListener;
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);

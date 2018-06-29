@@ -56,8 +56,13 @@ public class LoginActivity extends BaseActivity<LoginPersenter, UserModel> imple
         return R.layout.activity_log_inctivity;
     }
 
+    private int type = 0;
+
     @Override
     protected void initView(Bundle savedInstanceState) {
+        username.setText(getIntent().getStringExtra("username"));
+        password.setText(getIntent().getStringExtra("password"));
+        type = getIntent().getIntExtra("type", 0);
         username.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -101,9 +106,12 @@ public class LoginActivity extends BaseActivity<LoginPersenter, UserModel> imple
         Logutils.i("获取登陆信息key=" + App.getApp().getKey());
         App.getApp().setIsLogin(true);
         finish();
-//        Bundle bundle = new Bundle();
-//        bundle.putInt(MAINNUMBER, 3);
-//        readyGoThenKill(MainActivity.class, bundle);
+        if (type > 0) {
+            Bundle bundle = new Bundle();
+            bundle.putInt(MAINNUMBER, 3);
+            readyGoThenKill(MainActivity.class, bundle);
+        }
+
     }
 
 

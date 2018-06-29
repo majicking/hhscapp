@@ -9,22 +9,32 @@
     tools:context=".ui.goods.goodsdetailed.fragment.comment.CommentFragment">
 
 
-
     <GridView
         android:id="@+id/gridview"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_60"
+        android:layout_height="wrap_content"
         android:cacheColorHint="#00000000"
         android:fadingEdgeLength="@dimen/dp_5"
+        android:horizontalSpacing="@dimen/dp_2"
         android:listSelector="#00000000"
-        android:numColumns="4"
-        android:scrollbars="none"
-        android:transcriptMode="alwaysScroll"
-        android:verticalSpacing="@dimen/dp_10"></GridView>
+        android:numColumns="6"
+        android:scrollbars="none"></GridView>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycleview"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
+        android:layout_height="match_parent">
+
+        <com.majick.guohanhealth.custom.EmptyView
+            android:id="@+id/emptyview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"></com.majick.guohanhealth.custom.EmptyView>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycleview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
+
+    </RelativeLayout>
 
 </LinearLayout>

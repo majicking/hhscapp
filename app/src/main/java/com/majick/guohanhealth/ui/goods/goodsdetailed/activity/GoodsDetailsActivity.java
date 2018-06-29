@@ -1,5 +1,6 @@
 package com.majick.guohanhealth.ui.goods.goodsdetailed.activity;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -47,6 +48,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import butterknife.BindView;
+import co.lujun.androidtagview.TagContainerLayout;
 
 public class GoodsDetailsActivity extends BaseActivity<GoodsDetailsPersenter, GoodsModel> implements GoodsDetailsView, OnFragmentInteractionListener {
 
@@ -185,18 +187,12 @@ public class GoodsDetailsActivity extends BaseActivity<GoodsDetailsPersenter, Go
 
     @Override
     public Object doSomeThing(String key, Object value) {
-        if ("type".equals(key)) {
+        if (Constants.CURRENTITEM.equals(key)) {
             goodsdetailViewViewpager.setCurrentItem((Integer) value);
         } else if (Constants.GOODS_ID.equals(key)) {
             getData((String) value);
         } else if (Constants.GETGOODSID.equals(key)) {
             return getGoods_id();
-        } else if (Constants.ISCARD.equals(key)) {
-            if ((Boolean) value) {
-                goodsdetailTextAddcart.setVisibility(View.VISIBLE);
-            } else {
-                goodsdetailTextAddcart.setVisibility(View.GONE);
-            }
         } else if (Constants.CARDNUMBER.equals(key)) {
             mPresenter.getCardNumber(App.getApp().getKey());
         } else if (Constants.SHOWORDER.equals(key)) {
@@ -395,8 +391,10 @@ public class GoodsDetailsActivity extends BaseActivity<GoodsDetailsPersenter, Go
                 }
                 updateValue();
             });
-
             LinearLayout layout = getView(orderView, R.id.goods_spec);/**第一层*/
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT); // 每行的水平LinearLayout
+            LinearLayout.LayoutParams itemParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            int totoalBtns = 0;
             spectype = new String[specnamelist.size()];
             if (Utils.isEmpty(specnamelist)) {
                 layout.removeAllViews();
@@ -406,18 +404,18 @@ public class GoodsDetailsActivity extends BaseActivity<GoodsDetailsPersenter, Go
                     specName.setHint(specnamelist.get(i).key);
                     specName.setText(specnamelist.get(i).value);/**设置规格*/
                     layout.addView(specView);/***/
-                    LinearLayout speclist = getView(specView, R.id.specList);/**子类第二层*/
+                    TagContainerLayout speclistLayout = getView(specView, R.id.specList);/**子类第二层*/
                     if (Utils.isEmpty(specvaluelist)) {
                         if (specvaluelist.get(i).key.equals(specnamelist.get(i).key)) {
                             List<SpecBean> list = getSpecList(specvaluelist.get(i).value);
                             if (Utils.isEmpty(list)) {
-                                speclist.removeAllViews();
+                                speclistLayout.removeAllViews();
                                 for (int j = 0; j < list.size(); j++) {
+
                                     View view = getView(R.layout.spec_item);
                                     TextView textView = getView(view, R.id.text);
                                     textView.setHint(list.get(j).key);
                                     textView.setText(list.get(j).value);/**设置规格名称*/
-                                    int finalI = i;
                                     if (Utils.isEmpty(goodsspecList)) {
                                         for (int k = 0; k < goodsspecList.size(); k++) {
                                             if (Utils.isEmpty(specimgList)) {/**加載圖片*/
@@ -460,7 +458,8 @@ public class GoodsDetailsActivity extends BaseActivity<GoodsDetailsPersenter, Go
                                             }
                                         });
                                     }
-                                    speclist.addView(view);
+
+                                    speclistLayout.addView(view);
                                 }
                             }
                         }
@@ -493,13 +492,24 @@ public class GoodsDetailsActivity extends BaseActivity<GoodsDetailsPersenter, Go
 
     @Override
     public void getGoodsDetails(String data) {
-        if (onChangeGoodsInfoListener != null) {
-            onChangeGoodsInfoListener.updataUI("updata_goods_id", getGoods_id());
-        }
-        RxBus.getDefault().post(new GoodsDetailsEvent(data));
-        setGoodsdata(data);
-        if (isOpenPopwindown) {
-            setSpecInfo(data);
+        try {
+            if (onChangeGoodsInfoListener != null) {
+                onChangeGoodsInfoListener.updataUI("updata_goods_id", getGoods_id());
+            }
+            RxBus.getDefault().post(new GoodsDetailsEvent(data));
+            setGoodsdata(data);
+            if (isOpenPopwindown) {
+                setSpecInfo(data);
+            }
+            GoodsDetailedInfo info = JSONParser.JSON2Object(data, GoodsDetailedInfo.class);
+            is_virtual = info.goods_info.is_virtual;
+            if (Utils.getString(info.goods_info.cart).equals("0")) {/**是否显示加入购物车*/
+                goodsdetailTextAddcart.setVisibility(View.GONE);
+            } else {
+                goodsdetailTextAddcart.setVisibility(View.VISIBLE);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

@@ -8,6 +8,7 @@
     <TextView
         android:id="@+id/text"
         style="@style/specBtn"
+        android:maxLines="1"
         android:layout_marginRight="@dimen/dp_5"
         android:gravity="center" />
 </LinearLayout>

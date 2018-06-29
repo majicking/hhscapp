@@ -14,11 +14,14 @@
         android:textColor="@color/nc_text"
         android:textSize="12dp" />
 
-    <LinearLayout
+    <co.lujun.androidtagview.TagContainerLayout
         android:id="@+id/specList"
+        android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:orientation="horizontal" />
+        android:foregroundGravity="center"
+        android:padding="4dp" />
+
 
 </LinearLayout>

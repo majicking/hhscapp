@@ -62,6 +62,7 @@ public class GoodsListInfo extends BaseInfo {
         public String brand_id;
         public String is_book;
         public String is_appoint;
+        public String is_own_shop;
         public String attr_id;
         public String area_id;
         public String have_gift;

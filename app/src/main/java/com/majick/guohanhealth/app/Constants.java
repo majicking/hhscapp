@@ -17,8 +17,8 @@ public interface Constants {
      */
 
     String HEAD = BuildConfig.HEAD;
-        String HOST = "test.shopnctest.com";
-//    String HOST = BuildConfig.HOST;
+    String HOST = "test.shopnctest.com";
+    //    String HOST = BuildConfig.HOST;
     String PORT = BuildConfig.PORT;
     String APP = BuildConfig.APP;
     String WEB = BuildConfig.WEB;
@@ -59,11 +59,11 @@ public interface Constants {
     String HOTVALUE = "hotvalue;";
     String KEYWORD = "keyword;";
     String GOODS_ID = "goods_id";
-    String GETGOODSID="getGoods_id";
-    String CARDNUMBER="CardNumber";
-    String ISCARD="isCard";
-    String SHOWORDER="showOrder";
-    String GETGOODSDETAILS="getGoodsDetails";
+    String GETGOODSID = "getGoods_id";
+    String CARDNUMBER = "CardNumber";
+    String SHOWORDER = "showOrder";
+    String GETGOODSDETAILS = "getGoodsDetails";
+    String CURRENTITEM = "currentitem";
     /**
      * 相机权限请求
      */

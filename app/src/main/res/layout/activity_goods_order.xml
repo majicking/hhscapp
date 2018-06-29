@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/djk_bgcolor"
+    android:orientation="vertical"
+    tools:context=".ui.goods.goodsorder.GoodsOrderActivity">
+
+    <LinearLayout
+        style="@style/match"
+        android:orientation="vertical">
+        <!--地址选择-->
+        <LinearLayout
+            style="@style/bg_white_magin_left_top_right_5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/dp_10">
+
+            <LinearLayout
+                style="@style/match_warp"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/warp"
+                    android:text="@string/app_name"
+                    android:textStyle="bold" />
+
+                <TextView
+                    style="@style/textleft15"
+                    android:text="18888888888"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_30"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:gravity="center_vertical"
+                    android:maxLines="1"
+                    android:text="四川省成都市高新区天府四街OCG国际金融中心B座7楼"
+                    android:textSize="@dimen/sp_12" />
+            </LinearLayout>
+
+        </LinearLayout>
+        <!--支付方式-->
+        <LinearLayout
+            style="@style/bg_white_magin_left_top_right_5"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_36"
+            android:gravity="center_vertical">
+
+            <TextView
+                style="@style/textleft15"
+                android:text="支付方式"
+                android:textSize="@dimen/sp_12" />
+
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

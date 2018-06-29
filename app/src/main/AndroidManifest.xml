@@ -37,7 +37,8 @@
         <activity android:name=".view.scannercode.android.CaptureActivity" />
         <activity android:name=".ui.search.SearchActivity" />
         <activity android:name=".ui.goods.goodslist.GoodsListActivity" />
-        <activity android:name=".ui.goods.goodsdetailed.activity.GoodsDetailsActivity"></activity>
+        <activity android:name=".ui.goods.goodsdetailed.activity.GoodsDetailsActivity" />
+        <activity android:name=".ui.goods.goodsorder.GoodsOrderActivity"></activity>
     </application>
 
 </manifest>
