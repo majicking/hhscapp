@@ -548,8 +548,8 @@ public class GoodsFragment extends BaseFragment<GoodsPersenter, GoodsModel> impl
         if (info != null) {
             try {
                 is_virtual = Utils.getString(info.goods_info == null ? "0" : Utils.getString(info.goods_info.is_virtual));
-                if (is_virtual.equals("0")) {
-                    ((GoodsDetailsActivity) mContext).runOnUiThread(() -> {
+
+
                         //此时已在主线程中，可以更新UI了
                         new Handler().postDelayed(() -> {
                             if (goodsViewScrollview!=null){
@@ -618,8 +618,8 @@ public class GoodsFragment extends BaseFragment<GoodsPersenter, GoodsModel> impl
                         }
 
 //                        goodsTextSelectdescribe.setText("x" + goods_number);/**商品购买量*/
-                    });
-                }
+
+
             } catch (NullPointerException e) {
                 e.printStackTrace();
             } catch (Exception e) {

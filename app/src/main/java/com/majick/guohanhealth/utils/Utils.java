@@ -1,13 +1,24 @@
 package com.majick.guohanhealth.utils;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
+import android.view.Gravity;
+import android.view.View;
+import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.majick.guohanhealth.app.App;
+import com.majick.guohanhealth.app.Constants;
+import com.majick.guohanhealth.custom.CustomPopuWindow;
+import com.majick.guohanhealth.ui.WebViewActivity;
+import com.majick.guohanhealth.ui.goods.goodsdetailed.activity.GoodsDetailsActivity;
 import com.majick.guohanhealth.ui.login.LoginActivity;
+import com.majick.guohanhealth.ui.search.SearchActivity;
 
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
@@ -111,4 +122,51 @@ public class Utils {
         context.startActivity(intent);
         return false;
     }
+
+
+    public static void GoToType(Context context, String type, String data) {
+        switch (type) {
+            case Constants.KEYWORD:
+                Intent intent = new Intent(context, SearchActivity.class);
+                intent.putExtra(Constants.KEYWORD, data);
+                intent.putExtra("gc_name", data);
+                context.startActivity(intent);
+                break;
+            case "special"://专题编号
+                Intent intent1 = new Intent(context, WebViewActivity.class);
+                intent1.putExtra("url", Constants.URL + "act=index&op=special&special_id=" + data + "&type=html");
+                context.startActivity(intent1);
+                break;
+            case "goods":
+                //商品编号
+                Intent intent2 = new Intent(context, GoodsDetailsActivity.class);
+                intent2.putExtra(Constants.GOODS_ID, data);
+                context.startActivity(intent2);
+                break;
+            case "url":
+                //地址
+                Intent intent3 = new Intent(context, WebViewActivity.class);
+                intent3.putExtra("url", data);
+                context.startActivity(intent3);
+                break;
+        }
+    }
+
+
+    public static CustomPopuWindow getPopuWindown(Context mContext, View view, int point) {
+        CustomPopuWindow popuWindow = new CustomPopuWindow.PopupWindowBuilder(mContext)
+                .setView(view)
+                .size(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
+                .setFocusable(true).setOnDissmissListener(() -> {
+                    WindowManager.LayoutParams lp = ((Activity) mContext).getWindow().getAttributes();
+                    lp.alpha = 1; //0.0-1.0
+                    ((Activity) mContext).getWindow().setAttributes(lp);
+                }).create().setBackgroundDrawable((Drawable) null)
+                .showAtLocation(view, point, 0, 0);
+        WindowManager.LayoutParams lp = ((Activity) mContext).getWindow().getAttributes();
+        lp.alpha = 0.4f; //0.0-1.0
+        ((Activity) mContext).getWindow().setAttributes(lp);
+        return popuWindow;
+    }
+
 }

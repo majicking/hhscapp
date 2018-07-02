@@ -4,13 +4,30 @@
     android:orientation="vertical">
 
     <LinearLayout
+        android:id="@+id/titleview"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:background="@color/white"
         android:orientation="vertical">
 
-        <TextView style="@style/home_title" />
+        <LinearLayout
+            style="@style/match_warp"
+            android:orientation="horizontal">
+
+            <View
+                android:id="@+id/linev"
+                android:layout_width="4dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:background="@color/appColor" />
+
+            <TextView
+                android:id="@+id/text"
+                style="@style/home_title" />
+        </LinearLayout>
+
 
         <View style="@style/djk_line" />
     </LinearLayout>

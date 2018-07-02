@@ -41,6 +41,7 @@ public interface Constants {
      * 常量 标识
      * 页面参数传递
      */
+
     String MAINNUMBER = "main_number";
     String BROADCAST_CARTNUMBER = "1";
     String PHONE = "phone";
@@ -64,6 +65,7 @@ public interface Constants {
     String SHOWORDER = "showOrder";
     String GETGOODSDETAILS = "getGoodsDetails";
     String CURRENTITEM = "currentitem";
+    String ERROR = "error";
     /**
      * 相机权限请求
      */
@@ -82,5 +84,6 @@ public interface Constants {
     };
 
     int RANDOMCOLOR = BGCOLORS[new Random().nextInt(10)];
+
 
 }

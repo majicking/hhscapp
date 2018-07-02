@@ -6,6 +6,7 @@ import android.os.Message;
 import com.majick.guohanhealth.app.Constants;
 import com.majick.guohanhealth.base.BasePresenter;
 import com.majick.guohanhealth.bean.Adv_list;
+import com.majick.guohanhealth.bean.GoodsInfo;
 import com.majick.guohanhealth.bean.Home1Info;
 import com.majick.guohanhealth.bean.Home2Info;
 import com.majick.guohanhealth.bean.Home3Info;
@@ -33,9 +34,11 @@ public class HomePersenter extends BasePresenter<HomeView, HomeModel> {
             @Override
             public void handleMessage(Message msg) {
                 super.handleMessage(msg);
+                mView.stopRefresh();
                 if (msg.what == 2) {
                     mView.faild((String) msg.obj);
                 } else if (msg.what == 1) {
+
                     String json = (String) msg.obj;
                     Logutils.i(json);
                     String code = JSONParser.getStringFromJsonString("code", json);
@@ -62,7 +65,7 @@ public class HomePersenter extends BasePresenter<HomeView, HomeModel> {
                                 } else if (!JsonObj.isNull("video_list")) {     //视频接口
                                     mView.showVideoView(JsonObj);
                                 } else if (!JsonObj.isNull("goods")) {//商品版块
-                                    mView.showGoods(JsonObj);
+                                    mView.showGoods(JSONParser.JSON2Object(JsonObj.getString("goods"), GoodsInfo.class));
                                 } else if (!JsonObj.isNull("goods1")) {    //限时商品
                                     mView.showGoods1(JsonObj);
                                 } else if (!JsonObj.isNull("goods2")) {     //抢购商品

@@ -2,6 +2,7 @@ package com.majick.guohanhealth.ui.main.fragment.home;
 
 import com.majick.guohanhealth.base.BaseView;
 import com.majick.guohanhealth.bean.Adv_list;
+import com.majick.guohanhealth.bean.GoodsInfo;
 import com.majick.guohanhealth.bean.Home1Info;
 import com.majick.guohanhealth.bean.Home2Info;
 import com.majick.guohanhealth.bean.Home3Info;
@@ -29,10 +30,11 @@ public interface HomeView extends BaseView {
 
     void showVideoView(JSONObject jsonobj);
 
-    void showGoods(JSONObject jsonobj);
+    void showGoods(GoodsInfo goodsInfo);
 
     void showGoods1(JSONObject jsonobj);
 
     void showGoods2(JSONObject jsonobj);
+    void stopRefresh();
 
 }

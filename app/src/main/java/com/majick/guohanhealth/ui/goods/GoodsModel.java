@@ -43,4 +43,8 @@ public class GoodsModel extends BaseModel {
         return Api.getDefault().goodsEvaluate(goods_id, curpage, type, page).compose(RxHelper.handleResult());
     }
 
+    public Observable<Object> changedAdress(String key, String city_id, String area_id, String freight_hash) {
+        return Api.getDefault().changedAdress(key, city_id, area_id, freight_hash).compose(RxHelper.handleResult());
+    }
+
 }

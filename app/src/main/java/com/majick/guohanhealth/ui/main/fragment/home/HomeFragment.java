@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -20,6 +21,7 @@ import com.majick.guohanhealth.app.App;
 import com.majick.guohanhealth.app.Constants;
 import com.majick.guohanhealth.base.BaseFragment;
 import com.majick.guohanhealth.bean.Adv_list;
+import com.majick.guohanhealth.bean.GoodsInfo;
 import com.majick.guohanhealth.bean.Home1Info;
 import com.majick.guohanhealth.bean.Home2Info;
 import com.majick.guohanhealth.bean.Home3Info;
@@ -28,6 +30,7 @@ import com.majick.guohanhealth.bean.Home5Info;
 import com.majick.guohanhealth.bean.HomeMenuBtn;
 import com.majick.guohanhealth.custom.MyScrollView;
 import com.majick.guohanhealth.event.OnFragmentInteractionListener;
+import com.majick.guohanhealth.ui.goods.goodsdetailed.activity.GoodsDetailsActivity;
 import com.majick.guohanhealth.ui.search.SearchActivity;
 import com.majick.guohanhealth.utils.Utils;
 import com.majick.guohanhealth.utils.engine.GlideEngine;
@@ -41,6 +44,7 @@ import com.youth.banner.loader.ImageLoader;
 
 import org.json.JSONObject;
 
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -197,11 +201,7 @@ public class HomeFragment extends BaseFragment<HomePersenter, HomeModel> impleme
 
     @Override
     public void faild(String msg) {
-
         showToast(msg);
-        if (smartrefreshlayout!=null&&smartrefreshlayout.isRefreshing()) {
-            smartrefreshlayout.finishRefresh();
-        }
     }
 
     @Override
@@ -219,7 +219,6 @@ public class HomeFragment extends BaseFragment<HomePersenter, HomeModel> impleme
             showToast(jsonobj.title);
         });
         homeViewLayout.addView(view);
-        smartrefreshlayout.finishRefresh();
     }
 
     @Override
@@ -241,7 +240,6 @@ public class HomeFragment extends BaseFragment<HomePersenter, HomeModel> impleme
         img2.setOnClickListener(v -> goToType(jsonobj.rectangle1_type, jsonobj.rectangle1_data));
         img3.setOnClickListener(v -> goToType(jsonobj.rectangle2_type, jsonobj.rectangle2_data));
         homeViewLayout.addView(view);
-        smartrefreshlayout.finishRefresh();
     }
 
     @Override
@@ -259,9 +257,11 @@ public class HomeFragment extends BaseFragment<HomePersenter, HomeModel> impleme
             @Override
             public void convert(ViewHolder viewHolder, Home3Info.Item item, int position, View convertView, ViewGroup parentViewGroup) {
                 GlideEngine.getInstance().loadImage(mContext, viewHolder.getView(R.id.img), item.image);
-                goToType(item.type, item.data);
             }
         };
+        gridView.setOnItemClickListener((a, v, p, i) -> {
+            goToType(jsonobj.item.get(p).type, jsonobj.item.get(p).data);
+        });
         gridView.setAdapter(adapter);
         homeViewLayout.addView(view);
     }
@@ -286,12 +286,10 @@ public class HomeFragment extends BaseFragment<HomePersenter, HomeModel> impleme
         img2.setOnClickListener(v -> goToType(jsonobj.rectangle2_type, jsonobj.rectangle2_data));
         img3.setOnClickListener(v -> goToType(jsonobj.square_type, jsonobj.square_data));
         homeViewLayout.addView(view);
-        smartrefreshlayout.finishRefresh();
     }
 
     @Override
     public void showHome5(Home5Info jsonobj) {
-        smartrefreshlayout.finishRefresh();
         View view = getView(R.layout.home_item_home5);
         View titlelayout = getView(view, R.id.titlelayout);
         TextView title1 = getView(view, R.id.title1);
@@ -331,9 +329,7 @@ public class HomeFragment extends BaseFragment<HomePersenter, HomeModel> impleme
             }
         });
         banner.start();
-        if (smartrefreshlayout!=null&&smartrefreshlayout.isRefreshing()) {
-            smartrefreshlayout.finishRefresh();
-        }
+
     }
 
     @Override
@@ -342,23 +338,57 @@ public class HomeFragment extends BaseFragment<HomePersenter, HomeModel> impleme
     }
 
     @Override
-    public void showGoods(JSONObject jsonobj) {
-        smartrefreshlayout.finishRefresh();
+    public void showGoods(GoodsInfo jsonobj) {
+        View view = getView(R.layout.home_item_goods);
+        View titlelayout = getView(view, R.id.titleview);
+        TextView title = getView(view, R.id.text);
+        NoScrollGridView gridView = getView(view, R.id.gridview);
+        if (Utils.isEmpty(jsonobj.title)) {
+            title.setText(jsonobj.title);
+            titlelayout.setVisibility(View.VISIBLE);
+        } else {
+            titlelayout.setVisibility(View.GONE);
+        }
+        gridView.setAdapter(new CommonAdapter<GoodsInfo.Item>(mContext, jsonobj.item, R.layout.home_item_goods_gridview_item) {
+            @Override
+            public void convert(ViewHolder viewHolder, GoodsInfo.Item item, int position, View convertView, ViewGroup parentViewGroup) {
+                GlideEngine.getInstance().loadImage(mContext, viewHolder.getView(R.id.img), item.goods_image);
+                viewHolder.setText(R.id.text, item.goods_name);
+                viewHolder.setText(R.id.text1, item.goods_promotion_price);
+            }
+        });
+        gridView.setOnItemClickListener((a, v, p, i) -> {
+            try {
+                Bundle bundle = new Bundle();
+                bundle.putString(Constants.GOODS_ID, Utils.getString(jsonobj.item.get(p).goods_id));
+                readyGo(GoodsDetailsActivity.class, bundle);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+        homeViewLayout.addView(view);
     }
 
     @Override
     public void showGoods1(JSONObject jsonobj) {
-        smartrefreshlayout.finishRefresh();
+
     }
 
     @Override
     public void showGoods2(JSONObject jsonobj) {
-        smartrefreshlayout.finishRefresh();
+
+    }
+
+    @Override
+    public void stopRefresh() {
+        if (smartrefreshlayout != null && smartrefreshlayout.isRefreshing()) {
+            smartrefreshlayout.finishRefresh();
+        }
     }
 
 
     public void goToType(String type, String square_data) {
-
+        Utils.GoToType(mContext, type, square_data);
     }
 
     @Override

@@ -152,7 +152,9 @@ public class App extends Application {
         new RxManager().add((Api.getDefault().getUserInfo(key, userid, "member_id").compose(RxHelper.handleResult())).subscribe(userinfo -> {
             Logutils.i("自动登陆成功" + userinfo.member_info.toString());
             App.getApp().setInfo(userinfo.member_info);
+            setIsLogin(true);
         }, throwable -> {
+            setIsLogin(false);
             Logutils.i("自动登陆失败：" + throwable.getMessage());
         }));
     }

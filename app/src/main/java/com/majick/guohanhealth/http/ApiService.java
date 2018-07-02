@@ -64,6 +64,7 @@ public interface ApiService {
     String VBUY_STEP1 = Constants.INDEX + "act=member_vr_buy&op=buy_step1";
     String GOODS_BODY = Constants.INDEX + "act=goods&op=goods_body";
     String GOODS_EVALUATE = Constants.INDEX + "act=goods&op=goods_evaluate";
+    String CHANGE_ADDRESS = Constants.INDEX + "act=member_buy&op=change_address";
 
     /**
      * 用户登录
@@ -238,12 +239,18 @@ public interface ApiService {
                                                @Query("page") String page);
 
 
-//    /**
-//     * 重置密码(需要短信验证码)
-//     */
-//    @FormUrlEncoded
-//    @POST("user/resetPwd")
-//    Observable<Result> resetPassword(@Field("username") String userName, @Field("passwd") String passWord, @Field("code") String authCode);
+    /**
+     * "key", myApplication.getLoginKey());
+     * "city_id", city_id);
+     * "area_id", area_id);
+     * "freight_hash", freight_hash);
+     */
+    @FormUrlEncoded
+    @POST(CHANGE_ADDRESS)
+    Observable<Result<Object>> changedAdress(@Field("key") String key,
+                                     @Field("city_id") String city_id,
+                                     @Field("area_id") String area_id,
+                                     @Field("freight_hash") String freight_hash);
 //
 //    /**
 //     * 修改密码

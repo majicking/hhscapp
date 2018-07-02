@@ -2,6 +2,7 @@ package com.majick.guohanhealth.ui.goods.goodsdetailed.activity;
 
 import android.app.Activity;
 
+import com.majick.guohanhealth.app.Constants;
 import com.majick.guohanhealth.base.BasePresenter;
 import com.majick.guohanhealth.http.Api;
 import com.majick.guohanhealth.http.ApiService;
@@ -49,29 +50,35 @@ public class GoodsDetailsPersenter extends BasePresenter<GoodsDetailsView, Goods
     }
 
 
-
-    public void buyStep1(String key, String cart_id) {
+    public void buyStep1(Activity activity, String key, String cart_id) {
         Api.post(ApiService.BUY_STEP1, new FormBody.Builder()
                 .add("key", key)
                 .add("cart_id", cart_id)
                 .build(), new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                mView.faild(e.getMessage());
+                activity.runOnUiThread(() -> {
+                    mView.faild(e.getMessage());
+                });
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 String data = response.body().string();
                 Logutils.i(data);
-                if (JSONParser.getStringFromJsonString("code", data).equals("200")) {
-                    mView.buyStep1Data(Utils.getString(JSONParser.getStringFromJsonString("datas", data)));
-                }
+                activity.runOnUiThread(() -> {
+                    if (JSONParser.getStringFromJsonString("code", data).equals("200")) {
+                        mView.buyStep1Data(Utils.getString(JSONParser.getStringFromJsonString("datas", data)));
+                    }else if (JSONParser.getStringFromJsonString("code", data).equals("400")) {
+                        mView.faild(JSONParser.getStringFromJsonString(Constants.ERROR,Utils.getString(JSONParser.getStringFromJsonString("datas", data))));
+                    }
+                });
+
             }
         });
     }
 
-    public void buyStep1V(String key, String goods_id, String goods_number) {
+    public void buyStep1V(Activity activity, String key, String goods_id, String goods_number) {
         Api.post(ApiService.VBUY_STEP1, new FormBody.Builder()
                 .add("key", key)
                 .add("goods_id", goods_id)
@@ -79,16 +86,22 @@ public class GoodsDetailsPersenter extends BasePresenter<GoodsDetailsView, Goods
                 .build(), new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                mView.faild(e.getMessage());
+                activity.runOnUiThread(() -> {
+                    mView.faild(e.getMessage());
+                });
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 String data = response.body().string();
                 Logutils.i(data);
-                if (JSONParser.getStringFromJsonString("code", data).equals("200")) {
-                    mView.buyStep1VData(Utils.getString(JSONParser.getStringFromJsonString("datas", data)));
-                }
+                activity.runOnUiThread(() -> {
+                    if (JSONParser.getStringFromJsonString("code", data).equals("200")) {
+                        mView.buyStep1VData(Utils.getString(JSONParser.getStringFromJsonString("datas", data)));
+                    } else if (JSONParser.getStringFromJsonString("code", data).equals("400")) {
+                        mView.faild(JSONParser.getStringFromJsonString(Constants.ERROR,Utils.getString(JSONParser.getStringFromJsonString("datas", data))));
+                    }
+                });
             }
         });
     }

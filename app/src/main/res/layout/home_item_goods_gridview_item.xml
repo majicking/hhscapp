@@ -1,44 +1,70 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
     android:layout_height="match_parent"
+    android:background="@color/djk_bgcolor"
     android:gravity="center"
     android:orientation="vertical">
 
-    <ImageView
-        android:id="@+id/ImageViewImagePic01"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_130"
-        android:padding="3dp"
-        android:scaleType="fitXY" />
-
-    <LinearLayout
+    <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:paddingLeft="3dp"
-        android:paddingRight="3dp">
+        android:layout_margin="@dimen/dp_3"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="5dp"
+        app:cardElevation="@dimen/dp_3"
+        app:cardPreventCornerOverlap="false">
 
-        <TextView
-            android:id="@+id/TextViewTitle"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="3dp"
-            android:layout_marginTop="3dp"
-            android:lines="2"
-            android:text="@string/app_name"
-            android:textColor="@color/djk_textcolor555"
-            android:textSize="@dimen/sp_14" />
+            android:orientation="vertical">
 
-        <TextView style="@style/djk_line" />
+            <ImageView
+                android:id="@+id/img"
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:scaleType="fitXY" />
 
-        <TextView
-            android:id="@+id/TextViewPrice"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="@dimen/dp_3"
-            android:singleLine="true"
-            android:text="￥0.00"
-            android:textColor="@color/appColor"
-            android:textSize="@dimen/sp_14" />
-    </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingLeft="3dp"
+                android:paddingRight="3dp">
+
+                <TextView
+                    android:id="@+id/text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="3dp"
+                    android:layout_marginTop="3dp"
+                    android:lines="2"
+                    android:text="@string/app_name"
+                    android:textColor="@color/black"
+                    android:textSize="14dp" />
+
+                <LinearLayout
+                    style="@style/match_warp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/warp"
+                        android:paddingLeft="@dimen/dp_5"
+                        android:text="￥"
+                        android:textColor="@color/appColor"
+                        android:textSize="@dimen/sp_12" />
+
+                    <TextView
+                        android:id="@+id/text1"
+                        style="@style/warp"
+                        android:text="0.00"
+                        android:textColor="@color/appColor"
+                        android:textSize="@dimen/sp_16"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+            </LinearLayout>
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
 </LinearLayout>

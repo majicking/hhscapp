@@ -1,6 +1,5 @@
 package com.majick.guohanhealth.ui.goods.goodsdetailed.activity;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -34,6 +33,7 @@ import com.majick.guohanhealth.ui.goods.GoodsModel;
 import com.majick.guohanhealth.ui.goods.goodsdetailed.fragment.comment.CommentFragment;
 import com.majick.guohanhealth.ui.goods.goodsdetailed.fragment.goods.GoodsFragment;
 import com.majick.guohanhealth.ui.goods.goodsdetailed.fragment.goodsdetail.GoodsDetailFragment;
+import com.majick.guohanhealth.ui.goods.goodsorder.GoodsOrderActivity;
 import com.majick.guohanhealth.utils.JSONParser;
 import com.majick.guohanhealth.utils.Logutils;
 import com.majick.guohanhealth.utils.Utils;
@@ -246,10 +246,14 @@ public class GoodsDetailsActivity extends BaseActivity<GoodsDetailsPersenter, Go
 
             if (type == 1) {/**提交订单*/
                 if (Utils.isLogin(mContext)) {
+                    if (goods_storage == 0) {
+                        showToast("没有库存啦！");
+                        return;
+                    }
                     if (is_virtual.equals("0")) {
-                        mPresenter.buyStep1(App.getApp().getKey(), goods_id + "|" + goods_number);
+                        mPresenter.buyStep1(this, App.getApp().getKey(), goods_id + "|" + goods_number);
                     } else {
-                        mPresenter.buyStep1V(App.getApp().getKey(), goods_id, "" + goods_number);
+                        mPresenter.buyStep1V(this, App.getApp().getKey(), goods_id, "" + goods_number);
                     }
                 }
             } else if (type == 2) {/**加入购物车*/
@@ -270,7 +274,9 @@ public class GoodsDetailsActivity extends BaseActivity<GoodsDetailsPersenter, Go
 
     private void updateValue() {/**更新数量*/
         String adderValue = "";
-        if (goods_number > goods_storage) {
+        if (goods_storage == 0) {
+            showToast("没有库存啦！");
+        } else if (goods_storage > 0 && goods_number > goods_storage) {
             adderValue = "" + goods_storage;
             goods_number = goods_storage;
             showToast("我们小仓库就这么多啦！");
@@ -365,10 +371,12 @@ public class GoodsDetailsActivity extends BaseActivity<GoodsDetailsPersenter, Go
                     if (s.toString().isEmpty()) {
                         goods_number = 1;
                     }
-                    if (goods_number > goods_storage) {
+                    if (goods_storage > 0 && goods_number > goods_storage) {
                         s.replace(0, number.getText().toString().length(), "" + goods_storage);
                         goods_number = goods_storage;
                         showToast("我们小仓库就这么多啦！");
+                    } else if (goods_storage == 0) {
+                        showToast("没有库存啦！");
                     }
 
                     if (onChangeGoodsInfoListener != null) {
@@ -379,22 +387,25 @@ public class GoodsDetailsActivity extends BaseActivity<GoodsDetailsPersenter, Go
                 }
             });
             getView(orderView, R.id.goods_number_up).setOnClickListener(v -> {
-                goods_number++;
-                updateValue();
-            });
-            getView(orderView, R.id.goods_number_down).setOnClickListener(v -> {
-                if (goods_number > 1) {
-                    goods_number--;
-                } else {
-                    showToast("亲，至少1件商品哟");
-                    goods_number = 1;
+                if (goods_storage > 0) {
+                    goods_number++;
                 }
                 updateValue();
             });
+            getView(orderView, R.id.goods_number_down).setOnClickListener(v -> {
+                if (goods_storage > 0) {
+                    if (goods_number > 1) {
+                        goods_number--;
+                    } else {
+                        showToast("亲，至少1件商品哟");
+                        goods_number = 1;
+                    }
+                }
+                updateValue();
+
+            });
             LinearLayout layout = getView(orderView, R.id.goods_spec);/**第一层*/
-            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT); // 每行的水平LinearLayout
-            LinearLayout.LayoutParams itemParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-            int totoalBtns = 0;
+
             spectype = new String[specnamelist.size()];
             if (Utils.isEmpty(specnamelist)) {
                 layout.removeAllViews();
@@ -521,12 +532,16 @@ public class GoodsDetailsActivity extends BaseActivity<GoodsDetailsPersenter, Go
 
     @Override
     public void buyStep1Data(String data) {
-
+        Bundle bundle = new Bundle();
+        bundle.putString("data", data);
+        readyGo(GoodsOrderActivity.class, bundle);
     }
 
     @Override
     public void buyStep1VData(String data) {
-
+        Bundle bundle = new Bundle();
+        bundle.putString("data", data);
+        readyGo(GoodsOrderActivity.class, bundle);
     }
 
 
@@ -560,6 +575,6 @@ public class GoodsDetailsActivity extends BaseActivity<GoodsDetailsPersenter, Go
 
     @Override
     public void faild(String msg) {
-
+        showToast(msg);
     }
 }

@@ -1,68 +1,204 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/djk_bgcolor"
+    android:background="@color/white"
     android:orientation="vertical"
     tools:context=".ui.goods.goodsorder.GoodsOrderActivity">
 
-    <LinearLayout
-        style="@style/match"
-        android:orientation="vertical">
-        <!--地址选择-->
+    <include layout="@layout/common_toolbar" />
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/djk_bgcolor">
+
         <LinearLayout
-            style="@style/bg_white_magin_left_top_right_5"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="@dimen/dp_10">
 
+            style="@style/match"
+            android:orientation="vertical">
+            <!--地址选择-->
             <LinearLayout
-                style="@style/match_warp"
-                android:orientation="horizontal">
+                android:id="@+id/goods_order_view_address"
+                style="@style/bg_white_magin_left_top_right_5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="@dimen/dp_10">
 
-                <TextView
-                    style="@style/warp"
-                    android:text="@string/app_name"
-                    android:textStyle="bold" />
+                <LinearLayout
+                    android:id="@+id/goods_order_view_address_default"
+                    style="@style/match_warp"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+
+                    <LinearLayout
+                        style="@style/match_warp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/goods_order_text_name"
+                            style="@style/warp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/goods_order_text_mobile"
+                            style="@style/textleft15"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dp_30"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/goods_order_text_address"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:gravity="center_vertical"
+                            android:maxLines="1"
+                            android:textSize="@dimen/sp_12" />
+                    </LinearLayout>
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:scaleType="fitXY"
+                        android:src="@mipmap/icon_address_line" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/goods_order_view_address_null"
+                    style="@style/LLayout_40_h"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/match"
+                        android:gravity="center"
+                        android:text="请填写你的收货信息" />
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:scaleType="fitXY"
+                        android:src="@mipmap/icon_address_line" />
+                </LinearLayout>
+
+            </LinearLayout>
+            <!--支付方式-->
+            <LinearLayout
+                android:id="@+id/goods_order_view_payway"
+                style="@style/bg_white_magin_left_top_right_5"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_36"
+                android:gravity="center_vertical">
 
                 <TextView
                     style="@style/textleft15"
-                    android:text="18888888888"
-                    android:textStyle="bold" />
+                    android:text="支付方式"
+                    android:textSize="@dimen/sp_12" />
+
+                <View style="@style/linearlayout_zw" />
+
+                <TextView
+
+                    android:id="@+id/goods_order_text_payway"
+                    style="@style/warp"
+                    android:text="在线支付"
+                    android:textSize="@dimen/sp_12" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/dp_5"
+                    android:src="@mipmap/more" />
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/goods_order_view_invoice"
+                style="@style/bg_white_magin_left_top_right_5"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_30"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:layout_height="@dimen/dp_36"
+                android:gravity="center_vertical">
 
                 <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:ellipsize="end"
-                    android:gravity="center_vertical"
-                    android:maxLines="1"
-                    android:text="四川省成都市高新区天府四街OCG国际金融中心B座7楼"
+                    style="@style/textleft15"
+                    android:text="发票信息"
                     android:textSize="@dimen/sp_12" />
+
+                <View style="@style/linearlayout_zw" />
+
+                <TextView
+                    android:id="@+id/goods_order_text_invoice"
+                    style="@style/warp"
+                    android:text="不使用发票"
+                    android:textSize="@dimen/sp_12" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/dp_5"
+                    android:src="@mipmap/more" />
             </LinearLayout>
 
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/goods_order_view_recycleview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+
         </LinearLayout>
-        <!--支付方式-->
+    </ScrollView>
+
+    <LinearLayout
+        style="@style/LLayout_48_h"
+        android:background="@color/white"
+        android:orientation="horizontal">
+
         <LinearLayout
-            style="@style/bg_white_magin_left_top_right_5"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_36"
-            android:gravity="center_vertical">
+            style="@style/layout_weight_h"
+            android:layout_weight="2"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
             <TextView
-                style="@style/textleft15"
-                android:text="支付方式"
+                style="@style/left15"
+                android:text="合计总金额："
+
                 android:textSize="@dimen/sp_12" />
 
+            <TextView
+                style="@style/warp"
+                android:text="￥"
+                android:textColor="@color/appColor"
+                android:textSize="@dimen/sp_12" />
+
+            <TextView
+                android:id="@+id/goods_order_text_money"
+                style="@style/warp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:text="0.00"
+                android:textColor="@color/appColor"
+                android:textSize="@dimen/sp_16"
+                android:textStyle="bold" />
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/goods_order_text_apply"
+            style="@style/layout_weight_h"
+            android:background="@color/appColor"
+            android:text="提交订单"
+            android:textColor="@color/white" />
+
     </LinearLayout>
-</ScrollView>
+</LinearLayout>
