@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="horizontal">
+
+    <TextView
+        android:textColor="@color/white"
+        android:background="@drawable/bg_circle_red_50"
+        android:gravity="center"
+        android:textSize="@dimen/sp_12"
+        android:minWidth="@dimen/dp_50"
+        android:paddingLeft="@dimen/dp_5"
+        android:paddingRight="@dimen/dp_5"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/dp_20"
+        android:text="赠品" />
+
+    <ImageView
+        android:id="@+id/img"
+        android:layout_width="@dimen/dp_18"
+        android:layout_height="@dimen/dp_18"
+        android:src="@drawable/icon_star" />
+
+    <TextView
+        android:text="asdasdsadsadsadsd"
+        android:id="@+id/text"
+        style="@style/warp"
+        android:textSize="@dimen/sp_12" />
+
+</LinearLayout>

@@ -118,7 +118,7 @@ public class GoodsDetailedInfo extends BaseInfo {
         public String goods_click;
         public String goods_salenum;
         public String goods_collect;
-//        public Object goods_spec;
+        //        public Object goods_spec;
         public String goods_storage;
         public String color_id;
         public String evaluation_good_star;
@@ -155,11 +155,6 @@ public class GoodsDetailedInfo extends BaseInfo {
         public String cart;
         public String buynow;
         public String pintuan_promotion;
-        public List<Contractlist> contractlist;
-
-        public static class Contractlist {
-
-        }
 
         public String goods_url;
     }
@@ -167,8 +162,17 @@ public class GoodsDetailedInfo extends BaseInfo {
 
     public String video_path;
     public String mansong_info;
-    public List<String> gift_array;
+    public List<Gift_array> gift_array;
 
+    public static class Gift_array {
+        public String gift_id;
+        public String goods_id;
+        public String goods_commonid;
+        public String gift_goodsid;
+        public String gift_goodsname;
+        public String gift_goodsimage;
+        public String gift_amount;
+    }
 
 //    public Spec_list spec_list;
 //

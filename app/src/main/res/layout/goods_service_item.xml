@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:padding="@dimen/dp_1">
+
+    <ImageView
+        android:id="@+id/img"
+        android:layout_width="@dimen/dp_12"
+        android:layout_height="@dimen/dp_12"
+        android:src="@drawable/icon_star" />
+
+    <TextView
+        android:textSize="@dimen/sp_12"
+        android:id="@+id/text"
+        style="@style/warp"
+        android:text="七天包换"
+        android:textColor="@color/appColor" />
+</LinearLayout>

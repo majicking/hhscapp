@@ -82,6 +82,41 @@
             <View style="@style/djk_line" />
 
             <LinearLayout
+                android:id="@+id/goods_view_promotion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/left15"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="促\n销" />
+
+                <View style="@style/djk_line_h" />
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="9"
+                    android:orientation="vertical">
+
+                    <com.majick.guohanhealth.view.NoScrollGridView
+                        android:id="@+id/goods_view_gridview_promotion"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="@dimen/dp_5"
+                        android:paddingRight="@dimen/dp_5"></com.majick.guohanhealth.view.NoScrollGridView>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <View style="@style/djk_line" />
+
+            <LinearLayout
                 android:id="@+id/goods_view_loca"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_55"
@@ -197,33 +232,20 @@
                     android:layout_weight="9"
                     android:orientation="vertical">
 
-                    <LinearLayout
-                        style="@style/match_warp"
-                        android:layout_weight="1"
-                        android:gravity="center_vertical">
+
+                    <TextView
+                        android:id="@+id/goods_text_service"
+                        style="@style/left15"
+                        android:textSize="@dimen/dp_14" />
 
 
-                        <TextView
-                            style="@style/left15"
-                            android:textColor="@color/appColor"
-                            android:textSize="@dimen/dp_14" />
-                    </LinearLayout>
-
-                    <LinearLayout
+                    <com.majick.guohanhealth.view.NoScrollGridView
+                        android:id="@+id/goods_view_gridview"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"></LinearLayout>
-
-                    <LinearLayout
-                        style="@style/match_warp"
-                        android:orientation="horizontal">
-
-                        <com.majick.guohanhealth.view.NoScrollGridView
-                            android:id="@+id/goods_view_gridview"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:numColumns="3"
-                            android:visibility="gone"></com.majick.guohanhealth.view.NoScrollGridView>
-                    </LinearLayout>
+                        android:layout_height="wrap_content"
+                        android:numColumns="4"
+                        android:paddingLeft="@dimen/dp_5"
+                        android:paddingRight="@dimen/dp_5"></com.majick.guohanhealth.view.NoScrollGridView>
 
                 </LinearLayout>
 

@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -32,6 +33,7 @@ import com.majick.guohanhealth.adapter.ViewHolder;
 import com.majick.guohanhealth.app.Constants;
 import com.majick.guohanhealth.base.BaseFragment;
 import com.majick.guohanhealth.bean.Area_list;
+import com.majick.guohanhealth.bean.Contractlist;
 import com.majick.guohanhealth.bean.GoodsDetailedInfo;
 import com.majick.guohanhealth.bean.Goods_hair_info;
 import com.majick.guohanhealth.bean.SpecBean;
@@ -51,7 +53,10 @@ import com.majick.guohanhealth.utils.engine.GlideEngine;
 import com.majick.guohanhealth.view.NoScrollGridView;
 import com.youth.banner.view.BannerViewPager;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import butterknife.BindView;
@@ -131,6 +136,12 @@ public class GoodsFragment extends BaseFragment<GoodsPersenter, GoodsModel> impl
     @BindView(R.id.goods_view_percent)
     LinearLayout goodsViewPercent;
     Unbinder unbinder1;
+    @BindView(R.id.goods_text_service)
+    TextView goodsTextService;
+    @BindView(R.id.goods_view_gridview_promotion)
+    NoScrollGridView goodsViewGridviewPromotion;
+    @BindView(R.id.goods_view_promotion)
+    LinearLayout goodsViewPromotion;
     private String mParam1;
     private String mParam2;
     private List<String> imglist;
@@ -550,74 +561,161 @@ public class GoodsFragment extends BaseFragment<GoodsPersenter, GoodsModel> impl
                 is_virtual = Utils.getString(info.goods_info == null ? "0" : Utils.getString(info.goods_info.is_virtual));
 
 
-                        //此时已在主线程中，可以更新UI了
-                        new Handler().postDelayed(() -> {
-                            if (goodsViewScrollview!=null){
-                                goodsViewScrollview.fullScroll(ScrollView.FOCUS_UP);
-                            }
-                        }, 50);
-                        /**展示图片banner*/
-                        imglist.clear();
-                        imglist.addAll(getImageList(info.goods_image));
-                        pagerAdapter.updataAdapter(imglist);
-                        showpageradapter.updataAdapter(imglist);
-                        /**商品基本信息*/
-                        goodsName1.setText(Utils.getString(info.goods_info.goods_name));
-                        goodsName2.setText(Utils.getString(info.goods_info.goods_jingle));
-                        goodsPrice.setText("￥ " + Utils.getString(info.goods_info.goods_price));
-                        goodsSolenum.setText("销量：" + Utils.getString(info.goods_info.goods_salenum));
-                        if (Utils.isEmpty(info.goods_info.goods_grade)) {
-                            GlideEngine.getInstance().loadImage(mContext, goodsImgRating, info.goods_info.goods_grade);
-                        } else {
-                            goodsImgRating.setVisibility(View.GONE);
-                        }
-                        /**物流信息*/
-                        goodsLoca.setText(Utils.getString(info.goods_hair_info.area_name));
-                        goodsHavegoods.setText(Utils.getString(info.goods_hair_info.if_store_cn));
-                        goodsRunmoney.setText(Utils.getString(info.goods_hair_info.content));
-                        /**店铺信息*/
-                        goodsTextStorename.setText(Utils.getString(info.store_info.store_name));
-                        goodsTextDescribe1.setText(Utils.getString(info.store_info.store_credit.store_servicecredit.text));
-                        goodsTextDescribe2.setText(Utils.getString(info.store_info.store_credit.store_deliverycredit.text));
-                        goodsTextDescribe3.setText(Utils.getString(info.store_info.store_credit.store_desccredit.text));
-                        goodsTextDescribecore1.setText(Utils.getString(info.store_info.store_credit.store_servicecredit.credit));
-                        goodsTextDescribecore2.setText(Utils.getString(info.store_info.store_credit.store_deliverycredit.credit));
-                        goodsTextDescribecore3.setText(Utils.getString(info.store_info.store_credit.store_desccredit.credit));
-                        goodsTextDescribelevel1.setText(Utils.getString(info.store_info.store_credit.store_servicecredit.percent_text));
-                        goodsTextDescribelevel2.setText(Utils.getString(info.store_info.store_credit.store_deliverycredit.percent_text));
-                        goodsTextDescribelevel3.setText(Utils.getString(info.store_info.store_credit.store_desccredit.percent_text));
-                        /**商品评价*/
-                        goodsTextPercent.setText("好评率 " + Utils.getString(info.goods_evaluate_info.good_percent) + "%");
-                        goodsTextPercentnum.setText("(" + Utils.getString(info.goods_evaluate_info.all) + "人评价)");
-                        if (Utils.isEmpty(info.goods_commend_list)) {
-                            goods_commend_lists.clear();
-                            goods_commend_lists.addAll(info.goods_commend_list);
-                            commonAdapter.updataAdapter(goods_commend_lists);
-                        } else {
-                            goodsViewRecommend.setVisibility(View.GONE);
-                        }
+                //此时已在主线程中，可以更新UI了
+                new Handler().postDelayed(() -> {
+                    if (goodsViewScrollview != null) {
+                        goodsViewScrollview.fullScroll(ScrollView.FOCUS_UP);
+                    }
+                }, 50);
+                /**展示图片banner*/
+                imglist.clear();
+                imglist.addAll(getImageList(info.goods_image));
+                pagerAdapter.updataAdapter(imglist);
+                showpageradapter.updataAdapter(imglist);
+                /**商品基本信息*/
+                goodsName1.setText(Utils.getString(info.goods_info.goods_name));
+                goodsName2.setText(Utils.getString(info.goods_info.goods_jingle));
+                goodsPrice.setText("￥ " + Utils.getString(info.goods_info.goods_price));
+                goodsSolenum.setText("销量：" + Utils.getString(info.goods_info.goods_salenum));
+                if (Utils.isEmpty(info.goods_info.goods_grade)) {
+                    GlideEngine.getInstance().loadImage(mContext, goodsImgRating, info.goods_info.goods_grade);
+                } else {
+                    goodsImgRating.setVisibility(View.GONE);
+                }
+                /**物流信息*/
+                goodsLoca.setText(Utils.getString(info.goods_hair_info.area_name));
+                goodsHavegoods.setText(Utils.getString(info.goods_hair_info.if_store_cn));
+                goodsRunmoney.setText(Utils.getString(info.goods_hair_info.content));
+                /**店铺信息*/
+                goodsTextStorename.setText(Utils.getString(info.store_info.store_name));
+                goodsTextDescribe1.setText(Utils.getString(info.store_info.store_credit.store_servicecredit.text));
+                goodsTextDescribe2.setText(Utils.getString(info.store_info.store_credit.store_deliverycredit.text));
+                goodsTextDescribe3.setText(Utils.getString(info.store_info.store_credit.store_desccredit.text));
+                goodsTextDescribecore1.setText(Utils.getString(info.store_info.store_credit.store_servicecredit.credit));
+                goodsTextDescribecore2.setText(Utils.getString(info.store_info.store_credit.store_deliverycredit.credit));
+                goodsTextDescribecore3.setText(Utils.getString(info.store_info.store_credit.store_desccredit.credit));
+                goodsTextDescribelevel1.setText(Utils.getString(info.store_info.store_credit.store_servicecredit.percent_text));
+                goodsTextDescribelevel2.setText(Utils.getString(info.store_info.store_credit.store_deliverycredit.percent_text));
+                goodsTextDescribelevel3.setText(Utils.getString(info.store_info.store_credit.store_desccredit.percent_text));
+                /**商品评价*/
+                goodsTextPercent.setText("好评率 " + Utils.getString(info.goods_evaluate_info.good_percent) + "%");
+                goodsTextPercentnum.setText("(" + Utils.getString(info.goods_evaluate_info.all) + "人评价)");
+                if (Utils.isEmpty(info.goods_commend_list)) {
+                    goods_commend_lists.clear();
+                    goods_commend_lists.addAll(info.goods_commend_list);
+                    commonAdapter.updataAdapter(goods_commend_lists);
+                } else {
+                    goodsViewRecommend.setVisibility(View.GONE);
+                }
 
-                        String goods_info = JSONParser.getStringFromJsonString("goods_info", data);
-                        String goods_spec = JSONParser.getStringFromJsonString("goods_spec", goods_info);
-                        List<SpecBean> defaultList = ((GoodsDetailsActivity) mContext).getSpecList(goods_spec);
-                        goodsTextSelectclass.removeAllViews();
-                        if (defaultList != null && defaultList.size() > 0) {
-                            for (int i = 0; i < defaultList.size(); i++) {
-                                View view = getView(R.layout.spec_item);
-                                TextView textView = getView(view, R.id.text);
-                                textView.setText(defaultList.get(i).value);
-                                textView.setActivated(true);
-                                goodsTextSelectclass.addView(view);
-                            }
-                        } else {
-                            View view = getView(R.layout.spec_item);
-                            TextView textView = getView(view, R.id.text);
-                            textView.setText("默认");
-                            textView.setActivated(true);
-                            goodsTextSelectclass.addView(view);
+                /**商品服务保证*/
+                List<Contractlist> contractlist = new ArrayList<>();
+                String ContractStr = JSONParser.getStringFromJsonString("contractlist", JSONParser.getStringFromJsonString("goods_info", data));
+                if (Utils.isEmpty(ContractStr)) {
+                    JSONObject jsonGoods_spec = new JSONObject(ContractStr);
+                    Iterator<?> itName = jsonGoods_spec.keys();
+                    while (itName.hasNext()) {
+                        String specID = itName.next().toString();
+                        String specV = jsonGoods_spec.getString(specID);
+                        if (info.goods_info.contract_1.equals("1") && specID.equals("1")) {
+                            contractlist.add(JSONParser.JSON2Object(specV, Contractlist.class));
+                            continue;
                         }
+                        if (info.goods_info.contract_2.equals("1") && specID.equals("2")) {
+                            contractlist.add(JSONParser.JSON2Object(specV, Contractlist.class));
+                            continue;
+                        }
+                        if (info.goods_info.contract_3.equals("1") && specID.equals("3")) {
+                            contractlist.add(JSONParser.JSON2Object(specV, Contractlist.class));
+                            continue;
+                        }
+                        if (info.goods_info.contract_4.equals("1") && specID.equals("4")) {
+                            contractlist.add(JSONParser.JSON2Object(specV, Contractlist.class));
+                            continue;
+                        }
+                        if (info.goods_info.contract_5.equals("1") && specID.equals("5")) {
+                            contractlist.add(JSONParser.JSON2Object(specV, Contractlist.class));
+                            continue;
+                        }
+                        if (info.goods_info.contract_6.equals("1") && specID.equals("6")) {
+                            contractlist.add(JSONParser.JSON2Object(specV, Contractlist.class));
+                            continue;
+                        }
+                        if (info.goods_info.contract_7.equals("1") && specID.equals("7")) {
+                            contractlist.add(JSONParser.JSON2Object(specV, Contractlist.class));
+                            continue;
+                        }
+                        if (info.goods_info.contract_8.equals("1") && specID.equals("8")) {
+                            contractlist.add(JSONParser.JSON2Object(specV, Contractlist.class));
+                            continue;
+                        }
+                        if (info.goods_info.contract_9.equals("1") && specID.equals("9")) {
+                            contractlist.add(JSONParser.JSON2Object(specV, Contractlist.class));
+                            continue;
+                        }
+                        if (info.goods_info.contract_10.equals("1") && specID.equals("10")) {
+                            contractlist.add(JSONParser.JSON2Object(specV, Contractlist.class));
+                            continue;
+                        }
+                    }
+                }
+                if (Utils.isEmpty(contractlist)) {
+                    goodsViewService.setVisibility(View.VISIBLE);
+                    goodsTextService.setText("由" + Utils.getString(info.store_info.store_name) + "销售和发货，并享受售后服务");
+                    goodsViewGridview.setAdapter(new CommonAdapter<Contractlist>(mContext, contractlist, R.layout.goods_service_item) {
+                        @Override
+                        public void convert(ViewHolder viewHolder, Contractlist item, int position, View convertView, ViewGroup parentViewGroup) {
+                            viewHolder.setText(R.id.text, item.cti_name);
+                            GlideEngine.getInstance().loadImage(mContext, viewHolder.getView(R.id.img), item.cti_icon_url_60);
+                        }
+                    });
+                } else {
+                    goodsViewService.setVisibility(View.GONE);
+                }
 
-//                        goodsTextSelectdescribe.setText("x" + goods_number);/**商品购买量*/
+                /**选择默认选项*/
+                String goods_info = JSONParser.getStringFromJsonString("goods_info", data);
+                String goods_spec = JSONParser.getStringFromJsonString("goods_spec", goods_info);
+                List<SpecBean> defaultList = ((GoodsDetailsActivity) mContext).getSpecList(goods_spec);
+                goodsTextSelectclass.removeAllViews();
+                if (defaultList != null && defaultList.size() > 0) {
+                    for (int i = 0; i < defaultList.size(); i++) {
+                        View view = getView(R.layout.spec_item);
+                        TextView textView = getView(view, R.id.text);
+                        textView.setText(defaultList.get(i).value);
+                        textView.setActivated(true);
+                        goodsTextSelectclass.addView(view);
+                    }
+                } else {
+                    View view = getView(R.layout.spec_item);
+                    TextView textView = getView(view, R.id.text);
+                    textView.setText("默认");
+                    textView.setActivated(true);
+                    goodsTextSelectclass.addView(view);
+                }
+                /**活动促销*/
+                List<GoodsDetailedInfo.Gift_array> gift_arrayList = info.gift_array;
+
+                if (Utils.isEmpty(gift_arrayList)) {
+                    goodsViewPromotion.setVisibility(View.VISIBLE);
+                    goodsViewGridviewPromotion.setAdapter(new CommonAdapter<GoodsDetailedInfo.Gift_array>(mContext, gift_arrayList, R.layout.goods_order_gifarray_item) {
+                        @Override
+                        public void convert(ViewHolder viewHolder, GoodsDetailedInfo.Gift_array item, int position, View convertView, ViewGroup parentViewGroup) {
+                            TextView textView = viewHolder.getView(R.id.text);
+                            textView.setText(item.gift_goodsname + " x" + item.gift_amount);
+                            textView.setHint(item.goods_id);
+                            GlideEngine.getInstance().loadImage(mContext, viewHolder.getView(R.id.img), item.gift_goodsimage);
+                        }
+                    });
+                    goodsViewGridviewPromotion.setOnItemClickListener((parent, view, position, id) -> {
+//                        onButtonPressed(Constants.GOODS_ID, gift_arrayList.get(position).gift_goodsid);
+                        Bundle bundle = new Bundle();
+                        bundle.putString(Constants.GOODS_ID, gift_arrayList.get(position).gift_goodsid);
+                        readyGo(GoodsDetailsActivity.class,bundle);
+                    });
+                } else {
+                    goodsViewPromotion.setVisibility(View.GONE);
+                }
 
 
             } catch (NullPointerException e) {

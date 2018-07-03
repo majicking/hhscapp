@@ -164,7 +164,7 @@ public class GoodsDetailFragment extends BaseFragment {
 
             @Override
             public void onProgressChanged(WebView view, int newProgress) {
-                Logutils.i("pro= " + newProgress);
+
                 if (newProgress < 100) {
                     String progress = newProgress + "%";
 

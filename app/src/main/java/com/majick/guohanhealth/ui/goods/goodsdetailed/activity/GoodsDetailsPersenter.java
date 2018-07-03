@@ -27,7 +27,7 @@ public class GoodsDetailsPersenter extends BasePresenter<GoodsDetailsView, Goods
     }
 
 
-    public void getGoodsDetails(Activity activity, String goods_id, String key) {
+    public void getGoodsDetails(Activity activity, String goods_id, String key){
         Api.get(ApiService.GOODS_DETAIL + "&goods_id=" + goods_id + "&key=" + key, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {

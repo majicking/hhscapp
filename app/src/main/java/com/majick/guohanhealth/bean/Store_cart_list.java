@@ -15,7 +15,7 @@ public class Store_cart_list {
      */
 
     private String store_goods_total;
-//    private Object store_mansong_rule_list;
+    //    private Object store_mansong_rule_list;
 //    private String freight;
     private String store_name;
     private List<GoodsListBean> goods_list;
@@ -156,6 +156,25 @@ public class Store_cart_list {
         private List<?> promotion_info;
         private List<?> sole_info;
         private List<?> contractlist;
+        private List<Gift_list> gift_list;
+
+        public static class Gift_list {
+            public String gift_id;
+            public String goods_id;
+            public String goods_commonid;
+            public String gift_goodsid;
+            public String gift_goodsname;
+            public String gift_goodsimage;
+            public String gift_amount;
+        }
+
+        public List<Gift_list> getGift_list() {
+            return gift_list;
+        }
+
+        public void setGift_list(List<Gift_list> gift_list) {
+            this.gift_list = gift_list;
+        }
 
         public int getGoods_num() {
             return goods_num;
