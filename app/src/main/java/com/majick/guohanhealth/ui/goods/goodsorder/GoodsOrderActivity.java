@@ -1,6 +1,7 @@
 package com.majick.guohanhealth.ui.goods.goodsorder;
 
 import android.opengl.GLSurfaceView;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
@@ -10,10 +11,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -28,7 +31,10 @@ import com.majick.guohanhealth.app.Constants;
 import com.majick.guohanhealth.base.BaseActivity;
 import com.majick.guohanhealth.bean.AddressInfo;
 import com.majick.guohanhealth.bean.GoodsOrderInfo;
+import com.majick.guohanhealth.bean.PayWayInfo;
+import com.majick.guohanhealth.bean.Step2Info;
 import com.majick.guohanhealth.bean.Store_cart_list;
+import com.majick.guohanhealth.bean.UpDataAddressInfo;
 import com.majick.guohanhealth.custom.CustomPopuWindow;
 import com.majick.guohanhealth.ui.goods.GoodsModel;
 import com.majick.guohanhealth.ui.goods.goodsdetailed.activity.GoodsDetailsActivity;
@@ -91,6 +97,25 @@ public class GoodsOrderActivity extends BaseActivity<GoodsOrderPercenter, GoodsM
     private CustomPopuWindow invoicepopuWindow;
     List<String> list;
     private List<String> datalist;
+    private int ifcart;
+    private String cart_id;
+    private String address_id;
+    private String vat_hash;
+    private String offpay_hash;
+    private String offpay_hash_batch;
+    private String if_pd_pay = "0";//记录是否充值卡支付  1-使用 0-不使用
+    private String if_rcb_pay = "0";//记录是否预存款支付 1-使用 0-不使用
+    private String healthbean_pay = "0";//记录是否健康豆支付 1-使用 0-不使用
+    private String password;/*支付密码*/
+    private String pay_message; /*店铺评论 */
+    private String data = ""; /*数据*/
+    String pay_name = "online";  /*online(线上付款) offline(货到付款)*/
+    private int inv_id;
+    private String pay_sn;
+    private CustomPopuWindow popuWindow;
+    private String is_virtual;
+    private String goods_number;
+    private String buyer_phone;
 
     public GoodsOrderActivity() {
         list = new ArrayList<>();
@@ -102,19 +127,16 @@ public class GoodsOrderActivity extends BaseActivity<GoodsOrderPercenter, GoodsM
         return R.layout.activity_goods_order;
     }
 
-    /**
-     * 数据
-     */
-    String data = "";
-    /**
-     * online(线上付款) offline(货到付款)
-     */
-    String pay_name = "online";
 
     @Override
     protected void initView(Bundle savedInstanceState) {
         initToolBarNav(commonToolbar, commonToolbarTitleTv, "确认订单");
         data = getIntent().getStringExtra("data");
+        is_virtual = getIntent().getStringExtra(Constants.IS_VIRTUAL);
+        ifcart = getIntent().getIntExtra(Constants.IFCART, 0);
+        cart_id = getIntent().getStringExtra(Constants.CART_ID);
+        goods_number = getIntent().getStringExtra(Constants.GOODS_NUMBER);
+
         goodsOrderViewAddress.setOnClickListener(v -> {
             showToast("添加地址正在开发中");
         });
@@ -123,6 +145,14 @@ public class GoodsOrderActivity extends BaseActivity<GoodsOrderPercenter, GoodsM
         });
         goodsOrderViewInvoice.setOnClickListener(v -> {
             shopInvoiceWindown();
+        });
+
+        goodsOrderTextApply.setOnClickListener(v -> {
+
+            mPresenter.buyStep2(App.getApp().getKey(), cart_id, "" + ifcart, address_id, vat_hash,
+                    offpay_hash, offpay_hash_batch, pay_name,
+                    inv_id + "", if_pd_pay, if_rcb_pay, healthbean_pay,
+                    password, is_virtual, goods_number, buyer_phone);
         });
     }
 
@@ -137,13 +167,18 @@ public class GoodsOrderActivity extends BaseActivity<GoodsOrderPercenter, GoodsM
     public void setData(String data) {
         info = JSONParser.JSON2Object(data, GoodsOrderInfo.class);
         if (info != null) {
-            freight_hash = info.freight_hash;
-            goodsOrderTextMoney.setText(Utils.getString(info.order_amount));
+            freight_hash = Utils.getString(info.freight_hash);
+            goodsOrderTextMoney.setText(Utils.getString(Utils.getString(info.order_amount)));
             list.clear();
-            if (info.address_api.allow_offpay.equals("1") && info.ifshow_offpay.equals("true")) {
+            if (Utils.getString(info.address_api.allow_offpay).equals("1") && Utils.getString(info.ifshow_offpay).equals("true")) {
                 list.add("货到付款");
             }
             list.add("在线支付");
+            vat_hash = Utils.getString(info.vat_hash);
+            inv_id = info.inv_info.inv_id;
+            offpay_hash = Utils.getString(info.address_api.offpay_hash);
+            offpay_hash_batch = Utils.getString(info.address_api.offpay_hash_batch);
+            goodsOrderTextInvoice.setText(Utils.getString(info.inv_info.content));
             setAddress(info.address_info);
             setOrderData(JSONParser.getStringFromJsonString("store_cart_list", data));
         }
@@ -158,6 +193,7 @@ public class GoodsOrderActivity extends BaseActivity<GoodsOrderPercenter, GoodsM
             Store_cart_list in = JSONParser.JSON2Object(datalist.get(i), Store_cart_list.class);
             lists1.add(in);
         }
+
         OrderAdapter adapter = new OrderAdapter(R.layout.goods_order_list_item, lists1, datalist);
         goodsOrderViewRecycleview.setLayoutManager(new LinearLayoutManager(mContext));
         goodsOrderViewRecycleview.setAdapter(adapter);
@@ -187,6 +223,38 @@ public class GoodsOrderActivity extends BaseActivity<GoodsOrderPercenter, GoodsM
 
     }
 
+    @Override
+    public void updataAddress(UpDataAddressInfo info) {
+        Logutils.i(info);
+        offpay_hash = info.offpay_hash;
+        offpay_hash_batch = info.offpay_hash_batch;
+    }
+
+    @Override
+    public void getPayInfo(Step2Info info) {
+        mPresenter.getPaymentList(App.getApp().getKey());
+        pay_sn = info.pay_sn;
+//        if (info != null && info.pay_info.equals("true")) {
+//
+//        }
+    }
+
+    View.OnClickListener listener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if (popuWindow != null) {
+                popuWindow.dissmiss();
+            }
+        }
+    };
+
+    @Override
+    public void getPaymentList(PayWayInfo info) {
+        Logutils.i(info.payment_list.size());
+        popuWindow = Utils.shopPayWindown(mContext, info.payment_list, pay_sn, is_virtual, listener);
+
+    }
+
     /**
      * 循环店铺适配器
      */
@@ -203,6 +271,8 @@ public class GoodsOrderActivity extends BaseActivity<GoodsOrderPercenter, GoodsM
         protected void convert(BaseViewHolder helper, Store_cart_list item) {
             helper.setText(R.id.store_name, Utils.getString(item.getStore_name()));
             helper.setText(R.id.store_money, Utils.getString(item.getStore_goods_total()));
+            EditText store_edit = helper.getView(R.id.store_edit);
+            pay_message = Utils.getEditViewText(store_edit);
             RecyclerView recycleview = helper.getView(R.id.recycleview);
             recycleview.setLayoutManager(new LinearLayoutManager(mContext));
             OrderDetailAdapter detailAdapter = new OrderDetailAdapter(R.layout.goods_orderdetail_list_item, item.getGoods_list(), storelist.get(helper.getLayoutPosition()));
@@ -366,25 +436,31 @@ public class GoodsOrderActivity extends BaseActivity<GoodsOrderPercenter, GoodsM
     public void shopInvoiceWindown() {
         View view = getView(R.layout.goods_order_invoice);
         invoicepopuWindow = Utils.getPopuWindown(mContext, view, Gravity.BOTTOM);
-        RecyclerView recycleview = getView(view, R.id.recycleview);
         TagContainerLayout tagContainerLayout = getView(view, R.id.tagcontainerlayout);
-        recycleview.setLayoutManager(new GridLayoutManager(mContext, 4));
-        LinearLayout layout = (LinearLayout) getView(R.layout.item_text);
-        TextView textView = getView(layout, R.id.text);
-        textView.setText("不使用发票");
-
-        List<String> list = Arrays.asList(new String[]{"不使用发票"});
+        List<String> list = Arrays.asList(new String[]{info.inv_info.content});
         tagContainerLayout.setTags(list);
         for (int i = 0; i < tagContainerLayout.getChildCount(); i++) {
-            tagContainerLayout.getChildAt(i).setOnClickListener(c->{
-                showToast("11111111111111");
-            });
+            TagView tagView = (TagView) tagContainerLayout.getChildAt(i);
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            tagView.setLayoutParams(layoutParams);
+            tagView.setMinimumWidth(getResources().getDimensionPixelSize(R.dimen.dp_50));
+            tagView.setTextSize(getResources().getDimension(R.dimen.sp_12));
+            if (tagView.getText().toString().equals(Utils.getTextViewText(goodsOrderTextInvoice))) {
+                tagView.setTagBorderColor(getResources().getColor(R.color.appColor));
+                tagView.setTagBackgroundColor(getResources().getColor(R.color.appColor));
+                tagView.setTagTextColor(getResources().getColor(R.color.white));
+            } else {
+                tagView.setTagBorderColor(getResources().getColor(R.color.gray));
+                tagView.setTagBackgroundColor(getResources().getColor(R.color.translucent));
+                tagView.setTagTextColor(getResources().getColor(R.color.nc_text));
+            }
         }
 
         tagContainerLayout.setOnTagClickListener(new TagView.OnTagClickListener() {
             @Override
             public void onTagClick(int position, String text) {
-                showToast(text);
+                invoicepopuWindow.dissmiss();
+                goodsOrderTextInvoice.setText(text);
             }
 
             @Override
@@ -392,16 +468,7 @@ public class GoodsOrderActivity extends BaseActivity<GoodsOrderPercenter, GoodsM
 
             }
         });
-        MAdapter adapter = new MAdapter(R.layout.spec_item, list);
-        recycleview.setAdapter(adapter);
-        adapter.setOnItemClickListener((adapter1, view1, position) -> {
-            invoicepopuWindow.dissmiss();
-            goodsOrderTextInvoice.setText(list.get(position));
-        });
-        textView.setOnClickListener(v -> {
-            invoicepopuWindow.dissmiss();
-            goodsOrderTextInvoice.setText(Utils.getTextViewText(textView));
-        });
+
         TextView ok = getView(view, R.id.ok);
         ImageView close = getView(view, R.id.close);
         ok.setOnClickListener(v -> {
@@ -412,23 +479,13 @@ public class GoodsOrderActivity extends BaseActivity<GoodsOrderPercenter, GoodsM
         });
     }
 
-    private class MAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
-
-        public MAdapter(int layoutResId, @Nullable List data) {
-            super(layoutResId, data);
-        }
-
-        @Override
-        protected void convert(BaseViewHolder helper, String item) {
-            helper.setText(R.id.text, item);
-        }
-    }
 
     /**
      * @param info
      */
     private void setAddress(AddressInfo info) {
         if (info != null) {
+            address_id = info.address_id;
             goodsOrderViewAddressDefault.setVisibility(View.VISIBLE);
             goodsOrderViewAddressNull.setVisibility(View.GONE);
             goodsOrderTextName.setText(Utils.getString(info.true_name));

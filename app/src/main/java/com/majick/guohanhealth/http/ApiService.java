@@ -15,10 +15,13 @@ import com.majick.guohanhealth.bean.GoodsListInfo;
 import com.majick.guohanhealth.bean.ImgCodeKey;
 import com.majick.guohanhealth.bean.LoginBean;
 import com.majick.guohanhealth.bean.MineInfo;
+import com.majick.guohanhealth.bean.PayWayInfo;
 import com.majick.guohanhealth.bean.SMSCode;
 import com.majick.guohanhealth.bean.SearchInfo;
 import com.majick.guohanhealth.bean.SearchWordsInfo;
 import com.majick.guohanhealth.bean.SelectedInfo;
+import com.majick.guohanhealth.bean.Step2Info;
+import com.majick.guohanhealth.bean.UpDataAddressInfo;
 import com.majick.guohanhealth.bean.UserInfo;
 
 import io.reactivex.Observable;
@@ -65,6 +68,12 @@ public interface ApiService {
     String GOODS_BODY = Constants.INDEX + "act=goods&op=goods_body";
     String GOODS_EVALUATE = Constants.INDEX + "act=goods&op=goods_evaluate";
     String CHANGE_ADDRESS = Constants.INDEX + "act=member_buy&op=change_address";
+    String BUY_STEP2 = Constants.INDEX + "act=member_buy&op=buy_step2";
+    String PAYMENT_LIST = Constants.INDEX + "act=member_payment&op=payment_list";
+    String ALIPAYURL = Constants.INDEX + "act=member_payment&op=alipay_native_pay";
+    String ALIPAYURLV = Constants.INDEX + "act=member_payment&op=alipay_native_vr_pay";
+    String WXPAYURL = Constants.INDEX + "act=member_payment&op=wx_app_pay3";
+    String WXPAYURLV = Constants.INDEX + "act=member_payment&op=wx_app_vr_pay3";
 
     /**
      * 用户登录
@@ -240,17 +249,87 @@ public interface ApiService {
 
 
     /**
-     * "key", myApplication.getLoginKey());
-     * "city_id", city_id);
-     * "area_id", area_id);
-     * "freight_hash", freight_hash);
+     * @param key
+     * @param city_id
+     * @param area_id
+     * @param freight_hash
      */
     @FormUrlEncoded
     @POST(CHANGE_ADDRESS)
-    Observable<Result<Object>> changedAdress(@Field("key") String key,
-                                     @Field("city_id") String city_id,
-                                     @Field("area_id") String area_id,
-                                     @Field("freight_hash") String freight_hash);
+    Observable<Result<UpDataAddressInfo>> changedAdress(@Field("key") String key,
+                                                        @Field("city_id") String city_id,
+                                                        @Field("area_id") String area_id,
+                                                        @Field("freight_hash") String freight_hash);
+
+    /**
+     * 购买商品提交订单
+     *
+     * @param key
+     * @param cart_id
+     * @param ifcart
+     * @param address_id
+     * @param vat_hash
+     * @param offpay_hash
+     * @param offpay_hash_batch
+     * @param pay_name
+     * @param invoice_id
+     * @param pd_pay
+     * @param rcb_pay
+     * @param healthbean_pay
+     * @param password
+     * @param client
+     */
+    @FormUrlEncoded
+    @POST(BUY_STEP2)
+    Observable<Result<Step2Info>> buyStep2(@Field("key") String key,
+                                           @Field("cart_id") String cart_id,
+                                           @Field("ifcart") String ifcart,
+                                           @Field("address_id") String address_id,
+                                           @Field("vat_hash") String vat_hash,
+                                           @Field("offpay_hash") String offpay_hash,
+                                           @Field("offpay_hash_batch") String offpay_hash_batch,
+                                           @Field("pay_name") String pay_name,
+                                           @Field("invoice_id") String invoice_id,
+                                           @Field("pd_pay") String pd_pay,
+                                           @Field("rcb_pay") String rcb_pay,
+                                           @Field("healthbean_pay") String healthbean_pay,
+                                           @Field("password") String password,
+                                           @Field("client") String client);
+
+    /**
+     * 购买商品提交订单
+     *
+     * @param key
+     * @param goods_id
+     * @param quantity
+     * @param buyer_phone
+     * @param pd_pay
+     * @param rcb_pay
+     * @param password
+     * @param healthbean_pay
+     * @param client;
+     */
+    @FormUrlEncoded
+    @POST(BUY_STEP2)
+    Observable<Result<Step2Info>> buyStep2V(@Field("key") String key,
+                                            @Field("goods_id") String goods_id,
+                                            @Field("quantity") String quantity,
+                                            @Field("buyer_phone") String buyer_phone,
+                                            @Field("pd_pay") String pd_pay,
+                                            @Field("rcb_pay") String rcb_pay,
+                                            @Field("healthbean_pay") String healthbean_pay,
+                                            @Field("password") String password,
+                                            @Field("client") String client);
+
+
+    /**
+     * @param key
+     */
+    @FormUrlEncoded
+    @POST(PAYMENT_LIST)
+    Observable<Result<PayWayInfo>> getPaymentList(@Field("key") String key);
+
+
 //
 //    /**
 //     * 修改密码

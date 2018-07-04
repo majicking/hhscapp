@@ -17,8 +17,8 @@ public interface Constants {
      */
 
     String HEAD = BuildConfig.HEAD;
-    String HOST = "test.shopnctest.com";
-    //    String HOST = BuildConfig.HOST;
+//    String HOST = "test.shopnctest.com";
+        String HOST = BuildConfig.HOST;
     String PORT = BuildConfig.PORT;
     String APP = BuildConfig.APP;
     String WEB = BuildConfig.WEB;
@@ -66,6 +66,10 @@ public interface Constants {
     String GETGOODSDETAILS = "getGoodsDetails";
     String CURRENTITEM = "currentitem";
     String ERROR = "error";
+    String IFCART="ifcart";
+    String CART_ID="cart_id";
+    String GOODS_NUMBER="goods_number";
+    String IS_VIRTUAL="is_virtual";
     /**
      * 相机权限请求
      */
@@ -84,6 +88,7 @@ public interface Constants {
     };
 
     int RANDOMCOLOR = BGCOLORS[new Random().nextInt(10)];
+
 
 
 }

@@ -6,6 +6,8 @@ import com.majick.guohanhealth.bean.CardNumberInfo;
 import com.majick.guohanhealth.bean.EvalInfo;
 import com.majick.guohanhealth.bean.GoodsDetailedInfo;
 import com.majick.guohanhealth.bean.GoodsListInfo;
+import com.majick.guohanhealth.bean.UpDataAddressInfo;
+import com.majick.guohanhealth.bean.Step2Info;
 import com.majick.guohanhealth.http.Api;
 import com.majick.guohanhealth.http.Result;
 import com.majick.guohanhealth.http.RxHelper;
@@ -43,8 +45,32 @@ public class GoodsModel extends BaseModel {
         return Api.getDefault().goodsEvaluate(goods_id, curpage, type, page).compose(RxHelper.handleResult());
     }
 
-    public Observable<Object> changedAdress(String key, String city_id, String area_id, String freight_hash) {
+    public Observable<UpDataAddressInfo> changedAdress(String key, String city_id, String area_id, String freight_hash) {
         return Api.getDefault().changedAdress(key, city_id, area_id, freight_hash).compose(RxHelper.handleResult());
+    }
+
+    public Observable<Step2Info> buyStep2(String key,
+                                          String cart_id,
+                                          String ifcart,
+                                          String address_id,
+                                          String vat_hash,
+                                          String offpay_hash,
+                                          String offpay_hash_batch,
+                                          String pay_name,
+                                          String invoice_id,
+                                          String pd_pay,
+                                          String rcb_pay,
+                                          String healthbean_pay,
+                                          String password, String type, String quantity, String buyer_phone) {
+        if (type.equals("1")) {
+            return Api.getDefault().buyStep2V(key, cart_id, quantity, buyer_phone, pd_pay, rcb_pay,
+                    healthbean_pay, password, "android").compose(RxHelper.handleResult());
+        }
+        return Api.getDefault().buyStep2(key, cart_id, ifcart, address_id, vat_hash,
+                offpay_hash, offpay_hash_batch,
+                pay_name, invoice_id, pd_pay, rcb_pay,
+                healthbean_pay, password, "android").compose(RxHelper.handleResult());
+
     }
 
 }

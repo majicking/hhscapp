@@ -72,6 +72,7 @@
             <TextView
                 android:id="@+id/store_freight"
                 style="@style/warp"
+                android:layout_marginRight="@dimen/dp_5"
                 android:text="运费0.00元"
                 android:textSize="@dimen/sp_12" />
         </LinearLayout>
@@ -90,6 +91,7 @@
             <EditText
                 android:id="@+id/store_edit"
                 style="@style/match_warp"
+                android:layout_marginRight="@dimen/dp_5"
                 android:background="@mipmap/img_null"
                 android:gravity="right"
                 android:hint="请输入对店铺的留言"
@@ -123,6 +125,7 @@
 
             <TextView
                 style="@style/warp"
+                android:layout_marginRight="@dimen/dp_5"
                 android:text="元"
                 android:textSize="@dimen/sp_12" />
         </LinearLayout>

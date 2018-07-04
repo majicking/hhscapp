@@ -3,6 +3,7 @@ package com.majick.guohanhealth.base;
 import com.majick.guohanhealth.app.App;
 import com.majick.guohanhealth.bean.ImgCodeKey;
 import com.majick.guohanhealth.bean.LoginBean;
+import com.majick.guohanhealth.bean.PayWayInfo;
 import com.majick.guohanhealth.bean.SMSCode;
 import com.majick.guohanhealth.bean.SearchWordsInfo;
 import com.majick.guohanhealth.bean.UserInfo;
@@ -49,4 +50,9 @@ public class BaseModel {
     public Observable<SearchWordsInfo> getSearchDataWords() {
         return Api.getDefault().getSearchDataWords().compose(RxHelper.handleResult());
     }
+
+    public Observable<PayWayInfo> getPayList(String key){
+        return Api.getDefault().getPaymentList(key).compose(RxHelper.handleResult());
+    }
+
 }

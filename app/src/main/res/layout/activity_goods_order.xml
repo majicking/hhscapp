@@ -141,7 +141,7 @@
                 <TextView
                     android:id="@+id/goods_order_text_invoice"
                     style="@style/warp"
-                    android:text="不使用发票"
+                    android:text="不需要发票"
                     android:textSize="@dimen/sp_12" />
 
                 <ImageView

@@ -87,6 +87,7 @@ public class GoodsDetailsActivity extends BaseActivity<GoodsDetailsPersenter, Go
     private CustomPopuWindow popuWindow;
     private String is_virtual;
     private EditText number;
+    private String cart_id;
 
     @Override
     protected int getContentViewLayoutID() {
@@ -251,7 +252,8 @@ public class GoodsDetailsActivity extends BaseActivity<GoodsDetailsPersenter, Go
                         return;
                     }
                     if (is_virtual.equals("0")) {
-                        mPresenter.buyStep1(this, App.getApp().getKey(), goods_id + "|" + goods_number);
+                        cart_id = goods_id + "|" + goods_number;
+                        mPresenter.buyStep1(this, App.getApp().getKey(), cart_id);
                     } else {
                         mPresenter.buyStep1V(this, App.getApp().getKey(), goods_id, "" + goods_number);
                     }
@@ -532,15 +534,21 @@ public class GoodsDetailsActivity extends BaseActivity<GoodsDetailsPersenter, Go
 
     @Override
     public void buyStep1Data(String data) {
-        Bundle bundle = new Bundle();
-        bundle.putString("data", data);
-        readyGo(GoodsOrderActivity.class, bundle);
+        goOrder(data);
     }
 
     @Override
     public void buyStep1VData(String data) {
+        goOrder(data);
+    }
+
+    private void goOrder(String data) {
         Bundle bundle = new Bundle();
         bundle.putString("data", data);
+        bundle.putInt(Constants.IFCART, 0);
+        bundle.putString(Constants.IS_VIRTUAL, is_virtual);
+        bundle.putString(Constants.CART_ID, is_virtual.equals("1") ? goods_id : goods_id + "|" + goods_number);
+        bundle.putString(Constants.GOODS_NUMBER, goods_number + "");
         readyGo(GoodsOrderActivity.class, bundle);
     }
 

@@ -23,6 +23,7 @@ public class GoodsOrderInfo {
     public Object store_final_total_list;
 
     public static class Inv_info {
+        public int inv_id=0;
         public String content;
     }
 

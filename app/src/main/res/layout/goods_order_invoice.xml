@@ -30,15 +30,15 @@
         android:id="@+id/tagcontainerlayout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginTop="5dp"
         android:layout_weight="1"
-        android:padding="@dimen/dp_10"></co.lujun.androidtagview.TagContainerLayout>
+        app:tag_clickable="true"
+        android:background="@color/white"
+        android:foregroundGravity="center"
+        android:padding="@dimen/dp_10"
+        app:container_background_color="#00000000"
+        app:container_border_color="#00000000"></co.lujun.androidtagview.TagContainerLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycleview"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:padding="@dimen/dp_10"></android.support.v7.widget.RecyclerView>
 
     <TextView
         android:id="@+id/ok"
