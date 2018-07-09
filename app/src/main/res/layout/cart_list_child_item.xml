@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dp_80"
+    android:layout_marginLeft="@dimen/dp_10"
+    android:gravity="center_vertical"
+    android:orientation="horizontal">
+
+    <CheckBox
+        android:id="@+id/check"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/dp_3"
+        android:button="@drawable/checkbox"
+        android:checked="true" />
+
+    <LinearLayout
+        style="@style/layout_weight_h"
+        android:background="@drawable/bg_line"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:id="@+id/img"
+            android:layout_width="@dimen/dp_60"
+            android:layout_height="@dimen/dp_60" />
+
+        <LinearLayout
+            style="@style/layout_weight_h"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/text"
+                style="@style/layout_weight_v"
+                android:gravity="center_vertical"
+                android:padding="@dimen/dp_3"
+                android:textSize="@dimen/sp_12" />
+
+            <LinearLayout
+                style="@style/match_warp"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/warp"
+                    android:paddingLeft="@dimen/dp_3"
+                    android:text="￥"
+                    android:textColor="@color/appColor"
+                    android:textSize="@dimen/sp_12" />
+
+                <TextView
+                    android:id="@+id/text1"
+                    style="@style/warp"
+                    android:text="0.00"
+                    android:textColor="@color/appColor"
+                    android:textSize="@dimen/sp_16" />
+
+                <View style="@style/linearlayout_zw" />
+
+
+                <LinearLayout
+                    android:layout_width="@dimen/dp_90"
+                    android:layout_height="@dimen/dp_25"
+                    android:background="@drawable/bg_line_gray"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/cart_number_down"
+                        style="@style/layout_weight_h"
+                        android:background="@drawable/bg_gray_left"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
+                        android:text="-"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/cart_number"
+                        style="@style/layout_weight_h"
+                        android:background="@mipmap/nc_icon_null"
+                        android:gravity="center"
+                        android:inputType="number"
+                        android:maxLines="1"
+                        android:text="1"
+                        android:textSize="@dimen/dp_14" />
+
+                    <TextView
+                        android:id="@+id/cart_number_up"
+                        style="@style/layout_weight_h"
+                        android:background="@drawable/bg_gray_right"
+                        android:text="+"
+                        android:textColor="@color/black"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

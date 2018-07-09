@@ -7,7 +7,7 @@
 
     <RelativeLayout style="@style/match">
 
-        <com.majick.guohanhealth.custom.MyScrollView
+        <com.guohanhealth.shop.custom.MyScrollView
             android:id="@+id/home_view_scrollview"
             style="@style/match"
             android:scrollbars="none">
@@ -28,14 +28,14 @@
 
                 <View style="@style/djk_line" />
 
-                <com.majick.guohanhealth.view.NoScrollGridView
+                <com.guohanhealth.shop.view.NoScrollGridView
                     android:id="@+id/gridview"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dp_10"
                     android:background="@color/white"
                     android:numColumns="4"
-                    android:verticalSpacing="3dp"></com.majick.guohanhealth.view.NoScrollGridView>
+                    android:verticalSpacing="3dp"></com.guohanhealth.shop.view.NoScrollGridView>
 
                 <LinearLayout
                     android:id="@+id/home_view_layout"
@@ -43,7 +43,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"></LinearLayout>
             </LinearLayout>
-        </com.majick.guohanhealth.custom.MyScrollView>
+        </com.guohanhealth.shop.custom.MyScrollView>
 
         <LinearLayout
             android:id="@+id/home_view_titleview"
@@ -75,16 +75,16 @@
                     android:src="@drawable/ic_search_white" />
 
                 <TextView
-                    android:maxLines="1"
-                    android:ellipsize="end"
-                    android:textColorHint="@color/white"
                     android:id="@+id/home_hot"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:ellipsize="end"
                     android:gravity="center_vertical"
+                    android:maxLines="1"
                     android:paddingLeft="@dimen/dp_10"
-                    android:textColor="@color/white" />
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/white" />
 
 
             </LinearLayout>

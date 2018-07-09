@@ -103,12 +103,12 @@
                     android:layout_weight="9"
                     android:orientation="vertical">
 
-                    <com.majick.guohanhealth.view.NoScrollGridView
+                    <com.guohanhealth.shop.view.NoScrollGridView
                         android:id="@+id/goods_view_gridview_promotion"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:paddingLeft="@dimen/dp_5"
-                        android:paddingRight="@dimen/dp_5"></com.majick.guohanhealth.view.NoScrollGridView>
+                        android:paddingRight="@dimen/dp_5"></com.guohanhealth.shop.view.NoScrollGridView>
 
                 </LinearLayout>
 
@@ -239,13 +239,13 @@
                         android:textSize="@dimen/dp_14" />
 
 
-                    <com.majick.guohanhealth.view.NoScrollGridView
+                    <com.guohanhealth.shop.view.NoScrollGridView
                         android:id="@+id/goods_view_gridview"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:numColumns="4"
                         android:paddingLeft="@dimen/dp_5"
-                        android:paddingRight="@dimen/dp_5"></com.majick.guohanhealth.view.NoScrollGridView>
+                        android:paddingRight="@dimen/dp_5"></com.guohanhealth.shop.view.NoScrollGridView>
 
                 </LinearLayout>
 
@@ -385,10 +385,10 @@
 
                 </LinearLayout>
 
-                <com.majick.guohanhealth.view.NoScrollGridView
+                <com.guohanhealth.shop.view.NoScrollGridView
                     android:id="@+id/goods_view_gridview1"
                     style="@style/match_warp"
-                    android:numColumns="4"></com.majick.guohanhealth.view.NoScrollGridView>
+                    android:numColumns="4"></com.guohanhealth.shop.view.NoScrollGridView>
 
             </LinearLayout>
         </LinearLayout>

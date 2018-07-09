@@ -21,7 +21,7 @@
 
 
         <!-- 扫描取景框 -->
-        <com.majick.guohanhealth.view.scannercode.view.ViewfinderView
+        <com.guohanhealth.shop.view.scannercode.view.ViewfinderView
                 android:id="@+id/viewfinder_view"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent" />

@@ -14,19 +14,31 @@ android {
     compileSdkVersion config.compileSdkVersion
     buildToolsVersion config.buildToolsVersion
     defaultConfig {
-        applicationId "com.majick.guohanhealth"
+        applicationId "com.guohanhealth.shop"
         minSdkVersion config.minSdkVersion
         targetSdkVersion config.targetSdkVersion
 //        multiDexEnabled true
         versionCode config.versionCode
         versionName config.versionName
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        //配置
+        /**配置*/
         buildConfigField "String", "HEAD", '"http://"'
+        buildConfigField "String", "HOST", '"www.guohanhealth.com"'
         buildConfigField "String", "PORT", '"80"'
         buildConfigField "String", "APP", '"/mobile/"'
         buildConfigField "String", "WEB", '"/wap/"'
+        /**微信*/
+        buildConfigField "String", "WX_APP_ID", '"wx5eb3be4a208fa171"'
+        buildConfigField "String", "WX_APP_SECRET", '"0d73c4852ffd9745bd74e33bf725b0d2"'
+        /**微博*/
+        buildConfigField "String", "WEIBO_APP_KEY", '"3821500010"'
+        buildConfigField "String", "WEIBO_APP_SECRET", '"1ed988c7770d20a09218584ca8a3ed3b"'
+        /**腾讯QQ*/
+        buildConfigField "String", "QQ_APP_ID", '"1106928692"'
+        buildConfigField "String", "QQ_APP_KEY", '"M02OJdXu3EUBLEVJ"'
+
         resValue "string", "app_name", appName
+
     }
     signingConfigs {
         debug {
@@ -39,16 +51,15 @@ android {
         release {
             println("1111--------------------------------release")
             storeFile file("keystore/keystore.jks")
-            keyAlias "android"
-            keyPassword "android"
-            storePassword "android"
+            keyAlias "key"
+            keyPassword "shopnc"
+            storePassword "shopnc"
         }
     }
     buildTypes {
         release {
             println("--------------------------------release")
             signingConfig signingConfigs.release
-            buildConfigField "String", "HOST", '"www.guohanhealth.com"'
             buildConfigField "boolean", "ISDEBUG", 'false'
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
@@ -59,13 +70,12 @@ android {
             }
         }
         debug {
+            signingConfig signingConfigs.release
             println("--------------------------------debug")
-//            buildConfigField "String", "HOST", '"192.168.1.252"'
-            buildConfigField "String", "HOST", '"www.guohanhealth.com"'
             buildConfigField "boolean", "ISDEBUG", 'true'
             android.applicationVariants.all { variant ->
                 variant.outputs.all {
-                    outputFileName = "${appName}${defaultConfig.versionName}_debug.apk"
+                    outputFileName = "${appName}${defaultConfig.versionName}.apk"
                 }
             }
         }
@@ -82,6 +92,11 @@ android {
     compileOptions {
         targetCompatibility 1.8
         sourceCompatibility 1.8
+    }
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
     }
 }
 
@@ -142,5 +157,6 @@ dependencies {
     implementation lib.fastjson
     implementation 'com.beloo.widget:ChipsLayoutManager:0.3.7@aar'
     implementation 'co.lujun:androidtagview:1.0.3'
-
+    implementation files('libs/alipaySdk-20180403.jar')
+    implementation 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
 }

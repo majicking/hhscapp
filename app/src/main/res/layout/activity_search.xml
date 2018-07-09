@@ -81,14 +81,14 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <com.majick.guohanhealth.view.NoScrollGridView
+        <com.guohanhealth.shop.view.NoScrollGridView
             android:id="@+id/gridview"
             android:padding="@dimen/dp_15"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:horizontalSpacing="@dimen/dp_10"
             android:numColumns="4"
-            android:verticalSpacing="@dimen/dp_5"></com.majick.guohanhealth.view.NoScrollGridView>
+            android:verticalSpacing="@dimen/dp_5"></com.guohanhealth.shop.view.NoScrollGridView>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/search_recycleview_hot"

@@ -24,11 +24,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.majick.guohanhealth.custom.EmptyView
+        <com.guohanhealth.shop.custom.EmptyView
             android:id="@+id/emptyview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="gone"></com.majick.guohanhealth.custom.EmptyView>
+            android:visibility="gone"></com.guohanhealth.shop.custom.EmptyView>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycleview"

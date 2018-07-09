@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_circle_white_5"
+    android:orientation="vertical">
+
+    <LinearLayout
+        style="@style/LLayout_40_h"
+        android:gravity="center_vertical">
+
+
+        <CheckBox
+            android:id="@+id/check"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_5"
+            android:button="@drawable/checkbox"
+            android:checked="true" />
+
+        <ImageView
+            android:id="@+id/img"
+            android:layout_width="@dimen/dp_18"
+            android:layout_height="@dimen/dp_18"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:src="@mipmap/nc_icon_store" />
+
+        <TextView
+            android:id="@+id/text"
+            style="@style/warp"
+            android:layout_marginLeft="@dimen/dp_2"
+            android:text="@string/app_name"
+            android:textSize="@dimen/sp_12" />
+
+        <View style="@style/linearlayout_zw" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/dp_10"
+            android:src="@mipmap/more" />
+
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycleview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
+</LinearLayout>

@@ -142,10 +142,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
 
-                <com.majick.guohanhealth.custom.EmptyView
+                <com.guohanhealth.shop.custom.EmptyView
                     android:id="@+id/emptyview"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"></com.majick.guohanhealth.custom.EmptyView>
+                    android:layout_height="match_parent"></com.guohanhealth.shop.custom.EmptyView>
 
                 <android.support.design.widget.FloatingActionButton
                     android:id="@+id/goodslist_flaybtn"

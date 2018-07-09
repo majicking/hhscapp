@@ -2,7 +2,82 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/match"
-    android:background="@color/background_color30"
     android:orientation="vertical">
 
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/cart_view_refresh"
+        style="@style/layout_weight_v"
+        android:background="@color/djk_bgcolor">
+
+        <RelativeLayout style="@style/match">
+
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/cart_view_recycle"
+                style="@style/match"></android.support.v7.widget.RecyclerView>
+
+            <com.guohanhealth.shop.custom.EmptyView
+                android:id="@+id/cart_view_empty"
+                style="@style/match"></com.guohanhealth.shop.custom.EmptyView>
+
+        </RelativeLayout>
+
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+    <LinearLayout
+        android:id="@+id/cart_view_settlement"
+        style="@style/LLayout_50_h"
+        android:layout_marginBottom="@dimen/dp_50"
+        android:background="@color/white"
+        android:visibility="gone">
+
+
+        <LinearLayout
+            style="@style/layout_weight_h"
+            android:layout_weight="2"
+            android:orientation="horizontal">
+
+            <CheckBox
+                android:id="@+id/cart_check_all"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp_5"
+                android:background="@mipmap/nc_icon_null"
+                android:button="@drawable/checkbox"
+                android:checked="true"
+                android:paddingRight="@dimen/dp_5"
+                android:text="全选"
+                android:textColor="@color/grey" />
+
+            <LinearLayout
+                style="@style/layout_weight_h"
+                android:gravity="center_vertical"
+                android:paddingLeft="5dp">
+
+                <TextView
+                    style="@style/warp"
+                    android:text="合计：" />
+
+                <TextView
+                    style="@style/warp"
+                    android:text="￥"
+                    android:textSize="@dimen/sp_12" />
+
+                <TextView
+                    android:id="@+id/cart_text_money"
+                    style="@style/warp"
+                    android:text="0.00"
+                    android:textSize="@dimen/sp_16" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+
+        <TextView
+            android:id="@+id/cart_text_settlement"
+            style="@style/layout_weight_h"
+            android:background="@color/appColor"
+            android:text="去结算(0)"
+            android:textColor="@color/white" />
+    </LinearLayout>
 </LinearLayout>

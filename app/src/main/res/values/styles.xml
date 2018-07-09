@@ -301,4 +301,9 @@
         <item name="android:background">@android:color/transparent</item>
     </style>
 
+    <style name="popuStyle">
+        <item name="android:windowEnterAnimation">@anim/fade_in</item>
+        <item name="android:windowExitAnimation">@anim/fade_out</item>
+    </style>
+
 </resources>

@@ -3,28 +3,34 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/img"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_centerInParent="true"
-        android:src="@mipmap/ic_no_data" />
+    <RelativeLayout
+        android:id="@+id/view"
+        android:layout_width="@dimen/dp_200"
+        android:layout_height="@dimen/dp_200"
+        android:layout_centerInParent="true">
 
-    <TextView
-        android:id="@+id/text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/img"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="15dp"
-        android:text="糟了,数据逃跑了!" />
+        <ImageView
+            android:id="@+id/img"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_centerInParent="true"
+            android:src="@mipmap/ic_no_data" />
 
-    <TextView
-        android:id="@+id/text1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/text"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="15dp" />
+        <TextView
+            android:id="@+id/text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/img"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="15dp"
+            android:text="糟了,数据逃跑了!" />
 
+        <TextView
+            android:id="@+id/text1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/text"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="15dp" />
+    </RelativeLayout>
 </RelativeLayout>

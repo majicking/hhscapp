@@ -19,7 +19,7 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
--keep class com.majick.hhscapp.* { ;}
+-keep class com.guohanhealth.shop.* { ;}
 
 #Glid混淆
 -keep public class * implements com.bumptech.glide.module.GlideModule
@@ -30,3 +30,32 @@
 
 # for DexGuard only
 -keepresourcexmlelements manifest/application/meta-data@value=GlideModule
+
+#支付宝---------------------------------------
+-keep class com.alipay.android.app.IAlixPay{*;}
+-keep class com.alipay.android.app.IAlixPay$Stub{*;}
+-keep class com.alipay.android.app.IRemoteServiceCallback{*;}
+-keep class com.alipay.android.app.IRemoteServiceCallback$Stub{*;}
+-keep class com.alipay.sdk.app.PayTask{ public *;}
+-keep class com.alipay.sdk.app.AuthTask{ public *;}
+-keep class com.alipay.sdk.app.H5PayCallback {
+    <fields>;
+    <methods>;
+}
+-keep class com.alipay.android.phone.mrpc.core.** { *; }
+-keep class com.alipay.apmobilesecuritysdk.** { *; }
+-keep class com.alipay.mobile.framework.service.annotation.** { *; }
+-keep class com.alipay.mobilesecuritysdk.face.** { *; }
+-keep class com.alipay.tscenter.biz.rpc.** { *; }
+-keep class org.json.alipay.** { *; }
+-keep class com.alipay.tscenter.** { *; }
+-keep class com.ta.utdid2.** { *;}
+-keep class com.ut.device.** { *;}
+#支付宝---------------------------------------
+
+
+#微信-----------------------------------------
+-keep class com.tencent.mm.opensdk.** {*;}
+-keep class com.tencent.wxop.** {*;}
+-keep class com.tencent.mm.sdk.** {*;}
+#微信-----------------------------------------

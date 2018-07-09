@@ -162,12 +162,12 @@
         android:orientation="vertical"
         android:padding="@dimen/dp_10">
 
-        <com.majick.guohanhealth.view.NoScrollGridView
+        <com.guohanhealth.shop.view.NoScrollGridView
             android:id="@+id/gridview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:numColumns="3"
-            android:verticalSpacing="@dimen/dp_10"></com.majick.guohanhealth.view.NoScrollGridView>
+            android:verticalSpacing="@dimen/dp_10"></com.guohanhealth.shop.view.NoScrollGridView>
     </LinearLayout>
 
     <LinearLayout
