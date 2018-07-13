@@ -138,17 +138,17 @@ public class HomeFragment extends BaseFragment<HomePersenter, HomeModel> impleme
         gridview.setOnItemClickListener((parent, view, position, id) -> {
             switch (position) {
                 case 0:
-                    onButtonPressed(Constants.MAINSELECTNUMBER, 1);
+                    onButtonPressed(Constants.MAINNUMBER, 1);
                     break;
                 case 1:
-                    onButtonPressed(Constants.MAINSELECTNUMBER, 2);
+                    onButtonPressed(Constants.MAINNUMBER, 2);
                     break;
                 case 2:
                     break;
                 case 3:
                     break;
                 case 4:
-                    onButtonPressed(Constants.MAINSELECTNUMBER, 0);
+                    onButtonPressed(Constants.MAINNUMBER, 0);
                     break;
                 case 5:
                     break;

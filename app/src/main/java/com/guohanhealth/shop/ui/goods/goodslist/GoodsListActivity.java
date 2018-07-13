@@ -123,7 +123,7 @@ public class GoodsListActivity extends BaseActivity<GoodsListPersenter, GoodsMod
             getData();
         });
         goodslistViewSmartrefresh.setOnLoadMoreListener((v) -> {
-            if (App.getApp().Hasmore().equals("true")) {
+            if (App.getApp().Hasmore()) {
                 curpage = "" + App.getApp().getPage_total();
                 isload = true;
                 getData();

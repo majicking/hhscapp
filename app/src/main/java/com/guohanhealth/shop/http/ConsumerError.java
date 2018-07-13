@@ -1,6 +1,12 @@
 package com.guohanhealth.shop.http;
 
 
+import com.google.gson.JsonSyntaxException;
+import com.guohanhealth.shop.utils.Logutils;
+
+
+import org.json.JSONException;
+
 import java.net.ConnectException;
 import java.net.SocketException;
 import java.net.SocketTimeoutException;
@@ -25,7 +31,16 @@ public abstract class ConsumerError<T extends Throwable> implements Consumer<T> 
             errorCode = ((ServerException) t).getErrorCode();
         } else if (t instanceof ConnectException) {
             errorMessage = "网络连接失败";
+        } else if (t instanceof JsonSyntaxException) {
+            errorMessage = "数据解析,联系管理员";
+        } else if (t instanceof JSONException) {
+            errorMessage = "数据转换失败,联系管理员";
+        } else if (t instanceof Exception) {
+            errorMessage = "系统异常";
+            Logutils.i(t.getMessage());
         }
+
+
         onError(errorCode, errorMessage);
     }
 

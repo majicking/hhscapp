@@ -10,13 +10,12 @@
         android:gravity="center_vertical">
 
 
-        <CheckBox
+        <ImageButton
             android:id="@+id/check"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dp_5"
-            android:button="@drawable/checkbox"
-            android:checked="true" />
+            android:background="@mipmap/nc_icon_null"
+            android:src="@drawable/select_check" />
 
         <ImageView
             android:id="@+id/img"
@@ -42,8 +41,15 @@
 
     </LinearLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycleview"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
+    <android.support.v4.widget.NestedScrollView
+        style="@style/match"
+        android:background="@color/djk_bgcolor"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:id="@+id/linearlayout"
+            style="@style/match_warp"
+            android:orientation="vertical"></LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+
 </LinearLayout>

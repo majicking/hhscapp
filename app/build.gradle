@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-
+apply plugin: 'org.greenrobot.greendao'
 def config = rootProject.ext.android
 def lib = rootProject.ext.dependencies
 
@@ -99,7 +99,13 @@ android {
         }
     }
 }
-
+greendao {
+    schemaVersion 1//数据库版本号
+    daoPackage 'com.guohanhealth.shop.bean.greendao'//设置DaoMaster、DaoSession、Dao包名
+    targetGenDir 'src/main/java'//设置DaoMaster、DaoSession、Dao目录
+    //targetGenDirTest：设置生成单元测试目录
+    //generateTests：设置自动生成单元测试用例
+}
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support.constraint:constraint-layout:1.1.0'
@@ -144,7 +150,7 @@ dependencies {
     annotationProcessor lib.butterknife_compiler
     //日志
     implementation lib.logger
-    //dialog AVLoadingIndicatorView
+    //dialog AVLoadingIndicatorView 加载动画
     api 'com.wang.avi:library:1.0.0'
     //即时聊天
     api('io.socket:socket.io-client:0.8.3') {
@@ -152,11 +158,16 @@ dependencies {
     }
     //选择按钮左中右
     api 'cn.carbs.android:SegmentControlView:1.0.0'
-    api 'com.google.zxing:core:3.2.1'
+    //扫码
+    implementation lib.zxing
     implementation lib.BaseRecyclerViewAdapterHelper
     implementation lib.fastjson
-    implementation 'com.beloo.widget:ChipsLayoutManager:0.3.7@aar'
+    //标签布局
     implementation 'co.lujun:androidtagview:1.0.3'
+    //支付宝
     implementation files('libs/alipaySdk-20180403.jar')
+    //腾讯
     implementation 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
+    implementation lib.greendao
+    implementation 'com.github.chrisbanes.photoview:library:+'
 }

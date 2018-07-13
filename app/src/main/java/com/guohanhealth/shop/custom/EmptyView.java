@@ -24,6 +24,7 @@ public class EmptyView extends FrameLayout {
     private ImageView ivListEmpty;
     private TextView tvListEmptyTitle;
     private TextView tvListEmptySubTitle;
+    private View view;
     Context context;
 
     public EmptyView(Context context, AttributeSet attrs) {
@@ -33,16 +34,28 @@ public class EmptyView extends FrameLayout {
         ivListEmpty = (ImageView) findViewById(R.id.img);
         tvListEmptyTitle = (TextView) findViewById(R.id.text);
         tvListEmptySubTitle = (TextView) findViewById(R.id.text1);
+        view = findViewById(R.id.view);
     }
 
-    public View setEmpty(int resId, String title, String subTitle) {
+    public EmptyView setEmpty(int resId, String title, String subTitle) {
         ivListEmpty.setImageResource(resId);
         tvListEmptyTitle.setText(title);
         tvListEmptySubTitle.setText(subTitle);
         return this;
     }
 
-    public View setEmptyImg(Object img) {
+    public EmptyView setEmpty(String title, String subTitle) {
+        tvListEmptyTitle.setText(title);
+        tvListEmptySubTitle.setText(subTitle);
+        return this;
+    }
+
+    public EmptyView setClickListener(View.OnClickListener listener) {
+        view.setOnClickListener(listener);
+        return this;
+    }
+
+    public EmptyView setEmptyImg(Object img) {
         if (img instanceof Integer) {
             ivListEmpty.setImageResource((Integer) img);
         } else if (img instanceof Drawable) {
@@ -56,14 +69,13 @@ public class EmptyView extends FrameLayout {
     }
 
 
-
-    public View setEmptyText(String text) {
+    public EmptyView setEmptyText(String text) {
         tvListEmptyTitle.setText("" + text);
         return this;
     }
 
 
-    public View setEmptyText1(String text1) {
+    public EmptyView setEmptyText1(String text1) {
         tvListEmptySubTitle.setText("" + text1);
         return this;
     }

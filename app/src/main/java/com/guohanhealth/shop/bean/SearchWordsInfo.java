@@ -1,7 +1,9 @@
 package com.guohanhealth.shop.bean;
 
+import java.util.List;
+
 public class SearchWordsInfo extends BaseInfo{
-    public HotInfoBean hot_info;
+    public List<HotInfoBean> hot_info;
 
     public static class HotInfoBean {
         public String name;

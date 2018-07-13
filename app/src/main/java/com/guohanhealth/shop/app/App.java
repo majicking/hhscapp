@@ -8,6 +8,8 @@ import com.guohanhealth.shop.bean.LoginBean;
 import com.guohanhealth.shop.bean.SearchWordsInfo;
 import com.guohanhealth.shop.bean.UserInfo;
 import com.guohanhealth.shop.bean.UserInfo.*;
+import com.guohanhealth.shop.bean.greendao.DaoMaster;
+import com.guohanhealth.shop.bean.greendao.DaoSession;
 import com.guohanhealth.shop.http.Api;
 import com.guohanhealth.shop.http.RxHelper;
 import com.guohanhealth.shop.http.RxManager;
@@ -16,13 +18,18 @@ import com.guohanhealth.shop.utils.Utils;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
+import org.greenrobot.greendao.database.Database;
+
 import java.net.URISyntaxException;
+import java.util.Random;
 
 import io.socket.client.IO;
 import io.socket.client.Socket;
 
 public class App extends Application {
     private Socket mSocket;
+    private String DATA_BASE_NAME = BuildConfig.APPLICATION_ID;
+    private static DaoSession mdaoSession;
 
     {
         try {
@@ -51,7 +58,14 @@ public class App extends Application {
         UpdataUserInfo(getKey(), getUserid());/**更新用户信息*/
         IWXAPI iwxapi = WXAPIFactory.createWXAPI(this, null);
         boolean registerApp = iwxapi.registerApp(Constants.WX_APP_ID);
-        Logutils.i(registerApp);
+        DaoMaster.DevOpenHelper openHelper = new DaoMaster.DevOpenHelper(this, DATA_BASE_NAME);
+        Database db = openHelper.getWritableDb();
+        DaoMaster daoMaster = new DaoMaster(db);
+        mdaoSession = daoMaster.newSession();
+    }
+
+    public static DaoSession getDaoSession() {
+        return mdaoSession;
     }
 
     private String key;
@@ -62,7 +76,7 @@ public class App extends Application {
     private SharedPreferences sharedPreferences;
     private Member_info info;
     private int page_total = 1;
-    private String hasmore;
+    private boolean hasmore;
     private String notify_url;
 
     public String getNotify_url() {
@@ -81,11 +95,11 @@ public class App extends Application {
         this.page_total = page_total;
     }
 
-    public String Hasmore() {
+    public boolean Hasmore() {
         return hasmore;
     }
 
-    public void setHasmore(String hasmore) {
+    public void setHasmore(boolean hasmore) {
         this.hasmore = hasmore;
     }
 
@@ -176,10 +190,12 @@ public class App extends Application {
 
     private void getHotWords() {
         new RxManager().add(Api.getDefault().getSearchDataWords().compose(RxHelper.handleResult()).subscribe(info -> {
-            if (info != null && info.hot_info != null) {
-                App.getApp().setHotname(info.hot_info.name);
-                App.getApp().setHotvalue(info.hot_info.value);
+            if (info != null && info.hot_info != null && info.hot_info.size() > 0) {
+                App.getApp().setHotname(info.hot_info.get(new Random().nextInt(info.hot_info.size())).name);
+                App.getApp().setHotvalue(info.hot_info.get(new Random().nextInt(info.hot_info.size())).value);
                 Logutils.i("获取热词：" + info);
+            } else {
+                Logutils.i("热词为空");
             }
         }, throwable -> {
             Logutils.i("热词失败：" + throwable.getMessage());

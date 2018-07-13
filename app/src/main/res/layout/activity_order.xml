@@ -1,10 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    style="@style/match"
     android:orientation="vertical"
     tools:context=".ui.order.OrderActivity">
 
-    <include layout="@layout/common_toolbar" />
+
+    <RelativeLayout
+        style="@style/LLayout_48_h"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:id="@+id/back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/dp_10"
+            android:src="@drawable/ic_back" />
+
+        <cn.carbs.android.segmentcontrolview.library.SegmentControlView
+            android:id="@+id/order_view_menu"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dp_25"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            app:scv_BackgroundNormalColor="@color/white"
+            app:scv_BackgroundSelectedColor="@color/appColor"
+            app:scv_FrameColor="@color/grey"
+            app:scv_FrameCornerRadius="6dp"
+            app:scv_FrameWidth="1dp"
+            app:scv_Gradient="true"
+            app:scv_SegmentPaddingHorizontal="@dimen/dp_15"
+            app:scv_SegmentPaddingVertical="5dp"
+            app:scv_SelectedIndex="0"
+            app:scv_TextArray="@array/ordertype"
+            app:scv_TextNormalColor="@color/appColor"
+            app:scv_TextSelectedColor="@color/white"
+            app:scv_TextSize="@dimen/sp_12" />
+    </RelativeLayout>
+
+    <View style="@style/djk_line" />
+
+    <LinearLayout style="@style/LLayout_40_h">
+
+        <EditText
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:id="@+id/order_edit_search"
+            style="@style/layout_weight_h"
+            android:layout_height="@dimen/dp_30"
+            android:layout_marginLeft="@dimen/dp_5"
+            android:layout_marginRight="@dimen/dp_5"
+            android:background="@drawable/bg_recricle"
+            android:gravity="center_vertical"
+            android:hint="输入商品标题或订单号搜做"
+            android:paddingLeft="@dimen/dp_10"
+            android:textColorHint="@color/grey"
+            android:textSize="@dimen/sp_12" />
+
+        <ImageView
+            android:id="@+id/order_img_search"
+            android:layout_width="@dimen/dp_28"
+            android:layout_height="@dimen/dp_28"
+            android:layout_marginRight="@dimen/dp_15"
+            android:src="@drawable/ic_search" />
+    </LinearLayout>
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tab"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_48"
+        android:layout_marginTop="1dp"
+        android:background="#ffffff"
+        app:tabGravity="fill"
+        app:tabTextAppearance="@style/TextAppearance.AppCompat"
+        app:tabIndicatorColor="@color/appColor"
+        app:tabMode="fixed"
+        app:tabSelectedTextColor="@color/appColor"
+        app:tabTextColor="#000000" />
+
+    <FrameLayout style="@style/match">
+
+
+
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+        <!--<fragment-->
+            <!--android:id="@+id/order_view_fragment"-->
+            <!--android:name="com.guohanhealth.shop.ui.order.OrderFragment"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent" />-->
+    </FrameLayout>
+
+
 </LinearLayout>

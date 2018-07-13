@@ -1,5 +1,3 @@
-import com.guohanhealth.shop.utils.Logutils;
-
 public class Test {
     public static void main(String[] args) {
 

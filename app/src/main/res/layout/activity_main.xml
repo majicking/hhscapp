@@ -7,25 +7,22 @@
     android:layout_height="match_parent"
     tools:openDrawer="start">
 
-    <android.support.design.widget.CoordinatorLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    <LinearLayout
+        style="@style/match"
+        android:orientation="vertical">
 
+        <FrameLayout
+            android:id="@+id/fragment_group"
+            style="@style/layout_weight_v" />
 
-            <FrameLayout
-                android:id="@+id/fragment_group"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                />
+        <com.ashokvarma.bottomnavigation.BottomNavigationBar
+            android:id="@+id/bottom_navigation_bar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_50"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="bottom" />
 
-            <com.ashokvarma.bottomnavigation.BottomNavigationBar
-                android:id="@+id/bottom_navigation_bar"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_50"
-                android:layout_alignParentBottom="true"
-                android:layout_gravity="bottom" />
-
-    </android.support.design.widget.CoordinatorLayout>
+    </LinearLayout>
 
     <android.support.design.widget.NavigationView
         android:id="@+id/nav_view"

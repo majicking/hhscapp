@@ -1,5 +1,5 @@
 package com.guohanhealth.shop.bean;
 
-public class BaseInfo  {
+public class BaseInfo extends Base {
     public String error;
 }

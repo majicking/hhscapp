@@ -1,0 +1,31 @@
+<!--?xml version="1.0" encoding="utf-8"?-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/match_warp">
+
+
+    <Button
+        android:id="@+id/revserse"
+        android:layout_width="@dimen/dp_20"
+        android:layout_height="wrap_content"
+        android:background="#00FFFFFF"
+        android:text="-"></Button>
+
+    <EditText
+        android:gravity="center"
+        android:id="@+id/content"
+        android:layout_width="@dimen/dp_30"
+        android:layout_height="wrap_content"
+        android:text="1">
+
+    </EditText>
+
+
+    <Button
+        android:id="@+id/add"
+        android:layout_width="@dimen/dp_20"
+        android:layout_height="wrap_content"
+        android:background="#00FFFFFF"
+        android:text="+">
+
+    </Button>
+</LinearLayout>

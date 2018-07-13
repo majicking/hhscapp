@@ -13,6 +13,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -24,7 +25,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.guohanhealth.shop.R;
 import com.guohanhealth.shop.adapter.BaseRecyclerAdapter;
 import com.guohanhealth.shop.adapter.BaseViewHolder;
@@ -38,7 +41,9 @@ import com.guohanhealth.shop.bean.GoodsDetailedInfo;
 import com.guohanhealth.shop.bean.Goods_hair_info;
 import com.guohanhealth.shop.bean.SpecBean;
 import com.guohanhealth.shop.custom.CustomPopuWindow;
+import com.guohanhealth.shop.custom.MyScrollView;
 import com.guohanhealth.shop.custom.MyViewPager;
+import com.guohanhealth.shop.custom.ShowImagesDialog;
 import com.guohanhealth.shop.event.GoodsDetailsEvent;
 import com.guohanhealth.shop.event.OnFragmentInteractionListener;
 import com.guohanhealth.shop.event.RxBus;
@@ -47,7 +52,10 @@ import com.guohanhealth.shop.http.RxHelper;
 import com.guohanhealth.shop.http.RxManager;
 import com.guohanhealth.shop.ui.goods.GoodsModel;
 import com.guohanhealth.shop.ui.goods.goodsdetailed.activity.GoodsDetailsActivity;
+import com.guohanhealth.shop.ui.main.activity.MainActivity;
 import com.guohanhealth.shop.utils.JSONParser;
+import com.guohanhealth.shop.utils.Logutils;
+import com.guohanhealth.shop.utils.ScreenUtils;
 import com.guohanhealth.shop.utils.Utils;
 import com.guohanhealth.shop.utils.engine.GlideEngine;
 import com.guohanhealth.shop.view.NoScrollGridView;
@@ -62,6 +70,8 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import uk.co.senab.photoview.PhotoView;
+import uk.co.senab.photoview.PhotoViewAttacher;
 
 
 public class GoodsFragment extends BaseFragment<GoodsPersenter, GoodsModel> implements GoodsView {
@@ -129,10 +139,9 @@ public class GoodsFragment extends BaseFragment<GoodsPersenter, GoodsModel> impl
     @BindView(R.id.goods_view_recommend)
     LinearLayout goodsViewRecommend;
     @BindView(R.id.goods_view_scrollview)
-    ScrollView goodsViewScrollview;
+    MyScrollView goodsViewScrollview;
     @BindView(R.id.goods_view_selectclass)
     LinearLayout goodsViewSelectclass;
-    Unbinder unbinder;
     @BindView(R.id.goods_view_percent)
     LinearLayout goodsViewPercent;
     Unbinder unbinder1;
@@ -187,6 +196,10 @@ public class GoodsFragment extends BaseFragment<GoodsPersenter, GoodsModel> impl
     }
 
     private boolean isshow;
+    //手指按下的点为(x1, y1)手指离开屏幕的点为(x2, y2)
+    private float downX;    //按下时 的X坐标
+    private float downY;    //按下时 的Y坐标
+    boolean isButton = false;
 
     @Override
     protected void initView(Bundle savedInstanceState) {
@@ -197,12 +210,12 @@ public class GoodsFragment extends BaseFragment<GoodsPersenter, GoodsModel> impl
         showpageradapter = new ShowPagerAdapter(imglist);
         goodsBanner.setAdapter(pagerAdapter);
 
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(20, ViewGroup.LayoutParams.WRAP_CONTENT);
         MyViewPager pager = new MyViewPager(mContext);
         pager.setLayoutParams(layoutParams);
         pager.setAdapter(showpageradapter);
 
-        final AlertDialog dialog = new AlertDialog.Builder(mContext).create();
+        final AlertDialog dialog = new AlertDialog.Builder(mContext,R.style.transparentBgDialog).create();
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         pagerAdapter.setOnPagerViewItemClickListener((v, position) -> {
             dialog.show();
@@ -212,8 +225,8 @@ public class GoodsFragment extends BaseFragment<GoodsPersenter, GoodsModel> impl
             window.setGravity(Gravity.CENTER);
             window.setContentView(pager);
             WindowManager.LayoutParams lp = window.getAttributes();
-            lp.width = WindowManager.LayoutParams.FILL_PARENT;
-            lp.height = WindowManager.LayoutParams.FILL_PARENT;
+            lp.width = WindowManager.LayoutParams.WRAP_CONTENT;
+            lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
             window.setAttributes(lp);
             pager.setCurrentItem(position);
             isshow = !isshow;
@@ -255,9 +268,59 @@ public class GoodsFragment extends BaseFragment<GoodsPersenter, GoodsModel> impl
             goodsdata = info.data;
             getGoodsDetails(Utils.getString(info.data));
         });
+        goodsViewScrollview.setOnBottomReachedListener(() -> {
+            isButton = true;
+        });
+        goodsViewScrollview.setOnScrollChangedListener((v, l, t, oldl, oldt) -> {
+//            Logutils.i("l=" + l + " t=" + t + " oldl=" + oldl + " oldt=" + oldl);
+        });
+        goodsViewScrollview.setOnTouchListener((v, event) -> {
+            float x = event.getX();
+            float y = event.getY();
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                    //将按下时的坐标存储
+                    downX = x;
+                    downY = y;
+                    break;
+                case MotionEvent.ACTION_UP:
 
+                    //获取到距离差
+                    float dx = x - downX;
+                    float dy = y - downY;
+                    //防止是按下也判断
+                    if (Math.abs(dx) > 8 && Math.abs(dy) > 8) {
+                        //通过距离差判断方向
+                        int orientation = getOrientation(dx, dy);
+                        switch (orientation) {
+                            case 't':
+                                if (isButton) {
+                                    onButtonPressed(Constants.CURRENTITEM, 1);
+                                }
+                                break;
+                        }
+                    }
+            }
+            return false;
+        });
     }
 
+    /**
+     * 根据距离差判断 滑动方向
+     *
+     * @param dx X轴的距离差
+     * @param dy Y轴的距离差
+     * @return 滑动的方向
+     */
+    private int getOrientation(float dx, float dy) {
+        if (Math.abs(dx) > Math.abs(dy)) {
+            //X轴移动
+            return dx > 0 ? 'r' : 'l';
+        } else {
+            //Y轴移动
+            return dy > 0 ? 'b' : 't';
+        }
+    }
 
     @Override
     public void onResume() {
@@ -382,7 +445,8 @@ public class GoodsFragment extends BaseFragment<GoodsPersenter, GoodsModel> impl
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle
+            savedInstanceState) {
         // TODO: inflate a fragment view
         View rootView = super.onCreateView(inflater, container, savedInstanceState);
         unbinder1 = ButterKnife.bind(this, rootView);
@@ -504,6 +568,7 @@ public class GoodsFragment extends BaseFragment<GoodsPersenter, GoodsModel> impl
         @NonNull
         @Override
         public Object instantiateItem(@NonNull ViewGroup container, int position) {
+
             ImageView imageView = new ImageView(mContext);
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 //            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
@@ -558,15 +623,11 @@ public class GoodsFragment extends BaseFragment<GoodsPersenter, GoodsModel> impl
         goodsdata = data;
         if (info != null) {
             try {
+                goodsViewScrollview.post(() -> {
+                    goodsViewScrollview.scrollTo(0, 0);
+                });
+
                 is_virtual = Utils.getString(info.goods_info == null ? "0" : Utils.getString(info.goods_info.is_virtual));
-
-
-                //此时已在主线程中，可以更新UI了
-                new Handler().postDelayed(() -> {
-                    if (goodsViewScrollview != null) {
-                        goodsViewScrollview.fullScroll(ScrollView.FOCUS_UP);
-                    }
-                }, 50);
                 /**展示图片banner*/
                 imglist.clear();
                 imglist.addAll(getImageList(info.goods_image));
@@ -711,7 +772,7 @@ public class GoodsFragment extends BaseFragment<GoodsPersenter, GoodsModel> impl
 //                        onButtonPressed(Constants.GOODS_ID, gift_arrayList.get(position).gift_goodsid);
                         Bundle bundle = new Bundle();
                         bundle.putString(Constants.GOODS_ID, gift_arrayList.get(position).gift_goodsid);
-                        readyGo(GoodsDetailsActivity.class,bundle);
+                        readyGo(GoodsDetailsActivity.class, bundle);
                     });
                 } else {
                     goodsViewPromotion.setVisibility(View.GONE);

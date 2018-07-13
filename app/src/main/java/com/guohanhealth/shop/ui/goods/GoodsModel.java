@@ -70,4 +70,8 @@ public class GoodsModel extends BaseModel {
 
     }
 
+    public Observable<Object> addCart(String key, String goods_id, String quantity) {
+        return Api.getDefault().addCart(key, goods_id, quantity).compose(RxHelper.handleResult());
+    }
+
 }

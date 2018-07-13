@@ -7,9 +7,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ScrollView;
 
-/**
- * Created by dqw on 2015/8/10.
- */
 public class MyScrollView extends ScrollView {
 
     private OnScrollListener onScrollListener;
@@ -21,6 +18,7 @@ public class MyScrollView extends ScrollView {
     OnBottomReachedListener mListener;
     private OnScrollToBottomListener onScrollToBottom; //判断是否滑动到底部了
     private OnScrollToTopListener onScrollToTop; //判断是否滑动到底部了
+
     public MyScrollView(Context context, AttributeSet attrs,
                         int defStyle) {
         super(context, attrs, defStyle);
@@ -33,13 +31,16 @@ public class MyScrollView extends ScrollView {
     public MyScrollView(Context context) {
         super(context);
     }
+
     /**
      * 设置滚动接口
+     *
      * @param onScrollListener
      */
-    public void setOnScrollListener(OnScrollListener onScrollListener){
+    public void setOnScrollListener(OnScrollListener onScrollListener) {
         this.onScrollListener = onScrollListener;
     }
+
     /**
      * 用于用户手指离开MyScrollView的时候获取MyScrollView滚动的Y距离，然后回调给onScroll方法中
      */
@@ -49,15 +50,17 @@ public class MyScrollView extends ScrollView {
             int scrollY = MyScrollView.this.getScrollY();
 
             //此时的距离和记录下的距离不相等，在隔5毫秒给handler发送消息
-            if(lastScrollY != scrollY){
+            if (lastScrollY != scrollY) {
                 lastScrollY = scrollY;
                 handler.sendMessageDelayed(handler.obtainMessage(), 5);
             }
-            if(onScrollListener != null){
+            if (onScrollListener != null) {
                 onScrollListener.onScroll(scrollY);
             }
 
-        };
+        }
+
+        ;
 
     };
 
@@ -69,17 +72,19 @@ public class MyScrollView extends ScrollView {
         if (diff == 0 && mListener != null) {
             mListener.onBottomReached();
         }
-
+        if (onScrollChangedListener != null) {
+            onScrollChangedListener.onChangedListener(this, l, t, oldl, oldt);
+        }
         super.onScrollChanged(l, t, oldl, oldt);
     }
 
 
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
-        if(onScrollListener != null){
+        if (onScrollListener != null) {
             onScrollListener.onScroll(lastScrollY = this.getScrollY());
         }
-        switch(ev.getAction()){
+        switch (ev.getAction()) {
             case MotionEvent.ACTION_UP:
                 handler.sendMessageDelayed(handler.obtainMessage(), 20);
                 break;
@@ -98,20 +103,22 @@ public class MyScrollView extends ScrollView {
 
 
     public interface OnBottomReachedListener {
-        public void onBottomReached();
+        void onBottomReached();
     }
 
     @Override
     protected void onOverScrolled(int scrollX, int scrollY, boolean clampedX, boolean clampedY) {
         super.onOverScrolled(scrollX, scrollY, clampedX, clampedY);
-        if(scrollY != 0 && null != onScrollToBottom){
+        if (scrollY != 0 && null != onScrollToBottom) {
             onScrollToBottom.onScrollBottomListener(clampedY);
         }
-        if(scrollY == 0 && null != onScrollToTop){
+        if (scrollY == 0 && null != onScrollToTop) {
             onScrollToTop.onScrollTopListener(clampedY);
         }
+
     }
-    public void setOnScrollToBottomLintener(OnScrollToBottomListener listener){
+
+    public void setOnScrollToBottomLintener(OnScrollToBottomListener listener) {
         onScrollToBottom = listener;
     }
 
@@ -119,18 +126,33 @@ public class MyScrollView extends ScrollView {
         this.onScrollToTop = onScrollToTop;
     }
 
-    public interface OnScrollToBottomListener{
-        public void onScrollBottomListener(boolean isBottom);
+    public interface OnScrollToBottomListener {
+        void onScrollBottomListener(boolean isBottom);
     }
 
-    public interface OnScrollToTopListener{
-        public void onScrollTopListener(boolean isTop);
+    public interface OnScrollToTopListener {
+        void onScrollTopListener(boolean isTop);
+    }
+
+    private OnScrollChangedListener onScrollChangedListener;
+
+    public OnScrollChangedListener getOnScrollChangedListener() {
+        return onScrollChangedListener;
+    }
+
+
+    public void setOnScrollChangedListener(OnScrollChangedListener onScrollChangedListener) {
+        this.onScrollChangedListener = onScrollChangedListener;
+    }
+
+    public interface OnScrollChangedListener {
+        void onChangedListener(View v, int l, int t, int oldl, int oldt);
     }
 
     /**
      * 滚动的回调接口
      */
-    public interface OnScrollListener{
+    public interface OnScrollListener {
         /**
          * 回调方法， 返回MyScrollView滑动的Y方向距离
          */

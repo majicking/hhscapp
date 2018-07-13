@@ -8,8 +8,8 @@
     tools:context=".ui.search.SearchActivity">
 
     <LinearLayout
-        android:background="@color/white"
         style="@style/LLayout_48_h"
+        android:background="@color/white"
         android:gravity="center_vertical">
 
         <RelativeLayout
@@ -81,21 +81,17 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <com.guohanhealth.shop.view.NoScrollGridView
-            android:id="@+id/gridview"
-            android:padding="@dimen/dp_15"
+        <co.lujun.androidtagview.TagContainerLayout
+            android:id="@+id/tagcontainerlayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:horizontalSpacing="@dimen/dp_10"
-            android:numColumns="4"
-            android:verticalSpacing="@dimen/dp_5"></com.guohanhealth.shop.view.NoScrollGridView>
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/search_recycleview_hot"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_100"
-            android:visibility="gone"></android.support.v7.widget.RecyclerView>
-
+            android:background="@color/white"
+            android:foregroundGravity="center"
+            android:padding="@dimen/dp_10"
+            app:container_background_color="#00000000"
+            app:container_border_color="#00000000"
+            app:container_enable_drag="true"
+            app:tag_clickable="true" />
     </LinearLayout>
 
     <LinearLayout
@@ -116,15 +112,22 @@
 
         <View style="@style/djk_line" />
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/search_recycleview_history"
+        <co.lujun.androidtagview.TagContainerLayout
+            android:id="@+id/historytagcontainerlayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:foregroundGravity="center"
+            android:padding="@dimen/dp_10"
+            app:container_background_color="#00000000"
+            app:container_border_color="#00000000"
+            app:container_enable_drag="true"
+            app:tag_clickable="true" />
 
         <Button
             android:id="@+id/search_del"
             style="@style/btn"
-            android:layout_height="@dimen/dp_25"
+            android:layout_height="@dimen/dp_30"
             android:layout_marginTop="@dimen/dp_15"
             android:text="清空历史记录" />
     </LinearLayout>

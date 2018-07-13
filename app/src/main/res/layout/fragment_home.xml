@@ -2,7 +2,6 @@
 <com.scwang.smartrefresh.layout.SmartRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/smartrefreshlayout"
     style="@style/match"
-    android:layout_marginBottom="@dimen/dp_50"
     android:orientation="vertical">
 
     <RelativeLayout style="@style/match">

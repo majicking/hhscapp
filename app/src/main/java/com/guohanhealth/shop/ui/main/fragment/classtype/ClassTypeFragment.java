@@ -264,10 +264,11 @@ public class ClassTypeFragment extends BaseFragment<ClassTypePersenter, ClassTyp
     }
 
 
-    public void onButtonPressed(String key, Object value) {
+    public Object onButtonPressed(String key, Object value) {
         if (mListener != null) {
-            mListener.doSomeThing(key, value);
+          return   mListener.doSomeThing(key, value);
         }
+        return null;
     }
 
     @Override

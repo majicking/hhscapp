@@ -60,4 +60,7 @@ public class BaseModel {
         return Api.getDefault().getCardNumber(key).compose(RxHelper.handleResult());
     }
 
+
+
+
 }

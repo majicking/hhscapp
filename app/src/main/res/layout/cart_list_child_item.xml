@@ -1,98 +1,126 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/dp_80"
-    android:layout_marginLeft="@dimen/dp_10"
+    android:layout_height="@dimen/dp_90"
     android:gravity="center_vertical"
     android:orientation="horizontal">
 
-    <CheckBox
+    <ImageButton
         android:id="@+id/check"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="@dimen/dp_3"
-        android:button="@drawable/checkbox"
-        android:checked="true" />
+        android:background="@mipmap/nc_icon_null"
+        android:src="@drawable/select_check" />
 
-    <LinearLayout
+    <android.support.v7.widget.CardView
+        android:id="@+id/linearLayout"
         style="@style/layout_weight_h"
-        android:background="@drawable/bg_line"
-        android:gravity="center_vertical">
+        android:layout_marginBottom="@dimen/dp_2"
+        app:cardCornerRadius="@dimen/dp_5"
+        app:cardElevation="@dimen/dp_3"
+        app:cardPreventCornerOverlap="false">
 
-        <ImageView
-            android:id="@+id/img"
-            android:layout_width="@dimen/dp_60"
-            android:layout_height="@dimen/dp_60" />
+        <LinearLayout style="@style/match">
 
-        <LinearLayout
-            style="@style/layout_weight_h"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/text"
-                style="@style/layout_weight_v"
-                android:gravity="center_vertical"
-                android:padding="@dimen/dp_3"
-                android:textSize="@dimen/sp_12" />
+            <ImageView
+                android:id="@+id/img"
+                android:layout_width="@dimen/dp_90"
+                android:layout_height="match_parent"
+                android:scaleType="fitXY" />
 
             <LinearLayout
-                style="@style/match_warp"
-                android:orientation="horizontal">
-
-                <TextView
-                    style="@style/warp"
-                    android:paddingLeft="@dimen/dp_3"
-                    android:text="￥"
-                    android:textColor="@color/appColor"
-                    android:textSize="@dimen/sp_12" />
-
-                <TextView
-                    android:id="@+id/text1"
-                    style="@style/warp"
-                    android:text="0.00"
-                    android:textColor="@color/appColor"
-                    android:textSize="@dimen/sp_16" />
-
-                <View style="@style/linearlayout_zw" />
-
+                style="@style/layout_weight_h"
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/dp_2"
+                android:paddingTop="@dimen/dp_5">
 
                 <LinearLayout
-                    android:layout_width="@dimen/dp_90"
-                    android:layout_height="@dimen/dp_25"
-                    android:background="@drawable/bg_line_gray"
+                    style="@style/layout_weight_v"
                     android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/cart_number_down"
+                        android:paddingLeft="@dimen/dp_5"
+                        android:id="@+id/text"
                         style="@style/layout_weight_h"
-                        android:background="@drawable/bg_gray_left"
-                        android:focusable="true"
-                        android:focusableInTouchMode="true"
-                        android:text="-"
-                        android:textStyle="bold" />
+                        android:layout_marginTop="@dimen/dp_2"
+                        android:ellipsize="end"
+                        android:gravity="center_vertical"
+                        android:maxLines="3"
+                        android:textSize="@dimen/sp_12" />
 
-                    <EditText
-                        android:id="@+id/cart_number"
-                        style="@style/layout_weight_h"
-                        android:background="@mipmap/nc_icon_null"
-                        android:gravity="center"
-                        android:inputType="number"
-                        android:maxLines="1"
-                        android:text="1"
-                        android:textSize="@dimen/dp_14" />
-
-                    <TextView
-                        android:id="@+id/cart_number_up"
-                        style="@style/layout_weight_h"
-                        android:background="@drawable/bg_gray_right"
-                        android:text="+"
-                        android:textColor="@color/black"
-                        android:textStyle="bold" />
+                    <ImageView
+                        android:id="@+id/del"
+                        android:layout_width="@dimen/dp_20"
+                        android:layout_height="@dimen/dp_20"
+                        android:layout_margin="@dimen/dp_15"
+                        android:src="@drawable/icon_del" />
                 </LinearLayout>
 
-            </LinearLayout>
+                <LinearLayout
+                    style="@style/match_warp"
+                    android:orientation="horizontal">
 
+                    <TextView
+                        style="@style/warp"
+                        android:paddingLeft="@dimen/dp_3"
+                        android:text="￥"
+                        android:textColor="@color/appColor"
+                        android:textSize="@dimen/sp_12" />
+
+                    <TextView
+                        android:id="@+id/text1"
+                        style="@style/warp"
+                        android:text="0.00"
+                        android:textColor="@color/appColor"
+                        android:textSize="@dimen/sp_16" />
+
+                    <View style="@style/linearlayout_zw" />
+
+
+                    <LinearLayout
+                        android:layout_width="@dimen/dp_90"
+                        android:layout_height="@dimen/dp_25"
+                        android:layout_marginRight="@dimen/dp_5"
+                        android:background="@drawable/bg_line_gray"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/cart_number_down"
+                            style="@style/layout_weight_h"
+                            android:background="@drawable/bg_gray_left"
+                            android:focusable="true"
+                            android:focusableInTouchMode="true"
+                            android:text="-"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/cart_number"
+                            style="@style/layout_weight_h"
+                            android:background="@mipmap/nc_icon_null"
+                            android:gravity="center"
+                            android:inputType="number"
+                            android:maxLines="1"
+                            android:text="1"
+                            android:textSize="@dimen/dp_14" />
+
+                        <TextView
+                            android:id="@+id/cart_number_up"
+                            style="@style/layout_weight_h"
+                            android:background="@drawable/bg_gray_right"
+                            android:text="+"
+                            android:textColor="@color/black"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                </LinearLayout>
+            </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
+
+        <View
+            style="@style/djk_line"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="@dimen/dp_5" />
+    </android.support.v7.widget.CardView>
 
 </LinearLayout>

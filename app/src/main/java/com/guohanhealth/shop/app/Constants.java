@@ -72,7 +72,6 @@ public interface Constants {
      * 页面参数传递
      */
     String MAINNUMBER = "main_number";
-    String BROADCAST_CARTNUMBER = "1";
     String PHONE = "phone";
     String CAPTCHA = "captcha";
     String USERNAME = "userName";
@@ -100,8 +99,8 @@ public interface Constants {
     String GOODS_NUMBER = "goods_number";
     String IS_VIRTUAL = "is_virtual";
     String ORDERINDEX = "orderindex";
-    String MAINSELECTNUMBER = "mainselectnumber";
-    String CART_COUNT="cart_count";
+    String CART_COUNT = "cart_count";
+    String ORDERTYPE = "ordertype";
 
 
 }

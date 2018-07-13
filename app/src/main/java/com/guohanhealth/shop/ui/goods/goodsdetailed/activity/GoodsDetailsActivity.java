@@ -34,6 +34,7 @@ import com.guohanhealth.shop.ui.goods.goodsdetailed.fragment.comment.CommentFrag
 import com.guohanhealth.shop.ui.goods.goodsdetailed.fragment.goods.GoodsFragment;
 import com.guohanhealth.shop.ui.goods.goodsdetailed.fragment.goodsdetail.GoodsDetailFragment;
 import com.guohanhealth.shop.ui.goods.goodsorder.GoodsOrderActivity;
+import com.guohanhealth.shop.ui.main.activity.MainActivity;
 import com.guohanhealth.shop.utils.JSONParser;
 import com.guohanhealth.shop.utils.Logutils;
 import com.guohanhealth.shop.utils.Utils;
@@ -118,7 +119,7 @@ public class GoodsDetailsActivity extends BaseActivity<GoodsDetailsPersenter, Go
                     line.setVisibility(View.GONE);
                     goodsdetailViewTablayout.setSelectedTabIndicatorColor(getResources().getColor(R.color.translucent));
                     goodsdetailViewTablayout.setTabTextColors(getResources().getColor(R.color.white), getResources().getColor(R.color.appColor));
-                    goodsdetailViewTitle.setBackgroundColor(getResources().getColor(R.color.translucent4));
+                    goodsdetailViewTitle.setBackgroundColor(getResources().getColor(R.color.translucent));
                     goodsdetailViewTitle.setSelected(false);
                     goodsdetailBack.setSelected(false);
                     goodsdetailMore.setSelected(false);
@@ -154,6 +155,12 @@ public class GoodsDetailsActivity extends BaseActivity<GoodsDetailsPersenter, Go
                 }
             }
         });
+        goodsdetailViewCart.setOnClickListener(v -> {
+            Bundle bundle = new Bundle();
+            bundle.putInt(Constants.MAINNUMBER, 2);
+            readyGo(MainActivity.class, bundle);
+        });
+
     }
 
     @Override
@@ -260,12 +267,12 @@ public class GoodsDetailsActivity extends BaseActivity<GoodsDetailsPersenter, Go
                 }
             } else if (type == 2) {/**加入购物车*/
                 if (Utils.isLogin(mContext)) {
-
+                    mPresenter.addCart(App.getApp().getKey(), goods_id, goods_number + "");
                 }
-            } else {/**选择规格*/
+            }
+            if (popuWindow != null) {
                 popuWindow.dissmiss();
             }
-
         });
         setSpecInfo(goodsdata);
     }
@@ -294,13 +301,16 @@ public class GoodsDetailsActivity extends BaseActivity<GoodsDetailsPersenter, Go
 
     }
 
+    @Override
+    public void showContent() {
+        super.showContent();
+        showToast("添加成功");
+    }
 
     @Override
     public void onPause() {
         super.onPause();
-        if (popuWindow != null) {
-            popuWindow.dissmiss();
-        }
+
     }
 
     public List<SpecBean> getSpecList(String data) {
@@ -541,6 +551,7 @@ public class GoodsDetailsActivity extends BaseActivity<GoodsDetailsPersenter, Go
     public void buyStep1VData(String data) {
         goOrder(data);
     }
+
 
     private void goOrder(String data) {
         Bundle bundle = new Bundle();

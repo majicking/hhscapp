@@ -3,10 +3,12 @@ package com.guohanhealth.shop.http;
 
 import com.guohanhealth.shop.app.Constants;
 import com.guohanhealth.shop.bean.Adv_list;
+import com.guohanhealth.shop.bean.Base;
 import com.guohanhealth.shop.bean.BaseInfo;
 import com.guohanhealth.shop.bean.CartNumberInfo;
 import com.guohanhealth.shop.bean.CartInfo;
 import com.guohanhealth.shop.bean.EvalInfo;
+import com.guohanhealth.shop.bean.GoodsInfo;
 import com.guohanhealth.shop.bean.Goods_hair_info;
 import com.guohanhealth.shop.bean.BrandListInfo;
 import com.guohanhealth.shop.bean.GoodsClassChildInfo;
@@ -16,6 +18,7 @@ import com.guohanhealth.shop.bean.GoodsListInfo;
 import com.guohanhealth.shop.bean.ImgCodeKey;
 import com.guohanhealth.shop.bean.LoginBean;
 import com.guohanhealth.shop.bean.MineInfo;
+import com.guohanhealth.shop.bean.OrderInfo;
 import com.guohanhealth.shop.bean.PayWayInfo;
 import com.guohanhealth.shop.bean.SMSCode;
 import com.guohanhealth.shop.bean.SearchInfo;
@@ -25,11 +28,14 @@ import com.guohanhealth.shop.bean.Step2Info;
 import com.guohanhealth.shop.bean.UpDataAddressInfo;
 import com.guohanhealth.shop.bean.UserInfo;
 
+import java.util.List;
+
 import io.reactivex.Observable;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 /**
@@ -76,6 +82,12 @@ public interface ApiService {
     String WXPAYURL = Constants.INDEX + "act=member_payment&op=wx_app_pay3";
     String WXPAYURLV = Constants.INDEX + "act=member_payment&op=wx_app_vr_pay3";
     String CART_LIST = Constants.INDEX + "act=member_cart&op=cart_list";
+    String CART_DEL = Constants.INDEX + "act=member_cart&op=cart_del";
+    String CART_EDIT_QUANTITY = Constants.INDEX + "act=member_cart&op=cart_edit_quantity";
+    String CART_ADD = Constants.INDEX + "act=member_cart&op=cart_add";
+    String ORDER_LIST = Constants.INDEX + "act=member_order&op=order_list";
+    String ORDER_LISTV = Constants.INDEX + "act=member_vr_order&op=order_list";
+    String ORDER_OPERATION = Constants.INDEX + "act=member_order";
 
     /**
      * 用户登录
@@ -344,41 +356,65 @@ public interface ApiService {
     Observable<Result<CartInfo>> getCartList(@Field("key") String key);
 
 
-//
-//    ///////////////////////////////////////////////////////////////////////////
-//    // 点单相关
-//    ///////////////////////////////////////////////////////////////////////////
-//
-//    /**
-//     * 获取最近点单商品信息
-//     */
-//    @FormUrlEncoded
-//    @POST("goods/info/findLastedPageList")
-//    Observable<Result<GoodsInfo>> getRecentlyOrderGoodsInfo(@Field("pageIndex") int pageIndex, @Field("pageSize") int pageSize);
-//
-//    /**
-//     * pos收银
-//     *
-//     * @param appId    应用ID
-//     * @param userId   当前用户ID
-//     * @param goodsId  商品ID
-//     * @param paramId  商品参数ID
-//     * @param quantity 购买数量
-//     */
-//    @FormUrlEncoded
-//    @POST("order/add4Pos/{appId}/{openId}")
-//    Observable<Result<OrderInfo>> posOrder(@Path("appId") String appId, @Path("openId") String userId,
-//                                           @Field("goodsId") String goodsId, @Field("paramId") String paramId,
-//                                           @Field("quantity") int quantity);
-//
-//    /**
-//     * 批量下单校验
-//     */
-//    @FormUrlEncoded
-//    @POST("order/check4GoodsBatch/{appId}/{openId}")
-//    Observable<Result<List<CheckGoodsInfo>>> orderCheck(@Path("appId") String appId, @Path("openId") String userId,
-//                                                        @Field("goodsId") List<String> goodsIds, @Field("paramId") List<String> paramIds,
-//                                                        @Field("quantity") List<String> quantities);
+    /**
+     * 删除购物车商品
+     *
+     * @param key
+     * @param cart_id
+     */
+    @FormUrlEncoded
+    @POST(CART_DEL)
+    Observable<Result<Object>> delCart(@Field("key") String key, @Field("cart_id") String cart_id);
+
+    /**
+     * 修改购物车商品数量
+     *
+     * @param key
+     * @param cart_id
+     * @param quantity
+     */
+    @FormUrlEncoded
+    @POST(CART_EDIT_QUANTITY)
+    Observable<Result<BaseInfo>> upCartNumber(@Field("key") String key, @Field("cart_id") String cart_id, @Field("quantity") String quantity);
+
+    /**
+     * 添加到购物车
+     *
+     * @param key
+     * @param goods_id 商品id
+     * @param quantity 购买数量
+     */
+    @FormUrlEncoded
+    @POST(CART_ADD)
+    Observable<Result<Object>> addCart(@Field("key") String key, @Field("goods_id") String goods_id, @Field("quantity") String quantity);
+
+    /**
+     * 实物订单
+     */
+    @FormUrlEncoded
+    @POST(ORDER_LIST + "&page=10")
+    Observable<Result<OrderInfo>> getOrderList(@Field("key") String key,
+                                               @Field("state_type") String state_type,
+                                               @Field("curpage") String curpage,
+                                               @Field("order_key") String order_key);
+
+    /**
+     * 虚拟订单
+     */
+    @FormUrlEncoded
+    @POST(ORDER_LISTV + "&page=10")
+    Observable<Result<OrderInfo>> getOrderListV(@Field("key") String key,
+                                                @Field("state_type") String state_type,
+                                                @Field("curpage") String curpage,
+                                                @Field("order_key") String order_key);
+
+
+    /**
+     * 删除订单/取消订单/确认订单/order_receive order_delete order_cancel
+     */
+    @FormUrlEncoded
+    @POST(ORDER_OPERATION )
+    Observable<Result> orderOperation(@Query("op") String op, @Field("key") String key, @Field("order_id") String order_id);
 //
 //    /**
 //     * 批量下单
@@ -387,20 +423,9 @@ public interface ApiService {
 //    @POST("order/add4GoodsBatch/{appId}/{openId}")
 //    Observable<Result<OrderInfo>> placeOrder(@Path("appId") String appId, @Path("openId") String userId,
 //                                             @Field("goodsId") List<String> goodsIds, @Field("paramId") List<String> paramIds,
+
 //                                             @Field("quantity") List<String> quantities);
-//
-//    /**
-//     * 取消订单
-//     */
-//    @POST("finance/revenue/reverseOrder/{orderId}")
-//    Observable<Result> cancelOrder(@Path("orderId") String orderId);
-//
-//    /**
-//     * 删除订单
-//     */
-//    @POST("finance/revenue/del/{id}")
-//    Observable<Result> deleteOrder(@Path("id") String orderId);
-//
+
 //
 //    /**
 //     * 直接进行下单请求

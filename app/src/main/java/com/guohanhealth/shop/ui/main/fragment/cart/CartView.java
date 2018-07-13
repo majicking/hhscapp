@@ -5,5 +5,5 @@ import com.guohanhealth.shop.bean.CartInfo;
 
 public interface CartView extends BaseView {
     void getData(CartInfo info);
-
+    void buyStep1Data(String data);
 }

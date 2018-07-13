@@ -19,6 +19,7 @@ import com.guohanhealth.shop.bean.MineInfo;
 import com.guohanhealth.shop.ui.login.LoginActivity;
 import com.guohanhealth.shop.event.OnFragmentInteractionListener;
 import com.guohanhealth.shop.ui.main.fragment.mine.setting.SettingActivity;
+import com.guohanhealth.shop.ui.order.OrderActivity;
 import com.guohanhealth.shop.utils.Logutils;
 import com.guohanhealth.shop.utils.Utils;
 import com.guohanhealth.shop.utils.engine.GlideEngine;
@@ -149,7 +150,7 @@ public class MineFragment extends BaseFragment<MinePersenter, MineModel> impleme
         setbgChange();
         //登陆按钮
         mineBtnviewlogin.setOnClickListener(v -> {
-            if (!App.getApp().isLogin()||!Utils.isEmpty(App.getApp().getKey())) {
+            if (!App.getApp().isLogin() || !Utils.isEmpty(App.getApp().getKey())) {
                 readyGo(LoginActivity.class);
             }
         });
@@ -158,6 +159,19 @@ public class MineFragment extends BaseFragment<MinePersenter, MineModel> impleme
             if (Utils.isLogin(mContext))
                 readyGo(SettingActivity.class);
         });
+        mineBtnviewOrder.setOnClickListener(v -> toOrder(0));
+        mineBtnviewOrder1.setOnClickListener(v -> toOrder(1));
+        mineBtnviewOrder2.setOnClickListener(v -> toOrder(2));
+        mineBtnviewOrder3.setOnClickListener(v -> toOrder(3));
+        mineBtnviewOrder4.setOnClickListener(v -> toOrder(4));
+        mineBtnviewOrder5.setOnClickListener(v -> showToast("退货退款"));
+    }
+
+    public void toOrder(int index) {
+        Bundle bundle = new Bundle();
+        bundle.putInt(Constants.ORDERINDEX, index);
+        bundle.putBoolean(Constants.ORDERTYPE, false);
+        readyGo(OrderActivity.class,bundle);
     }
 
     private void setbgChange() {

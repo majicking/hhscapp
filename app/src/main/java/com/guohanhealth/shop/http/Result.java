@@ -15,7 +15,7 @@ public class Result<T> implements Serializable {
 
     public int page_total=1;
     /** 是否有下一页 */
-    public String hasmore;
+    public boolean hasmore;
     /** JSON格式的字符串 */
     public String json;
     /** 字符串结果 */
@@ -30,7 +30,7 @@ public class Result<T> implements Serializable {
     public String toString() {
         return "Result{" +
                 "code=" + code +
-                ", hasMore=" + hasmore +
+                ", hasmore=" + hasmore +
                 ", json='" + json + '\'' +
                 ", result='" + result + '\'' +
                 ", count=" + count +

@@ -1,15 +1,10 @@
 package com.guohanhealth.shop.ui.goods.goodsorder;
 
-import android.opengl.GLSurfaceView;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.text.style.BulletSpan;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
@@ -26,8 +21,6 @@ import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.guohanhealth.shop.R;
 import com.guohanhealth.shop.adapter.CommonAdapter;
 import com.guohanhealth.shop.adapter.ViewHolder;
@@ -41,7 +34,6 @@ import com.guohanhealth.shop.bean.Step2Info;
 import com.guohanhealth.shop.bean.Store_cart_list;
 import com.guohanhealth.shop.bean.UpDataAddressInfo;
 import com.guohanhealth.shop.custom.CustomPopuWindow;
-import com.guohanhealth.shop.event.Functions;
 import com.guohanhealth.shop.event.RxBus;
 import com.guohanhealth.shop.ui.goods.GoodsModel;
 import com.guohanhealth.shop.ui.goods.goodsdetailed.activity.GoodsDetailsActivity;
@@ -67,7 +59,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import co.lujun.androidtagview.TagContainerLayout;
 import co.lujun.androidtagview.TagView;
-import io.reactivex.functions.Consumer;
 
 public class GoodsOrderActivity extends BaseActivity<GoodsOrderPercenter, GoodsModel> implements GoodsOrderView {
 
@@ -306,7 +297,7 @@ public class GoodsOrderActivity extends BaseActivity<GoodsOrderPercenter, GoodsM
             popuWindow.dismiss();
         }
         Bundle bundle = new Bundle();
-        bundle.putInt(Constants.ORDERINDEX, 1);
+        bundle.putInt(Constants.ORDERINDEX, 0);
         readyGoThenKill(OrderActivity.class);
     }
 
@@ -446,6 +437,7 @@ public class GoodsOrderActivity extends BaseActivity<GoodsOrderPercenter, GoodsM
         }
         return lists;
     }
+
 
     public void showPayWayWindown() {
         View view = getView(R.layout.goods_order_payway);

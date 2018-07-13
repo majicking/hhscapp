@@ -4,6 +4,17 @@
     style="@style/match"
     android:orientation="vertical">
 
+    <LinearLayout
+        style="@style/LLayout_48_v"
+        android:background="@color/white"
+        android:gravity="center">
+
+        <TextView
+            style="@style/warp"
+            android:text="购物车"
+            android:textSize="@dimen/sp_16" />
+    </LinearLayout>
+
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
         android:id="@+id/cart_view_refresh"
         style="@style/layout_weight_v"
@@ -11,10 +22,16 @@
 
         <RelativeLayout style="@style/match">
 
+            <android.support.v4.widget.NestedScrollView
+                android:id="@+id/cart_view_nestedscrollview"
+                style="@style/match"
+                android:scrollbars="none">
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/cart_view_recycle"
-                style="@style/match"></android.support.v7.widget.RecyclerView>
+                <LinearLayout
+                    android:id="@+id/linearlayout"
+                    style="@style/match_warp"
+                    android:orientation="vertical"></LinearLayout>
+            </android.support.v4.widget.NestedScrollView>
 
             <com.guohanhealth.shop.custom.EmptyView
                 android:id="@+id/cart_view_empty"
@@ -27,9 +44,7 @@
     <LinearLayout
         android:id="@+id/cart_view_settlement"
         style="@style/LLayout_50_h"
-        android:layout_marginBottom="@dimen/dp_50"
-        android:background="@color/white"
-        android:visibility="gone">
+        android:background="@color/white">
 
 
         <LinearLayout
@@ -37,21 +52,22 @@
             android:layout_weight="2"
             android:orientation="horizontal">
 
-            <CheckBox
+            <ImageButton
                 android:id="@+id/cart_check_all"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/dp_5"
                 android:background="@mipmap/nc_icon_null"
-                android:button="@drawable/checkbox"
-                android:checked="true"
-                android:paddingRight="@dimen/dp_5"
+                android:src="@drawable/select_check" />
+
+            <TextView
+                style="@style/warp"
                 android:text="全选"
-                android:textColor="@color/grey" />
+                android:textColor="@color/grey"
+                android:textSize="@dimen/sp_12" />
 
             <LinearLayout
                 style="@style/layout_weight_h"
-                android:gravity="center_vertical"
                 android:paddingLeft="5dp">
 
                 <TextView
@@ -61,12 +77,14 @@
                 <TextView
                     style="@style/warp"
                     android:text="￥"
+                    android:textColor="@color/appColor"
                     android:textSize="@dimen/sp_12" />
 
                 <TextView
                     android:id="@+id/cart_text_money"
                     style="@style/warp"
                     android:text="0.00"
+                    android:textColor="@color/appColor"
                     android:textSize="@dimen/sp_16" />
 
             </LinearLayout>

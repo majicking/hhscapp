@@ -59,20 +59,34 @@ public class MainActivity extends BaseActivity<MainPersenter, MainModel> impleme
     BottomNavigationBar mBottomNavigationBar;
     private TextBadgeItem mTextBadgeItem;
     private ShapeBadgeItem mShapeBadgeItem;
-
+    private static final String HOME1 = "home1";
+    private static final String HOME2 = "home2";
+    private static final String HOME3 = "home3";
+    private static final String HOME4 = "home4";
 
     @Override
     protected int getContentViewLayoutID() {
         return R.layout.activity_main;
     }
 
+    int index;
+
     @Override
     protected void initView(Bundle savedInstanceState) {
-        homeFragment1 = HomeFragment.newInstance("0", "");
-        homeFragment2 = ClassTypeFragment.newInstance("1", "");
-        homeFragment3 = CartFragment.newInstance("2", "");
-        homeFragment4 = MineFragment.newInstance("3", "");
         mFragments = new ArrayList<>();
+        if (savedInstanceState != null) {
+            homeFragment1 = (HomeFragment) getSupportFragmentManager().getFragment(savedInstanceState, HOME1);
+            homeFragment2 = (ClassTypeFragment) getSupportFragmentManager().getFragment(savedInstanceState, HOME2);
+            homeFragment3 = (CartFragment) getSupportFragmentManager().getFragment(savedInstanceState, HOME3);
+            homeFragment4 = (MineFragment) getSupportFragmentManager().getFragment(savedInstanceState, HOME4);
+            index = savedInstanceState.getInt(Constants.MAINNUMBER, 0);
+        } else {
+            index = getIntent().getIntExtra(MAINNUMBER, 0);
+            homeFragment1 = HomeFragment.newInstance("0", "");
+            homeFragment2 = ClassTypeFragment.newInstance("1", "");
+            homeFragment3 = CartFragment.newInstance("2", "");
+            homeFragment4 = MineFragment.newInstance("3", "");
+        }
         mFragments.add(homeFragment1);
         mFragments.add(homeFragment2);
         mFragments.add(homeFragment3);
@@ -110,7 +124,7 @@ public class MainActivity extends BaseActivity<MainPersenter, MainModel> impleme
                         .setBadgeItem(mTextBadgeItem))
                 .addItem(new BottomNavigationItem(R.mipmap.member_b_2, "我的")
                         .setInactiveIcon(ContextCompat.getDrawable(MainActivity.this, R.mipmap.member_b)))
-                .setFirstSelectedPosition(getIntent().getIntExtra(MAINNUMBER, 0))//设置默认选择的按钮
+                .setFirstSelectedPosition(index)//设置默认选择的按钮
                 .initialise();//所有的设置需在调用该方法前完成
 
         setBottomNavigationItem(mBottomNavigationBar, 8, 20, 13);
@@ -118,6 +132,7 @@ public class MainActivity extends BaseActivity<MainPersenter, MainModel> impleme
         mBottomNavigationBar.setTabSelectedListener(new BottomNavigationBar.OnTabSelectedListener() {
             @Override
             public void onTabSelected(int position) {
+                index = position;
                 switchFragment(position);
             }
 
@@ -134,10 +149,28 @@ public class MainActivity extends BaseActivity<MainPersenter, MainModel> impleme
         initData();
     }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        /*fragment不为空时 保存*/
+        if (homeFragment1 != null && homeFragment1.isAdded()) {
+            getSupportFragmentManager().putFragment(outState, HOME1, homeFragment1);
+        }
+        if (homeFragment2 != null && homeFragment2.isAdded()) {
+            getSupportFragmentManager().putFragment(outState, HOME2, homeFragment2);
+        }
+        if (homeFragment3 != null && homeFragment3.isAdded()) {
+            getSupportFragmentManager().putFragment(outState, HOME3, homeFragment3);
+        }
+        if (homeFragment4 != null && homeFragment4.isAdded()) {
+            getSupportFragmentManager().putFragment(outState, HOME4, homeFragment4);
+        }
+        outState.putInt(Constants.MAINNUMBER, index);
+        super.onSaveInstanceState(outState);
+    }
 
     //刷新ui
     private void initData() {
-        switchFragment(getIntent().getIntExtra(MAINNUMBER, 0));
+        switchFragment(index);
         RxBus.getDefault().register(this, CartNumberInfo.class, v -> {
             if (!Utils.isEmpty(App.getApp().getKey()) || !App.getApp().isLogin()) {
                 if (mTextBadgeItem != null) {
@@ -215,12 +248,11 @@ public class MainActivity extends BaseActivity<MainPersenter, MainModel> impleme
 
                         TextView badge = (TextView) view.findViewById(R.id.fixed_bottom_navigation_badge);
                         FrameLayout.LayoutParams params1 = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-//                        badge.post(() -> {
-//                            params1.setMargins(labelView.getWidth() - labelView.getWidth() / 2, 35, 0, 0);
-//                            badge.setLayoutParams(params1);
-//                            badge.setTextSize(10);
-//
-//                        });
+                        badge.post(() -> {
+                            params1.setMargins(labelView.getWidth() - labelView.getWidth() / 2, 35, 0, 0);
+                            badge.setLayoutParams(params1);
+
+                        });
                         badge.setTextSize(10);
 
                     }
@@ -261,8 +293,8 @@ public class MainActivity extends BaseActivity<MainPersenter, MainModel> impleme
         if (!targetFg.isAdded()) {
             ft.add(R.id.fragment_group, targetFg);
         }
-        ft.show(targetFg);
-        ft.commitAllowingStateLoss();
+        ft.show(targetFg).commit();
+//        ft.commitAllowingStateLoss();
     }
 
     private long mExitTime;
@@ -282,7 +314,7 @@ public class MainActivity extends BaseActivity<MainPersenter, MainModel> impleme
 
     @Override
     public Object doSomeThing(String key, Object value) {
-        if (key.equals(Constants.MAINSELECTNUMBER))
+        if (key.equals(Constants.MAINNUMBER))
             selectItem((Integer) value);
         else if (key.equals(Constants.CART_COUNT))
             getCardNumber();

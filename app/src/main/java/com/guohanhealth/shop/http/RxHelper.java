@@ -39,11 +39,7 @@ public class RxHelper {
                 if (Utils.isEmpty("" + result.login) && "0".equals(result.login)) {
                     App.getApp().setKey("");
                 }
-                if (Utils.isEmpty(result.hasmore) && result.hasmore.equals("true")) {
-                    App.getApp().setHasmore("true");
-                } else {
-                    App.getApp().setHasmore("false");
-                }
+                App.getApp().setHasmore(result.hasmore);
                 if (Utils.isEmpty("" + result.page_total) && result.page_total > 1) {
                     App.getApp().setPage_total(result.page_total);
                 }
@@ -53,7 +49,7 @@ public class RxHelper {
                 try {
                     error = (BaseInfo) result.datas;
                 } catch (Exception e) {
-                    return Observable.error(new ServerException(result.code, e.getMessage()));
+                    return Observable.error(new ServerException(result.code, (String) result.datas));
                 }
                 return Observable.error(new ServerException(result.code, error.error));
             } else {
@@ -67,10 +63,26 @@ public class RxHelper {
      */
     public static ObservableTransformer<Result, Result> handleOnlyResult() {
         return upstream -> upstream.flatMap(result -> {
+            if (Utils.isEmpty("" + result.login) && "0".equals(result.login)) {
+                App.getApp().setKey("");
+            }
+            App.getApp().setHasmore(result.hasmore);
+            if (Utils.isEmpty("" + result.page_total) && result.page_total > 1) {
+                App.getApp().setPage_total(result.page_total);
+            }
             if (result.code == HttpErrorCode.HTTP_NO_ERROR) {
                 return createSuccessData(result);
+            } else if (result.code == HttpErrorCode.ERROR_400) {
+
+                BaseInfo error = null;
+                try {
+                    error = (BaseInfo) result.datas;
+                } catch (Exception e) {
+                    return Observable.error(new ServerException(result.code, e.getMessage()));
+                }
+                return Observable.error(new ServerException(result.code, error.error));
             } else {
-                return Observable.error(new ServerException(result.code, ""));
+                return Observable.error(new ServerException(result.code, "请求异常，请重试"));
             }
         }).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
     }

@@ -1,134 +1,133 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <LinearLayout
-
-        style="@style/bg_white_magin_left_top_right_5"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="@dimen/dp_5">
+    android:layout_height="wrap_content">
 
         <LinearLayout
-            style="@style/match_warp"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:id="@+id/store_img"
-                android:layout_width="@dimen/dp_18"
-                android:layout_height="@dimen/dp_18"
-                android:src="@mipmap/nc_icon_store" />
-
-            <TextView
-                android:id="@+id/store_name"
-                style="@style/warp"
-                android:layout_marginLeft="@dimen/dp_5"
-                android:text="小米旗舰店"
-                android:textSize="@dimen/sp_12" />
-        </LinearLayout>
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycleview"
+            style="@style/bg_white_magin_left_top_right_5"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/dp_5">
 
-        <View style="@style/djk_line" />
-
-        <LinearLayout
-            android:id="@+id/store_view_cashcoupon"
-            style="@style/match_warp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <TextView
-                style="@style/warp"
-                android:text="店铺代金券"
-                android:textSize="@dimen/sp_12" />
-
-            <View style="@style/linearlayout_zw" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingBottom="@dimen/dp_5"
-                android:paddingTop="@dimen/dp_5"
-                android:src="@mipmap/more" />
-        </LinearLayout>
-
-        <LinearLayout
-            style="@style/match_warp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <TextView
-                style="@style/warp"
-                android:text="物流配送"
-                android:textSize="@dimen/sp_12" />
-
-            <View style="@style/linearlayout_zw" />
-
-            <TextView
-                android:id="@+id/store_freight"
-                style="@style/warp"
-                android:layout_marginRight="@dimen/dp_5"
-                android:text="运费0.00元"
-                android:textSize="@dimen/sp_12" />
-        </LinearLayout>
-
-        <LinearLayout
-            style="@style/match_warp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <TextView
-                style="@style/warp"
-                android:text="订单留言"
-                android:textSize="@dimen/sp_12" />
-
-
-            <EditText
-                android:id="@+id/store_edit"
+            <LinearLayout
                 style="@style/match_warp"
-                android:layout_marginRight="@dimen/dp_5"
-                android:background="@mipmap/img_null"
-                android:gravity="right"
-                android:hint="请输入对店铺的留言"
-                android:maxLines="1"
-                android:paddingBottom="@dimen/dp_5"
-                android:paddingLeft="@dimen/dp_5"
-                android:paddingTop="@dimen/dp_5"
-                android:textColorHint="@color/grey"
-                android:textSize="@dimen/sp_12" />
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/store_img"
+                    android:layout_width="@dimen/dp_18"
+                    android:layout_height="@dimen/dp_18"
+                    android:src="@mipmap/nc_icon_store" />
+
+                <TextView
+                    android:id="@+id/store_name"
+                    style="@style/warp"
+                    android:layout_marginLeft="@dimen/dp_5"
+                    android:text="小米旗舰店"
+                    android:textSize="@dimen/sp_12" />
+            </LinearLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycleview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
+
+            <View style="@style/djk_line" />
+
+            <LinearLayout
+                android:id="@+id/store_view_cashcoupon"
+                style="@style/match_warp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/warp"
+                    android:text="店铺代金券"
+                    android:textSize="@dimen/sp_12" />
+
+                <View style="@style/linearlayout_zw" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/dp_5"
+                    android:paddingTop="@dimen/dp_5"
+                    android:src="@mipmap/more" />
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/match_warp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/warp"
+                    android:text="物流配送"
+                    android:textSize="@dimen/sp_12" />
+
+                <View style="@style/linearlayout_zw" />
+
+                <TextView
+                    android:id="@+id/store_freight"
+                    style="@style/warp"
+                    android:layout_marginRight="@dimen/dp_5"
+                    android:text="运费0.00元"
+                    android:textSize="@dimen/sp_12" />
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/match_warp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/warp"
+                    android:text="订单留言"
+                    android:textSize="@dimen/sp_12" />
+
+
+                <EditText
+                    android:id="@+id/store_edit"
+                    style="@style/match_warp"
+                    android:layout_marginRight="@dimen/dp_5"
+                    android:background="@mipmap/img_null"
+                    android:gravity="right"
+                    android:hint="请输入对店铺的留言"
+                    android:maxLines="1"
+                    android:paddingBottom="@dimen/dp_5"
+                    android:paddingLeft="@dimen/dp_5"
+                    android:paddingTop="@dimen/dp_5"
+                    android:textColorHint="@color/grey"
+                    android:textSize="@dimen/sp_12" />
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/match_warp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <View style="@style/linearlayout_zw" />
+
+                <TextView
+                    style="@style/warp"
+                    android:text="本店合计："
+                    android:textSize="@dimen/sp_12" />
+
+                <TextView
+                    android:id="@+id/store_money"
+                    style="@style/warp"
+                    android:text="0.00"
+                    android:textColor="@color/appColor"
+                    android:textSize="@dimen/sp_16"
+                    android:textStyle="bold" />
+
+                <TextView
+                    style="@style/warp"
+                    android:layout_marginRight="@dimen/dp_5"
+                    android:text="元"
+                    android:textSize="@dimen/sp_12" />
+            </LinearLayout>
+
         </LinearLayout>
-
-        <LinearLayout
-            style="@style/match_warp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <View style="@style/linearlayout_zw" />
-
-            <TextView
-                style="@style/warp"
-                android:text="本店合计："
-                android:textSize="@dimen/sp_12" />
-
-            <TextView
-                android:id="@+id/store_money"
-                style="@style/warp"
-                android:text="0.00"
-                android:textColor="@color/appColor"
-                android:textSize="@dimen/sp_16"
-                android:textStyle="bold" />
-
-            <TextView
-                style="@style/warp"
-                android:layout_marginRight="@dimen/dp_5"
-                android:text="元"
-                android:textSize="@dimen/sp_12" />
-        </LinearLayout>
-
-    </LinearLayout>
 </LinearLayout>

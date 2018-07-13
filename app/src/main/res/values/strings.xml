@@ -21,6 +21,10 @@
         <item>普通注册</item>
         <item>手机注册</item>
     </string-array>
+    <string-array name="ordertype">
+        <item>实物订单</item>
+        <item>虚拟订单</item>
+    </string-array>
 
     <string name="text_sole">手机专享</string>
     <string name="text_groupbuy">团购</string>

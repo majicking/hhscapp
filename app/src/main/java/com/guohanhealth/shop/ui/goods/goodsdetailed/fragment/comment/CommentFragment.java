@@ -12,7 +12,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.beloo.widget.chipslayoutmanager.ChipsLayoutManager;
 import com.guohanhealth.shop.R;
 import com.guohanhealth.shop.adapter.BaseRecyclerAdapter;
 import com.guohanhealth.shop.adapter.BaseViewHolder;
@@ -115,15 +114,6 @@ public class CommentFragment extends BaseFragment<CommentPersenter, GoodsModel> 
             }
             steclectNumber = position;
         });
-        ChipsLayoutManager chipsLayoutManager = ChipsLayoutManager.newBuilder(mContext)
-                .setChildGravity(Gravity.TOP)
-                .setScrollingEnabled(true)
-                .setMaxViewsInRow(6)
-                .setGravityResolver(position -> Gravity.CENTER).setOrientation(ChipsLayoutManager.HORIZONTAL)
-                .setRowStrategy(ChipsLayoutManager.STRATEGY_DEFAULT)
-                .withLastRow(true)
-                .build();
-        recycleview.setLayoutManager(chipsLayoutManager);
         adapter = new BaseRecyclerAdapter<EvalInfo.Goods_eval_list, com.chad.library.adapter.base.BaseViewHolder>(mContext, R.layout.comment_list_item, new ArrayList<>()) {
             @Override
             public void convert(BaseViewHolder holder, EvalInfo.Goods_eval_list s) {

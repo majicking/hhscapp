@@ -1,33 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="horizontal">
 
+    <View style="@style/layout_weight_h" />
 
     <LinearLayout
-        android:layout_width="320dp"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
+        android:layout_weight="4"
         android:background="@drawable/bg_line"
-        android:orientation="vertical"
-        android:padding="10dp">
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
+            android:layout_marginTop="@dimen/dp_10"
+            android:layout_weight="1"
             android:gravity="center"
             android:text="提示"
             android:textColor="@color/blue_text"
-            android:textSize="20sp" />
+            android:textSize="@dimen/sp_16" />
 
         <LinearLayout
             android:id="@+id/content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="2"
             android:gravity="center"
-            android:minHeight="90dp"
+            android:minHeight="80dp"
             android:orientation="vertical"
             android:padding="5dp">
 
@@ -36,18 +42,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:textColor="@color/black"
-                android:textSize="18sp" />
+                android:textColor="@color/black" />
         </LinearLayout>
 
 
         <View style="@style/djk_line" />
 
-
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_weight="2"
+            android:layout_height="35dp"
+            android:layout_weight="1"
             android:orientation="horizontal">
 
             <Button
@@ -58,9 +62,7 @@
                 android:layout_weight="1"
                 android:background="@mipmap/nc_icon_null"
                 android:text="确定"
-                android:textColor="@color/blue_text"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+                android:textColor="@color/blue_text" />
 
             <View
                 android:id="@+id/line"
@@ -76,9 +78,9 @@
                 android:layout_weight="1"
                 android:background="@mipmap/nc_icon_null"
                 android:text="关闭"
-                android:textColor="@color/blue_text"
-                android:textSize="16sp"
-                android:textStyle="bold" />
+                android:textColor="@color/blue_text" />
         </LinearLayout>
     </LinearLayout>
-</RelativeLayout>
+
+    <View style="@style/layout_weight_h" />
+</LinearLayout>
