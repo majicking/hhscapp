@@ -8,17 +8,16 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_48"
-        android:background="@color/white"
+        android:background="@color/appColor"
         android:gravity="center_vertical">
 
-        <TextView
+
+        <ImageView
             android:id="@+id/back"
             style="@style/left15"
             android:layout_alignParentLeft="true"
             android:layout_centerInParent="true"
-            android:text="取消"
-            android:textColor="@color/appColor"
-            android:textSize="@dimen/sp_16" />
+            android:src="@drawable/ic_back_white" />
 
         <TextView
             android:id="@+id/title"
@@ -26,7 +25,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="登陆"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textSize="@dimen/sp_16" />
 
         <TextView
@@ -35,7 +34,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerInParent="true"
             android:text="注册"
-            android:textColor="@color/appColor"
+            android:textColor="@color/white"
             android:textSize="@dimen/sp_16" />
     </RelativeLayout>
 
@@ -69,7 +68,6 @@
                 android:text="账号：" />
 
             <EditText
-                android:text="test123"
                 android:id="@+id/username"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -77,6 +75,7 @@
                 android:background="@drawable/djk_bg_border_bottom"
                 android:hint="用户名/手机号/邮箱"
                 android:paddingLeft="@dimen/dp_10"
+                android:text="test123"
                 android:textColorHint="@color/djk_edithitcolor"
                 android:textSize="@dimen/sp_12" />
         </RelativeLayout>
@@ -95,7 +94,6 @@
                 android:text="密码：" />
 
             <EditText
-                android:text="user123"
                 android:id="@+id/password"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -104,6 +102,7 @@
                 android:hint="请输入密码"
                 android:inputType="textPassword"
                 android:paddingLeft="@dimen/dp_10"
+                android:text="user123"
                 android:textColorHint="@color/djk_edithitcolor"
                 android:textSize="@dimen/sp_12"
                 android:typeface="normal" />

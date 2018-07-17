@@ -33,4 +33,5 @@
     <string name="text_fcode">F码</string>
     <string name="text_presell">预售</string>
     <string name="text_virtual">虚拟</string>
+    <string name="title_activity_oder_detail">OderDetailActivity</string>
 </resources>

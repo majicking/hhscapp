@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/toast_bg"
     android:padding="10dp">
@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
-        android:background="@drawable/toast_icon" />
+        android:background="@drawable/icon_warm_toast" />
 
     <TextView
         android:id="@+id/toast_message"
@@ -21,6 +21,7 @@
         android:layout_marginLeft="5dp"
         android:layout_marginRight="@dimen/dp_5"
         android:layout_toRightOf="@id/toast_icon"
+        android:ellipsize="end"
         android:gravity="center"
         android:maxLines="2"
         android:textColor="@color/toast_color"

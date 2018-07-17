@@ -48,12 +48,12 @@ public class LoginActivity extends BaseActivity<LoginPersenter, UserModel> imple
     @BindView(R.id.forgetpwd)
     TextView forgetpwd;
     @BindView(R.id.back)
-    TextView back;
+    ImageView back;
 
 
     @Override
     protected int getContentViewLayoutID() {
-        return R.layout.activity_log_inctivity;
+        return R.layout.activity_login;
     }
 
     private int type = 0;

@@ -1,0 +1,417 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/djk_bgcolor"
+    android:orientation="vertical"
+    tools:context=".ui.order.OrderDetailActivity">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <include layout="@layout/common_toolbar" />
+
+    </android.support.design.widget.AppBarLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <android.support.v4.widget.NestedScrollView style="@style/layout_weight_v">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+
+                <LinearLayout
+                    style="@style/LLayout_40_h"
+                    android:background="@color/white">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/dp_10"
+                        android:src="@drawable/ic_stutas_gray" />
+
+                    <TextView
+                        style="@style/djk_text"
+                        android:layout_marginLeft="@dimen/dp_5"
+                        android:text="交易状态" />
+
+                    <View style="@style/linearlayout_zw" />
+
+                    <TextView
+                        android:id="@+id/order_detail_stutas"
+                        style="@style/djk_text"
+                        android:layout_marginRight="@dimen/dp_15"
+                        android:textColor="@color/appColor" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp_60"
+                    android:layout_marginTop="@dimen/dp_10"
+                    android:background="@color/white"
+                    android:orientation="horizontal">
+
+
+                    <LinearLayout
+
+                        style="@style/layout_weight_h"
+                        android:gravity="center">
+
+                        <ImageView
+
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/icon_locat" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        style="@style/layout_weight_h"
+                        android:layout_weight="8"
+                        android:orientation="vertical">
+
+                        <LinearLayout
+                            style="@style/layout_weight_v"
+                            android:layout_weight="0.8"
+                            android:gravity="center_vertical">
+
+                            <TextView
+                                style="@style/djk_text"
+                                android:layout_marginLeft="@dimen/dp_5"
+                                android:text="收  货  人:" />
+
+                            <TextView
+                                android:id="@+id/order_detail_name"
+                                style="@style/djk_text"
+                                android:layout_marginLeft="@dimen/dp_5" />
+
+                            <TextView
+                                style="@style/djk_text"
+                                android:layout_marginLeft="@dimen/dp_20"
+                                android:text="联系电话：" />
+
+                            <TextView
+                                android:id="@+id/order_detail_phonenumber"
+                                style="@style/djk_text"
+                                android:layout_marginLeft="@dimen/dp_5" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            style="@style/layout_weight_v"
+                            android:gravity="left"
+                            android:paddingTop="@dimen/dp_3">
+
+                            <TextView
+                                style="@style/djk_text"
+                                android:layout_marginLeft="@dimen/dp_5"
+                                android:text="收货地址:" />
+
+                            <TextView
+                                android:id="@+id/order_detail_address"
+                                style="@style/djk_text"
+                                android:layout_marginLeft="@dimen/dp_5"
+                                android:ellipsize="end"
+                                android:maxLines="2"
+                                android:text="" />
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <View style="@style/djk_line" />
+
+                <LinearLayout
+                    style="@style/LLayout_40_h"
+                    android:background="@color/white">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/dp_10"
+                        android:src="@drawable/icon_coin" />
+
+                    <TextView
+
+                        style="@style/djk_text"
+                        android:layout_marginLeft="@dimen/dp_5"
+                        android:text="支付方式" />
+
+                    <View style="@style/linearlayout_zw" />
+
+                    <TextView
+                        android:id="@+id/order_detail_payway"
+                        style="@style/djk_text"
+                        android:layout_marginRight="@dimen/dp_10"
+                        android:text="在线支付" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    style="@style/match_warp"
+                    android:layout_marginTop="@dimen/dp_10"
+                    android:background="@color/white"
+                    android:orientation="vertical">
+
+
+                    <LinearLayout
+                        style="@style/LLayout_40_h"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="@dimen/dp_18"
+                            android:layout_height="@dimen/dp_18"
+                            android:layout_marginLeft="@dimen/dp_10"
+                            android:src="@mipmap/nc_icon_store" />
+
+                        <TextView
+                            android:id="@+id/order_detail_storename"
+                            style="@style/djk_text"
+                            android:layout_marginLeft="@dimen/dp_5" />
+
+                        <View style="@style/linearlayout_zw" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="@dimen/dp_5"
+                            android:src="@mipmap/more" />
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:id="@+id/order_detail_view_goodslist"
+                        style="@style/match_warp"
+                        android:orientation="vertical"></LinearLayout>
+
+
+                    <View style="@style/djk_line" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/dp_48"
+                        android:orientation="vertical">
+
+                        <LinearLayout style="@style/layout_weight_v">
+
+                            <TextView
+                                style="@style/djk_text"
+                                android:layout_marginLeft="@dimen/dp_5"
+                                android:text="运费" />
+
+                            <View style="@style/linearlayout_zw" />
+
+                            <TextView
+                                style="@style/djk_text"
+                                android:text="￥" />
+
+                            <TextView
+                                android:id="@+id/order_detail_freight"
+                                style="@style/djk_text"
+                                android:layout_marginRight="@dimen/dp_5"
+                                android:text="0.00" />
+                        </LinearLayout>
+
+                        <LinearLayout style="@style/layout_weight_v">
+
+                            <TextView
+                                style="@style/djk_text"
+                                android:layout_marginLeft="@dimen/dp_5"
+                                android:text="实付费(含运费)" />
+
+                            <View style="@style/linearlayout_zw" />
+
+                            <TextView
+                                style="@style/djk_text"
+                                android:text="￥"
+                                android:textColor="@color/appColor" />
+
+                            <TextView
+                                android:id="@+id/order_detail_money"
+                                style="@style/djk_text"
+                                android:layout_marginRight="@dimen/dp_5"
+                                android:text="0.00"
+                                android:textColor="@color/appColor"
+                                android:textSize="@dimen/sp_16" />
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+                    <View style="@style/djk_line" />
+
+                    <LinearLayout style="@style/LLayout_48_h">
+
+                        <LinearLayout
+                            android:id="@+id/order_detail_contact_customer"
+                            style="@style/layout_weight_h"
+                            android:gravity="center">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/icon_customer" />
+
+                            <TextView
+                                style="@style/djk_text"
+                                android:layout_marginLeft="@dimen/dp_5"
+                                android:text="联系客服"
+
+                                />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/order_detail_call_custonmer"
+                            style="@style/layout_weight_h">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:src="@drawable/icon_phone" />
+
+                            <TextView
+                                style="@style/djk_text"
+                                android:layout_marginLeft="@dimen/dp_5"
+                                android:text="联系客服"
+
+                                />
+                        </LinearLayout>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    style="@style/match_warp"
+                    android:layout_marginTop="@dimen/dp_10"
+                    android:background="@color/white"
+                    android:orientation="vertical"
+                    android:padding="@dimen/dp_5">
+
+                    <LinearLayout style="@style/match_warp">
+
+                        <TextView
+                            style="@style/djk_text"
+                            android:text="订单编号：" />
+
+                        <TextView
+                            android:id="@+id/order_detail_orderid"
+                            style="@style/djk_text"
+                            android:text="88888888888888" />
+                    </LinearLayout>
+
+                    <LinearLayout style="@style/match_warp">
+
+                        <TextView
+
+                            style="@style/djk_text"
+                            android:text="创建时间：" />
+
+                        <TextView
+                            android:id="@+id/order_detail_creattime"
+                            style="@style/djk_text"
+                            android:text="2018-08-08 08：08：88" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/order_detail_view_paytime"
+                        style="@style/match_warp"
+                        android:visibility="gone">
+
+                        <TextView
+                            style="@style/djk_text"
+                            android:text="付款时间：" />
+
+                        <TextView
+                            android:id="@+id/order_detail_paytime"
+                            style="@style/djk_text"
+                            android:text="2018-08-08 08：08：88" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/order_detail_view_sendtime"
+                        style="@style/match_warp"
+                        android:visibility="gone">
+
+                        <TextView
+                            style="@style/djk_text"
+                            android:text="发货时间：" />
+
+                        <TextView
+                            android:id="@+id/order_detail_sendtime"
+                            style="@style/djk_text"
+                            android:text="2018-08-08 08：08：88" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/order_detail_view_obertime"
+                        style="@style/match_warp"
+                        android:visibility="gone">
+
+                        <TextView
+                            style="@style/djk_text"
+                            android:text="完成时间：" />
+
+                        <TextView
+                            android:id="@+id/order_detail_overtime"
+                            style="@style/djk_text"
+                            android:text="2018-08-08 08：08：88" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/order_detail_view_oktime"
+                        style="@style/match_warp"
+                        android:visibility="gone">
+
+                        <TextView
+                            style="@style/djk_text"
+                            android:text="确认时间：" />
+
+                        <TextView
+                            android:id="@+id/order_detail_oktime"
+                            style="@style/djk_text"
+                            android:text="2018-08-08 08：08：88" />
+                    </LinearLayout>
+
+                </LinearLayout>
+            </LinearLayout>
+        </android.support.v4.widget.NestedScrollView>
+
+        <LinearLayout
+            style="@style/LLayout_40_h"
+            android:layout_alignParentBottom="true"
+            android:gravity="center_vertical|right">
+
+            <TextView
+                android:id="@+id/order_detail_btn1"
+                android:layout_width="@dimen/dp_80"
+                android:layout_height="@dimen/dp_25"
+                android:layout_marginRight="@dimen/dp_5"
+                android:background="@drawable/shape_red_greyline"
+                android:gravity="center"
+                android:text="再次确认"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_10" />
+
+            <TextView
+                android:id="@+id/order_detail_btn2"
+                android:layout_width="@dimen/dp_80"
+                android:layout_height="@dimen/dp_25"
+                android:layout_marginRight="@dimen/dp_5"
+                android:background="@drawable/shape_red_greyline"
+                android:gravity="center"
+                android:text="再次确认"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_10" />
+        </LinearLayout>
+    </LinearLayout>
+
+
+</LinearLayout>

@@ -6,11 +6,12 @@
 
     <LinearLayout
         style="@style/LLayout_48_v"
-        android:background="@color/white"
+        android:background="@color/appColor"
         android:gravity="center">
 
         <TextView
             style="@style/warp"
+            android:textColor="@color/white"
             android:text="购物车"
             android:textSize="@dimen/sp_16" />
     </LinearLayout>

@@ -8,9 +8,9 @@
     tools:context=".ui.search.SearchActivity">
 
     <LinearLayout
+        android:id="@+id/home_view_titleview"
         style="@style/LLayout_48_h"
-        android:background="@color/white"
-        android:gravity="center_vertical">
+        android:background="@color/appColor">
 
         <RelativeLayout
             android:id="@+id/search_back"
@@ -22,24 +22,24 @@
 
                 android:layout_width="@dimen/dp_28"
                 android:layout_height="@dimen/dp_28"
-                android:src="@drawable/ic_back" />
+                android:src="@drawable/ic_back_white" />
         </RelativeLayout>
 
-
         <LinearLayout
+            android:id="@+id/classtype_view_search"
             android:layout_width="0dp"
-            android:layout_height="@dimen/dp_30"
+            android:layout_height="30dp"
+            android:layout_gravity="center_vertical"
             android:layout_weight="1"
-            android:background="@color/djk_linecolor"
+            android:background="@drawable/bg_recricle"
+            android:gravity="center_vertical"
             android:orientation="horizontal">
 
             <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:src="@drawable/ic_search" />
+                android:layout_width="@dimen/dp_20"
+                android:layout_height="@dimen/dp_20"
+                android:layout_marginLeft="@dimen/dp_10"
+                android:src="@drawable/ic_search_white" />
 
             <EditText
                 android:id="@+id/search_edit"
@@ -50,9 +50,9 @@
                 android:gravity="center_vertical"
                 android:hint="搜索商城商品"
                 android:singleLine="true"
-                android:textColor="@color/djk_textcolor444"
-                android:textColorHint="@color/nc_text"
-                android:textSize="16sp" />
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
+                android:textSize="12sp" />
 
         </LinearLayout>
 
@@ -62,9 +62,11 @@
             android:layout_height="@dimen/dp_48"
             android:background="@null"
             android:text="搜索"
+            android:textColor="@color/white"
             android:textSize="@dimen/sp_14" />
 
     </LinearLayout>
+
 
     <View style="@style/djk_line" />
 

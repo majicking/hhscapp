@@ -1,6 +1,7 @@
 package com.guohanhealth.shop.ui.order;
 
 import com.guohanhealth.shop.base.BasePresenter;
+import com.guohanhealth.shop.bean.OrderInfo;
 import com.guohanhealth.shop.http.Api;
 import com.guohanhealth.shop.http.ApiService;
 import com.guohanhealth.shop.http.ConsumerError;
@@ -13,6 +14,7 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.FormBody;
 import okhttp3.Response;
+import okhttp3.internal.Util;
 
 public class OrderPersenter extends BasePresenter<OrderView, OrderModel> {
 
@@ -78,5 +80,37 @@ public class OrderPersenter extends BasePresenter<OrderView, OrderModel> {
             }
         }));
     }
+
+    public void orderInfo(String url, String key, String order_id) {
+        Api.get(ApiService.ORDER_OPERATION + "&op=" + url + "&key=" + key + "&order_id=" + order_id, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                mActivity.runOnUiThread(() -> {
+                    mView.faild(Utils.getErrorString(e));
+                });
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                try {
+                    String json = response.body().string();
+                    if (Utils.getCode(json) == HttpErrorCode.HTTP_NO_ERROR) {
+                        mActivity.runOnUiThread(() -> {
+                            mView.lookOrderInfo(Utils.getDatasString(json));
+                        });
+
+                    } else if (Utils.getCode(json) == HttpErrorCode.ERROR_400) {
+                        mActivity.runOnUiThread(() -> {
+                            mView.faild(Utils.getErrorString(json));
+                        });
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    mView.faild(Utils.getErrorString(e));
+                }
+            }
+        });
+    }
+
 
 }

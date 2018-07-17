@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.guohanhealth.shop.R;
 import com.guohanhealth.shop.app.App;
+import com.guohanhealth.shop.app.Constants;
 import com.guohanhealth.shop.base.BaseFragment;
 import com.guohanhealth.shop.bean.OrderInfo;
 import com.guohanhealth.shop.bean.PayWayInfo;
@@ -213,6 +214,15 @@ public class OrderFragment extends BaseFragment<OrderPersenter, OrderModel> impl
         });
     }
 
+    @Override
+    public void lookOrderInfo(String info) {
+        if (info != null) {
+            Bundle bundle = new Bundle();
+            bundle.putString("data", info);
+            readyGo(OrderDetailActivity.class, bundle);
+        }
+    }
+
     private void setData() {
         //最外层布局
         linearLayout.removeAllViews();
@@ -222,6 +232,7 @@ public class OrderFragment extends BaseFragment<OrderPersenter, OrderModel> impl
             if (Utils.isEmpty(list.get(i).order_list)) {
                 for (int j = 0; j < list.get(i).order_list.size(); j++) {//每个订单内部有多个店铺
                     LinearLayout item = (LinearLayout) getView(R.layout.order_list_item);//将要添加得布局
+
                     item.setBackgroundDrawable(getResources().getDrawable(R.drawable.bg_circle_white_5));
                     item.setLayoutParams(layoutParams);
                     //主view
@@ -262,6 +273,7 @@ public class OrderFragment extends BaseFragment<OrderPersenter, OrderModel> impl
                     int indexi = i;
                     int indexj = j;
 
+
                     //显示店铺名字
                     storename.setText(Utils.getString(list.get(i).order_list.get(j).store_name));
                     //显示状态
@@ -271,14 +283,16 @@ public class OrderFragment extends BaseFragment<OrderPersenter, OrderModel> impl
                     //总钱
                     goodsmoney.setText(list.get(i).order_list.get(j).goods_amount);
                     //邮费
+                    goodslistview.setOnClickListener(v -> {
+                        mPresenter.orderInfo("order_info", App.getApp().getKey(), list.get(indexi).order_list.get(indexj).order_id);
+                    });
                     goodsfreight.setText(list.get(i).order_list.get(j).shipping_fee);
-
                     if (list.get(i).order_list.get(j).if_again) {
                         btn3.setVisibility(View.VISIBLE);
                         btn3.setText("再次确认");
 
                         btn3.setOnClickListener(v -> {
-                            showWrinDialog("再次确认？", "order_receive", list.get(indexi).order_list.get(indexj).order_id);
+                            showWrinDialog("再次确认订单？", "order_receive", list.get(indexi).order_list.get(indexj).order_id);
                         });
                     }
                     if (list.get(i).order_list.get(j).if_delete) {
@@ -302,6 +316,9 @@ public class OrderFragment extends BaseFragment<OrderPersenter, OrderModel> impl
                     if (list.get(i).order_list.get(j).if_receive) {
                         btn3.setVisibility(View.VISIBLE);
                         btn3.setText("确认收货");
+                        btn3.setOnClickListener(v -> {
+                            showWrinDialog("确认收到货物", "order_receive", list.get(indexi).order_list.get(indexj).order_id);
+                        });
                     }
                     if (list.get(i).order_list.get(j).if_lock) {
                         order_backmoneyorgoods.setVisibility(View.VISIBLE);
@@ -321,6 +338,11 @@ public class OrderFragment extends BaseFragment<OrderPersenter, OrderModel> impl
                     if (list.get(i).order_list.get(j).if_deliver) {
                         btn1.setVisibility(View.VISIBLE);
                         btn1.setText("查看物流");
+                        btn1.setOnClickListener(v -> {
+                            Bundle bundle = new Bundle();
+                            bundle.putString(Constants.ORDER_ID, list.get(indexi).order_list.get(indexj).order_id);
+                            readyGo(LogisticsActivity.class, bundle);
+                        });
                     }
                     linearLayout.addView(item);
                 }

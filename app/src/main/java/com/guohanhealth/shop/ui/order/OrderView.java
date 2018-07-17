@@ -9,4 +9,5 @@ public interface OrderView extends BaseView {
     void getData(Result info);
     void orderOperation(String msg);
     void getPayWayList(PayWayInfo info);
+    void lookOrderInfo(String info);
 }

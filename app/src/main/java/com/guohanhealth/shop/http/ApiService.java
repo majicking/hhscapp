@@ -15,6 +15,7 @@ import com.guohanhealth.shop.bean.GoodsDetailedInfo;
 import com.guohanhealth.shop.bean.GoodsListInfo;
 import com.guohanhealth.shop.bean.ImgCodeKey;
 import com.guohanhealth.shop.bean.LoginBean;
+import com.guohanhealth.shop.bean.LogisticsInfo;
 import com.guohanhealth.shop.bean.MineInfo;
 import com.guohanhealth.shop.bean.ObjectBeans;
 import com.guohanhealth.shop.bean.OrderInfo;
@@ -27,11 +28,14 @@ import com.guohanhealth.shop.bean.Step2Info;
 import com.guohanhealth.shop.bean.UpDataAddressInfo;
 import com.guohanhealth.shop.bean.UserInfo;
 
+import java.util.List;
+
 import io.reactivex.Observable;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 /**
@@ -84,6 +88,7 @@ public interface ApiService {
     String ORDER_LIST = Constants.INDEX + "act=member_order&op=order_list";
     String ORDER_LISTV = Constants.INDEX + "act=member_vr_order&op=order_list";
     String ORDER_OPERATION = Constants.INDEX + "act=member_order";
+    String SEARCH_DELIVER = Constants.INDEX + "act=member_order&op=search_deliver";
 
     /**
      * 用户登录
@@ -411,20 +416,18 @@ public interface ApiService {
      * 删除订单/取消订单/确认订单/order_receive order_delete order_cancel
      */
     @FormUrlEncoded
-    @POST(ORDER_OPERATION )
-    Observable<Result>  orderOperation(@Query("op") String op, @Field("key") String key, @Field("order_id") String order_id);
-//
-//    /**
-//     * 批量下单
-//     */
-//    @FormUrlEncoded
-//    @POST("order/add4GoodsBatch/{appId}/{openId}")
-//    Observable<Result<OrderInfo>> placeOrder(@Path("appId") String appId, @Path("openId") String userId,
-//                                             @Field("goodsId") List<String> goodsIds, @Field("paramId") List<String> paramIds,
+    @POST(ORDER_OPERATION)
+    Observable<Result> orderOperation(@Query("op") String op, @Field("key") String key, @Field("order_id") String order_id);
 
-//                                             @Field("quantity") List<String> quantities);
 
-//
+    /**
+     *  物流查询
+     */
+    @FormUrlEncoded
+    @POST(SEARCH_DELIVER)
+    Observable<Result<LogisticsInfo>> searchLogistics(@Field("key") String key,@Field("order_id") String order_id);
+
+
 //    /**
 //     * 直接进行下单请求
 //     *

@@ -1,10 +1,12 @@
 package com.guohanhealth.shop.base;
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -136,6 +138,12 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
         if (!mDialog.isShowing())
             mDialog.show();
     }
+
+    public void showSnackBar(View view, String s) {
+        Snackbar.make(((Activity) mContext).getCurrentFocus(), s, Snackbar.LENGTH_LONG)
+                .setAction("关闭", v -> showToast(s)).show();
+    }
+
 
     public View getView(int layoutid) {
         View v = LayoutInflater.from(mContext).inflate(layoutid, null);
