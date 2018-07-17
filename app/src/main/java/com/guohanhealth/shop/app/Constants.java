@@ -86,7 +86,9 @@ public interface Constants {
     String SELLER_NAME = "seller_name;";
     String HOTNAME = "hotname;";
     String HOTVALUE = "hotvalue;";
-    String KEYWORD = "keyword;";
+    String KEYWORD = "keyword";
+    String B_ID = "b_id";
+    String GC_ID = "gc_id";
     String GOODS_ID = "goods_id";
     String GETGOODSID = "getGoods_id";
     String CARDNUMBER = "CardNumber";

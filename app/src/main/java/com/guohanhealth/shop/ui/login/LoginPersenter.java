@@ -2,6 +2,7 @@ package com.guohanhealth.shop.ui.login;
 
 import com.guohanhealth.shop.app.App;
 import com.guohanhealth.shop.base.BasePresenter;
+import com.guohanhealth.shop.http.ConsumerError;
 
 public class LoginPersenter extends BasePresenter<LoginView, UserModel> {
 
@@ -17,9 +18,12 @@ public class LoginPersenter extends BasePresenter<LoginView, UserModel> {
                     App.getApp().setInfo(userInfoResult.member_info);
                     mView.hideLoadingDialog();
                     mView.sucess("登陆成功");
-                }, throwable -> {
-                    mView.faild(throwable.getMessage());
-                    mView.hideLoadingDialog();
+                }, new ConsumerError<Throwable>() {
+                    @Override
+                    public void onError(int errorCode, String message) {
+                        mView.faild(message);
+                        mView.hideLoadingDialog();
+                    }
                 })
         );
     }

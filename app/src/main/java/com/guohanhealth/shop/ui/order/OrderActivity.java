@@ -2,7 +2,9 @@ package com.guohanhealth.shop.ui.order;
 
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -115,4 +117,7 @@ public class OrderActivity extends BaseActivity implements OnFragmentInteraction
         // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
     }
+
+
+
 }

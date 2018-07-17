@@ -3,12 +3,10 @@ package com.guohanhealth.shop.http;
 
 import com.guohanhealth.shop.app.Constants;
 import com.guohanhealth.shop.bean.Adv_list;
-import com.guohanhealth.shop.bean.Base;
 import com.guohanhealth.shop.bean.BaseInfo;
 import com.guohanhealth.shop.bean.CartNumberInfo;
 import com.guohanhealth.shop.bean.CartInfo;
 import com.guohanhealth.shop.bean.EvalInfo;
-import com.guohanhealth.shop.bean.GoodsInfo;
 import com.guohanhealth.shop.bean.Goods_hair_info;
 import com.guohanhealth.shop.bean.BrandListInfo;
 import com.guohanhealth.shop.bean.GoodsClassChildInfo;
@@ -18,6 +16,7 @@ import com.guohanhealth.shop.bean.GoodsListInfo;
 import com.guohanhealth.shop.bean.ImgCodeKey;
 import com.guohanhealth.shop.bean.LoginBean;
 import com.guohanhealth.shop.bean.MineInfo;
+import com.guohanhealth.shop.bean.ObjectBeans;
 import com.guohanhealth.shop.bean.OrderInfo;
 import com.guohanhealth.shop.bean.PayWayInfo;
 import com.guohanhealth.shop.bean.SMSCode;
@@ -28,14 +27,11 @@ import com.guohanhealth.shop.bean.Step2Info;
 import com.guohanhealth.shop.bean.UpDataAddressInfo;
 import com.guohanhealth.shop.bean.UserInfo;
 
-import java.util.List;
-
 import io.reactivex.Observable;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
-import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 /**
@@ -202,7 +198,9 @@ public interface ApiService {
             @Query("xianshi") String xianshi,
             @Query("virtual") String virtual,
             @Query("own_shop") String own_shop,
-            @Query("ci") String ci
+            @Query("ci") String ci,
+            @Query("gc_id") String gc_id,
+            @Query("b_id") String b_id
     );
 
 
@@ -414,7 +412,7 @@ public interface ApiService {
      */
     @FormUrlEncoded
     @POST(ORDER_OPERATION )
-    Observable<Result> orderOperation(@Query("op") String op, @Field("key") String key, @Field("order_id") String order_id);
+    Observable<Result>  orderOperation(@Query("op") String op, @Field("key") String key, @Field("order_id") String order_id);
 //
 //    /**
 //     * 批量下单

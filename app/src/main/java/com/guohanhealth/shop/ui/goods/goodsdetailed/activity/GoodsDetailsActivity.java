@@ -337,12 +337,12 @@ public class GoodsDetailsActivity extends BaseActivity<GoodsDetailsPersenter, Go
     private void setSpecInfo(String goodsdata) {
         GoodsDetailedInfo info = JSONParser.JSON2Object(goodsdata, GoodsDetailedInfo.class);
         if (info != null) {
-            String goods_info = JSONParser.getStringFromJsonString("goods_info", goodsdata);
-            String spec_value = JSONParser.getStringFromJsonString("spec_value", goods_info);
-            String spec_name = JSONParser.getStringFromJsonString("spec_name", goods_info);
-            String goods_spec = JSONParser.getStringFromJsonString("goods_spec", goods_info);
-            String spec_image = JSONParser.getStringFromJsonString("spec_image", goodsdata);
-            String spec_list = JSONParser.getStringFromJsonString("spec_list", goodsdata);
+            String goods_info = Utils.getValue("goods_info", goodsdata);
+            String spec_value = Utils.getValue("spec_value", goods_info);
+            String spec_name = Utils.getValue("spec_name", goods_info);
+            String goods_spec = Utils.getValue("goods_spec", goods_info);
+            String spec_image = Utils.getValue("spec_image", goodsdata);
+            String spec_list = Utils.getValue("spec_list", goodsdata);
             List<SpecBean> specnamelist = getSpecList(spec_name);
             List<SpecBean> specvaluelist = getSpecList(spec_value);
             List<SpecBean> specimgList = getSpecList(spec_image);

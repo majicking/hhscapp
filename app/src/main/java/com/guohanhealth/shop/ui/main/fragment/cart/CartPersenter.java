@@ -65,7 +65,7 @@ public class CartPersenter extends BasePresenter<CartView, CartModel> {
             @Override
             public void onFailure(Call call, IOException e) {
                 activity.runOnUiThread(() -> {
-                    mView.faild(e.getMessage());
+                    mView.faild(Utils.getErrorString(e));
                 });
             }
 

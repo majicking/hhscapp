@@ -168,7 +168,7 @@ public class GoodsOrderActivity extends BaseActivity<GoodsOrderPercenter, GoodsM
     }
 
     public void setData(String data) {
-        info = JSONParser.JSON2Object(data, GoodsOrderInfo.class);
+        info = Utils.getObject(data, GoodsOrderInfo.class);
         if (info != null) {
             freight_hash = Utils.getString(info.freight_hash);
             goodsOrderTextMoney.setText(Utils.getString(Utils.getString(info.order_amount)));
@@ -193,7 +193,7 @@ public class GoodsOrderActivity extends BaseActivity<GoodsOrderPercenter, GoodsM
         Logutils.i(Utils.isEmpty(datalist));
         List<Store_cart_list> lists1 = new ArrayList<>();
         for (int i = 0; i < datalist.size(); i++) {
-            Store_cart_list in = JSONParser.JSON2Object(datalist.get(i), Store_cart_list.class);
+            Store_cart_list in = Utils.getObject(datalist.get(i), Store_cart_list.class);
             lists1.add(in);
         }
 
@@ -265,11 +265,10 @@ public class GoodsOrderActivity extends BaseActivity<GoodsOrderPercenter, GoodsM
         RxBus.getDefault().register(this, BaseResp.class, resp -> {
             if (resp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
                 if (resp.errCode == 0) {
-                    Toast.makeText(this, "支付成功", Toast.LENGTH_SHORT).show();
+                  showToast("支付成功");
                 } else if (resp.errCode == -2) {
-                    Toast.makeText(this, "取消交易", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(this, "支付失败", Toast.LENGTH_SHORT).show();
+                  showToast("取消交易");
+                  showToast("支付失败");
                 }
                 endOrder();
             }
@@ -382,7 +381,7 @@ public class GoodsOrderActivity extends BaseActivity<GoodsOrderPercenter, GoodsM
                                 while (itName.hasNext()) {
                                     String specID = itName.next().toString();
                                     String specV = object.getString(specID);
-                                    datalist.add(JSONParser.JSON2Object(specV, Store_cart_list.GoodsListBean.Gift_list.class));
+                                    datalist.add(Utils.getObject(specV, Store_cart_list.GoodsListBean.Gift_list.class));
                                 }
                             } catch (com.alibaba.fastjson.JSONException e) {
                                 try {
@@ -426,7 +425,7 @@ public class GoodsOrderActivity extends BaseActivity<GoodsOrderPercenter, GoodsM
             while (itName.hasNext()) {
                 String specID = itName.next().toString();
                 String specV = jsonGoods_spec.getString(specID);
-                lists.add(JSONParser.JSON2Object(specV, Store_cart_list.GoodsListBean.Gift_list.class));
+                lists.add(Utils.getObject(specV, Store_cart_list.GoodsListBean.Gift_list.class));
             }
         } catch (JSONException e) {
             e.printStackTrace();

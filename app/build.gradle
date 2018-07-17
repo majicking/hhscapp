@@ -23,7 +23,6 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         /**配置*/
         buildConfigField "String", "HEAD", '"http://"'
-        buildConfigField "String", "HOST", '"www.guohanhealth.com"'
         buildConfigField "String", "PORT", '"80"'
         buildConfigField "String", "APP", '"/mobile/"'
         buildConfigField "String", "WEB", '"/wap/"'
@@ -61,6 +60,7 @@ android {
             println("--------------------------------release")
             signingConfig signingConfigs.release
             buildConfigField "boolean", "ISDEBUG", 'false'
+            buildConfigField "String", "HOST", '"www.guohanhealth.com"'
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             android.applicationVariants.all { variant ->
@@ -72,6 +72,7 @@ android {
         debug {
             signingConfig signingConfigs.release
             println("--------------------------------debug")
+            buildConfigField "String", "HOST", '"192.168.1.231"'
             buildConfigField "boolean", "ISDEBUG", 'true'
             android.applicationVariants.all { variant ->
                 variant.outputs.all {

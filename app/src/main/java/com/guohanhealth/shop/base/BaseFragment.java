@@ -116,33 +116,9 @@ public abstract class BaseFragment<T extends BasePresenter, E extends BaseModel>
     private Toast toast;
 
     public void showToast(Object msg) {
-//        if (toast == null) {
-//            toast = Toast.makeText(getActivity(), "" + msg, Toast.LENGTH_SHORT);
-//        } else {
-//            toast.setText("" + msg);
-//        }
-//        toast.show();
-        showToast(mContext, "" + msg);
+        Utils.showToast(mContext, "" + msg);
     }
 
-    /**
-     * 短暂显示Toast消息
-     *
-     * @param context
-     * @param message
-     */
-    public static void showToast(Context context, String message) {
-        LayoutInflater inflater = (LayoutInflater) context
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View view = inflater.inflate(R.layout.custom_toast, null);
-        TextView text = (TextView) view.findViewById(R.id.toast_message);
-        text.setText(message);
-        Toast toast = new Toast(context);
-        toast.setDuration(Toast.LENGTH_SHORT);
-        toast.setGravity(Gravity.BOTTOM, 0, 300);
-        toast.setView(view);
-        toast.show();
-    }
 
     public View getView(int layoutid) {
         View v = LayoutInflater.from(mContext).inflate(layoutid, null);

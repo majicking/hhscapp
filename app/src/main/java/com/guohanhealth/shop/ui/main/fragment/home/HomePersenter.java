@@ -16,6 +16,7 @@ import com.guohanhealth.shop.http.Api;
 import com.guohanhealth.shop.http.ApiService;
 import com.guohanhealth.shop.utils.JSONParser;
 import com.guohanhealth.shop.utils.Logutils;
+import com.guohanhealth.shop.utils.Utils;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -36,14 +37,13 @@ public class HomePersenter extends BasePresenter<HomeView, HomeModel> {
                 super.handleMessage(msg);
                 mView.stopRefresh();
                 if (msg.what == 2) {
-                    mView.faild((String) msg.obj);
+                    mView.faild(Utils.getErrorString((Exception) msg.obj));
                 } else if (msg.what == 1) {
-
                     String json = (String) msg.obj;
                     Logutils.i(json);
-                    String code = JSONParser.getStringFromJsonString("code", json);
-                    String datas = JSONParser.getStringFromJsonString("datas", json);
-                    if (code.equals("200")) {
+                    int code = Utils.getCode(json);
+                    String datas = Utils.getValue("datas", json);
+                    if (code == 200) {
                         try {
                             JSONArray arr = new JSONArray(datas);
                             int size = null == arr ? 0 : arr.length();
@@ -86,7 +86,7 @@ public class HomePersenter extends BasePresenter<HomeView, HomeModel> {
             public void onFailure(Call call, IOException e) {
                 Message message = new Message();
                 message.what = 2;
-                message.obj = e.getMessage();
+                message.obj = e;
                 handler.sendMessage(message);
             }
 

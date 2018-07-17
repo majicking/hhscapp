@@ -619,7 +619,7 @@ public class GoodsFragment extends BaseFragment<GoodsPersenter, GoodsModel> impl
     public String goodsdata;
 
     public void getGoodsDetails(String data) {
-        GoodsDetailedInfo info = JSONParser.JSON2Object(data, GoodsDetailedInfo.class);
+        GoodsDetailedInfo info = Utils.getObject(data, GoodsDetailedInfo.class);
         goodsdata = data;
         if (info != null) {
             try {
@@ -671,7 +671,7 @@ public class GoodsFragment extends BaseFragment<GoodsPersenter, GoodsModel> impl
 
                 /**商品服务保证*/
                 List<Contractlist> contractlist = new ArrayList<>();
-                String ContractStr = JSONParser.getStringFromJsonString("contractlist", JSONParser.getStringFromJsonString("goods_info", data));
+                String ContractStr = Utils.getValue("contractlist", Utils.getValue("goods_info", data));
                 if (Utils.isEmpty(ContractStr)) {
                     JSONObject jsonGoods_spec = new JSONObject(ContractStr);
                     Iterator<?> itName = jsonGoods_spec.keys();
@@ -679,43 +679,43 @@ public class GoodsFragment extends BaseFragment<GoodsPersenter, GoodsModel> impl
                         String specID = itName.next().toString();
                         String specV = jsonGoods_spec.getString(specID);
                         if (info.goods_info.contract_1.equals("1") && specID.equals("1")) {
-                            contractlist.add(JSONParser.JSON2Object(specV, Contractlist.class));
+                            contractlist.add(Utils.getObject(specV, Contractlist.class));
                             continue;
                         }
                         if (info.goods_info.contract_2.equals("1") && specID.equals("2")) {
-                            contractlist.add(JSONParser.JSON2Object(specV, Contractlist.class));
+                            contractlist.add(Utils.getObject(specV, Contractlist.class));
                             continue;
                         }
                         if (info.goods_info.contract_3.equals("1") && specID.equals("3")) {
-                            contractlist.add(JSONParser.JSON2Object(specV, Contractlist.class));
+                            contractlist.add(Utils.getObject(specV, Contractlist.class));
                             continue;
                         }
                         if (info.goods_info.contract_4.equals("1") && specID.equals("4")) {
-                            contractlist.add(JSONParser.JSON2Object(specV, Contractlist.class));
+                            contractlist.add(Utils.getObject(specV, Contractlist.class));
                             continue;
                         }
                         if (info.goods_info.contract_5.equals("1") && specID.equals("5")) {
-                            contractlist.add(JSONParser.JSON2Object(specV, Contractlist.class));
+                            contractlist.add(Utils.getObject(specV, Contractlist.class));
                             continue;
                         }
                         if (info.goods_info.contract_6.equals("1") && specID.equals("6")) {
-                            contractlist.add(JSONParser.JSON2Object(specV, Contractlist.class));
+                            contractlist.add(Utils.getObject(specV, Contractlist.class));
                             continue;
                         }
                         if (info.goods_info.contract_7.equals("1") && specID.equals("7")) {
-                            contractlist.add(JSONParser.JSON2Object(specV, Contractlist.class));
+                            contractlist.add(Utils.getObject(specV, Contractlist.class));
                             continue;
                         }
                         if (info.goods_info.contract_8.equals("1") && specID.equals("8")) {
-                            contractlist.add(JSONParser.JSON2Object(specV, Contractlist.class));
+                            contractlist.add(Utils.getObject(specV, Contractlist.class));
                             continue;
                         }
                         if (info.goods_info.contract_9.equals("1") && specID.equals("9")) {
-                            contractlist.add(JSONParser.JSON2Object(specV, Contractlist.class));
+                            contractlist.add(Utils.getObject(specV, Contractlist.class));
                             continue;
                         }
                         if (info.goods_info.contract_10.equals("1") && specID.equals("10")) {
-                            contractlist.add(JSONParser.JSON2Object(specV, Contractlist.class));
+                            contractlist.add(Utils.getObject(specV, Contractlist.class));
                             continue;
                         }
                     }
@@ -735,8 +735,8 @@ public class GoodsFragment extends BaseFragment<GoodsPersenter, GoodsModel> impl
                 }
 
                 /**选择默认选项*/
-                String goods_info = JSONParser.getStringFromJsonString("goods_info", data);
-                String goods_spec = JSONParser.getStringFromJsonString("goods_spec", goods_info);
+                String goods_info = Utils.getValue("goods_info", data);
+                String goods_spec = Utils.getValue("goods_spec", goods_info);
                 List<SpecBean> defaultList = ((GoodsDetailsActivity) mContext).getSpecList(goods_spec);
                 goodsTextSelectclass.removeAllViews();
                 if (defaultList != null && defaultList.size() > 0) {

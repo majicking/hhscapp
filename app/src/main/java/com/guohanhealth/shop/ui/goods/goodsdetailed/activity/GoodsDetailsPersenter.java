@@ -7,6 +7,7 @@ import com.guohanhealth.shop.base.BasePresenter;
 import com.guohanhealth.shop.http.Api;
 import com.guohanhealth.shop.http.ApiService;
 import com.guohanhealth.shop.http.ConsumerError;
+import com.guohanhealth.shop.http.HttpErrorCode;
 import com.guohanhealth.shop.ui.goods.GoodsModel;
 import com.guohanhealth.shop.utils.JSONParser;
 import com.guohanhealth.shop.utils.Logutils;
@@ -40,8 +41,8 @@ public class GoodsDetailsPersenter extends BasePresenter<GoodsDetailsView, Goods
                 String data = response.body().string();
                 Logutils.i(data);
                 activity.runOnUiThread(() -> {
-                    if (JSONParser.getStringFromJsonString("code", data).equals("200")) {
-                        mView.getGoodsDetails(Utils.getString(JSONParser.getStringFromJsonString("datas", data)));
+                    if (Utils.getValue("code", data).equals("200")) {
+                        mView.getGoodsDetails(Utils.getString(Utils.getValue("datas", data)));
                     }
                 });
 
@@ -66,12 +67,13 @@ public class GoodsDetailsPersenter extends BasePresenter<GoodsDetailsView, Goods
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 String data = response.body().string();
-                Logutils.i(data);
+//                Logutils.i(data);
+                final int code = Utils.getCode(data);
                 activity.runOnUiThread(() -> {
-                    if (JSONParser.getStringFromJsonString("code", data).equals("200")) {
-                        mView.buyStep1Data(Utils.getString(JSONParser.getStringFromJsonString("datas", data)));
-                    } else if (JSONParser.getStringFromJsonString("code", data).equals("400")) {
-                        mView.faild(JSONParser.getStringFromJsonString(Constants.ERROR, Utils.getString(JSONParser.getStringFromJsonString("datas", data))));
+                    if (code == HttpErrorCode.HTTP_NO_ERROR) {
+                        mView.buyStep1Data(Utils.getString(Utils.getValue("datas", data)));
+                    } else if (code == HttpErrorCode.ERROR_400) {
+                        mView.faild(Utils.getValue(Constants.ERROR, Utils.getString(Utils.getValue("datas", data))));
                     }
                 });
 
@@ -97,10 +99,10 @@ public class GoodsDetailsPersenter extends BasePresenter<GoodsDetailsView, Goods
                 String data = response.body().string();
                 Logutils.i(data);
                 activity.runOnUiThread(() -> {
-                    if (JSONParser.getStringFromJsonString("code", data).equals("200")) {
-                        mView.buyStep1VData(Utils.getString(JSONParser.getStringFromJsonString("datas", data)));
-                    } else if (JSONParser.getStringFromJsonString("code", data).equals("400")) {
-                        mView.faild(JSONParser.getStringFromJsonString(Constants.ERROR, Utils.getString(JSONParser.getStringFromJsonString("datas", data))));
+                    if (Utils.getValue("code", data).equals("200")) {
+                        mView.buyStep1VData(Utils.getString(Utils.getValue("datas", data)));
+                    } else if (Utils.getValue("code", data).equals("400")) {
+                        mView.faild(Utils.getValue(Constants.ERROR, Utils.getString(Utils.getValue("datas", data))));
                     }
                 });
             }

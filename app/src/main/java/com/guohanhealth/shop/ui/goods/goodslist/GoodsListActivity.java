@@ -111,9 +111,16 @@ public class GoodsListActivity extends BaseActivity<GoodsListPersenter, GoodsMod
     String own_shop;
     String ci;
     boolean isload;
+    private String gc_id;
+    private String b_id;
 
     @Override
     protected void initView(Bundle savedInstanceState) {
+        keyword = getIntent().getStringExtra(Constants.KEYWORD);
+        gc_id = getIntent().getStringExtra(Constants.GC_ID);
+        b_id = getIntent().getStringExtra(Constants.B_ID);
+
+
         back.setOnClickListener(v -> finish());
         goodslistViewSearch.setOnClickListener(v -> readyGoThenKill(SearchActivity.class));
         goodslistViewSmartrefresh.setRefreshHeader(new WaterDropHeader(mContext));
@@ -131,12 +138,11 @@ public class GoodsListActivity extends BaseActivity<GoodsListPersenter, GoodsMod
                 goodslistViewSmartrefresh.finishLoadMore();
             }
         });
-
         emptyview.setEmptyText1("点击重新加载").setOnClickListener(v -> {
             goodslistViewSmartrefresh.finishRefresh(false);
             getData();
         });
-        keyword = getIntent().getStringExtra(Constants.KEYWORD);
+
         goodslistHotText.setText(keyword);
         list = new ArrayList<>();
         goodslistRecycleview.setLayoutManager(new LinearLayoutManager(mContext));
@@ -520,10 +526,13 @@ public class GoodsListActivity extends BaseActivity<GoodsListPersenter, GoodsMod
         adapter.notifyDataSetChanged();
     }
 
+
     public void getData() {
         keyword = getIntent().getStringExtra(Constants.KEYWORD);
+        gc_id = getIntent().getStringExtra(Constants.GC_ID);
+        b_id = getIntent().getStringExtra(Constants.B_ID);
         mPresenter.getGoodsList(curpage, page, keyword, key, order, price_from, price_to, area_id,
-                gift, groupbuy, xianshi, virtual, own_shop, ci);
+                gift, groupbuy, xianshi, virtual, own_shop, ci, gc_id, b_id);
     }
 
 

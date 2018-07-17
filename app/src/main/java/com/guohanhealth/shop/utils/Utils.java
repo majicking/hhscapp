@@ -21,16 +21,21 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alipay.sdk.app.PayTask;
+import com.google.gson.JsonParser;
+import com.google.gson.JsonSyntaxException;
 import com.guohanhealth.shop.R;
 import com.guohanhealth.shop.app.App;
 import com.guohanhealth.shop.app.Constants;
 import com.guohanhealth.shop.bean.WxPayInfo;
 import com.guohanhealth.shop.custom.CustomPopuWindow;
 import com.guohanhealth.shop.event.Functions;
+import com.guohanhealth.shop.event.ObjectEvent;
 import com.guohanhealth.shop.event.RxBus;
 import com.guohanhealth.shop.http.Api;
 import com.guohanhealth.shop.http.ApiService;
 import com.guohanhealth.shop.http.HttpErrorCode;
+import com.guohanhealth.shop.http.Result;
+import com.guohanhealth.shop.http.ServerException;
 import com.guohanhealth.shop.ui.WebViewActivity;
 import com.guohanhealth.shop.ui.goods.goodsdetailed.activity.GoodsDetailsActivity;
 import com.guohanhealth.shop.ui.login.LoginActivity;
@@ -39,8 +44,14 @@ import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
+import org.json.JSONException;
+
 import java.io.IOException;
 import java.lang.reflect.ParameterizedType;
+import java.net.ConnectException;
+import java.net.SocketException;
+import java.net.SocketTimeoutException;
+import java.net.UnknownHostException;
 import java.util.List;
 
 import okhttp3.Call;
@@ -77,6 +88,24 @@ public class Utils {
         return null;
     }
 
+    /**
+     * 短暂显示Toast消息
+     *
+     * @param context
+     * @param message
+     */
+    public static void showToast(Context context, String message) {
+        LayoutInflater inflater = (LayoutInflater) context
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View view = inflater.inflate(R.layout.custom_toast, null);
+        TextView text = (TextView) view.findViewById(R.id.toast_message);
+        text.setText(message);
+        Toast toast = new Toast(context);
+        toast.setDuration(Toast.LENGTH_SHORT);
+        toast.setGravity(Gravity.BOTTOM, 0, 300);
+        toast.setView(view);
+        toast.show();
+    }
 
     public static boolean isEmpty(EditText editText) {
         if (editText != null) {
@@ -229,13 +258,15 @@ public class Utils {
         popupWindow.setFocusable(false);
         popupWindow.setOutsideTouchable(false);
         popupWindow.setBackgroundDrawable((Drawable) null);
-        popupWindow.showAtLocation(view, Gravity.BOTTOM, 0, 0);
+        if (!popupWindow.isShowing())
+            popupWindow.showAtLocation(view, Gravity.BOTTOM, 0, 0);
         WindowManager.LayoutParams lp = ((Activity) context).getWindow().getAttributes();
         lp.alpha = 0.4f; //0.0-1.0
         ((Activity) context).getWindow().setAttributes(lp);
         return popupWindow;
 
     }
+
 
     private static void payData(Context context, String pay_sn, String type, String is_virtual) {
         String url = "";
@@ -244,57 +275,59 @@ public class Utils {
         } else if (type.equals("wxpay")) {
             url = (is_virtual.equals("1") ? ApiService.WXPAYURLV : ApiService.WXPAYURL);
         }
-        Api.post(url, new FormBody.Builder()
-                .add("key", App.getApp().getKey())
-                .add("pay_sn", pay_sn)
-                .build(), new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                ((Activity) context).runOnUiThread(() -> {
+        try {
+            Api.post(url, new FormBody.Builder()
+                    .add("key", App.getApp().getKey())
+                    .add("pay_sn", pay_sn)
+                    .build(), new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    RxBus.getDefault().post(new ObjectEvent(e.getMessage()));
+                }
 
-                });
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                String json = response.body().string();
-                if (response.code() == HttpErrorCode.HTTP_NO_ERROR) {
-                    if (type.equals("alipay")) {
-                        String signStr = JSONParser.getStringFromJsonString("signStr", JSONParser.getStringFromJsonString("datas", json));
-                        String notify_url = getNotifyUrl(signStr);
-                        Logutils.i(signStr);
-                        App.getApp().setNotify_url(notify_url);
-                        PayTask alipay = new PayTask((Activity) context);
-                        String result = alipay.pay(signStr, true);
-                        RxBus.getDefault().post(new PayResult(result));
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    String json = response.body().string();
+                    if (getCode(json) == HttpErrorCode.HTTP_NO_ERROR) {
+                        if (type.equals("alipay")) {
+                            String signStr = JSONParser.getStringFromJsonString("signStr", JSONParser.getStringFromJsonString("datas", json));
+                            String notify_url = getNotifyUrl(signStr);
+                            Logutils.i(signStr);
+                            App.getApp().setNotify_url(notify_url);
+                            PayTask alipay = new PayTask((Activity) context);
+                            String result = alipay.pay(signStr, true);
+                            RxBus.getDefault().post(new PayResult(result));
 //                            doPay(context, signStr);
-                    } else if (type.equals("wxpay")) {
-                        WxPayInfo info = JSONParser.JSON2Object(JSONParser.getStringFromJsonString("datas", json), WxPayInfo.class);
-                        Logutils.i(info);
-                        IWXAPI api = WXAPIFactory.createWXAPI(context, info.appid);
-                        PayReq req = new PayReq();
-                        req.appId = info.appid;
-                        req.partnerId = info.partnerid;
-                        req.prepayId = info.prepayid;
-                        req.nonceStr = info.noncestr;
-                        req.timeStamp = info.timestamp;
-                        req.packageValue = "Sign=WXPay";
-                        req.sign = info.sign;
-                        req.extData = "app data"; // optional
-                        Logutils.i("id=" + req.appId);
+                        } else if (type.equals("wxpay")) {
+                            WxPayInfo info = JSONParser.JSON2Object(JSONParser.getStringFromJsonString("datas", json), WxPayInfo.class);
+                            Logutils.i(info);
+                            IWXAPI api = WXAPIFactory.createWXAPI(context, info.appid);
+                            PayReq req = new PayReq();
+                            req.appId = info.appid;
+                            req.partnerId = info.partnerid;
+                            req.prepayId = info.prepayid;
+                            req.nonceStr = info.noncestr;
+                            req.timeStamp = info.timestamp;
+                            req.packageValue = "Sign=WXPay";
+                            req.sign = info.sign;
+                            req.extData = "app data"; // optional
+                            Logutils.i("id=" + req.appId);
 //                            Toast.makeText(context, "正常调起支付",
 //                                    Toast.LENGTH_SHORT).show();
-                        // 在支付之前，如果应用没有注册到微信，应该先调用IWXMsg.registerApp将应用注册到微信
-                        boolean result = api.sendReq(req);
-                        Logutils.i("唤起微信结果=" + result);
+                            // 在支付之前，如果应用没有注册到微信，应该先调用IWXMsg.registerApp将应用注册到微信
+                            boolean result = api.sendReq(req);
+                            Logutils.i("唤起微信结果=" + result);
+                        }
 
-
+                    } else if (getCode(json) == HttpErrorCode.ERROR_400) {
+                        RxBus.getDefault().post(new ObjectEvent(getErrorString(json)));
                     }
 
                 }
-
-            }
-        });
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @NonNull
@@ -310,207 +343,51 @@ public class Utils {
         return urls.split("\\=")[1].replace("\"", "");
     }
 
-
-    /**
-     * call alipay sdk pay. 调用SDK支付
-     */
-    public static void doPay(Context context, String payInfo) {
-        /**
-         * 支付宝返回结果
-         */
-        Handler mHandler = new Handler() {
-            public void handleMessage(Message msg) {
-                RxBus.getDefault().post(new PayResult((String) msg.obj));
-            }
-        };
-        mHandler.post(() -> {
-
-        });
-//        Runnable payRunnable = () -> {
-//
-//        };
-//        // 必须异步调用
-//        Thread payThread = new Thread(payRunnable);
-//        payThread.start();
+    public static String getErrorString(Exception t) {
+        String errorMessage = "";
+        if (t instanceof SocketException) {//请求异常
+            errorMessage = "网络异常，请检查网络重试";
+        } else if (t instanceof UnknownHostException) {//网络异常
+            errorMessage = "请求失败，请稍后重试...";
+        } else if (t instanceof SocketTimeoutException) {//请求超时
+            errorMessage = "请求超时";
+        } else if (t instanceof ServerException) {//服务器返回异常
+            errorMessage = t.getMessage();
+        } else if (t instanceof ConnectException) {
+            errorMessage = "网络连接失败";
+        } else if (t instanceof JsonSyntaxException) {
+            errorMessage = "数据解析失败,联系管理员";
+        } else if (t instanceof JSONException) {
+            errorMessage = "数据转换失败,联系管理员";
+        } else if (t instanceof Exception) {
+            errorMessage = "系统异常";
+        }
+        return errorMessage;
     }
 
 
-//    /**
-//     * 获取微信参数
-//     *
-//     * @param pay_sn 支付编号
-//     */
-//    public static void loadingWXPaymentData(final Context context, String pay_sn, String type) {
-//        if (type.equals("3")) {
-//            RemoteDataHandler.asyncDataStringGet(Constants.WEIXINPAY_PREDBROADCAST + pay_sn + "&key=" + MyShopApplication.getInstance().getLoginKey(), data -> {
-//                String json = data.getJson();
-//                if (data.getCode() == HttpStatus.SC_OK) {
-//                    try {
-//                        JSONObject jsonObject = new JSONObject(json);
-//                        String appid = jsonObject.getString("appid");// 微信开放平台appid
-//                        String noncestr = jsonObject
-//                                .getString("noncestr");// 随机字符串
-//                        String packageStr = jsonObject
-//                                .getString("package");// 支付内容
-//                        String partnerid = jsonObject
-//                                .getString("partnerid");// 财付通id
-//                        String prepayid = jsonObject
-//                                .getString("prepayid");// 微信预支付编号
-//                        String sign = jsonObject.getString("sign");// 签名
-//                        String timestamp = jsonObject
-//                                .getString("timestamp");// 时间戳
-//
-//                        IWXAPI api = WXAPIFactory.createWXAPI(context, appid);
-//
-//                        PayReq req = new PayReq();
-//                        req.appId = appid;
-//                        req.partnerId = partnerid;
-//                        req.prepayId = prepayid;
-//                        req.nonceStr = noncestr;
-//                        req.timeStamp = timestamp;
-//                        req.packageValue = packageStr;
-//                        req.sign = sign;
-//                        req.extData = "app data"; // optional
-//                        LogUtils.i("id=" + req.appId);
-////                        Toast.makeText(context, "正常调起支付",
-////                                Toast.LENGTH_SHORT).show();
-//                        // 在支付之前，如果应用没有注册到微信，应该先调用IWXMsg.registerApp将应用注册到微信
-//                        boolean result = api.sendReq(req);
-//                        LogUtils.i("唤起微信结果=" + result);
-//                    } catch (JSONException e) {
-//                        e.printStackTrace();
-//                    } catch (Exception e) {
-//                        e.printStackTrace();
-//                    }
-//                } else {
-//                    ShopHelper.showApiError(context, json);
-//                }
-//            });
-//            return;
-//        }
-//        HashMap<String, String> params = new HashMap<String, String>();
-//        params.put("key", MyShopApplication.getInstance().getLoginKey());
-//        params.put("pay_sn", pay_sn);
-//        LogUtils.i(Constants.URL_MEMBER_WX_PAYMENT);
-//        LogUtils.i(MyShopApplication.getInstance().getLoginKey());
-//        LogUtils.i(pay_sn);
-//
-//        RemoteDataHandler.asyncLoginPostDataString(
-//                type.equals("1") ? Constants.URL_MEMBER_WX_PAYMENT : Constants.URL_MEMBER_WX_VPAYMENT, params, MyShopApplication.getInstance(),
-//                data -> {
-//                    String json = data.getJson();
-//                    if (data.getCode() == HttpStatus.SC_OK) {
-//                        try {
-//                            JSONObject jsonObject = new JSONObject(json);
-//                            String appid = jsonObject.getString("appid");// 微信开放平台appid
-//                            String noncestr = jsonObject
-//                                    .getString("noncestr");// 随机字符串
-//                            String packageStr = jsonObject
-//                                    .getString("package");// 支付内容
-//                            String partnerid = jsonObject
-//                                    .getString("partnerid");// 财付通id
-//                            String prepayid = jsonObject
-//                                    .getString("prepayid");// 微信预支付编号
-//                            String sign = jsonObject.getString("sign");// 签名
-//                            String timestamp = jsonObject
-//                                    .getString("timestamp");// 时间戳
-//
-//                            IWXAPI api = WXAPIFactory.createWXAPI(context, appid);
-//
-//                            PayReq req = new PayReq();
-//                            req.appId = appid;
-//                            req.partnerId = partnerid;
-//                            req.prepayId = prepayid;
-//                            req.nonceStr = noncestr;
-//                            req.timeStamp = timestamp;
-//                            req.packageValue = packageStr;
-//                            req.sign = sign;
-//                            req.extData = "app data"; // optional
-//                            LogUtils.i("id=" + req.appId);
-////                            Toast.makeText(context, "正常调起支付",
-////                                    Toast.LENGTH_SHORT).show();
-//                            // 在支付之前，如果应用没有注册到微信，应该先调用IWXMsg.registerApp将应用注册到微信
-//                            boolean result = api.sendReq(req);
-//                            LogUtils.i("唤起微信结果=" + result);
-//                        } catch (JSONException e) {
-//                            e.printStackTrace();
-//                        } catch (Exception e) {
-//                            e.printStackTrace();
-//                        }
-//                    } else {
-//                        ShopHelper.showApiError(context, json);
-//                    }
-//                });
-//    }
-//
-//    /**
-//     * 获取支付宝原生支付的参数act=member_payment_recharge&op=alipay_native_pay&pay_sn=&payment_code=alipay_native
-//     */
-//    public static void loadingAlipayNativePaymentData(final Context context, String pay_sn, String type, final DataCallback callback) {
-//        if (type.equals("3")) {
-//            RemoteDataHandler.asyncDataStringGet(Constants.ALIPAY_MEMBERPAYMENTRECHARGE + pay_sn + "&key=" + MyShopApplication.getInstance().getLoginKey(), data -> {
-//                String json = data.getJson();
-//                if (data.getCode() == HttpStatus.SC_OK) {
-//                    try {
-//                        JSONObject jsonObject = new JSONObject(json);
-//                        String signStr = jsonObject.optString("signStr");
-//                        LogUtils.i(signStr);
-//                        String[] split = signStr.split("\\&");
-//                        String urls = "";
-//                        for (String s : split) {
-//                            if (s.contains("notify_url")) {
-//                                urls = s;
-//                                break;
-//                            }
-//                        }
-//                        MyShopApplication.getInstance().setNotify_ur(urls.split("\\=")[1].replace("\"", ""));
-//                        PayDemoActivity payDemoActivity = new PayDemoActivity(context, signStr, callback);
-//                        payDemoActivity.doPay();
-//                    } catch (JSONException e) {
-//                        e.printStackTrace();
-//                    } catch (Exception e) {
-//                        e.printStackTrace();
-//                    }
-//                } else {
-//                    ShopHelper.showApiError(context, json);
-//                }
-//            });
-//            return;
-//        }
-//
-//        HashMap<String, String> params = new HashMap<String, String>();
-//        params.put("key", MyShopApplication.getInstance().getLoginKey());
-//        params.put("pay_sn", pay_sn);
-//        RemoteDataHandler.asyncLoginPostDataString(
-//                type.equals("1") ? Constants.URL_ALIPAY_NATIVE_GOODS : Constants.URL_ALIPAY_NATIVE_Virtual, params, MyShopApplication.getInstance(),
-//                data -> {
-//                    String json = data.getJson();
-//                    if (data.getCode() == HttpStatus.SC_OK) {
-//                        try {
-//                            JSONObject jsonObject = new JSONObject(json);
-//                            String signStr = jsonObject.optString("signStr");
-//                            LogUtils.i(signStr);
-//                            String[] split = signStr.split("\\&");
-//                            String urls = "";
-//                            for (String s : split) {
-//                                if (s.contains("notify_url")) {
-//                                    urls = s;
-//                                    break;
-//                                }
-//                            }
-//                            MyShopApplication.getInstance().setNotify_ur(urls.split("\\=")[1].replace("\"", ""));
-//                            PayDemoActivity payDemoActivity = new PayDemoActivity(context, signStr, callback);
-//                            payDemoActivity.doPay();
-//                        } catch (JSONException e) {
-//                            e.printStackTrace();
-//                        } catch (Exception e) {
-//                            e.printStackTrace();
-//                        }
-//                    } else {
-//                        ShopHelper.showApiError(context, json);
-//                    }
-//                });
-//    }
+    public static String getErrorString(String json) {
+        return JSONParser.getStringFromJsonString("error", JSONParser.getStringFromJsonString("datas", json));
+    }
 
+    public static String getValue(String key, String json) {
+        return JSONParser.getStringFromJsonString(key, json);
+    }
+
+    public static <T> T getObject(String json, Class<T> c) {
+        return JSONParser.JSON2Object(json, c);
+    }
+
+    public static <T> List<T> getObjectList(String json, Class<T> c) {
+        return JSONParser.JSON2Array(json, c);
+    }
+
+    public static int getCode(String json) {
+        return Integer.valueOf(JSONParser.getStringFromJsonString("code", json));
+    }
+
+    public static String getDatasString(String json) {
+        return JSONParser.getStringFromJsonString("datas", json);
+    }
 
 }

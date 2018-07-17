@@ -1,6 +1,7 @@
 package com.guohanhealth.shop.ui.main.activity;
 
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -51,10 +52,6 @@ public class MainActivity extends BaseActivity<MainPersenter, MainModel> impleme
     DrawerLayout drawerLayout;
     private ArrayList<BaseFragment> mFragments;
     private int mLastFgIndex;//最后显示的fragment
-    private HomeFragment homeFragment1;
-    private ClassTypeFragment homeFragment2;
-    private CartFragment homeFragment3;
-    private MineFragment homeFragment4;
     @BindView(R.id.bottom_navigation_bar)
     BottomNavigationBar mBottomNavigationBar;
     private TextBadgeItem mTextBadgeItem;
@@ -63,6 +60,10 @@ public class MainActivity extends BaseActivity<MainPersenter, MainModel> impleme
     private static final String HOME2 = "home2";
     private static final String HOME3 = "home3";
     private static final String HOME4 = "home4";
+    private HomeFragment homeFragment1 = HomeFragment.newInstance("0", "");
+    private ClassTypeFragment homeFragment2 = ClassTypeFragment.newInstance("1", "");
+    private CartFragment homeFragment3 = CartFragment.newInstance("2", "");
+    private MineFragment homeFragment4 = MineFragment.newInstance("3", "");
 
     @Override
     protected int getContentViewLayoutID() {
@@ -75,22 +76,19 @@ public class MainActivity extends BaseActivity<MainPersenter, MainModel> impleme
     protected void initView(Bundle savedInstanceState) {
         mFragments = new ArrayList<>();
         if (savedInstanceState != null) {
+            index = savedInstanceState.getInt(Constants.MAINNUMBER, 0);
             homeFragment1 = (HomeFragment) getSupportFragmentManager().getFragment(savedInstanceState, HOME1);
             homeFragment2 = (ClassTypeFragment) getSupportFragmentManager().getFragment(savedInstanceState, HOME2);
             homeFragment3 = (CartFragment) getSupportFragmentManager().getFragment(savedInstanceState, HOME3);
             homeFragment4 = (MineFragment) getSupportFragmentManager().getFragment(savedInstanceState, HOME4);
-            index = savedInstanceState.getInt(Constants.MAINNUMBER, 0);
         } else {
             index = getIntent().getIntExtra(MAINNUMBER, 0);
-            homeFragment1 = HomeFragment.newInstance("0", "");
-            homeFragment2 = ClassTypeFragment.newInstance("1", "");
-            homeFragment3 = CartFragment.newInstance("2", "");
-            homeFragment4 = MineFragment.newInstance("3", "");
         }
-        mFragments.add(homeFragment1);
-        mFragments.add(homeFragment2);
-        mFragments.add(homeFragment3);
-        mFragments.add(homeFragment4);
+
+        mFragments.add(homeFragment1 == null ? HomeFragment.newInstance("0", "") : homeFragment1);
+        mFragments.add(homeFragment2 == null ? ClassTypeFragment.newInstance("1", "") : homeFragment2);
+        mFragments.add(homeFragment3 == null ? CartFragment.newInstance("2", "") : homeFragment3);
+        mFragments.add(homeFragment4 == null ? MineFragment.newInstance("3", "") : homeFragment4);
         mBottomNavigationBar = (BottomNavigationBar) findViewById(R.id.bottom_navigation_bar);
 
         mTextBadgeItem = new TextBadgeItem()
@@ -149,6 +147,7 @@ public class MainActivity extends BaseActivity<MainPersenter, MainModel> impleme
         initData();
     }
 
+
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         /*fragment不为空时 保存*/
@@ -190,6 +189,7 @@ public class MainActivity extends BaseActivity<MainPersenter, MainModel> impleme
     @Override
     protected void onResume() {
         super.onResume();
+
         getCardNumber();
     }
 
@@ -275,26 +275,28 @@ public class MainActivity extends BaseActivity<MainPersenter, MainModel> impleme
     }
 
 
-    /**
-     * 切换fragment
-     *
-     * @param position 要显示的fragment的下标
-     */
     private void switchFragment(int position) {
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+
+        FragmentTransaction transaction = getSupportFragmentManager()
+                .beginTransaction();
         Fragment targetFg = mFragments.get(position);
         Fragment lastFg = mFragments.get(mLastFgIndex);
-//        if (mLastFgIndex != 1) {
-//            ft.remove(lastFg);//我的界面 每次移除 下次重新请求
-//        } else {
-        ft.hide(lastFg);
-//        }
-        mLastFgIndex = position;
-        if (!targetFg.isAdded()) {
-            ft.add(R.id.fragment_group, targetFg);
+        if (targetFg != null && lastFg != null && !targetFg.isAdded()) {
+            //第一次使用switchFragment()时currentFragment为null，所以要判断一下
+
+            if (lastFg != null) {
+                if (targetFg != lastFg) {
+                    transaction.hide(lastFg);
+                }
+            }
+            transaction.add(R.id.fragment_group, targetFg, targetFg.getClass().getName());
+
+        } else {
+            transaction.hide(lastFg).show(targetFg);
         }
-        ft.show(targetFg).commit();
-//        ft.commitAllowingStateLoss();
+
+        mLastFgIndex = position;
+        transaction.commit();
     }
 
     private long mExitTime;

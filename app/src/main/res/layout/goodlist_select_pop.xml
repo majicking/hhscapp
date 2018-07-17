@@ -3,193 +3,196 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+
     <LinearLayout
-        android:orientation="vertical"
-        android:background="@color/white"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    <LinearLayout
-        style="@style/LLayout_48_h"
-        android:layout_height="@dimen/dp_30"
-        android:layout_marginTop="@dimen/dp_20">
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical">
 
-        <TextView
-            style="@style/left15"
-            android:text="价格区间" />
+        <LinearLayout
+            style="@style/LLayout_48_h"
+            android:layout_height="@dimen/dp_30"
+            android:layout_marginTop="@dimen/dp_20">
 
-    </LinearLayout>
+            <TextView
+                style="@style/left15"
+                android:text="价格区间" />
 
-    <View style="@style/djk_line" />
+        </LinearLayout>
 
-    <LinearLayout style="@style/LLayout_48_h">
+        <View style="@style/djk_line" />
 
-        <EditText
-            android:id="@+id/select_pop_minprice"
-            style="@style/left15"
-            android:layout_width="@dimen/dp_100"
-            android:layout_height="@dimen/dp_28"
-            android:background="@color/djk_bgcolor"
-            android:gravity="center"
-            android:hint="最低价"
-            android:inputType="numberDecimal|number"
-            android:textColorHint="@color/nc_text"
-            android:textSize="@dimen/sp_12" />
+        <LinearLayout style="@style/LLayout_48_h">
 
-        <TextView
-            android:layout_width="@dimen/dp_18"
-            android:layout_height="@dimen/dp_2"
-            android:layout_marginLeft="@dimen/dp_5"
-            android:background="@color/black" />
+            <EditText
+                android:id="@+id/select_pop_minprice"
+                style="@style/left15"
+                android:layout_width="@dimen/dp_100"
+                android:layout_height="@dimen/dp_28"
+                android:background="@color/djk_bgcolor"
+                android:gravity="center"
+                android:hint="最低价"
+                android:inputType="numberDecimal|number"
+                android:textColorHint="@color/nc_text"
+                android:textSize="@dimen/sp_12" />
 
-        <EditText
-            android:inputType="numberDecimal|number"
-            android:id="@+id/select_pop_maxprice"
-            style="@style/left15"
-            android:layout_width="@dimen/dp_100"
-            android:layout_height="@dimen/dp_28"
-            android:background="@color/djk_bgcolor"
-            android:gravity="center"
-            android:hint="最高价"
-            android:textColorHint="@color/nc_text"
-            android:textSize="@dimen/sp_12" />
-    </LinearLayout>
+            <TextView
+                android:layout_width="@dimen/dp_18"
+                android:layout_height="@dimen/dp_2"
+                android:layout_marginLeft="@dimen/dp_5"
+                android:background="@color/black" />
 
-    <LinearLayout
-        style="@style/LLayout_48_h"
-        android:layout_height="@dimen/dp_30">
+            <EditText
+                android:id="@+id/select_pop_maxprice"
+                style="@style/left15"
+                android:layout_width="@dimen/dp_100"
+                android:layout_height="@dimen/dp_28"
+                android:background="@color/djk_bgcolor"
+                android:gravity="center"
+                android:hint="最高价"
+                android:inputType="numberDecimal|number"
+                android:textColorHint="@color/nc_text"
+                android:textSize="@dimen/sp_12" />
+        </LinearLayout>
 
-        <TextView
-            style="@style/left15"
-            android:text="商品所在地" />
-    </LinearLayout>
+        <LinearLayout
+            style="@style/LLayout_48_h"
+            android:layout_height="@dimen/dp_30">
 
-    <View style="@style/djk_line" />
+            <TextView
+                style="@style/left15"
+                android:text="商品所在地" />
+        </LinearLayout>
 
-    <RelativeLayout style="@style/LLayout_48_h">
+        <View style="@style/djk_line" />
+
+        <RelativeLayout style="@style/LLayout_48_h">
 
 
-        <Spinner
-            android:id="@+id/select_pop_spinner"
-            android:layout_width="@dimen/dp_100"
-            android:layout_height="@dimen/dp_28"
-            android:layout_marginLeft="@dimen/dp_15"
-            android:spinnerMode="dialog"></Spinner>
+            <Spinner
+                android:id="@+id/select_pop_spinner"
+                android:layout_width="@dimen/dp_100"
+                android:layout_height="@dimen/dp_28"
+                android:layout_marginLeft="@dimen/dp_15"
+                android:spinnerMode="dialog"></Spinner>
 
-        <TextView
-            android:id="@+id/select_pop_location"
-            android:layout_width="@dimen/dp_100"
-            android:layout_height="@dimen/dp_28"
-            android:layout_marginLeft="@dimen/dp_15"
-            android:background="@color/djk_bgcolor"
-            android:drawableRight="@mipmap/icon_loca"
-            android:gravity="center"
-            android:text="不限"
-            android:textSize="@dimen/sp_14" />
-    </RelativeLayout>
+            <TextView
+                android:id="@+id/select_pop_location"
+                android:layout_width="@dimen/dp_100"
+                android:layout_height="@dimen/dp_28"
+                android:layout_marginLeft="@dimen/dp_15"
+                android:background="@color/djk_bgcolor"
+                android:drawableRight="@mipmap/icon_loca"
+                android:gravity="center"
+                android:text="不限"
+                android:textSize="@dimen/sp_14" />
+        </RelativeLayout>
 
-    <LinearLayout
-        style="@style/LLayout_48_h"
-        android:layout_height="@dimen/dp_30">
+        <LinearLayout
+            style="@style/LLayout_48_h"
+            android:layout_height="@dimen/dp_30">
 
-        <TextView
-            style="@style/left15"
-            android:text="商品类型" />
-    </LinearLayout>
+            <TextView
+                style="@style/left15"
+                android:text="商品类型" />
+        </LinearLayout>
 
-    <View style="@style/djk_line" />
+        <View style="@style/djk_line" />
 
-    <LinearLayout style="@style/LLayout_50_h">
+        <LinearLayout style="@style/LLayout_50_h">
+
+            <Button
+                android:id="@+id/select_pop_gift"
+                style="@style/btnNomll"
+                android:layout_marginLeft="@dimen/dp_10"
+                android:text="赠品" />
+
+            <Button
+                android:id="@+id/select_pop_groupbuy"
+                style="@style/btnNomll"
+                android:layout_marginLeft="@dimen/dp_10"
+                android:text="团购" />
+
+            <Button
+                android:id="@+id/select_pop_timelimit"
+                style="@style/btnNomll"
+                android:layout_marginLeft="@dimen/dp_10"
+                android:text="限时折扣" />
+
+        </LinearLayout>
 
         <Button
-            android:id="@+id/select_pop_gift"
+            android:id="@+id/select_pop_virtul"
             style="@style/btnNomll"
             android:layout_marginLeft="@dimen/dp_10"
-            android:text="赠品" />
+            android:text="虚拟" />
 
-        <Button
-            android:id="@+id/select_pop_groupbuy"
-            style="@style/btnNomll"
-            android:layout_marginLeft="@dimen/dp_10"
-            android:text="团购" />
+        <LinearLayout
+            style="@style/LLayout_48_h"
+            android:layout_height="@dimen/dp_30">
 
-        <Button
-            android:id="@+id/select_pop_timelimit"
-            style="@style/btnNomll"
-            android:layout_marginLeft="@dimen/dp_10"
-            android:text="限时折扣" />
+            <TextView
+                style="@style/left15"
+                android:text="店铺类型" />
+        </LinearLayout>
 
+        <View style="@style/djk_line" />
+
+        <LinearLayout style="@style/LLayout_50_h">
+
+            <Button
+                android:id="@+id/select_pop_onw"
+                style="@style/btnNomll"
+                android:layout_marginLeft="@dimen/dp_10"
+                android:text="平台自营" />
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/LLayout_48_h"
+            android:layout_height="@dimen/dp_30">
+
+            <TextView
+                style="@style/left15"
+                android:text="店铺服务" />
+        </LinearLayout>
+
+        <View style="@style/djk_line" />
+
+        <LinearLayout
+            style="@style/match_warp"
+            android:orientation="vertical"
+            android:padding="@dimen/dp_10">
+
+            <com.guohanhealth.shop.view.NoScrollGridView
+                android:id="@+id/gridview"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:numColumns="3"
+                android:verticalSpacing="@dimen/dp_10"></com.guohanhealth.shop.view.NoScrollGridView>
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/LLayout_50_h"
+            android:layout_marginBottom="@dimen/dp_40"
+            android:layout_marginTop="@dimen/dp_20">
+
+            <Button
+                android:id="@+id/select_pop_reset"
+                style="@style/btn"
+                android:layout_weight="1"
+                android:text="重置" />
+
+            <Button
+                android:id="@+id/select_pop_btn"
+                style="@style/btn"
+                android:layout_weight="1"
+                android:text="筛选商品" />
+        </LinearLayout>
     </LinearLayout>
 
-    <Button
-        android:id="@+id/select_pop_virtul"
-        style="@style/btnNomll"
-        android:layout_marginLeft="@dimen/dp_10"
-        android:text="虚拟" />
-
-    <LinearLayout
-        style="@style/LLayout_48_h"
-        android:layout_height="@dimen/dp_30">
-
-        <TextView
-            style="@style/left15"
-            android:text="店铺类型" />
-    </LinearLayout>
-
-    <View style="@style/djk_line" />
-
-    <LinearLayout style="@style/LLayout_50_h">
-
-        <Button
-            android:id="@+id/select_pop_onw"
-            style="@style/btnNomll"
-            android:layout_marginLeft="@dimen/dp_10"
-            android:text="平台自营" />
-    </LinearLayout>
-
-    <LinearLayout
-        style="@style/LLayout_48_h"
-        android:layout_height="@dimen/dp_30">
-
-        <TextView
-            style="@style/left15"
-            android:text="店铺服务" />
-    </LinearLayout>
-
-    <View style="@style/djk_line" />
-
-    <LinearLayout
-        style="@style/match_warp"
-        android:orientation="vertical"
-        android:padding="@dimen/dp_10">
-
-        <com.guohanhealth.shop.view.NoScrollGridView
-            android:id="@+id/gridview"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:numColumns="3"
-            android:verticalSpacing="@dimen/dp_10"></com.guohanhealth.shop.view.NoScrollGridView>
-    </LinearLayout>
-
-    <LinearLayout
-        style="@style/LLayout_50_h"
-        android:layout_marginBottom="@dimen/dp_40"
-        android:layout_marginTop="@dimen/dp_20">
-
-        <Button
-            android:id="@+id/select_pop_reset"
-            style="@style/btn"
-            android:layout_weight="1"
-            android:text="重置" />
-
-        <Button
-            android:id="@+id/select_pop_btn"
-            style="@style/btn"
-            android:layout_weight="1"
-            android:text="筛选商品" />
-    </LinearLayout>
-    </LinearLayout>
-<View
-    android:background="@color/translucent1"
-    android:id="@+id/nullview"
-    style="@style/match"/>
+    <View
+        android:id="@+id/nullview"
+        style="@style/match"
+        android:background="@color/translucent1" />
 </LinearLayout>

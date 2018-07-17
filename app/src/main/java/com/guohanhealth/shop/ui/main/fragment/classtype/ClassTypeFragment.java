@@ -149,7 +149,7 @@ public class ClassTypeFragment extends BaseFragment<ClassTypePersenter, ClassTyp
                 holder.getView(R.id.line).setVisibility(View.GONE);
                 holder.itemView.setOnClickListener(v -> {
                     Bundle bundle = new Bundle();
-                    bundle.putString(Constants.KEYWORD, brand_list.brand_name);
+                    bundle.putString(Constants.KEYWORD, brand_list.brand_id);
                     readyGo(GoodsListActivity.class, bundle);
                 });
             }
@@ -233,7 +233,7 @@ public class ClassTypeFragment extends BaseFragment<ClassTypePersenter, ClassTyp
             textView.setText(item.gc_name);
             textView.setOnClickListener(v -> {
                 Bundle bundle = new Bundle();
-                bundle.putString(Constants.KEYWORD, item.gc_name);
+                bundle.putString(Constants.GC_ID, item.gc_id);
                 readyGo(GoodsListActivity.class, bundle);
             });
 
@@ -245,7 +245,7 @@ public class ClassTypeFragment extends BaseFragment<ClassTypePersenter, ClassTyp
             recyclerView.setAdapter(classChildAdapter);
             classChildAdapter.setOnItemClickListener((a, v, p) -> {
                 Bundle bundle = new Bundle();
-                bundle.putString(Constants.KEYWORD, item.child.get(p).gc_name);
+                bundle.putString(Constants.GC_ID, item.child.get(p).gc_id);
                 readyGo(GoodsListActivity.class, bundle);
             });
         }

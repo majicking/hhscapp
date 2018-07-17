@@ -164,43 +164,14 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
         hideLoadingView();
     }
 
-    private Toast toast;
 
     public void showToast(Object msg) {
-//        if (toast == null) {
-//            toast = Toast.makeText(this, "" + msg, Toast.LENGTH_SHORT);
-//        } else {
-//            toast.setText("" + msg);
-//        }
-//        toast.show();
-        showToast(this, "" + msg);
+        Utils.showToast(this, "" + msg);
     }
 
     @Override
     public void faild(String msg) {
         Logutils.i(msg);
-    }
-
-    /**
-     * 短暂显示Toast消息
-     *
-     * @param context
-     * @param message
-     */
-    public void showToast(Context context, String message) {
-        LayoutInflater inflater = (LayoutInflater) context
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View view = inflater.inflate(R.layout.custom_toast, null);
-        TextView text = (TextView) view.findViewById(R.id.toast_message);
-        text.setText(message);
-        if (toast == null) {
-            toast = new Toast(context);
-        }
-        text.setText(message);
-        toast.setDuration(Toast.LENGTH_SHORT);
-        toast.setGravity(Gravity.BOTTOM, 0, 300);
-        toast.setView(view);
-        toast.show();
     }
 
 

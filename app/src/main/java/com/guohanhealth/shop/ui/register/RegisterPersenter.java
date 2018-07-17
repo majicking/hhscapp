@@ -10,6 +10,12 @@ public class RegisterPersenter extends BasePresenter<RegisterView, RegisterModel
         mRxManager.add(mModel.getImgCode().subscribe(imgCodeKey -> {
             Logutils.i(imgCodeKey.codekey);
             mView.setKeyCode(imgCodeKey.codekey);
+        }, new ConsumerError<Throwable>() {
+            @Override
+            public void onError(int errorCode, String message) {
+                mView.faild(message);
+                mView.hideLoadingDialog();
+            }
         }));
     }
 
@@ -21,7 +27,6 @@ public class RegisterPersenter extends BasePresenter<RegisterView, RegisterModel
         }, new ConsumerError<Throwable>() {
             @Override
             public void onError(int errorCode, String message) {
-                mView.faild(message);
                 mView.hideLoadingDialog();
                 mView.smsfail(message);
             }
@@ -54,8 +59,12 @@ public class RegisterPersenter extends BasePresenter<RegisterView, RegisterModel
                 userInfo -> {
                     App.getApp().setInfo(userInfo.member_info);
                     mView.loginSuccess();
-                }, throwable -> {
-                    mView.loginFail(throwable.getMessage());
+                }, new ConsumerError<Throwable>() {
+                    @Override
+                    public void onError(int errorCode, String message) {
+                        mView.loginFail(message);
+                        mView.hideLoadingDialog();
+                    }
                 }));
     }
 
@@ -66,10 +75,12 @@ public class RegisterPersenter extends BasePresenter<RegisterView, RegisterModel
                     mView.hideLoadingDialog();
                     Logutils.i(loginBean.userid);
                     mView.success("注册成功");
-                }, throwable -> {
-                    mView.hideLoadingDialog();
-                    mView.faild(throwable.getMessage());
-                    Logutils.i(throwable.getMessage());
+                }, new ConsumerError<Throwable>() {
+                    @Override
+                    public void onError(int errorCode, String message) {
+                        mView.faild(message);
+                        mView.hideLoadingDialog();
+                    }
                 }));
     }
 }

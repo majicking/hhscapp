@@ -1,6 +1,7 @@
 package com.guohanhealth.shop.base;
 
 
+import android.app.Activity;
 import android.content.Context;
 
 import com.guohanhealth.shop.http.RxManager;
@@ -18,6 +19,7 @@ public class BasePresenter<V, E> {
     protected E mModel;
     protected Context mContext;
     protected RxManager mRxManager = new RxManager();
+    protected Activity mActivity;
 
     /**
      * 与view进行关联
@@ -32,6 +34,7 @@ public class BasePresenter<V, E> {
         if (view instanceof BaseFragment) {
             this.mContext = ((BaseFragment) view).getActivity();
         }
+        mActivity = (Activity) mContext;
     }
 
     /**

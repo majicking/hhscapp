@@ -2,6 +2,8 @@ package com.guohanhealth.shop.ui.register;
 
 import com.guohanhealth.shop.app.App;
 import com.guohanhealth.shop.base.BasePresenter;
+import com.guohanhealth.shop.custom.MyScrollView;
+import com.guohanhealth.shop.http.ConsumerError;
 
 public class Register2Persenter extends BasePresenter<RegisterView, RegisterModel> {
     public void registerMobile(String phone, String userName, String passWord, String captcha, String referral_code) {
@@ -13,9 +15,12 @@ public class Register2Persenter extends BasePresenter<RegisterView, RegisterMode
                     App.getApp().setUsername(registerInfo.username);
                     mView.success("注册成功");
                     mView.hideLoadingDialog();
-                }, throwable -> {
-                    mView.faild(throwable.getMessage());
-                    mView.hideLoadingDialog();
+                }, new ConsumerError<Throwable>() {
+                    @Override
+                    public void onError(int errorCode, String message) {
+                        mView.faild(message);
+                        mView.hideLoadingDialog();
+                    }
                 }
         ));
     }
@@ -26,8 +31,11 @@ public class Register2Persenter extends BasePresenter<RegisterView, RegisterMode
                 userInfo -> {
                     App.getApp().setInfo(userInfo.member_info);
                     mView.loginSuccess();
-                }, throwable -> {
-                    mView.loginFail(throwable.getMessage());
+                }, new ConsumerError<Throwable>() {
+                    @Override
+                    public void onError(int errorCode, String message) {
+                        mView.faild(message);
+                    }
                 }));
     }
 

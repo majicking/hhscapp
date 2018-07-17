@@ -1,10 +1,8 @@
 package com.guohanhealth.shop.ui.order;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,16 +10,15 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.BaseViewHolder;
 import com.guohanhealth.shop.R;
 import com.guohanhealth.shop.app.App;
 import com.guohanhealth.shop.base.BaseFragment;
 import com.guohanhealth.shop.bean.OrderInfo;
 import com.guohanhealth.shop.bean.PayWayInfo;
+import com.guohanhealth.shop.custom.CustomDialog;
 import com.guohanhealth.shop.custom.EmptyView;
+import com.guohanhealth.shop.event.ObjectEvent;
 import com.guohanhealth.shop.event.OnFragmentInteractionListener;
 import com.guohanhealth.shop.event.RxBus;
 import com.guohanhealth.shop.http.Result;
@@ -41,7 +38,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-import static com.guohanhealth.shop.app.Constants.IFCART;
 import static com.guohanhealth.shop.app.Constants.MAINNUMBER;
 
 public class OrderFragment extends BaseFragment<OrderPersenter, OrderModel> implements OrderView {
@@ -168,7 +164,6 @@ public class OrderFragment extends BaseFragment<OrderPersenter, OrderModel> impl
     @Override
     public void orderOperation(String msg) {
         showToast(msg);
-        getData();
     }
 
 
@@ -176,15 +171,19 @@ public class OrderFragment extends BaseFragment<OrderPersenter, OrderModel> impl
 
     @Override
     public void getPayWayList(PayWayInfo info) {
-        Logutils.i(info.payment_list.size());
-        popuWindow = Utils.shopPayWindown(mContext, info.payment_list, pay_sn, selecttype?"0":"1", v -> {
-            showToast("取消操作");
+//        Logutils.i(info.payment_list.size());
+        popuWindow = Utils.shopPayWindown(mContext, info.payment_list, pay_sn, selecttype ? "1" : "0", v -> {
+
             popuWindow.dismiss();
         });
+        popuWindow.setFocusable(true);
+        popuWindow.setOutsideTouchable(false);
+        popuWindow.setOutsideTouchable(false);
         RxBus.getDefault().register(this, PayResult.class, payResult -> {
             Logutils.i(payResult.getResult());
             if (payResult.getResultStatus().equals("9000")) {
                 showToast("支付成功");
+                getData();
             } else if (payResult.getResultStatus().equals("8000")) {
                 showToast("支付结果确认中");
             } else if (payResult.getResultStatus().equals("6001")) {
@@ -192,17 +191,25 @@ public class OrderFragment extends BaseFragment<OrderPersenter, OrderModel> impl
             } else {
                 showToast("订单支付失败");
             }
+            popuWindow.dismiss();
         });
         RxBus.getDefault().register(this, BaseResp.class, resp -> {
+
             if (resp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
                 if (resp.errCode == 0) {
                     showToast("支付成功");
+                    getData();
                 } else if (resp.errCode == -2) {
                     showToast("取消交易");
                 } else {
                     showToast("支付失败");
                 }
             }
+            popuWindow.dismiss();
+        });
+        RxBus.getDefault().register(this, ObjectEvent.class, message -> {
+            showToast(message.msg);
+            popuWindow.dismiss();
         });
     }
 
@@ -271,13 +278,13 @@ public class OrderFragment extends BaseFragment<OrderPersenter, OrderModel> impl
                         btn3.setText("再次确认");
 
                         btn3.setOnClickListener(v -> {
-                            mPresenter.orderOperation("order_receive", App.getApp().getKey(), list.get(indexi).order_list.get(indexj).order_id);
+                            showWrinDialog("再次确认？", "order_receive", list.get(indexi).order_list.get(indexj).order_id);
                         });
                     }
                     if (list.get(i).order_list.get(j).if_delete) {
                         orderdel.setVisibility(View.VISIBLE);
                         orderdel.setOnClickListener(v -> {
-                            mPresenter.orderOperation("order_delete", App.getApp().getKey(), list.get(indexi).order_list.get(indexj).order_id);
+                            showWrinDialog("确认删除订单？", "order_delete", list.get(indexi).order_list.get(indexj).order_id);
                         });
                     }
                     if (list.get(i).order_list.get(j).if_cancel) {
@@ -285,7 +292,7 @@ public class OrderFragment extends BaseFragment<OrderPersenter, OrderModel> impl
                         btn2.setVisibility(View.VISIBLE);
                         btn1.setText("取消订单");
                         btn1.setOnClickListener(v -> {
-                            mPresenter.orderOperation("order_cancel", App.getApp().getKey(), list.get(indexi).order_list.get(indexj).order_id);
+                            showWrinDialog("确认取消订单？", "order_cancel", list.get(indexi).order_list.get(indexj).order_id);
                         });
                         btn2.setOnClickListener(v -> {
                             pay_sn = list.get(indexi).order_list.get(indexj).pay_sn;
@@ -323,8 +330,23 @@ public class OrderFragment extends BaseFragment<OrderPersenter, OrderModel> impl
         }
     }
 
+    public void showWrinDialog(String message, String url, String order_id) {
+        Dialog dialog = new CustomDialog.Builder(mContext)
+                .setTitle("操作警告")
+                .setMessage(message)
+                .setPositiveButton("取消", (d, v) -> {
+                    d.dismiss();
+                })
+                .setNegativeButton("确定", (d, v) -> {
+                    mPresenter.orderOperation(url, App.getApp().getKey(), order_id, selecttype, page, selecttype ? viltype[position] : realtype[position], searchtext);
+                    d.dismiss();
+                }).create();
+        dialog.show();
+    }
+
     @Override
     public void faild(String msg) {
+
         if (orderViewsRefresh != null) {
             if (orderViewsRefresh.isRefreshing())
                 orderViewsRefresh.finishRefresh();

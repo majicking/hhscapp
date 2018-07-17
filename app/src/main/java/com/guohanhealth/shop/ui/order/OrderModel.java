@@ -1,8 +1,7 @@
 package com.guohanhealth.shop.ui.order;
 
 import com.guohanhealth.shop.base.BaseModel;
-import com.guohanhealth.shop.bean.CartNumberInfo;
-import com.guohanhealth.shop.bean.OrderInfo;
+import com.guohanhealth.shop.bean.ObjectBeans;
 import com.guohanhealth.shop.http.Api;
 import com.guohanhealth.shop.http.Result;
 import com.guohanhealth.shop.http.RxHelper;
@@ -18,7 +17,7 @@ public class OrderModel extends BaseModel {
         }
     }
 
-    public Observable<Result> orderOperation(String url, String key, String order_id) {
-        return Api.getDefault().orderOperation(url, key, order_id).compose(RxHelper.<Result>handleOnlyResult());
+    public Observable<Result>  orderOperation(String url, String key, String order_id) {
+        return Api.getDefault().orderOperation(url, key, order_id).compose(RxHelper.handleOnlyResult());
     }
 }

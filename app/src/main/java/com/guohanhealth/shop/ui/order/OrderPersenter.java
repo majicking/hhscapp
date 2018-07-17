@@ -1,13 +1,31 @@
 package com.guohanhealth.shop.ui.order;
 
 import com.guohanhealth.shop.base.BasePresenter;
+import com.guohanhealth.shop.http.Api;
+import com.guohanhealth.shop.http.ApiService;
 import com.guohanhealth.shop.http.ConsumerError;
-import com.guohanhealth.shop.utils.Logutils;
+import com.guohanhealth.shop.http.HttpErrorCode;
+import com.guohanhealth.shop.utils.Utils;
+
+import java.io.IOException;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.FormBody;
+import okhttp3.Response;
 
 public class OrderPersenter extends BasePresenter<OrderView, OrderModel> {
 
+    boolean selecttype;
+    int curpage;
+    String state_type;
+    String order_key;
 
     public void getOrderData(boolean selecttype, String key, int curpage, String state_type, String order_key) {
+        this.selecttype = selecttype;
+        this.curpage = curpage;
+        this.state_type = state_type;
+        this.order_key = order_key;
         mRxManager.add(mModel.getOrderData(selecttype, key, curpage, state_type, order_key).subscribe(info -> {
             mView.getData(info);
         }, new ConsumerError<Throwable>() {
@@ -18,17 +36,36 @@ public class OrderPersenter extends BasePresenter<OrderView, OrderModel> {
         }));
     }
 
-    public void orderOperation(String url, String key, String order_id) {
-        mRxManager.add(mModel.orderOperation(url, key, order_id).subscribe(info -> {
-            if (info.datas.equals("1")) {
-                mView.orderOperation("操作成功");
-            }
-        }, new ConsumerError<Throwable>() {
+    public void orderOperation(String url, String key, String order_id, boolean selecttype, int curpage, String state_type, String order_key) {
+        Api.post(ApiService.ORDER_OPERATION + "&op=" + url, new FormBody.Builder()
+                .add("key", key)
+                .add("order_id", order_id)
+                .build(), new Callback() {
             @Override
-            public void onError(int errorCode, String message) {
-                mView.faild(message);
+            public void onFailure(Call call, IOException e) {
+                mActivity.runOnUiThread(() -> {
+                    mView.faild(Utils.getErrorString(e));
+                });
             }
-        }));
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                String json = response.body().string();
+                if (Utils.getCode(json) == HttpErrorCode.HTTP_NO_ERROR) {
+                    if (Utils.getDatasString(json).equals("1")) {
+                        mActivity.runOnUiThread(() -> {
+                            mView.orderOperation("操作成功");
+                            getOrderData(selecttype, key, curpage, state_type, order_key);
+                        });
+
+                    }
+                } else if (Utils.getCode(json) == HttpErrorCode.ERROR_400) {
+                    mActivity.runOnUiThread(() -> {
+                        mView.faild(Utils.getErrorString(json));
+                    });
+                }
+            }
+        });
     }
 
     public void getPaymentList(String key) {

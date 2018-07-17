@@ -6,12 +6,9 @@ import com.guohanhealth.shop.app.App;
 import com.guohanhealth.shop.app.Constants;
 
 import java.io.File;
-import java.io.IOException;
-import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Cache;
-import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Headers;
 import okhttp3.Interceptor;
