@@ -1,7 +1,5 @@
 package com.guohanhealth.shop.ui.main.fragment.mine.setting;
 
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -10,7 +8,6 @@ import android.widget.TextView;
 
 import com.guohanhealth.shop.R;
 import com.guohanhealth.shop.app.App;
-import com.guohanhealth.shop.app.Constants;
 import com.guohanhealth.shop.base.BaseActivity;
 import com.guohanhealth.shop.bean.CartNumberInfo;
 import com.guohanhealth.shop.bean.UserInfo;
@@ -20,7 +17,6 @@ import com.guohanhealth.shop.ui.login.LoginActivity;
 import com.guohanhealth.shop.utils.Utils;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 public class SettingActivity extends BaseActivity {
 
