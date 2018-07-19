@@ -1,5 +1,7 @@
 package com.guohanhealth.shop.ui.order;
 
+import android.app.Activity;
+import android.app.Dialog;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -9,13 +11,29 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.guohanhealth.shop.R;
+import com.guohanhealth.shop.app.App;
+import com.guohanhealth.shop.app.Constants;
 import com.guohanhealth.shop.base.BaseActivity;
+import com.guohanhealth.shop.bean.LogisticsInfo;
 import com.guohanhealth.shop.bean.OrderDetailInfo;
+import com.guohanhealth.shop.bean.PayWayInfo;
+import com.guohanhealth.shop.custom.CustomDialog;
+import com.guohanhealth.shop.http.Api;
+import com.guohanhealth.shop.http.ApiService;
+import com.guohanhealth.shop.http.ConsumerError;
+import com.guohanhealth.shop.http.HttpErrorCode;
+import com.guohanhealth.shop.http.Result;
 import com.guohanhealth.shop.utils.Utils;
 import com.guohanhealth.shop.utils.engine.GlideEngine;
 
+import java.io.IOException;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.FormBody;
+import okhttp3.Response;
 
 public class OrderDetailActivity extends BaseActivity {
 
@@ -55,8 +73,8 @@ public class OrderDetailActivity extends BaseActivity {
     LinearLayout orderDetailViewSendtime;
     @BindView(R.id.order_detail_overtime)
     TextView orderDetailOvertime;
-    @BindView(R.id.order_detail_view_obertime)
-    LinearLayout orderDetailViewObertime;
+    @BindView(R.id.order_detail_view_overtime)
+    LinearLayout orderDetailViewOvertime;
     @BindView(R.id.order_detail_oktime)
     TextView orderDetailOktime;
     @BindView(R.id.order_detail_view_oktime)
@@ -69,6 +87,10 @@ public class OrderDetailActivity extends BaseActivity {
     TextView orderDetailStorename;
     @BindView(R.id.order_detail_view_goodslist)
     LinearLayout orderDetailViewGoodslist;
+    @BindView(R.id.order_detail_view_operate)
+    LinearLayout orderDetailViewOperate;
+    @BindView(R.id.order_detail_order_tips)
+    TextView orderDetailOrderTips;
     private String mData;
 
 
@@ -82,6 +104,7 @@ public class OrderDetailActivity extends BaseActivity {
         initToolBarNav(commonToolbar, commonToolbarTitleTv, "订单详情");
         mData = getIntent().getStringExtra("data");
         OrderDetailInfo info = Utils.getObject(mData, OrderDetailInfo.class);
+
         if (info.order_info != null) {
             orderDetailStutas.setText(Utils.getString(info.order_info.state_desc));
             orderDetailName.setText(Utils.getString(info.order_info.reciver_name));
@@ -92,23 +115,30 @@ public class OrderDetailActivity extends BaseActivity {
             orderDetailFreight.setText(Utils.getString(info.order_info.shipping_fee));
             orderDetailOrderid.setText(Utils.getString(info.order_info.order_sn));
             orderDetailCreattime.setText(Utils.getString(info.order_info.add_time));
-            if (Utils.isEmpty(info.order_info.payment_time)) {
-                orderDetailPaytime.setVisibility(View.VISIBLE);
+
+
+            if (Utils.isEmpty(info.order_info.order_tips)) { //状态说明
+                orderDetailOrderTips.setVisibility(View.VISIBLE);
+                orderDetailOrderTips.setText(Utils.getString(info.order_info.order_tips));
+            }
+
+            if (Utils.isEmpty(info.order_info.payment_time)) {//支付时间
+                orderDetailViewPaytime.setVisibility(View.VISIBLE);
                 orderDetailPaytime.setText(Utils.getString(info.order_info.payment_time));
             }
-            if (Utils.isEmpty(info.order_info.shipping_time)) {
-                orderDetailSendtime.setVisibility(View.VISIBLE);
+            if (Utils.isEmpty(info.order_info.shipping_time)) {//发货时间
+                orderDetailViewSendtime.setVisibility(View.VISIBLE);
                 orderDetailSendtime.setText(Utils.getString(info.order_info.shipping_time));
             }
-            if (Utils.isEmpty(info.order_info.finnshed_time)) {
-                orderDetailOvertime.setVisibility(View.VISIBLE);
+            if (Utils.isEmpty(info.order_info.finnshed_time)) {//完成时间
+                orderDetailViewOvertime.setVisibility(View.VISIBLE);
                 orderDetailOvertime.setText(Utils.getString(info.order_info.finnshed_time));
             }
-            if (Utils.isEmpty(info.order_info.again_time)) {
-                orderDetailOktime.setVisibility(View.VISIBLE);
+            if (Utils.isEmpty(info.order_info.again_time)) {//再次确认时间
+                orderDetailViewOktime.setVisibility(View.VISIBLE);
                 orderDetailOktime.setText(Utils.getString(info.order_info.again_time));
             }
-            orderDetailStorename.setText(Utils.getString(info.order_info.store_name));
+            orderDetailStorename.setText(Utils.getString(info.order_info.store_name));//店铺名称
             orderDetailViewGoodslist.removeAllViews();
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             orderDetailViewGoodslist.setLayoutParams(layoutParams);
@@ -126,9 +156,127 @@ public class OrderDetailActivity extends BaseActivity {
                     orderDetailViewGoodslist.addView(view);
                 }
             }
+
+            if (info.order_info.if_again) {
+                orderDetailBtn1.setVisibility(View.VISIBLE);
+                orderDetailBtn1.setText("再次确认");
+
+                orderDetailBtn1.setOnClickListener(v -> {
+                    showWrinDialog("再次确认订单？", "order_receive", info.order_info.order_id);
+                });
+            }
+            if (info.order_info.if_cancel) {
+                orderDetailBtn1.setVisibility(View.VISIBLE);
+                orderDetailBtn1.setText("取消订单");
+                orderDetailBtn1.setOnClickListener(v -> {
+                    showWrinDialog("确认取消订单？", "order_cancel", info.order_info.order_id);
+                });
+            }
+            if (info.order_info.if_receive) {
+                orderDetailBtn1.setVisibility(View.VISIBLE);
+                orderDetailBtn1.setText("确认收货");
+                orderDetailBtn1.setOnClickListener(v -> {
+                    showWrinDialog("确认收到货物", "order_receive", info.order_info.order_id);
+                });
+            }
+            if (info.order_info.if_lock) {
+                orderDetailBtn2.setVisibility(View.VISIBLE);
+                orderDetailBtn2.setText("退货/退款中");
+            }
+            if (info.order_info.if_evaluation) {
+                orderDetailBtn1.setVisibility(View.VISIBLE);
+                orderDetailBtn1.setText("订单评价");
+            }
+            if (info.order_info.if_evaluation_again) {
+                orderDetailBtn1.setVisibility(View.VISIBLE);
+                orderDetailBtn1.setText("追加评价");
+            }
+            if (info.order_info.if_refund_cancel) {
+                orderDetailBtn1.setVisibility(View.VISIBLE);
+                orderDetailBtn1.setText("退款");
+                
+            }
+            if (info.order_info.if_deliver) {
+                orderDetailBtn1.setVisibility(View.VISIBLE);
+                orderDetailBtn1.setText("查看物流");
+                orderDetailBtn1.setOnClickListener(v -> {
+                    Api.post(ApiService.SEARCH_DELIVER, new FormBody.Builder()
+                                    .add("key", App.getApp().getKey())
+                                    .add("order_id", info.order_info.order_id)
+                                    .build(), new Callback() {
+                                @Override
+                                public void onFailure(Call call, IOException e) {
+                                    runOnUiThread(() -> {
+                                        showToast(Utils.getErrorString(e));
+                                    });
+                                }
+
+                                @Override
+                                public void onResponse(Call call, Response response) throws IOException {
+                                    String json = response.body().string();
+                                    if (Utils.getCode(json) == HttpErrorCode.HTTP_NO_ERROR) {
+                                        runOnUiThread(() -> {
+                                            Bundle bundle = new Bundle();
+                                            bundle.putSerializable(Constants.DATA, Utils.getObject(json, LogisticsInfo.class));
+                                            readyGo(LogisticsActivity.class, bundle);
+                                        });
+                                    } else if (Utils.getCode(json) == HttpErrorCode.ERROR_400) {
+                                        runOnUiThread(() -> {
+                                            showToast(Utils.getErrorString(json));
+
+                                        });
+                                    }
+                                }
+                            }
+                    );
+                });
+            }
+
+
         }
     }
 
+    public void showWrinDialog(String message, String url, String order_id) {
+        Dialog dialog = new CustomDialog.Builder(mContext)
+                .setTitle("操作警告")
+                .setMessage(message)
+                .setPositiveButton("取消", (d, v) -> {
+                    d.dismiss();
+                })
+                .setNegativeButton("确定", (d, v) -> {
+                    Api.post(ApiService.ORDER_OPERATION + "&op=" + url, new FormBody.Builder()
+                            .add("key", App.getApp().getKey())
+                            .add("order_id", order_id)
+                            .build(), new Callback() {
+                        @Override
+                        public void onFailure(Call call, IOException e) {
+                            runOnUiThread(() -> {
+                                d.dismiss();
+                                showToast(Utils.getErrorString(e));
+                            });
+                        }
+
+                        @Override
+                        public void onResponse(Call call, Response response) throws IOException {
+                            String json = response.body().string();
+                            if (Utils.getCode(json) == HttpErrorCode.HTTP_NO_ERROR) {
+                                if (Utils.getDatasString(json).equals("1")) {
+                                    runOnUiThread(() -> {
+                                        d.dismiss();
+                                    });
+
+                                }
+                            } else if (Utils.getCode(json) == HttpErrorCode.ERROR_400) {
+                                runOnUiThread(() -> {
+                                    showToast(Utils.getErrorString(json));
+                                    d.dismiss();
+                                });
+                            }
+                        }
+                    });
+                }).create();
+        dialog.show();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

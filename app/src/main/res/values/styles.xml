@@ -15,6 +15,14 @@
         <item name="android:textSize">@dimen/sp_12</item>
         <item name="android:textColor">@color/djk_textcolor444</item>
     </style>
+
+    <style name="djk_text_left_5" parent="djk_text">
+        <item name="android:layout_marginLeft">@dimen/dp_5</item>
+    </style>
+
+    <style name="djk_text_right_5" parent="djk_text">
+        <item name="android:layout_marginRight">@dimen/dp_5</item>
+    </style>
     <!--占位-->
     <style name="linearlayout_zw">
         <item name="android:layout_weight">1</item>

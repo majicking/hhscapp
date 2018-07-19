@@ -38,6 +38,9 @@ public class OrderDetailInfo extends BaseInfo {
         public boolean if_evaluation;
         public boolean if_again;
         public boolean if_lock;
+        public boolean if_cancel;
+        public boolean if_evaluation_again;
+        public boolean if_delete;
         public boolean ownshop;
         public String again;
         public String again_time;

@@ -8,353 +8,404 @@
 
     <include layout="@layout/common_toolbar" />
 
-    <LinearLayout
-        android:id="@+id/property_view_accountbalance"
-        style="@style/LLayout_50_h"
-        android:layout_height="@dimen/dp_60"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <LinearLayout
-            style="@style/layout_weight_h"
-            android:layout_weight="3"
+            style="@style/match"
             android:orientation="vertical">
 
             <LinearLayout
-                style="@style/layout_weight_v"
-                android:gravity="center_vertical|left"
+                android:id="@+id/property_view_accountbalance"
+                style="@style/LLayout_50_h"
+                android:layout_height="@dimen/dp_60"
+                android:gravity="center_vertical"
                 android:orientation="horizontal">
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/dp_10"
-                    android:src="@drawable/ic_back_red" />
+                <LinearLayout
+                    style="@style/layout_weight_h"
+                    android:layout_weight="3"
+                    android:orientation="vertical">
 
-                <TextView
-                    style="@style/djk_text"
-                    android:text="账户余额" />
+                    <LinearLayout
+                        style="@style/layout_weight_v"
+                        android:gravity="center_vertical|left"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/dp_10"
+                            android:src="@drawable/icon_balance" />
+
+                        <TextView
+                            style="@style/djk_text"
+                            android:text="账户余额" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        style="@style/layout_weight_v"
+                        android:gravity="center_vertical|left">
+
+                        <TextView
+                            android:textColor="@color/grey"
+
+                            style="@style/djk_text"
+                            android:layout_marginLeft="@dimen/dp_15"
+                            android:text="预存款账户余额、充值及提现明细" />
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    style="@style/layout_weight_h"
+                    android:gravity="center_vertical|right"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/property_text_accountbalance"
+                        style="@style/djk_text"
+                        android:layout_marginRight="3dp"
+                        android:text="0.00元" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/more" />
+                </LinearLayout>
             </LinearLayout>
 
-            <LinearLayout
-                style="@style/layout_weight_v"
-                android:gravity="center_vertical|left">
-
-                <TextView
-                    style="@style/djk_text"
-                    android:layout_marginLeft="@dimen/dp_15"
-                    android:text="预存款账户余额、充值及提现明细" />
-            </LinearLayout>
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            style="@style/layout_weight_h"
-            android:gravity="center_vertical|right"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/property_text_accountbalance"
-                android:layout_marginRight="3dp"
-                style="@style/djk_text"
-                android:text="0.00元" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/more" />
-        </LinearLayout>
-    </LinearLayout>
-    <LinearLayout
-        android:id="@+id/property_view_rechargecardbalance"
-        style="@style/LLayout_50_h"
-        android:layout_height="@dimen/dp_60"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
-
-        <LinearLayout
-            style="@style/layout_weight_h"
-            android:layout_weight="3"
-            android:orientation="vertical">
+            <View
+                style="@style/djk_line"
+                android:layout_marginLeft="@dimen/dp_15" />
 
             <LinearLayout
-                style="@style/layout_weight_v"
-                android:gravity="center_vertical|left"
+                android:id="@+id/property_view_rechargecardbalance"
+                style="@style/LLayout_50_h"
+                android:layout_height="@dimen/dp_60"
+                android:gravity="center_vertical"
                 android:orientation="horizontal">
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/dp_10"
-                    android:src="@drawable/ic_back_red" />
+                <LinearLayout
+                    style="@style/layout_weight_h"
+                    android:layout_weight="3"
+                    android:orientation="vertical">
 
-                <TextView
-                    style="@style/djk_text"
-                    android:text="充值卡余额" />
+                    <LinearLayout
+                        style="@style/layout_weight_v"
+                        android:gravity="center_vertical|left"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/dp_10"
+                            android:src="@drawable/icon_card" />
+
+                        <TextView
+                            style="@style/djk_text"
+                            android:text="充值卡余额" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        style="@style/layout_weight_v"
+                        android:gravity="center_vertical|left">
+
+                        <TextView
+                            android:textColor="@color/grey"
+
+                            style="@style/djk_text"
+                            android:layout_marginLeft="@dimen/dp_15"
+                            android:text="充值卡余额及卡密充值操作" />
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    style="@style/layout_weight_h"
+                    android:gravity="center_vertical|right"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/property_text_rechargecardbalance"
+                        style="@style/djk_text"
+                        android:layout_marginRight="3dp"
+                        android:text="0.00元" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/more" />
+                </LinearLayout>
             </LinearLayout>
 
-            <LinearLayout
-                style="@style/layout_weight_v"
-                android:gravity="center_vertical|left">
-
-                <TextView
-                    style="@style/djk_text"
-                    android:layout_marginLeft="@dimen/dp_15"
-                    android:text="充值卡余额及卡密充值操作" />
-            </LinearLayout>
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            style="@style/layout_weight_h"
-            android:gravity="center_vertical|right"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/property_text_rechargecardbalance"
-                android:layout_marginRight="3dp"
-                style="@style/djk_text"
-                android:text="0.00元" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/more" />
-        </LinearLayout>
-    </LinearLayout>
-    <LinearLayout
-        android:id="@+id/property_view_cashcoupon"
-        style="@style/LLayout_50_h"
-        android:layout_height="@dimen/dp_60"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
-
-        <LinearLayout
-            style="@style/layout_weight_h"
-            android:layout_weight="3"
-            android:orientation="vertical">
+            <View
+                style="@style/djk_line"
+                android:layout_marginLeft="@dimen/dp_15" />
 
             <LinearLayout
-                style="@style/layout_weight_v"
-                android:gravity="center_vertical|left"
+                android:id="@+id/property_view_cashcoupon"
+                style="@style/LLayout_50_h"
+                android:layout_height="@dimen/dp_60"
+                android:gravity="center_vertical"
                 android:orientation="horizontal">
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/dp_10"
-                    android:src="@drawable/ic_back_red" />
+                <LinearLayout
+                    style="@style/layout_weight_h"
+                    android:layout_weight="3"
+                    android:orientation="vertical">
 
-                <TextView
-                    style="@style/djk_text"
-                    android:text="店铺代金券" />
+                    <LinearLayout
+                        style="@style/layout_weight_v"
+                        android:gravity="center_vertical|left"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/dp_10"
+                            android:src="@drawable/icon_voucher" />
+
+                        <TextView
+                            style="@style/djk_text"
+                            android:text="店铺代金券" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        style="@style/layout_weight_v"
+                        android:gravity="center_vertical|left">
+
+                        <TextView
+                            android:textColor="@color/grey"
+
+                            style="@style/djk_text"
+                            android:layout_marginLeft="@dimen/dp_15"
+                            android:text="店铺代金券使用情况以及卡密兑换代金劵情况" />
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    style="@style/layout_weight_h"
+                    android:gravity="center_vertical|right"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/property_text_cashcoupon"
+                        style="@style/djk_text"
+                        android:layout_marginRight="3dp"
+                        android:text="0张" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/more" />
+                </LinearLayout>
             </LinearLayout>
 
-            <LinearLayout
-                style="@style/layout_weight_v"
-                android:gravity="center_vertical|left">
-
-                <TextView
-
-                    style="@style/djk_text"
-                    android:layout_marginLeft="@dimen/dp_15"
-                    android:text="店铺代金券使用情况以及卡密兑换代金劵情况" />
-            </LinearLayout>
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            style="@style/layout_weight_h"
-            android:gravity="center_vertical|right"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/property_text_cashcoupon"
-                android:layout_marginRight="3dp"
-                style="@style/djk_text"
-                android:text="0张" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/more" />
-        </LinearLayout>
-    </LinearLayout>
-    <LinearLayout
-        android:id="@+id/property_view_redenvelopes"
-        style="@style/LLayout_50_h"
-        android:layout_height="@dimen/dp_60"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
-
-        <LinearLayout
-            style="@style/layout_weight_h"
-            android:layout_weight="3"
-            android:orientation="vertical">
+            <View
+                style="@style/djk_line"
+                android:layout_marginLeft="@dimen/dp_15" />
 
             <LinearLayout
-                style="@style/layout_weight_v"
-                android:gravity="center_vertical|left"
+                android:id="@+id/property_view_redenvelopes"
+                style="@style/LLayout_50_h"
+                android:layout_height="@dimen/dp_60"
+                android:gravity="center_vertical"
                 android:orientation="horizontal">
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/dp_10"
-                    android:src="@drawable/ic_back_red" />
+                <LinearLayout
+                    style="@style/layout_weight_h"
+                    android:layout_weight="3"
+                    android:orientation="vertical">
 
-                <TextView
-                    style="@style/djk_text"
-                    android:text="平台红包" />
+                    <LinearLayout
+                        style="@style/layout_weight_v"
+                        android:gravity="center_vertical|left"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/dp_10"
+                            android:src="@drawable/icon_redenvelopes" />
+
+                        <TextView
+                            style="@style/djk_text"
+                            android:text="平台红包" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        style="@style/layout_weight_v"
+                        android:gravity="center_vertical|left">
+
+                        <TextView
+                            android:textColor="@color/grey"
+
+                            style="@style/djk_text"
+                            android:layout_marginLeft="@dimen/dp_15"
+                            android:text="平台红包使用情况以及卡密领取红包操作" />
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    style="@style/layout_weight_h"
+                    android:gravity="center_vertical|right"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/property_text_redenvelopes"
+                        style="@style/djk_text"
+                        android:layout_marginRight="3dp"
+                        android:text="0个" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/more" />
+                </LinearLayout>
             </LinearLayout>
 
-            <LinearLayout
-                style="@style/layout_weight_v"
-                android:gravity="center_vertical|left">
-
-                <TextView
-                    style="@style/djk_text"
-                    android:layout_marginLeft="@dimen/dp_15"
-                    android:text="平台红包使用情况以及卡密领取红包操作" />
-            </LinearLayout>
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            style="@style/layout_weight_h"
-            android:gravity="center_vertical|right"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/property_text_redenvelopes"
-                android:layout_marginRight="3dp"
-                style="@style/djk_text"
-                android:text="0个" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/more" />
-        </LinearLayout>
-    </LinearLayout>
-    <LinearLayout
-        android:id="@+id/property_view_membershipintegral"
-        style="@style/LLayout_50_h"
-        android:layout_height="@dimen/dp_60"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
-
-        <LinearLayout
-            style="@style/layout_weight_h"
-            android:layout_weight="3"
-            android:orientation="vertical">
+            <View
+                style="@style/djk_line"
+                android:layout_marginLeft="@dimen/dp_15" />
 
             <LinearLayout
-                style="@style/layout_weight_v"
-                android:gravity="center_vertical|left"
+                android:id="@+id/property_view_membershipintegral"
+                style="@style/LLayout_50_h"
+                android:layout_height="@dimen/dp_60"
+                android:gravity="center_vertical"
                 android:orientation="horizontal">
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/dp_10"
-                    android:src="@drawable/ic_back_red" />
+                <LinearLayout
+                    style="@style/layout_weight_h"
+                    android:layout_weight="3"
+                    android:orientation="vertical">
 
-                <TextView
-                    style="@style/djk_text"
-                    android:text="会员积分" />
+                    <LinearLayout
+                        style="@style/layout_weight_v"
+                        android:gravity="center_vertical|left"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/dp_10"
+                            android:src="@drawable/icon_integral" />
+
+                        <TextView
+                            style="@style/djk_text"
+                            android:text="会员积分" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        style="@style/layout_weight_v"
+                        android:gravity="center_vertical|left">
+
+                        <TextView
+                            android:textColor="@color/grey"
+
+                            style="@style/djk_text"
+                            android:layout_marginLeft="@dimen/dp_15"
+                            android:text="会员积分获取及消费日志" />
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    style="@style/layout_weight_h"
+                    android:gravity="center_vertical|right"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/property_text_membershipintegral"
+                        style="@style/djk_text"
+                        android:layout_marginRight="3dp"
+                        android:text="0分" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/more" />
+                </LinearLayout>
             </LinearLayout>
 
-            <LinearLayout
-                style="@style/layout_weight_v"
-                android:gravity="center_vertical|left">
-
-                <TextView
-                    style="@style/djk_text"
-                    android:layout_marginLeft="@dimen/dp_15"
-                    android:text="会员积分获取及消费日志" />
-            </LinearLayout>
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            style="@style/layout_weight_h"
-            android:gravity="center_vertical|right"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/property_text_membershipintegral"
-                android:layout_marginRight="3dp"
-                style="@style/djk_text"
-                android:text="0分" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/more" />
-        </LinearLayout>
-    </LinearLayout>
-    <LinearLayout
-        android:id="@+id/property_view_healthybeans"
-        style="@style/LLayout_50_h"
-        android:layout_height="@dimen/dp_60"
-        android:gravity="center_vertical"
-        android:orientation="horizontal">
-
-        <LinearLayout
-            style="@style/layout_weight_h"
-            android:layout_weight="3"
-            android:orientation="vertical">
+            <View
+                style="@style/djk_line"
+                android:layout_marginLeft="@dimen/dp_15" />
 
             <LinearLayout
-                style="@style/layout_weight_v"
-                android:gravity="center_vertical|left"
+
+                android:id="@+id/property_view_healthybeans"
+                style="@style/LLayout_50_h"
+                android:layout_height="@dimen/dp_60"
+                android:gravity="center_vertical"
                 android:orientation="horizontal">
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/dp_10"
-                    android:src="@drawable/ic_back_red" />
+                <LinearLayout
+                    style="@style/layout_weight_h"
+                    android:layout_weight="3"
+                    android:orientation="vertical">
 
-                <TextView
-                    style="@style/djk_text"
-                    android:text="健康豆" />
+                    <LinearLayout
+                        style="@style/layout_weight_v"
+                        android:gravity="center_vertical|left"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="@dimen/dp_10"
+                            android:src="@drawable/icon_bean" />
+
+                        <TextView
+                            style="@style/djk_text"
+                            android:text="健康豆" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        style="@style/layout_weight_v"
+                        android:gravity="center_vertical|left">
+
+                        <TextView
+                            android:textColor="@color/grey"
+
+                            style="@style/djk_text"
+                            android:layout_marginLeft="@dimen/dp_15"
+                            android:text="会员健康豆获取及消费日志" />
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    style="@style/layout_weight_h"
+                    android:gravity="center_vertical|right"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/property_text_healthybeans"
+                        style="@style/djk_text"
+                        android:layout_marginRight="3dp"
+                        android:text="0.00个" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/more" />
+                </LinearLayout>
             </LinearLayout>
 
-            <LinearLayout
-                style="@style/layout_weight_v"
-                android:gravity="center_vertical|left">
-
-                <TextView
-                    style="@style/djk_text"
-                    android:layout_marginLeft="@dimen/dp_15"
-                    android:text="会员健康豆获取及消费日志" />
-            </LinearLayout>
-
-
+            <View
+                style="@style/djk_line"
+                android:layout_marginLeft="@dimen/dp_15" />
         </LinearLayout>
-
-        <LinearLayout
-            style="@style/layout_weight_h"
-            android:gravity="center_vertical|right"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/property_text_healthybeans"
-                android:layout_marginRight="3dp"
-                style="@style/djk_text"
-                android:text="0.00个" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/more" />
-        </LinearLayout>
-    </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
 </LinearLayout>

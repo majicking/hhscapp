@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 
 import com.guohanhealth.shop.BuildConfig;
 import com.guohanhealth.shop.bean.LoginBean;
+import com.guohanhealth.shop.bean.PaySignInfo;
 import com.guohanhealth.shop.bean.SearchWordsInfo;
 import com.guohanhealth.shop.bean.UserInfo;
 import com.guohanhealth.shop.bean.UserInfo.*;
@@ -23,6 +24,7 @@ import org.greenrobot.greendao.database.Database;
 import java.net.URISyntaxException;
 import java.util.Random;
 
+import io.reactivex.ObservableSource;
 import io.socket.client.IO;
 import io.socket.client.Socket;
 
@@ -78,6 +80,15 @@ public class App extends Application {
     private int page_total = 1;
     private boolean hasmore;
     private String notify_url;
+    private String pay_sn;
+
+    public String getPay_sn() {
+        return pay_sn;
+    }
+
+    public void setPay_sn(String pay_sn) {
+        this.pay_sn = pay_sn;
+    }
 
     public String getNotify_url() {
         return notify_url;

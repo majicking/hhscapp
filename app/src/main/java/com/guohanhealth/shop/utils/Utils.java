@@ -271,9 +271,9 @@ public class Utils {
     private static void payData(Context context, String pay_sn, String type, String is_virtual) {
         String url = "";
         if (type.equals("alipay")) {
-            url = (is_virtual.equals("1") ? ApiService.ALIPAYURLV : ApiService.ALIPAYURL);
+            url = (is_virtual.equals("1") ? ApiService.ALIPAYURLV : is_virtual.equals("2") ? ApiService.ALIPAYMENT + pay_sn + "&key=" + App.getApp().getKey() : ApiService.ALIPAYURL);
         } else if (type.equals("wxpay")) {
-            url = (is_virtual.equals("1") ? ApiService.WXPAYURLV : ApiService.WXPAYURL);
+            url = (is_virtual.equals("1") ? ApiService.WXPAYURLV : is_virtual.equals("2") ? ApiService.WEIXINMENT + pay_sn + "&key=" + App.getApp().getKey() : ApiService.WXPAYURL);
         }
         try {
             Api.post(url, new FormBody.Builder()

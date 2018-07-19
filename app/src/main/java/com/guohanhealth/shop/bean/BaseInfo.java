@@ -1,5 +1,7 @@
 package com.guohanhealth.shop.bean;
 
-public class BaseInfo extends Base {
+import java.io.Serializable;
+
+public class BaseInfo extends Base implements Serializable {
     public String error;
 }

@@ -104,6 +104,8 @@ public interface Constants {
     String CART_COUNT = "cart_count";
     String ORDERTYPE = "ordertype";
     String ORDER_ID = "order_id";
-
-
+    String DATA = "datas";
+    String PROID="proid";
+    String BALANCENUMBER = "balancenumber";
+    String UPDATAMONEY="updatamoney";
 }

@@ -18,6 +18,8 @@ import com.guohanhealth.shop.base.BaseFragment;
 import com.guohanhealth.shop.bean.MineInfo;
 import com.guohanhealth.shop.ui.login.LoginActivity;
 import com.guohanhealth.shop.event.OnFragmentInteractionListener;
+import com.guohanhealth.shop.ui.main.fragment.mine.property.PredepositActivity;
+import com.guohanhealth.shop.ui.main.fragment.mine.property.PropertyActivity;
 import com.guohanhealth.shop.ui.main.fragment.mine.setting.SettingActivity;
 import com.guohanhealth.shop.ui.order.OrderActivity;
 import com.guohanhealth.shop.utils.Logutils;
@@ -159,19 +161,27 @@ public class MineFragment extends BaseFragment<MinePersenter, MineModel> impleme
             if (Utils.isLogin(mContext))
                 readyGo(SettingActivity.class);
         });
+        /**订单*/
         mineBtnviewOrder.setOnClickListener(v -> toOrder(0));
         mineBtnviewOrder1.setOnClickListener(v -> toOrder(1));
         mineBtnviewOrder2.setOnClickListener(v -> toOrder(2));
         mineBtnviewOrder3.setOnClickListener(v -> toOrder(3));
         mineBtnviewOrder4.setOnClickListener(v -> toOrder(4));
         mineBtnviewOrder5.setOnClickListener(v -> showToast("退货退款"));
+        /**财产*/
+        mineBtnviewMymoney.setOnClickListener(v -> readyGo(PropertyActivity.class));
+        mineBtnviewMymoney1.setOnClickListener(v -> readyGo(PredepositActivity.class));
+        mineBtnviewMymoney2.setOnClickListener(v -> readyGo(PropertyActivity.class));
+        mineBtnviewMymoney3.setOnClickListener(v -> readyGo(PropertyActivity.class));
+        mineBtnviewMymoney4.setOnClickListener(v -> readyGo(PropertyActivity.class));
+        mineBtnviewMymoney5.setOnClickListener(v -> readyGo(PropertyActivity.class));
     }
 
     public void toOrder(int index) {
         Bundle bundle = new Bundle();
         bundle.putInt(Constants.ORDERINDEX, index);
         bundle.putBoolean(Constants.ORDERTYPE, false);
-        readyGo(OrderActivity.class,bundle);
+        readyGo(OrderActivity.class, bundle);
     }
 
     private void setbgChange() {
@@ -247,6 +257,26 @@ public class MineFragment extends BaseFragment<MinePersenter, MineModel> impleme
         mineMemberVip.setVisibility(View.VISIBLE);
         mineMemberVip.setText(info.member_info.level_name);
         GlideEngine.getInstance().loadCircleImage(mContext, 50, R.mipmap.djk_icon_member, mineUserheadimg, info.member_info.avatar);
+        if (!info.member_info.order_nopay_count.equals("0")) {
+            mineOrderNum1.setVisibility(View.VISIBLE);
+            mineOrderNum1.setText(info.member_info.order_nopay_count);
+        }
+        if (!info.member_info.order_noreceipt_count.equals("0")) {
+            mineOrderNum2.setVisibility(View.GONE);
+            mineOrderNum2.setText(info.member_info.order_noreceipt_count);
+        }
+        if (!info.member_info.order_notakes_count.equals("0")) {
+            mineOrderNum3.setVisibility(View.GONE);
+            mineOrderNum3.setText(info.member_info.order_notakes_count);
+        }
+        if (!info.member_info.order_noeval_count.equals("0")) {
+            mineOrderNum4.setVisibility(View.GONE);
+            mineOrderNum4.setText(info.member_info.order_noeval_count);
+        }
+        if (!info.member_info.returns.equals("0")) {
+            mineOrderNum5.setVisibility(View.GONE);
+            mineOrderNum5.setText(info.member_info.returns);
+        }
     }
 
     @Override

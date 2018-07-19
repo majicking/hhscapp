@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="horizontal">
+
+
+
+    <LinearLayout
+        style="@style/layout_weight_h"
+        android:layout_weight="1"
+        android:minHeight="@dimen/dp_50"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/up"
+            style="@style/layout_weight_v"
+            android:orientation="vertical">
+
+
+            <RelativeLayout
+                style="@style/layout_weight_v"
+                android:gravity="center">
+
+                <View
+                    android:layout_width="@dimen/dp_2"
+                    android:layout_height="@dimen/dp_2"
+                    android:background="@drawable/circlegray" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                style="@style/layout_weight_v"
+                android:gravity="center">
+
+                <View
+                    android:layout_width="@dimen/dp_2"
+                    android:layout_height="@dimen/dp_2"
+                    android:background="@drawable/circlegray" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                style="@style/layout_weight_v"
+                android:gravity="center">
+
+                <View
+                    android:layout_width="@dimen/dp_2"
+                    android:layout_height="@dimen/dp_2"
+                    android:background="@drawable/circlegray" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                style="@style/layout_weight_v"
+                android:gravity="center">
+
+                <View
+                    android:layout_width="@dimen/dp_2"
+                    android:layout_height="@dimen/dp_2"
+                    android:background="@drawable/circlegray" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                style="@style/layout_weight_v"
+                android:gravity="center">
+
+                <View
+                    android:layout_width="@dimen/dp_2"
+                    android:layout_height="@dimen/dp_2"
+                    android:background="@drawable/circlegray" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                style="@style/layout_weight_v"
+                android:gravity="center">
+
+                <View
+                    android:layout_width="@dimen/dp_2"
+                    android:layout_height="@dimen/dp_2"
+                    android:background="@drawable/circlegray" />
+
+            </RelativeLayout>
+
+
+        </LinearLayout>
+
+        <View
+            android:id="@+id/center"
+            android:layout_width="@dimen/dp_5"
+            android:layout_height="@dimen/dp_5"
+            android:background="@drawable/circlengreen" />
+
+        <LinearLayout
+            android:id="@+id/down"
+            style="@style/layout_weight_v"
+            android:orientation="vertical">
+
+
+            <RelativeLayout
+                style="@style/layout_weight_v"
+                android:gravity="center">
+
+                <View
+                    android:layout_width="@dimen/dp_2"
+                    android:layout_height="@dimen/dp_2"
+                    android:background="@drawable/circlegray" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                style="@style/layout_weight_v"
+                android:gravity="center">
+
+                <View
+                    android:layout_width="@dimen/dp_2"
+                    android:layout_height="@dimen/dp_2"
+                    android:background="@drawable/circlegray" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                style="@style/layout_weight_v"
+                android:gravity="center">
+
+                <View
+                    android:layout_width="@dimen/dp_2"
+                    android:layout_height="@dimen/dp_2"
+                    android:background="@drawable/circlegray" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                style="@style/layout_weight_v"
+                android:gravity="center">
+
+                <View
+                    android:layout_width="@dimen/dp_2"
+                    android:layout_height="@dimen/dp_2"
+                    android:background="@drawable/circlegray" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                style="@style/layout_weight_v"
+                android:gravity="center">
+
+                <View
+                    android:layout_width="@dimen/dp_2"
+                    android:layout_height="@dimen/dp_2"
+                    android:background="@drawable/circlegray" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                style="@style/layout_weight_v"
+                android:gravity="center">
+
+                <View
+                    android:layout_width="@dimen/dp_2"
+                    android:layout_height="@dimen/dp_2"
+                    android:background="@drawable/circlegray" />
+
+            </RelativeLayout>
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/layout_weight_h"
+        android:layout_weight="5"
+        android:orientation="vertical">
+        <View style="@style/djk_line" />
+        <TextView
+            android:id="@+id/time"
+            style="@style/match_warp"
+            android:gravity="center_vertical"
+            android:textSize="@dimen/sp_12" />
+
+        <TextView
+            android:id="@+id/content"
+            style="@style/match_warp"
+            android:gravity="center_vertical"
+            android:textSize="@dimen/sp_12" />
+    </LinearLayout>
+
+</LinearLayout>

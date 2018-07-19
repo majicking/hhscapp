@@ -6,6 +6,7 @@ import com.guohanhealth.shop.http.Api;
 import com.guohanhealth.shop.http.ApiService;
 import com.guohanhealth.shop.http.ConsumerError;
 import com.guohanhealth.shop.http.HttpErrorCode;
+import com.guohanhealth.shop.utils.Logutils;
 import com.guohanhealth.shop.utils.Utils;
 
 import java.io.IOException;
@@ -70,6 +71,7 @@ public class OrderPersenter extends BasePresenter<OrderView, OrderModel> {
         });
     }
 
+
     public void getPaymentList(String key) {
         mRxManager.add(mModel.getPayList(key).subscribe(info -> {
             mView.getPayWayList(info);
@@ -112,5 +114,14 @@ public class OrderPersenter extends BasePresenter<OrderView, OrderModel> {
         });
     }
 
-
+    public void searchLogistics(String key, String order_id) {
+        mRxManager.add(mModel.searchLogistics(key, order_id).subscribe(info -> {
+           mView.geExpressInfo(info);
+        }, new ConsumerError<Throwable>() {
+            @Override
+            public void onError(int errorCode, String message) {
+                mView.faild(message);
+            }
+        }));
+    }
 }

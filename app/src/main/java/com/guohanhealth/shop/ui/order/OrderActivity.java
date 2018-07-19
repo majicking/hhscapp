@@ -2,25 +2,18 @@ package com.guohanhealth.shop.ui.order;
 
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.view.KeyEvent;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.guohanhealth.shop.R;
-import com.guohanhealth.shop.adapter.ViewPageAdapter;
 import com.guohanhealth.shop.adapter.ViewPagerAdapter;
 import com.guohanhealth.shop.app.Constants;
 import com.guohanhealth.shop.base.BaseActivity;
 import com.guohanhealth.shop.event.OnFragmentInteractionListener;
-import com.guohanhealth.shop.event.OrderEvent;
-import com.guohanhealth.shop.event.RxBus;
 import com.guohanhealth.shop.utils.Utils;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;

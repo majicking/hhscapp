@@ -17,9 +17,12 @@ import com.guohanhealth.shop.bean.ImgCodeKey;
 import com.guohanhealth.shop.bean.LoginBean;
 import com.guohanhealth.shop.bean.LogisticsInfo;
 import com.guohanhealth.shop.bean.MineInfo;
+import com.guohanhealth.shop.bean.MyAssectInfo;
 import com.guohanhealth.shop.bean.ObjectBeans;
 import com.guohanhealth.shop.bean.OrderInfo;
+import com.guohanhealth.shop.bean.PaySignInfo;
 import com.guohanhealth.shop.bean.PayWayInfo;
+import com.guohanhealth.shop.bean.RechargeOrderInfo;
 import com.guohanhealth.shop.bean.SMSCode;
 import com.guohanhealth.shop.bean.SearchInfo;
 import com.guohanhealth.shop.bean.SearchWordsInfo;
@@ -89,6 +92,12 @@ public interface ApiService {
     String ORDER_LISTV = Constants.INDEX + "act=member_vr_order&op=order_list";
     String ORDER_OPERATION = Constants.INDEX + "act=member_order";
     String SEARCH_DELIVER = Constants.INDEX + "act=member_order&op=search_deliver";
+    String MY_ASSET = Constants.INDEX + "act=member_index&op=my_asset";
+    String RECHARGE = Constants.INDEX + "act=recharge";
+    String RECHARGE_ORDER = Constants.INDEX + "act=recharge&op=recharge_order";
+    String ALIPAYMENT = Constants.INDEX + "act=member_payment_recharge&op=alipay_native_pay&payment_code=alipay_native&pay_sn=";
+    String WEIXINMENT = Constants.INDEX + "act=member_payment_recharge&op=wx_app_pay3&payment_code=wxpay&pay_sn=";
+    String PREDEPOSIT = Constants.INDEX + "act=member_fund";
 
     /**
      * 用户登录
@@ -421,11 +430,42 @@ public interface ApiService {
 
 
     /**
-     *  物流查询
+     * 物流查询
      */
     @FormUrlEncoded
     @POST(SEARCH_DELIVER)
-    Observable<Result<LogisticsInfo>> searchLogistics(@Field("key") String key,@Field("order_id") String order_id);
+    Observable<Result<LogisticsInfo>> searchLogistics(@Field("key") String key, @Field("order_id") String order_id);
+
+    /**
+     * 财产查询
+     */
+    @FormUrlEncoded
+    @POST(MY_ASSET)
+    Observable<Result<MyAssectInfo>> getMyAsset(@Field("key") String key);
+
+    /**
+     * 充值
+     */
+    @FormUrlEncoded
+    @POST(RECHARGE)
+    Observable<Result<PaySignInfo>> recharge(@Field("key") String key, @Field("pdr_amount") String pdr_amount);
+
+    /**
+     * 充值订单
+     */
+    @FormUrlEncoded
+    @POST(RECHARGE_ORDER)
+    Observable<Result<RechargeOrderInfo>> rechargeOrder(@Field("key") String key, @Field("paysn") String paysn);
+
+    /**
+     * 预存款  &op=predepositlog &op=pdrechargelist &op=pdcashlist MEMBER_FUND
+     */
+    @FormUrlEncoded
+    @POST(PREDEPOSIT)
+ Observable<Result> predeposit(@Field("key") String key,
+                                          @Query("op") String op,
+                                          @Query("curpage") String curpage,
+                                          @Query("page") String page);
 
 
 //    /**

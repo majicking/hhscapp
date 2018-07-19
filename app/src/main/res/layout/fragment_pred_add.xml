@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <EditText
+        android:id="@+id/rechargenumber"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_60"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/dp_20"
+        android:layout_marginRight="@dimen/dp_20"
+        android:layout_marginTop="@dimen/dp_50"
+        android:background="@drawable/bg_line_grey"
+        android:gravity="center"
+        android:hint="请输入充值金额"
+        android:inputType="number|numberDecimal"
+        android:maxLines="1"
+        android:textColor="@color/nc_text"
+        android:textColorHint="@color/grey"
+        android:textCursorDrawable="@null"
+        android:textSize="18sp" />
+
+
+    <Button
+
+        android:id="@+id/recharge"
+        style="@style/btn"
+        android:layout_width="match_parent"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="40dp"
+        android:text="确认充值" />
+</LinearLayout>

@@ -71,6 +71,8 @@
 
         <activity android:name=".ui.order.OrderActivity" />
         <activity android:name=".ui.order.LogisticsActivity" />
+        <activity android:name=".ui.main.fragment.mine.property.PropertyActivity" />
+        <activity android:name=".ui.main.fragment.mine.property.PredepositActivity"></activity>
     </application>
 
 </manifest>

@@ -6,6 +6,57 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".ui.order.LogisticsActivity">
-<include layout="@layout/common_toolbar"/>
+
+    <include layout="@layout/common_toolbar" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_60"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icon_express" />
+
+        <LinearLayout
+            style="@style/layout_weight_h"
+            android:orientation="vertical"
+            android:padding="@dimen/dp_8">
+
+            <LinearLayout
+                style="@style/layout_weight_v"
+                android:gravity="center_vertical">
+
+                <TextView
+                    style="@style/djk_text"
+                    android:text="物流公司:" />
+
+                <TextView
+                    android:id="@+id/logistics_name"
+                    style="@style/djk_text"
+                    android:layout_marginLeft="@dimen/dp_5" />
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/layout_weight_v"
+                android:gravity="center_vertical">
+
+                <TextView
+                    style="@style/djk_text"
+                    android:text="物流单号:" />
+
+                <TextView
+                    android:id="@+id/logistics_number"
+                    style="@style/djk_text"
+                    android:layout_marginLeft="@dimen/dp_5" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/logistics_view_crcycle"
+        style="@style/match_warp"></android.support.v7.widget.RecyclerView>
 
 </LinearLayout>

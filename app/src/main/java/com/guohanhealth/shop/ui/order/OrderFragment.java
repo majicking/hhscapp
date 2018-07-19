@@ -15,6 +15,7 @@ import com.guohanhealth.shop.R;
 import com.guohanhealth.shop.app.App;
 import com.guohanhealth.shop.app.Constants;
 import com.guohanhealth.shop.base.BaseFragment;
+import com.guohanhealth.shop.bean.LogisticsInfo;
 import com.guohanhealth.shop.bean.OrderInfo;
 import com.guohanhealth.shop.bean.PayWayInfo;
 import com.guohanhealth.shop.custom.CustomDialog;
@@ -223,6 +224,14 @@ public class OrderFragment extends BaseFragment<OrderPersenter, OrderModel> impl
         }
     }
 
+    @Override
+    public void geExpressInfo(LogisticsInfo data) {
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(Constants.DATA, data);
+        readyGo(LogisticsActivity.class, bundle);
+
+    }
+
     private void setData() {
         //最外层布局
         linearLayout.removeAllViews();
@@ -339,9 +348,7 @@ public class OrderFragment extends BaseFragment<OrderPersenter, OrderModel> impl
                         btn1.setVisibility(View.VISIBLE);
                         btn1.setText("查看物流");
                         btn1.setOnClickListener(v -> {
-                            Bundle bundle = new Bundle();
-                            bundle.putString(Constants.ORDER_ID, list.get(indexi).order_list.get(indexj).order_id);
-                            readyGo(LogisticsActivity.class, bundle);
+                            mPresenter.searchLogistics(App.getApp().getKey(), list.get(indexi).order_list.get(indexj).order_id);
                         });
                     }
                     linearLayout.addView(item);

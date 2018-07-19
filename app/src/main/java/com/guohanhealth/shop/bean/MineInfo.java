@@ -13,6 +13,7 @@ public class MineInfo  extends BaseInfo{
         public String order_noreceipt_count;
         public String order_notakes_count;
         public String order_noeval_count;
+        public String returns;
         public String is_distri;
         public String is_movie;
         public String is_movie_msg;
