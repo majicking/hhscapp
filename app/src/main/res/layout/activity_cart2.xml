@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.cart.CartActivity">
+
+    <RelativeLayout
+        style="@style/RLayout_48"
+        android:background="@color/appColor">
+
+        <ImageView
+            android:id="@+id/back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/dp_10"
+            android:src="@drawable/ic_back_white" />
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/app_name"
+
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp_16" />
+
+        <TextView
+            android:id="@+id/history"
+            style="@style/djk_text"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/dp_10"
+            android:text="聊天记录"
+            android:textColor="@color/white" />
+    </RelativeLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycleview"
+        style="@style/layout_weight_v">
+
+    </android.support.v7.widget.RecyclerView>
+
+    <LinearLayout
+        style="@style/LLayout_40_h"
+        android:gravity="center_vertical"
+        android:padding="@dimen/dp_3">
+
+        <ImageView
+            android:id="@+id/smile"
+            android:layout_width="@dimen/dp_30"
+            android:layout_height="@dimen/dp_30"
+            android:layout_margin="@dimen/dp_4"
+            android:src="@drawable/btu_expressio_bg" />
+
+        <EditText
+            android:id="@+id/editmsg"
+            style="@style/edittext"
+            android:layout_height="@dimen/dp_30"
+            android:background="@drawable/im_send_button_bg" />
+
+        <Button
+            android:id="@+id/sendmsg"
+            android:layout_width="@dimen/dp_60"
+            android:layout_height="@dimen/dp_30"
+            android:layout_margin="@dimen/dp_4"
+            android:background="@drawable/bg_gray"
+            android:text="发送" />
+    </LinearLayout>
+</LinearLayout>

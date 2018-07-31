@@ -16,9 +16,6 @@ import com.guohanhealth.shop.utils.engine.GlideEngine;
 
 /**
  * 空列表背景
- * <p>
- * dqw
- * 2015/8/25
  */
 public class EmptyView extends FrameLayout {
     private ImageView ivListEmpty;

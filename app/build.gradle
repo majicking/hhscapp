@@ -72,8 +72,8 @@ android {
         debug {
             signingConfig signingConfigs.release
             println("--------------------------------debug")
-//            buildConfigField "String", "HOST", '"192.168.1.231"'
-            buildConfigField "String", "HOST", '"www.guohanhealth.com"'
+            buildConfigField "String", "HOST", '"192.168.1.231"'
+//            buildConfigField "String", "HOST", '"www.guohanhealth.com"'
             buildConfigField "boolean", "ISDEBUG", 'true'
             android.applicationVariants.all { variant ->
                 variant.outputs.all {
@@ -115,61 +115,88 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+
     //base
     implementation lib.appcompatV7
     implementation lib.cardviewV7
     implementation lib.supportV4
     implementation lib.design
     implementation lib.constraint_layout
+
     //multidex 分包
     implementation lib.multidex
+
     //ui
+
     //banner
     implementation lib.banner
+
     //底部导航栏样式BottomNavigationBar
     api lib.BottomNavigationBar
+
     //刷新
     implementation lib.SmartRefreshLayout
     implementation lib.SmartRefreshHeader
+
     //解析对象
     implementation lib.gson
+
     //网络请求
     implementation lib.okhttp3_okhttp
     implementation lib.okhttp3_logging_interceptor
     implementation lib.retrofit2_retrofit
     implementation lib.retrofit2_converter_gson
     implementation lib.retrofit2_adapter_rxjava2
+
     //图片加载框架
     implementation lib.glide
     annotationProcessor lib.glide_compiler
+
     //rx
     implementation lib.rxjava2_rxjava
     implementation lib.rxjava2_rxandroid
     implementation lib.rxbinding2_rxbinding
     implementation lib.rxpermissions
+
     //黄油刀注解
     implementation lib.butterknife
     annotationProcessor lib.butterknife_compiler
+
     //日志
     implementation lib.logger
+
     //dialog AVLoadingIndicatorView 加载动画
     api 'com.wang.avi:library:1.0.0'
+
     //即时聊天
-    api('io.socket:socket.io-client:0.8.3') {
-        exclude group: 'org.json', module: 'json'
-    }
+
+    //    api('io.socket:socket.io-client:0.8.3') {
+
+    //        exclude group: 'org.json', module: 'json'
+
+    //    }
+
+    //单选IOS风格按钮
+    api 'com.zcw:togglebutton-library:1.0.0'
+
     //选择按钮左中右
     api 'cn.carbs.android:SegmentControlView:1.0.0'
+
     //扫码
     implementation lib.zxing
     implementation lib.BaseRecyclerViewAdapterHelper
     implementation lib.fastjson
+
     //标签布局
     implementation 'co.lujun:androidtagview:1.0.3'
+
     //支付宝
     implementation files('libs/alipaySdk-20180403.jar')
+
     //腾讯
     implementation 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
     implementation lib.greendao
     implementation 'com.github.chrisbanes.photoview:library:+'
+    implementation files('libs/socketio.jar')
+    implementation files('libs/WebSocket.jar')
 }

@@ -1,15 +1,19 @@
 package com.guohanhealth.shop.base;
 
 import com.guohanhealth.shop.app.App;
+import com.guohanhealth.shop.app.Constants;
 import com.guohanhealth.shop.bean.CartNumberInfo;
 import com.guohanhealth.shop.bean.ImgCodeKey;
 import com.guohanhealth.shop.bean.LoginBean;
 import com.guohanhealth.shop.bean.PayWayInfo;
+import com.guohanhealth.shop.bean.PreInfo;
 import com.guohanhealth.shop.bean.SMSCode;
 import com.guohanhealth.shop.bean.SearchWordsInfo;
 import com.guohanhealth.shop.bean.UserInfo;
 import com.guohanhealth.shop.http.Api;
 import com.guohanhealth.shop.http.RxHelper;
+
+import java.util.Random;
 
 import io.reactivex.Observable;
 
@@ -34,7 +38,7 @@ public class BaseModel {
      * 获取图片验证码
      */
     public Observable<ImgCodeKey> getImgCode() {
-        return Api.getDefault().getImgCodeKey().compose(RxHelper.handleResult());
+        return Api.getDefault().getImgCodeKey(new Random().nextInt(100) + "").compose(RxHelper.handleResult());
     }
 
 
@@ -52,7 +56,7 @@ public class BaseModel {
         return Api.getDefault().getSearchDataWords().compose(RxHelper.handleResult());
     }
 
-    public Observable<PayWayInfo> getPayList(String key){
+    public Observable<PayWayInfo> getPayList(String key) {
         return Api.getDefault().getPaymentList(key).compose(RxHelper.handleResult());
     }
 
@@ -60,7 +64,10 @@ public class BaseModel {
         return Api.getDefault().getCardNumber(key).compose(RxHelper.handleResult());
     }
 
-
+    //财产 获取值
+    public Observable<PreInfo> getPre(String key, String type) {
+        return Api.getDefault().getPre(key, type).compose(RxHelper.handleResult());
+    }
 
 
 }

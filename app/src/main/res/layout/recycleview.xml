@@ -1,16 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/match">
+
 
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
         android:id="@+id/smartrefreshlayout"
-        style="@style/layout_weight_v">
+        style="@style/match">
+
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerview"
             style="@style/match"></android.support.v7.widget.RecyclerView>
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+    <com.guohanhealth.shop.custom.EmptyView
+        android:id="@+id/emptyview"
+        style="@style/match"
+        android:visibility="gone"></com.guohanhealth.shop.custom.EmptyView>
 
-</android.support.constraint.ConstraintLayout>
+</RelativeLayout>

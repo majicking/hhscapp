@@ -7,27 +7,21 @@ import android.widget.TextView;
 
 import com.guohanhealth.shop.R;
 import com.guohanhealth.shop.app.App;
+import com.guohanhealth.shop.app.Constants;
 import com.guohanhealth.shop.base.BaseActivity;
 import com.guohanhealth.shop.bean.MyAssectInfo;
 import com.guohanhealth.shop.bean.PayWayInfo;
-import com.guohanhealth.shop.bean.RechargeOrderInfo;
-import com.guohanhealth.shop.http.Api;
-import com.guohanhealth.shop.http.ApiService;
-import com.guohanhealth.shop.http.HttpErrorCode;
-import com.guohanhealth.shop.http.Result;
-import com.guohanhealth.shop.utils.JSONParser;
-import com.guohanhealth.shop.utils.Logutils;
-import com.guohanhealth.shop.utils.Utils;
-
-import java.io.IOException;
+import com.guohanhealth.shop.event.OnFragmentInteractionListener;
+import com.guohanhealth.shop.ui.main.fragment.mine.property.accountbalance.PredepositActivity;
+import com.guohanhealth.shop.ui.main.fragment.mine.property.health.HealthActivity;
+import com.guohanhealth.shop.ui.main.fragment.mine.property.point.PointActivity;
+import com.guohanhealth.shop.ui.main.fragment.mine.property.rechargecardbalance.RechargeCardActivity;
+import com.guohanhealth.shop.ui.main.fragment.mine.property.redpack.RedPackActivity;
+import com.guohanhealth.shop.ui.main.fragment.mine.property.voucher.VoucherActivity;
 
 import butterknife.BindView;
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.FormBody;
-import okhttp3.Response;
 
-public class PropertyActivity extends BaseActivity<PredepositPersenter, PredepositModel> implements PredepositView {
+public class PropertyActivity extends BaseActivity<PredepositPersenter, PredepositModel> implements PredepositView, OnFragmentInteractionListener {
 
 
     @BindView(R.id.common_toolbar_title_tv)
@@ -67,6 +61,18 @@ public class PropertyActivity extends BaseActivity<PredepositPersenter, Predepos
     @Override
     protected void initView(Bundle savedInstanceState) {
         initToolBarNav(commonToolbar, commonToolbarTitleTv, "我的财产");
+        /**账户余额*/
+        propertyViewAccountbalance.setOnClickListener(v -> readyGo(PredepositActivity.class));
+        /**充值卡余额*/
+        propertyViewRechargecardbalance.setOnClickListener(v -> readyGo(RechargeCardActivity.class));
+        /**代金卷*/
+        propertyViewCashcoupon.setOnClickListener(v -> readyGo(VoucherActivity.class));
+        /**红包*/
+        propertyViewRedenvelopes.setOnClickListener(v -> readyGo(RedPackActivity.class));
+        /**会员积分*/
+        propertyViewMembershipintegral.setOnClickListener(v -> readyGo(PointActivity.class));
+        /**健康豆*/
+        propertyViewHealthybeans.setOnClickListener(v -> readyGo(HealthActivity.class));
     }
 
     @Override
@@ -77,12 +83,12 @@ public class PropertyActivity extends BaseActivity<PredepositPersenter, Predepos
 
     @Override
     public void getMyAssect(MyAssectInfo info) {
-        propertyTextAccountbalance.setText(info.available_rc_balance + "元");
+        propertyTextAccountbalance.setText(info.predepoit + "元");
         propertyTextRedenvelopes.setText(info.redpacket + "个");
         propertyTextHealthybeans.setText(info.healthbean_value + "个");
         propertyTextMembershipintegral.setText(info.point + "分");
         propertyTextCashcoupon.setText(info.voucher + "张");
-        propertyTextRechargecardbalance.setText(info.predepoit + "元");
+        propertyTextRechargecardbalance.setText(info.available_rc_balance + "元");
     }
 
     @Override
@@ -99,5 +105,11 @@ public class PropertyActivity extends BaseActivity<PredepositPersenter, Predepos
     @Override
     public void faild(String msg) {
         showToast(msg);
+    }
+
+
+    @Override
+    public Object doSomeThing(String key, Object value) {
+        return null;
     }
 }

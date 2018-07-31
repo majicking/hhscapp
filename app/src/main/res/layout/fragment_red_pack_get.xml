@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.main.fragment.mine.property.rechargecardbalance.RechargeCardAddFragment">
+
+    <android.support.v4.widget.NestedScrollView style="@style/match">
+
+        <LinearLayout
+            style="@style/match"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/appColor"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dp_15"
+                    android:src="@drawable/icon_redenvelopes_big" />
+
+                <View style="@style/linearlayout_zw" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/dp_10"
+                    android:gravity="right"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/warp"
+                        android:text="请输入已知平台红包卡密号码"
+                        android:textColor="@color/white" />
+
+                    <TextView
+                        style="@style/warp"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:text="确认生效后可在购物车使用抵扣订单金额"
+                        android:textColor="@color/white" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <View style="@style/djk_line_big" />
+
+            <LinearLayout
+                style="@style/LLayout_48_h"
+                android:paddingLeft="@dimen/dp_10"
+                android:paddingRight="@dimen/dp_10">
+
+                <TextView
+                    style="@style/djk_text"
+                    android:text="红包卡密：" />
+
+                <EditText
+                    android:id="@+id/redpack"
+                    style="@style/layout_weight_h"
+                    android:gravity="center_vertical"
+                    android:hint="请输入平台红包卡密号"
+                    android:paddingLeft="@dimen/dp_15"
+                    android:inputType="text"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/sp_12" />
+
+            </LinearLayout>
+
+            <View style="@style/djk_line" />
+
+            <LinearLayout
+                style="@style/LLayout_48_h"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/dp_10"
+                android:paddingRight="@dimen/dp_10">
+
+                <TextView
+                    style="@style/djk_text"
+                    android:text="验  证  码：" />
+
+                <EditText
+                    android:id="@+id/editcode"
+                    style="@style/layout_weight_h"
+                    android:inputType="text"
+                    android:gravity="center_vertical"
+                    android:hint="请输入四位验证码"
+                    android:paddingLeft="@dimen/dp_15"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/sp_12" />
+
+                <ImageView
+                    android:id="@+id/imgcode"
+                    android:layout_width="@dimen/dp_100"
+                    android:layout_height="@dimen/dp_40" />
+            </LinearLayout>
+
+            <View style="@style/djk_line" />
+
+            <Button
+                android:id="@+id/apply"
+                style="@style/btn"
+                android:layout_marginTop="@dimen/dp_30"
+                android:text="确认提交" />
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+</LinearLayout>

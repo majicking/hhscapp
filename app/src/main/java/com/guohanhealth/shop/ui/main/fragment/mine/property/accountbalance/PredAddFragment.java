@@ -1,13 +1,10 @@
-package com.guohanhealth.shop.ui.main.fragment.mine.property;
+package com.guohanhealth.shop.ui.main.fragment.mine.property.accountbalance;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.PopupWindow;
@@ -18,21 +15,19 @@ import com.guohanhealth.shop.app.Constants;
 import com.guohanhealth.shop.base.BaseFragment;
 import com.guohanhealth.shop.bean.MyAssectInfo;
 import com.guohanhealth.shop.bean.PayWayInfo;
-import com.guohanhealth.shop.bean.RechargeOrderInfo;
+import com.guohanhealth.shop.event.ObjectEvent;
 import com.guohanhealth.shop.event.OnFragmentInteractionListener;
 import com.guohanhealth.shop.event.RxBus;
+import com.guohanhealth.shop.ui.main.fragment.mine.property.PredepositModel;
+import com.guohanhealth.shop.ui.main.fragment.mine.property.PredepositPersenter;
+import com.guohanhealth.shop.ui.main.fragment.mine.property.PredepositView;
 import com.guohanhealth.shop.utils.Logutils;
 import com.guohanhealth.shop.utils.PayResult;
 import com.guohanhealth.shop.utils.Utils;
 import com.tencent.mm.opensdk.constants.ConstantsAPI;
 import com.tencent.mm.opensdk.modelbase.BaseResp;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 
 public class PredAddFragment extends BaseFragment<PredepositPersenter, PredepositModel> implements PredepositView {
     private static final String ARG_PARAM1 = "param1";
@@ -110,6 +105,7 @@ public class PredAddFragment extends BaseFragment<PredepositPersenter, Predeposi
         recharge.setOnClickListener(v -> {
             if (!Utils.isEmpty(rechargenumber)) {
                 showToast("请输入充值金额！");
+                return;
             }
             mPresenter.recharge(App.getApp().getKey(), Utils.getEditViewText(rechargenumber));
         });
@@ -159,7 +155,11 @@ public class PredAddFragment extends BaseFragment<PredepositPersenter, Predeposi
     @Override
     public void getPaymentList(PayWayInfo info) {
         Logutils.i(info.payment_list.size());
-
+        InputMethodManager imm = (InputMethodManager) mContext.getSystemService(Context.INPUT_METHOD_SERVICE);
+        boolean isOpen = imm.isActive();//isOpen若返回true，则表示输入法打开
+        if (isOpen) {
+            imm.hideSoftInputFromWindow(getView().getWindowToken(), 0); //强制隐藏键盘
+        }
         popuWindow = Utils.shopPayWindown(mContext, info.payment_list, App.getApp().getPay_sn(), "2", v -> {
             popuWindow.dismiss();
             onButtonPressed(Constants.BALANCENUMBER, "2");
@@ -195,6 +195,12 @@ public class PredAddFragment extends BaseFragment<PredepositPersenter, Predeposi
                 }
                 onButtonPressed(Constants.BALANCENUMBER, "2");
             }
+        });
+
+        RxBus.getDefault().register(this, ObjectEvent.class, error -> {
+            showToast(error.msg);
+            popuWindow.dismiss();
+            onButtonPressed(Constants.BALANCENUMBER, "2");
         });
     }
 

@@ -97,6 +97,25 @@ public class SearchActivity extends BaseActivity<SearchPercenter, SearchModel> i
                 showToast("暂无数据");
             }
         });
+
+        setHistoryData();
+    }
+
+    private void setHistoryData() {
+        List<SearchBean> list = App.getDaoSession().getSearchBeanDao().queryBuilder().build().list();
+        if (list != null && list.size() > 0) {
+            searchDel.setActivated(true);
+            for (int i = 0; i < list.size(); i++) {
+                historylist.add(list.get(i).getName());
+            }
+            historytagcontainerlayout.setTags(historylist);
+        } else {
+            searchDel.setActivated(false);
+        }
+        for (int i = 0; i < historytagcontainerlayout.getChildCount(); i++) {
+            TagView tagView = (TagView) historytagcontainerlayout.getChildAt(i);
+            tagView.setTagTextColor(Constants.BGCOLORS[new Random().nextInt(10)]);
+        }
     }
 
     public void doSomeThing(String value) {
@@ -144,21 +163,9 @@ public class SearchActivity extends BaseActivity<SearchPercenter, SearchModel> i
         if (info.his_list != null && info.his_list.size() > 0) {
             historytagcontainerlayout.setTags(info.his_list);
         } else {
-            List<SearchBean> list = App.getDaoSession().getSearchBeanDao().queryBuilder().build().list();
-            if (list != null && list.size() > 0) {
-                searchDel.setActivated(true);
-                for (int i = 0; i < list.size(); i++) {
-                    historylist.add(list.get(i).getName());
-                }
-                historytagcontainerlayout.setTags(historylist);
-            } else {
-                searchDel.setActivated(false);
-            }
+            setHistoryData();
         }
-        for (int i = 0; i < historytagcontainerlayout.getChildCount(); i++) {
-            TagView tagView = (TagView) historytagcontainerlayout.getChildAt(i);
-            tagView.setTagTextColor(Constants.BGCOLORS[new Random().nextInt(10)]);
-        }
+
         for (int i = 0; i < tagcontainerlayout.getChildCount(); i++) {
             TagView tagView = (TagView) tagcontainerlayout.getChildAt(i);
             tagView.setTagTextColor(Constants.BGCOLORS[new Random().nextInt(10)]);

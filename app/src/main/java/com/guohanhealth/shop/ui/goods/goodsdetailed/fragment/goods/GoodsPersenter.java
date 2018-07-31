@@ -7,5 +7,4 @@ public class GoodsPersenter extends BasePresenter<GoodsView, GoodsModel> {
 
 
 
-
 }

@@ -36,7 +36,7 @@ public abstract class ConsumerError<T extends Throwable> implements Consumer<T> 
         } else if (t instanceof JSONException) {
             errorMessage = "数据转换失败,联系管理员";
         } else if (t instanceof Exception) {
-            errorMessage = "系统异常";
+            errorMessage = "系统异常，管理员正在维护";
             Logutils.i(t.getMessage());
         }
 

@@ -2,27 +2,34 @@ package com.guohanhealth.shop.http;
 
 
 import com.guohanhealth.shop.app.Constants;
+import com.guohanhealth.shop.bean.AddressManagerInfo;
 import com.guohanhealth.shop.bean.Adv_list;
 import com.guohanhealth.shop.bean.BaseInfo;
-import com.guohanhealth.shop.bean.CartNumberInfo;
-import com.guohanhealth.shop.bean.CartInfo;
-import com.guohanhealth.shop.bean.EvalInfo;
-import com.guohanhealth.shop.bean.Goods_hair_info;
 import com.guohanhealth.shop.bean.BrandListInfo;
+import com.guohanhealth.shop.bean.CartInfo;
+import com.guohanhealth.shop.bean.CartNumberInfo;
+import com.guohanhealth.shop.bean.EvalInfo;
 import com.guohanhealth.shop.bean.GoodsClassChildInfo;
 import com.guohanhealth.shop.bean.GoodsClassInfo;
 import com.guohanhealth.shop.bean.GoodsDetailedInfo;
 import com.guohanhealth.shop.bean.GoodsListInfo;
+import com.guohanhealth.shop.bean.Goods_hair_info;
+import com.guohanhealth.shop.bean.HealthInfo;
+import com.guohanhealth.shop.bean.HealthNumInfo;
 import com.guohanhealth.shop.bean.ImgCodeKey;
 import com.guohanhealth.shop.bean.LoginBean;
 import com.guohanhealth.shop.bean.LogisticsInfo;
 import com.guohanhealth.shop.bean.MineInfo;
 import com.guohanhealth.shop.bean.MyAssectInfo;
-import com.guohanhealth.shop.bean.ObjectBeans;
 import com.guohanhealth.shop.bean.OrderInfo;
 import com.guohanhealth.shop.bean.PaySignInfo;
 import com.guohanhealth.shop.bean.PayWayInfo;
+import com.guohanhealth.shop.bean.PointInfo;
+import com.guohanhealth.shop.bean.PreInfo;
+import com.guohanhealth.shop.bean.PredepositInfo;
+import com.guohanhealth.shop.bean.RcdInfo;
 import com.guohanhealth.shop.bean.RechargeOrderInfo;
+import com.guohanhealth.shop.bean.RedPagcketInfo;
 import com.guohanhealth.shop.bean.SMSCode;
 import com.guohanhealth.shop.bean.SearchInfo;
 import com.guohanhealth.shop.bean.SearchWordsInfo;
@@ -30,15 +37,13 @@ import com.guohanhealth.shop.bean.SelectedInfo;
 import com.guohanhealth.shop.bean.Step2Info;
 import com.guohanhealth.shop.bean.UpDataAddressInfo;
 import com.guohanhealth.shop.bean.UserInfo;
-
-import java.util.List;
+import com.guohanhealth.shop.bean.VoucherInfo;
 
 import io.reactivex.Observable;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
-import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 /**
@@ -98,6 +103,21 @@ public interface ApiService {
     String ALIPAYMENT = Constants.INDEX + "act=member_payment_recharge&op=alipay_native_pay&payment_code=alipay_native&pay_sn=";
     String WEIXINMENT = Constants.INDEX + "act=member_payment_recharge&op=wx_app_pay3&payment_code=wxpay&pay_sn=";
     String PREDEPOSIT = Constants.INDEX + "act=member_fund";
+    String PDCASHADD = Constants.INDEX + "act=recharge&op=pd_cash_add";
+    String PREDEPOIT = Constants.INDEX + "act=member_index&op=my_asset";
+    String RECHARGECARD_ADD = Constants.INDEX + "act=member_fund&op=rechargecard_add";
+    String VOUCHER_LIST = Constants.INDEX + "act=member_voucher&op=voucher_list";
+    String VOUCHER_PWEX = Constants.INDEX + "act=member_voucher&op=voucher_pwex";
+    String REDPACKET_LIST = Constants.INDEX + "act=member_redpacket&op=redpacket_list";
+    String RP_PWEX = Constants.INDEX + "act=member_redpacket&op=rp_pwex";
+    String POINTSLO = Constants.INDEX + "act=member_points&op=pointslog";
+    String HEALTHBEANLOG = Constants.INDEX + "act=healthbean&op=HealthBeanLog";
+    String GETHEALTHBEANVALUE = Constants.INDEX + "act=healthbean&op=GetHealthbeanValue";
+    String ADDRESS_LIST = Constants.INDEX + "act=member_address&op=address_list";
+    String ADDRESS_DEL = Constants.INDEX + "act=member_address&op=address_del";
+    String ADDRESS_EDIT = Constants.INDEX + "act=member_address&op=address_edit";
+    String ADDRESS_ADD = Constants.INDEX + "act=member_address&op=address_add";
+    String GET_USER_LIST = Constants.INDEX + "act=member_chat&op=get_user_list";
 
     /**
      * 用户登录
@@ -154,7 +174,7 @@ public interface ApiService {
      * 加载图片验证码
      */
     @GET(IMGKEYCODE)
-    Observable<Result<ImgCodeKey>> getImgCodeKey();
+    Observable<Result<ImgCodeKey>> getImgCodeKey(@Query("random") String random);
 
     /**
      * 初始化加载我的信息
@@ -462,10 +482,85 @@ public interface ApiService {
      */
     @FormUrlEncoded
     @POST(PREDEPOSIT)
- Observable<Result> predeposit(@Field("key") String key,
-                                          @Query("op") String op,
-                                          @Query("curpage") String curpage,
-                                          @Query("page") String page);
+    Observable<Result<RcdInfo>> predeposit(@Field("key") String key,
+                                           @Query("op") String op,
+                                           @Query("curpage") String curpage,
+                                           @Query("page") String page);
+
+    /**
+     * 获取预存款数据
+     */
+    @GET(PREDEPOIT)
+    Observable<Result<PreInfo>> getPre(@Query("key") String key, @Query("fields") String fields);
+
+    /**
+     * 预存款提现
+     */
+    @FormUrlEncoded
+    @POST(PDCASHADD)
+    Observable<Result<PredepositInfo>> pdcashAdd(@Field("key") String key,
+                                                 @Field("pdc_amount") String pdc_amount,
+                                                 @Field("pdc_bank_name") String pdc_bank_name,
+                                                 @Field("pdc_bank_no") String pdc_bank_no,
+                                                 @Field("pdc_bank_user") String pdc_bank_user,
+                                                 @Field("mobilenum") String mobilenum,
+                                                 @Field("password") String password,
+                                                 @Field("client") String client);
+
+    /**
+     * 充值卡充值
+     */
+    @FormUrlEncoded
+    @POST(RECHARGECARD_ADD)
+    Observable<Result<PredepositInfo>> rechargecardAdd(@Field("key") String key,
+                                                       @Field("rc_sn") String rc_sn,
+                                                       @Field("captcha") String captcha,
+                                                       @Field("codekey") String codekey);
+
+    /**
+     * 代金卷列表
+     */
+    @GET(VOUCHER_LIST)
+    Observable<Result<VoucherInfo>> voucherList(@Query("key") String key,
+                                                @Query("curpage") String curpage,
+                                                @Query("page") String page);
+
+    /**
+     * 红包列表
+     */
+    @GET(REDPACKET_LIST)
+    Observable<Result<RedPagcketInfo>> redpacketList(@Query("key") String key,
+                                                     @Query("curpage") String curpage,
+                                                     @Query("page") String page);
+
+    /**
+     * 积分列表
+     */
+    @GET(POINTSLO)
+    Observable<Result<PointInfo>> pointList(@Query("key") String key,
+                                            @Query("curpage") String curpage,
+                                            @Query("page") String page);
+
+    /**
+     * 健康豆列表
+     */
+    @GET(HEALTHBEANLOG)
+    Observable<Result<HealthInfo>> healthbeanlog(@Query("key") String key,
+                                                 @Query("curpage") String curpage,
+                                                 @Query("page") String page);
+
+    /**
+     * 健康豆值
+     */
+    @GET(GETHEALTHBEANVALUE)
+    Observable<Result<HealthNumInfo>> healthNum(@Query("key") String key);
+
+    /**
+     * 获取收货地址
+     */
+    @FormUrlEncoded
+    @POST(ADDRESS_LIST)
+    Observable<Result<AddressManagerInfo>> getAddressList(@Field("key") String key);
 
 
 //    /**

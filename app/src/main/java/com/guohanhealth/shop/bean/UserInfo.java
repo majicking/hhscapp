@@ -3,7 +3,7 @@ package com.guohanhealth.shop.bean;
 public class UserInfo extends BaseInfo {
     public Member_info member_info;
 
-    public class Member_info {
+    public static class Member_info {
         public String member_id;
         public String member_name;
         public String member_avatar;

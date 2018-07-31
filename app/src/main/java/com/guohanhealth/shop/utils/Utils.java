@@ -13,6 +13,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -275,18 +276,19 @@ public class Utils {
         } else if (type.equals("wxpay")) {
             url = (is_virtual.equals("1") ? ApiService.WXPAYURLV : is_virtual.equals("2") ? ApiService.WEIXINMENT + pay_sn + "&key=" + App.getApp().getKey() : ApiService.WXPAYURL);
         }
-        try {
-            Api.post(url, new FormBody.Builder()
-                    .add("key", App.getApp().getKey())
-                    .add("pay_sn", pay_sn)
-                    .build(), new Callback() {
-                @Override
-                public void onFailure(Call call, IOException e) {
-                    RxBus.getDefault().post(new ObjectEvent(e.getMessage()));
-                }
 
-                @Override
-                public void onResponse(Call call, Response response) throws IOException {
+        Api.post(url, new FormBody.Builder()
+                .add("key", App.getApp().getKey())
+                .add("pay_sn", pay_sn)
+                .build(), new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                RxBus.getDefault().post(new ObjectEvent(e.getMessage()));
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                try {
                     String json = response.body().string();
                     if (getCode(json) == HttpErrorCode.HTTP_NO_ERROR) {
                         if (type.equals("alipay")) {
@@ -322,12 +324,13 @@ public class Utils {
                     } else if (getCode(json) == HttpErrorCode.ERROR_400) {
                         RxBus.getDefault().post(new ObjectEvent(getErrorString(json)));
                     }
-
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    RxBus.getDefault().post(new ObjectEvent(getErrorString(e)));
                 }
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+            }
+        });
+
     }
 
     @NonNull
@@ -360,7 +363,7 @@ public class Utils {
         } else if (t instanceof JSONException) {
             errorMessage = "数据转换失败,联系管理员";
         } else if (t instanceof Exception) {
-            errorMessage = "系统异常";
+            errorMessage = "系统异常，管理员正在维护";
         }
         return errorMessage;
     }
@@ -386,8 +389,18 @@ public class Utils {
         return Integer.valueOf(JSONParser.getStringFromJsonString("code", json));
     }
 
+    public static boolean getHasMore(String json) {
+        return Boolean.valueOf(JSONParser.getStringFromJsonString("hasmore", json));
+    }
+
+    public static int getPageTotal(String json) {
+        return Integer.valueOf(JSONParser.getStringFromJsonString("page_total", json));
+    }
+
     public static String getDatasString(String json) {
         return JSONParser.getStringFromJsonString("datas", json);
     }
+
+
 
 }

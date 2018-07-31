@@ -3,8 +3,8 @@
     android:id="@+id/text"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:maxLines="1"
     android:ellipsize="end"
+    android:maxLines="1"
     android:padding="@dimen/dp_3"
-    android:text="12321321"
+    android:text="测试数据"
     android:textSize="@dimen/sp_12" />

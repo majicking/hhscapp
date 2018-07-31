@@ -72,7 +72,27 @@
         <activity android:name=".ui.order.OrderActivity" />
         <activity android:name=".ui.order.LogisticsActivity" />
         <activity android:name=".ui.main.fragment.mine.property.PropertyActivity" />
-        <activity android:name=".ui.main.fragment.mine.property.PredepositActivity"></activity>
+        <activity
+            android:name=".ui.main.fragment.mine.property.accountbalance.PredepositActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".ui.main.fragment.mine.property.rechargecardbalance.RechargeCardActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
+        <activity
+            android:name=".ui.main.fragment.mine.property.voucher.VoucherActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
+        <activity
+            android:name=".ui.main.fragment.mine.property.redpack.RedPackActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
+        <activity android:name=".ui.main.fragment.mine.property.point.PointActivity" />
+        <activity android:name=".ui.main.fragment.mine.property.health.HealthActivity" />
+        <activity android:name=".ui.main.fragment.mine.address.AddressListActivity" />
+        <activity
+            android:name=".ui.main.fragment.mine.address.AddressAddActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity android:name=".ui.cart.ChatListActivity" />
+        <activity android:name=".ui.cart.CartActivity"></activity>
     </application>
 
 </manifest>

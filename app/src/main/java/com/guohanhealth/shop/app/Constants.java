@@ -17,7 +17,8 @@ public interface Constants {
 
     String HEAD = BuildConfig.HEAD;
     //    String HOST = "test.shopnctest.com";
-    String HOST = BuildConfig.HOST;
+//    String HOST = BuildConfig.HOST;
+    String HOST = "www.guohanhealth.com";
     String PORT = BuildConfig.PORT;
     String APP = BuildConfig.APP;
     String WEB = BuildConfig.WEB;
@@ -25,7 +26,7 @@ public interface Constants {
     String URLHEAD_WEB = HEAD + HOST + ":" + PORT + WEB;
     String INDEX = "index.php?";
     String URL = URLHEAD + INDEX;
-    String CHAT_SERVER_URL = HEAD + HOST + ":33/socket.io/socket.io.js?_=1524556674600";
+    String IM_HOST = HEAD + HOST + ":33";
 
     String WX_APP_ID = BuildConfig.WX_APP_ID;
     String WX_APP_SECRET = BuildConfig.WX_APP_SECRET;
@@ -42,6 +43,10 @@ public interface Constants {
      * 相机权限请求
      */
     int REQUEST_CAMERA = 1;
+    /**
+     * 选择地址
+     */
+    int SELECTADDRESS = 1;
     int[] BGCOLORS = new int[]{
             Color.parseColor("#ED5564"),
             Color.parseColor("#FB6E52"),
@@ -66,7 +71,7 @@ public interface Constants {
      */
     String REGISTERARGMENT = HEAD + HOST + ":" + PORT + "/wap/tmpl/member/document.html";
 
-    String WAP_BRAND_ICON = HEAD + HOST + ":" + PORT + "/wap/images/degault.png";
+    String WAP_BRAND_ICON = URLHEAD_WEB + "/images/degault.png";
     /**
      * 常量 标识
      * 页面参数传递
@@ -105,7 +110,9 @@ public interface Constants {
     String ORDERTYPE = "ordertype";
     String ORDER_ID = "order_id";
     String DATA = "datas";
-    String PROID="proid";
+    String PROID = "proid";
     String BALANCENUMBER = "balancenumber";
-    String UPDATAMONEY="updatamoney";
+    String UPDATAMONEY = "updatamoney";
+    String UPDATA = "updata";
+
 }

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dp_75"
+    android:background="@color/djk_bgcolor"
+    android:padding="@dimen/dp_5"
+    android:orientation="horizontal">
+
+    <RelativeLayout
+        android:background="@color/white"
+        style="@style/layout_weight_h"
+        android:padding="@dimen/dp_10">
+
+        <ImageView
+            android:id="@+id/img"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:background="@color/white"
+        style="@style/layout_weight_h"
+        android:gravity="center_vertical|left"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/text1"
+            style="@style/djk_text"
+            android:padding="@dimen/dp_5" />
+
+        <TextView
+            android:id="@+id/text2"
+            style="@style/djk_text"
+            android:padding="@dimen/dp_5" />
+    </LinearLayout>
+
+    <RelativeLayout
+        style="@style/layout_weight_h"
+        android:background="@color/appColor"
+        android:gravity="center">
+
+        <ImageView
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:src="@mipmap/nc_icon_store" />
+
+        <LinearLayout
+            style="@style/match_warp"
+            android:layout_centerInParent="true"
+            android:orientation="vertical"
+            android:padding="@dimen/dp_5">
+
+            <TextView
+                android:id="@+id/text3"
+                style="@style/layout_weight_v"
+                android:gravity="right"
+                android:padding="@dimen/dp_5"
+                android:text="￥0.00"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_16" />
+
+            <TextView
+                android:id="@+id/text4"
+                style="@style/layout_weight_v"
+                android:gravity="right"
+                android:padding="@dimen/dp_5"
+                android:text="满100送50"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_12" />
+        </LinearLayout>
+    </RelativeLayout>
+</LinearLayout>

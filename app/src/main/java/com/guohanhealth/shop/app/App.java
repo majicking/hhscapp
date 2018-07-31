@@ -1,16 +1,26 @@
 package com.guohanhealth.shop.app;
 
 import android.app.Application;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.github.nkzawa.emitter.Emitter.Listener;
+import com.github.nkzawa.engineio.client.Transport;
+import com.github.nkzawa.socketio.client.IO;
+import com.github.nkzawa.socketio.client.Manager;
+import com.github.nkzawa.socketio.client.Socket;
+
 import com.guohanhealth.shop.BuildConfig;
-import com.guohanhealth.shop.bean.LoginBean;
-import com.guohanhealth.shop.bean.PaySignInfo;
-import com.guohanhealth.shop.bean.SearchWordsInfo;
+import com.guohanhealth.shop.R;
 import com.guohanhealth.shop.bean.UserInfo;
-import com.guohanhealth.shop.bean.UserInfo.*;
+import com.guohanhealth.shop.bean.UserInfo.Member_info;
 import com.guohanhealth.shop.bean.greendao.DaoMaster;
 import com.guohanhealth.shop.bean.greendao.DaoSession;
+import com.guohanhealth.shop.event.ChatEvent;
+import com.guohanhealth.shop.event.ObjectEvent;
+import com.guohanhealth.shop.event.RxBus;
 import com.guohanhealth.shop.http.Api;
 import com.guohanhealth.shop.http.RxHelper;
 import com.guohanhealth.shop.http.RxManager;
@@ -20,36 +30,15 @@ import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
 import org.greenrobot.greendao.database.Database;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.net.URISyntaxException;
+import java.util.Map;
 import java.util.Random;
 
-import io.reactivex.ObservableSource;
-import io.socket.client.IO;
-import io.socket.client.Socket;
 
 public class App extends Application {
-    private Socket mSocket;
-    private String DATA_BASE_NAME = BuildConfig.APPLICATION_ID;
-    private static DaoSession mdaoSession;
-
-    {
-        try {
-            mSocket = IO.socket(Constants.CHAT_SERVER_URL);
-        } catch (URISyntaxException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    private static App app;
-
-    public static App getApp() {
-        return app;
-    }
-
-    public Socket getSocket() {
-        return mSocket;
-    }
 
     @Override
     public void onCreate() {
@@ -60,6 +49,164 @@ public class App extends Application {
         UpdataUserInfo(getKey(), getUserid());/**更新用户信息*/
         IWXAPI iwxapi = WXAPIFactory.createWXAPI(this, null);
         boolean registerApp = iwxapi.registerApp(Constants.WX_APP_ID);
+        initDB();
+        initChat();
+    }
+
+    private Socket mSocket;
+    private String DATA_BASE_NAME = BuildConfig.APPLICATION_ID;
+    private static DaoSession mdaoSession;
+    private static App app;
+
+    public static App getApp() {
+        return app;
+    }
+
+    public Socket getSocket() {
+        return mSocket;
+    }
+
+    boolean isNotify = true;
+    boolean isConnect = false;
+    /**
+     * 消息通知
+     */
+    private Notification mNotification;
+    private NotificationManager mNotificationManager;
+
+    public Notification getNotification() {
+        return mNotification;
+    }
+
+    public void setNotification(Notification notification) {
+        mNotification = notification;
+    }
+
+    public NotificationManager getNotificationManager() {
+        return mNotificationManager;
+    }
+
+    public void setNotificationManager(NotificationManager notificationManager) {
+        mNotificationManager = notificationManager;
+    }
+
+    public boolean isNotify() {
+        return isNotify;
+    }
+
+    public void setNotify(boolean notify) {
+        isNotify = notify;
+    }
+
+    public boolean isConnect() {
+        return isConnect;
+    }
+
+    public void setConnect(boolean connect) {
+        isConnect = connect;
+    }
+
+    /**
+     * 聊天socketio
+     */
+    private void initChat() {
+        mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotification = new Notification(R.mipmap.ic_launcher_logo, getString(R.string.app_name), System.currentTimeMillis());
+        try {
+            IO.Options options = new IO.Options();
+            options.host = Constants.IM_HOST;
+            //连接Socket
+            mSocket = IO.socket(Constants.IM_HOST, options);
+            mSocket.io().reconnectionDelay(2000);
+            mSocket.connect();
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+            Logutils.i(e.toString());
+        }
+        mSocket.io().on(Manager.EVENT_TRANSPORT, args -> {
+            Transport transport = (Transport) args[0];
+            transport.on(Transport.EVENT_REQUEST_HEADERS, args1 -> {
+                @SuppressWarnings("unchecked")
+                Map<String, String> headers = (Map<String, String>) args1[0];
+                headers.put("Referer", Constants.IM_HOST);
+                headers.put("Origin", Constants.IM_HOST);
+
+            });
+            transport.on(Transport.EVENT_RESPONSE_HEADERS, new Listener() {
+                @Override
+                public void call(Object... args) {
+                    @SuppressWarnings("unchecked")
+                    Map<String, String> headers = (Map<String, String>) args[0];
+                    String Referer = headers.get("Referer");
+                    String Origin = headers.get("Origin");
+                }
+            });
+        });
+        //通知已连接
+        mSocket.on(Socket.EVENT_CONNECT, args -> {
+            Logutils.i("---------------->已连接");
+            UpDateUser();
+
+        });
+        mSocket.on(Socket.EVENT_ERROR, v -> {
+            Logutils.i("---------------->错误");
+        });
+        //通知已断开
+        mSocket.on(Socket.EVENT_DISCONNECT, args -> {
+            Logutils.i("---------------->已断开");
+            isConnect = false;////设置链接失败
+            mNotification.tickerText = "您的IM帐号已离线";
+//            Intent intent = new Intent(getApplicationContext(), IMFriendsListActivity.class);
+//            PendingIntent contentIntent = PendingIntent.getActivity(getApplicationContext(), 0, intent, 0);
+//              mNotification.setLatestEventInfo(getApplicationContext(), "", "",contentIntent);//ShopNC商城客户端
+//            mNotificationManager.notify(-1, mNotification);// 通知一下才会生效哦
+//            mNotificationManager.cancel(-1);
+        });
+        //获取node消息
+        mSocket.on("get_msg", get_msg -> {
+            String message = get_msg[0].toString();
+            isConnect = true;//设置链接成功
+            if (!message.equals("{}")) {
+                if (isNotify()) {
+                    Logutils.i("连接成功了-------------");
+                    mNotification.tickerText = "新消息注意查收";
+//                        Intent intent = new Intent(getApplicationContext(), IMNewListActivity.class);
+//                        PendingIntent contentIntent = PendingIntent.getActivity(getApplicationContext(), 0, intent, 0);
+//                        mNotification.setLatestEventInfo(getApplicationContext(), "消息提示", "有新消息注意查收", contentIntent);//ShopNC商城客户端
+//                        mNotificationManager.notify(13, mNotification);// 通知一下才会生效哦
+                } else {
+                    Logutils.i("message" + message);
+                    RxBus.getDefault().post(new ChatEvent("message", message));
+                }
+            }
+        });
+        mSocket.on("get_state", obj -> {
+            String get_state = obj[0].toString();
+            Logutils.i("get_state=" + get_state);
+            RxBus.getDefault().post(new ChatEvent("state", get_state));
+        });
+    }
+
+    /**
+     * node 更新会员状态
+     */
+    public void UpDateUser() {
+        if (Utils.isEmpty(getInfo().member_id)) {
+            try {
+                String update_user = "{\"u_id\":\"" + getInfo().member_id + "\",\"u_name\":\"" + getUsername() + "\",\"avatar\":\"" + getInfo().member_avatar + "\"}";
+                mSocket.emit("update_user", new JSONObject(update_user));
+            } catch (JSONException e1) {
+                e1.printStackTrace();
+            }
+        }
+    }
+
+    /**
+     * 数据库初始化
+     */
+    private void initDB() {
         DaoMaster.DevOpenHelper openHelper = new DaoMaster.DevOpenHelper(this, DATA_BASE_NAME);
         Database db = openHelper.getWritableDb();
         DaoMaster daoMaster = new DaoMaster(db);
@@ -133,7 +280,7 @@ public class App extends Application {
     }
 
     public Member_info getInfo() {
-        Member_info info = (new UserInfo()).member_info;
+        UserInfo.Member_info info = new UserInfo.Member_info();
         info.member_id = sharedPreferences.getString(Constants.MEMBER_ID, "");
         info.member_name = sharedPreferences.getString(Constants.MEMBER_NAME, "");
         info.member_avatar = sharedPreferences.getString(Constants.MEMBER_AVATAR, "");

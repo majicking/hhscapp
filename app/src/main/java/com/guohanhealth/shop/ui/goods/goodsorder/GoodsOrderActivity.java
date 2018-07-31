@@ -1,5 +1,7 @@
 package com.guohanhealth.shop.ui.goods.goodsorder;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -37,6 +39,7 @@ import com.guohanhealth.shop.custom.CustomPopuWindow;
 import com.guohanhealth.shop.event.RxBus;
 import com.guohanhealth.shop.ui.goods.GoodsModel;
 import com.guohanhealth.shop.ui.goods.goodsdetailed.activity.GoodsDetailsActivity;
+import com.guohanhealth.shop.ui.main.fragment.mine.address.AddressListActivity;
 import com.guohanhealth.shop.ui.order.OrderActivity;
 import com.guohanhealth.shop.utils.JSONParser;
 import com.guohanhealth.shop.utils.Logutils;
@@ -141,7 +144,9 @@ public class GoodsOrderActivity extends BaseActivity<GoodsOrderPercenter, GoodsM
         goods_number = getIntent().getStringExtra(Constants.GOODS_NUMBER);
 
         goodsOrderViewAddress.setOnClickListener(v -> {
-            showToast("添加地址正在开发中");
+            Bundle bundle = new Bundle();
+            bundle.putInt(Constants.ORDERTYPE, 1);
+            readyGoForResult(AddressListActivity.class, Constants.SELECTADDRESS, bundle);
         });
         goodsOrderViewPayway.setOnClickListener(c -> {
             showPayWayWindown();
@@ -151,22 +156,34 @@ public class GoodsOrderActivity extends BaseActivity<GoodsOrderPercenter, GoodsM
         });
 
         goodsOrderTextApply.setOnClickListener(v -> {
-
             mPresenter.buyStep2(App.getApp().getKey(), cart_id, "" + ifcart, address_id, vat_hash,
                     offpay_hash, offpay_hash_batch, pay_name,
                     inv_id + "", if_pd_pay, if_rcb_pay, healthbean_pay,
                     password, is_virtual, goods_number, buyer_phone);
         });
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
         if (Utils.isEmpty(data)) {
             setData(data);
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK && requestCode == Constants.SELECTADDRESS) {
+            AddressInfo info = (AddressInfo) data.getSerializableExtra(Constants.DATA);
+            setAddress(info);
+        }
+    }
+
+    /**
+     * 设置初始值
+     */
     public void setData(String data) {
         info = Utils.getObject(data, GoodsOrderInfo.class);
         if (info != null) {
@@ -265,10 +282,10 @@ public class GoodsOrderActivity extends BaseActivity<GoodsOrderPercenter, GoodsM
         RxBus.getDefault().register(this, BaseResp.class, resp -> {
             if (resp.getType() == ConstantsAPI.COMMAND_PAY_BY_WX) {
                 if (resp.errCode == 0) {
-                  showToast("支付成功");
+                    showToast("支付成功");
                 } else if (resp.errCode == -2) {
-                  showToast("取消交易");
-                  showToast("支付失败");
+                    showToast("取消交易");
+                    showToast("支付失败");
                 }
                 endOrder();
             }
@@ -414,6 +431,7 @@ public class GoodsOrderActivity extends BaseActivity<GoodsOrderPercenter, GoodsM
             }
 
         }
+
     }
 
 
@@ -565,10 +583,4 @@ public class GoodsOrderActivity extends BaseActivity<GoodsOrderPercenter, GoodsM
         showToast(msg);
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
 }

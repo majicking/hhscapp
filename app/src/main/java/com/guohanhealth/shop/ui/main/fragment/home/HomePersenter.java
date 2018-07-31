@@ -14,6 +14,7 @@ import com.guohanhealth.shop.bean.Home4Info;
 import com.guohanhealth.shop.bean.Home5Info;
 import com.guohanhealth.shop.http.Api;
 import com.guohanhealth.shop.http.ApiService;
+import com.guohanhealth.shop.http.HttpErrorCode;
 import com.guohanhealth.shop.utils.JSONParser;
 import com.guohanhealth.shop.utils.Logutils;
 import com.guohanhealth.shop.utils.Utils;
@@ -40,11 +41,10 @@ public class HomePersenter extends BasePresenter<HomeView, HomeModel> {
                     mView.faild(Utils.getErrorString((Exception) msg.obj));
                 } else if (msg.what == 1) {
                     String json = (String) msg.obj;
-                    Logutils.i(json);
-                    int code = Utils.getCode(json);
-                    String datas = Utils.getValue("datas", json);
-                    if (code == 200) {
-                        try {
+                    try {
+                        int code = Utils.getCode(json);
+                        String datas = Utils.getDatasString(json);
+                        if (code == 200) {
                             JSONArray arr = new JSONArray(datas);
                             int size = null == arr ? 0 : arr.length();
                             for (int i = 0; i < size; i++) {
@@ -72,11 +72,13 @@ public class HomePersenter extends BasePresenter<HomeView, HomeModel> {
                                     mView.showGoods2(JsonObj);
                                 }
                             }
-                        } catch (Exception e) {
-                            e.printStackTrace();
+
+                        } else if (code == HttpErrorCode.ERROR_400) {
+                            mView.faild(Utils.getErrorString(json));
                         }
-                    } else {
-                        mView.faild("网络异常");
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        mView.faild(Utils.getErrorString(e));
                     }
                 }
             }

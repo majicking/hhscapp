@@ -1,6 +1,6 @@
 package com.guohanhealth.shop.bean;
 
-public class AddressInfo extends BaseInfo{
+public class AddressInfo extends BaseInfo {
     public String address_id;
     public String member_id;
     public String true_name;
@@ -15,4 +15,9 @@ public class AddressInfo extends BaseInfo{
     public String area_lat;
     public String area_lng;
     public String type;
+
+
+
+
+
 }

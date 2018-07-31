@@ -1,10 +1,13 @@
-package com.guohanhealth.shop.ui.main.fragment.mine.property;
+package com.guohanhealth.shop.ui.main.fragment.mine.property.accountbalance;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.guohanhealth.shop.R;
@@ -12,11 +15,23 @@ import com.guohanhealth.shop.adapter.ViewPagerAdapter;
 import com.guohanhealth.shop.app.App;
 import com.guohanhealth.shop.app.Constants;
 import com.guohanhealth.shop.base.BaseActivity;
-import com.guohanhealth.shop.base.BasePresenter;
 import com.guohanhealth.shop.bean.MyAssectInfo;
 import com.guohanhealth.shop.bean.PayWayInfo;
-import com.guohanhealth.shop.bean.RechargeOrderInfo;
+import com.guohanhealth.shop.bean.PreInfo;
+import com.guohanhealth.shop.event.ObjectEvent;
 import com.guohanhealth.shop.event.OnFragmentInteractionListener;
+import com.guohanhealth.shop.event.RxBus;
+import com.guohanhealth.shop.ui.main.fragment.mine.property.PredepositModel;
+import com.guohanhealth.shop.ui.main.fragment.mine.property.PredepositPersenter;
+import com.guohanhealth.shop.ui.main.fragment.mine.property.PredepositView;
+import com.guohanhealth.shop.ui.main.fragment.mine.property.accountbalance.PredAddFragment;
+import com.guohanhealth.shop.ui.main.fragment.mine.property.accountbalance.PredPutforwardFragment;
+import com.guohanhealth.shop.ui.main.fragment.mine.property.accountbalance.PredepositFragment;
+import com.guohanhealth.shop.utils.Logutils;
+import com.guohanhealth.shop.utils.PayResult;
+import com.guohanhealth.shop.utils.Utils;
+import com.tencent.mm.opensdk.constants.ConstantsAPI;
+import com.tencent.mm.opensdk.modelbase.BaseResp;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +53,7 @@ public class PredepositActivity extends BaseActivity<PredepositPersenter, Predep
     ViewPager viewpager;
     private ViewPagerAdapter adapter;
     private int mCurrentPosition;
+
 
     @Override
     protected int getContentViewLayoutID() {
@@ -82,29 +98,22 @@ public class PredepositActivity extends BaseActivity<PredepositPersenter, Predep
 
             }
         });
-        mPresenter.getMyAssect(App.getApp().getKey());
+        mPresenter.getPre(App.getApp().getKey(),"predepoit");
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
 
     @Override
     public Object doSomeThing(String key, Object value) {
         if (key.equals(Constants.BALANCENUMBER)) {
             viewpager.setCurrentItem(Integer.valueOf((String) value));
         } else if (key.equals(Constants.UPDATAMONEY)) {
-            mPresenter.getMyAssect(App.getApp().getKey());
+            mPresenter.getPre(App.getApp().getKey(),"predepoit");
         }
         return null;
     }
 
     @Override
     public void getMyAssect(MyAssectInfo info) {
-        predepositTextBalance.setText("￥" + info.predepoit);
     }
 
     @Override
@@ -114,7 +123,9 @@ public class PredepositActivity extends BaseActivity<PredepositPersenter, Predep
 
     @Override
     public void getData(Object result) {
-
+        PreInfo info = (PreInfo) result;
+        predepoit = info.predepoit;
+        predepositTextBalance.setText("￥" + info.predepoit);
     }
 
 

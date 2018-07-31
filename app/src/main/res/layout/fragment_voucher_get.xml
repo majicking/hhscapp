@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.main.fragment.mine.property.rechargecardbalance.RechargeCardAddFragment">
+
+    <android.support.v4.widget.NestedScrollView style="@style/match">
+
+        <LinearLayout
+            style="@style/match"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/appColor"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dp_15"
+                    android:src="@drawable/icon_voucher_big" />
+
+                <View style="@style/linearlayout_zw" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/dp_10"
+                    android:gravity="right"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/warp"
+                        android:text="请输入已获得的代金券卡密领取代金券"
+                        android:textColor="@color/white" />
+
+                    <TextView
+                        style="@style/warp"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:maxWidth="@dimen/dp_250"
+                        android:text="领取代金券后可以在购买商品下单时选择符合使用条件的代金券抵扣订单金额"
+                        android:textColor="@color/white" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <View style="@style/djk_line_big" />
+
+            <LinearLayout
+                style="@style/LLayout_48_h"
+                android:paddingLeft="@dimen/dp_10"
+                android:paddingRight="@dimen/dp_10">
+
+                <TextView
+                    style="@style/djk_text"
+                    android:text="代金卷卡密：" />
+
+                <EditText
+                    android:id="@+id/vouter"
+                    style="@style/layout_weight_h"
+                    android:gravity="center_vertical"
+                    android:hint="请输入20位店铺代金券卡密号"
+                    android:inputType="text"
+                    android:paddingLeft="@dimen/dp_15"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/sp_12" />
+
+            </LinearLayout>
+
+            <View style="@style/djk_line" />
+
+            <LinearLayout
+                style="@style/LLayout_48_h"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/dp_10"
+                android:paddingRight="@dimen/dp_10">
+
+                <TextView
+                    style="@style/djk_text"
+                    android:text="验  证  码：" />
+
+                <EditText
+                    android:id="@+id/editcode"
+                    style="@style/layout_weight_h"
+                    android:gravity="center_vertical"
+                    android:hint="请输入四位验证码"
+                    android:inputType="text"
+                    android:paddingLeft="@dimen/dp_15"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/sp_12" />
+
+                <ImageView
+                    android:id="@+id/imgcode"
+                    android:layout_width="@dimen/dp_100"
+                    android:layout_height="@dimen/dp_40" />
+            </LinearLayout>
+
+            <View style="@style/djk_line" />
+
+            <Button
+                android:id="@+id/apply"
+                style="@style/btn"
+                android:layout_marginTop="@dimen/dp_30"
+                android:text="确认提交" />
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+</LinearLayout>

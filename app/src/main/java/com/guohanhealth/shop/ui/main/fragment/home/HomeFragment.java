@@ -10,7 +10,6 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -32,6 +31,7 @@ import com.guohanhealth.shop.bean.HomeMenuBtn;
 import com.guohanhealth.shop.custom.MyScrollView;
 import com.guohanhealth.shop.event.OnFragmentInteractionListener;
 import com.guohanhealth.shop.event.PermissionListener;
+import com.guohanhealth.shop.ui.cart.ChatListActivity;
 import com.guohanhealth.shop.ui.goods.goodsdetailed.activity.GoodsDetailsActivity;
 import com.guohanhealth.shop.ui.search.SearchActivity;
 import com.guohanhealth.shop.utils.Utils;
@@ -46,8 +46,6 @@ import com.youth.banner.loader.ImageLoader;
 
 import org.json.JSONObject;
 
-import java.security.Permission;
-import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -188,6 +186,10 @@ public class HomeFragment extends BaseFragment<HomePersenter, HomeModel> impleme
                 homeViewTitleview.setBackgroundColor(getResources().getColor(R.color.appColor));
 
             }
+        });
+
+        homeViewIm.setOnClickListener(v -> {
+            readyGo(ChatListActivity.class);
         });
     }
 
