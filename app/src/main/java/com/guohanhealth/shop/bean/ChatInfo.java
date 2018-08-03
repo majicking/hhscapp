@@ -1,6 +1,5 @@
-package com.guohanhealth.shop.base;
+package com.guohanhealth.shop.bean;
 
-import com.guohanhealth.shop.bean.BaseInfo;
 
 public class ChatInfo extends BaseInfo {
     public String u_id;

@@ -1,16 +1,16 @@
 package com.guohanhealth.shop.ui.cart;
 
-import android.view.View;
-
 import com.guohanhealth.shop.app.App;
 import com.guohanhealth.shop.base.BasePresenter;
-import com.guohanhealth.shop.base.ChatInfo;
+import com.guohanhealth.shop.bean.ChatInfo;
+import com.guohanhealth.shop.bean.ChatMessageInfo;
+import com.guohanhealth.shop.bean.ChatSendMsgInfo;
 import com.guohanhealth.shop.http.Api;
 import com.guohanhealth.shop.http.ApiService;
 import com.guohanhealth.shop.http.HttpErrorCode;
+import com.guohanhealth.shop.utils.Logutils;
 import com.guohanhealth.shop.utils.Utils;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -28,8 +28,6 @@ public class ChatPersenter extends BasePresenter<ChatView, ChatModel> {
         Api.post(ApiService.GET_USER_LIST, new FormBody.Builder()
                         .add("key", App.getApp().getKey())
                         .build(), new Callback() {
-                    List<ChatInfo> mlist = new ArrayList<>();
-
                     @Override
                     public void onFailure(Call call, IOException e) {
                         mActivity.runOnUiThread(() -> {
@@ -39,6 +37,7 @@ public class ChatPersenter extends BasePresenter<ChatView, ChatModel> {
 
                     @Override
                     public void onResponse(Call call, Response response) throws IOException {
+                        List<ChatInfo> mlist = new ArrayList<>();
                         try {
                             String json = response.body().string();
                             if (Utils.getCode(json) == HttpErrorCode.HTTP_NO_ERROR) {
@@ -59,12 +58,50 @@ public class ChatPersenter extends BasePresenter<ChatView, ChatModel> {
                                         mlist.add(bean);
                                         object.put(bean.u_id, "0");
                                     }
+                                    mActivity.runOnUiThread(() -> {
+                                        mView.getData(mlist);
+                                    });
+                                    App.getApp().UpDateUser();
+                                    App.getApp().getSocket().emit("get_state", object);
                                 }
+                            } else if (Utils.getCode(json) == HttpErrorCode.ERROR_400) {
                                 mActivity.runOnUiThread(() -> {
-                                    mView.getData(mlist);
+                                    mView.faild(Utils.getErrorString(json));
                                 });
-                                App.getApp().UpDateUser();
-                                App.getApp().getSocket().emit("get_state", object);
+                            }
+                        } catch (Exception e) {
+                            mActivity.runOnUiThread(() -> {
+                                mView.faild(Utils.getErrorString(e));
+                            });
+                        }
+                    }
+                }
+        );
+    }
+
+    public void sendMessage(String key, String t_id, final String t_name, String t_msg) {
+        Api.post(ApiService.SEND_MSG, new FormBody.Builder()
+                        .add("key", key)
+                        .add("t_id", t_id)
+                        .add("t_name", t_name)
+                        .add("t_msg", t_msg)
+                        .build()
+                , new Callback() {
+                    @Override
+                    public void onFailure(Call call, IOException e) {
+                        mActivity.runOnUiThread(() -> {
+                            mView.faild(Utils.getErrorString(e));
+                        });
+                    }
+
+                    @Override
+                    public void onResponse(Call call, Response response) throws IOException {
+                        try {
+                            String json = response.body().string();
+                            if (Utils.getCode(json) == HttpErrorCode.HTTP_NO_ERROR) {
+                                mActivity.runOnUiThread(() -> {
+                                    mView.getData(Utils.getDatasString(json));
+                                });
                             } else if (Utils.getCode(json) == HttpErrorCode.ERROR_400) {
                                 mActivity.runOnUiThread(() -> {
                                     mView.faild(Utils.getErrorString(json));

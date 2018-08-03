@@ -10,16 +10,57 @@
 
     <View style="@style/djk_line" />
 
-    <RelativeLayout
-        style="@style/RLayout_48"
+    <LinearLayout
+        style="@style/bg_white_magin_left_top_right_5"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_40"
         android:layout_marginTop="@dimen/dp_10"
-        android:background="@color/white">
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/dp_5"
+        android:paddingRight="@dimen/dp_5">
 
-    </RelativeLayout>
+        <TextView
+            style="@style/djk_text"
+            android:text="接受通知栏推送" />
+
+        <View style="@style/linearlayout_zw" />
+
+        <com.zcw.togglebutton.ToggleButton
+            android:id="@+id/toggle_notify"
+            android:layout_width="40dp"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp" />
+    </LinearLayout>
+
+    <LinearLayout
+
+        style="@style/bg_white_magin_left_top_right_5"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_40"
+        android:layout_marginTop="@dimen/dp_10"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/dp_5"
+        android:paddingRight="@dimen/dp_5">
+
+        <TextView
+            style="@style/djk_text"
+            android:text="启用提示音" />
+
+        <View style="@style/linearlayout_zw" />
+
+        <com.zcw.togglebutton.ToggleButton
+            android:id="@+id/toggle_media"
+            android:layout_width="40dp"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp" />
+    </LinearLayout>
 
     <Button
         android:id="@+id/setting_logout"
         style="@style/btn"
+        android:layout_margin="@dimen/dp_10"
         android:background="@drawable/djk_btn_bg_on"
         android:text="安全退出"
         android:textColor="@color/white" />

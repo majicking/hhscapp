@@ -44,7 +44,7 @@
     </android.support.v7.widget.RecyclerView>
 
     <LinearLayout
-        style="@style/LLayout_40_h"
+        style="@style/LLayout_48_h"
         android:gravity="center_vertical"
         android:padding="@dimen/dp_3">
 
@@ -59,7 +59,11 @@
             android:id="@+id/editmsg"
             style="@style/edittext"
             android:layout_height="@dimen/dp_30"
-            android:background="@drawable/im_send_button_bg" />
+            android:background="@drawable/input_normal"
+            android:hint="请输入消息"
+            android:maxLines="1"
+            android:paddingRight="@dimen/dp_10"
+            android:singleLine="true" />
 
         <Button
             android:id="@+id/sendmsg"
@@ -69,4 +73,18 @@
             android:background="@drawable/bg_gray"
             android:text="发送" />
     </LinearLayout>
+
+
+    <com.guohanhealth.shop.custom.MyGridView
+        android:paddingLeft="@dimen/dp_5"
+        android:id="@+id/gridview"
+        style="@style/match_warp"
+        android:cacheColorHint="#00000000"
+        android:clickable="false"
+        android:focusable="false"
+        android:horizontalSpacing="5dip"
+        android:listSelector="#00000000"
+        android:numColumns="7"
+        android:verticalSpacing="5dip"
+        android:visibility="gone" />
 </LinearLayout>

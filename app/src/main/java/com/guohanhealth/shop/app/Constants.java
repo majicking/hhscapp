@@ -114,5 +114,9 @@ public interface Constants {
     String BALANCENUMBER = "balancenumber";
     String UPDATAMONEY = "updatamoney";
     String UPDATA = "updata";
-
+    String CHATID = "chatid";
+    String CHATNAME = "chatname";
+    String CHATAVATAR = "chatavatar";
+    String ISNOTIFY="isnotify";
+    String ISMEDIAPLAYER="ismediaplayer";
 }

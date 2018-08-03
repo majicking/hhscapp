@@ -2,9 +2,20 @@ package com.guohanhealth.shop.app;
 
 import android.app.Application;
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.app.Service;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.media.MediaPlayer;
+import android.os.Build;
+import android.os.Vibrator;
+import android.support.annotation.RequiresApi;
+import android.support.v4.app.NotificationCompat;
+import android.view.View;
 
 import com.github.nkzawa.emitter.Emitter.Listener;
 import com.github.nkzawa.engineio.client.Transport;
@@ -19,11 +30,12 @@ import com.guohanhealth.shop.bean.UserInfo.Member_info;
 import com.guohanhealth.shop.bean.greendao.DaoMaster;
 import com.guohanhealth.shop.bean.greendao.DaoSession;
 import com.guohanhealth.shop.event.ChatEvent;
-import com.guohanhealth.shop.event.ObjectEvent;
+import com.guohanhealth.shop.event.ChatListEvent;
 import com.guohanhealth.shop.event.RxBus;
 import com.guohanhealth.shop.http.Api;
 import com.guohanhealth.shop.http.RxHelper;
 import com.guohanhealth.shop.http.RxManager;
+import com.guohanhealth.shop.ui.cart.ChatListActivity;
 import com.guohanhealth.shop.utils.Logutils;
 import com.guohanhealth.shop.utils.Utils;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
@@ -33,6 +45,7 @@ import org.greenrobot.greendao.database.Database;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.Map;
 import java.util.Random;
@@ -44,14 +57,25 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         app = this;
-        sharedPreferences = getSharedPreferences(BuildConfig.APPLICATION_ID, MODE_PRIVATE);
+        initAppData();/**初始化数据*/
         getHotWords();  /**获取热门词*/
         UpdataUserInfo(getKey(), getUserid());/**更新用户信息*/
-        IWXAPI iwxapi = WXAPIFactory.createWXAPI(this, null);
-        boolean registerApp = iwxapi.registerApp(Constants.WX_APP_ID);
         initDB();
         initChat();
+        initThree();
     }
+
+    private void initThree() {
+        IWXAPI iwxapi = WXAPIFactory.createWXAPI(this, null);
+        boolean registerApp = iwxapi.registerApp(Constants.WX_APP_ID);
+    }
+
+    private void initAppData() {
+        sharedPreferences = getSharedPreferences(BuildConfig.APPLICATION_ID, MODE_PRIVATE);
+        sharedPreferences.edit().putBoolean(Constants.ISNOTIFY, true).commit();
+        sharedPreferences.edit().putBoolean(Constants.ISMEDIAPLAYER, true).commit();
+    }
+
 
     private Socket mSocket;
     private String DATA_BASE_NAME = BuildConfig.APPLICATION_ID;
@@ -106,12 +130,13 @@ public class App extends Application {
         isConnect = connect;
     }
 
+
     /**
      * 聊天socketio
      */
     private void initChat() {
         mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        mNotification = new Notification(R.mipmap.ic_launcher_logo, getString(R.string.app_name), System.currentTimeMillis());
+        mNotification = new Notification();
         try {
             IO.Options options = new IO.Options();
             options.host = Constants.IM_HOST;
@@ -148,7 +173,6 @@ public class App extends Application {
         mSocket.on(Socket.EVENT_CONNECT, args -> {
             Logutils.i("---------------->已连接");
             UpDateUser();
-
         });
         mSocket.on(Socket.EVENT_ERROR, v -> {
             Logutils.i("---------------->错误");
@@ -157,12 +181,7 @@ public class App extends Application {
         mSocket.on(Socket.EVENT_DISCONNECT, args -> {
             Logutils.i("---------------->已断开");
             isConnect = false;////设置链接失败
-            mNotification.tickerText = "您的IM帐号已离线";
-//            Intent intent = new Intent(getApplicationContext(), IMFriendsListActivity.class);
-//            PendingIntent contentIntent = PendingIntent.getActivity(getApplicationContext(), 0, intent, 0);
-//              mNotification.setLatestEventInfo(getApplicationContext(), "", "",contentIntent);//ShopNC商城客户端
-//            mNotificationManager.notify(-1, mNotification);// 通知一下才会生效哦
-//            mNotificationManager.cancel(-1);
+
         });
         //获取node消息
         mSocket.on("get_msg", get_msg -> {
@@ -170,14 +189,13 @@ public class App extends Application {
             isConnect = true;//设置链接成功
             if (!message.equals("{}")) {
                 if (isNotify()) {
-                    Logutils.i("连接成功了-------------");
-                    mNotification.tickerText = "新消息注意查收";
-//                        Intent intent = new Intent(getApplicationContext(), IMNewListActivity.class);
-//                        PendingIntent contentIntent = PendingIntent.getActivity(getApplicationContext(), 0, intent, 0);
-//                        mNotification.setLatestEventInfo(getApplicationContext(), "消息提示", "有新消息注意查收", contentIntent);//ShopNC商城客户端
-//                        mNotificationManager.notify(13, mNotification);// 通知一下才会生效哦
+                    mediaPlayer();
+                    if (sharedPreferences.getBoolean(Constants.ISNOTIFY, false)) {
+                        showNotify("你又新消息请注意查收");
+                    }
                 } else {
                     Logutils.i("message" + message);
+                    RxBus.getDefault().post(new ChatListEvent("message", message));
                     RxBus.getDefault().post(new ChatEvent("message", message));
                 }
             }
@@ -185,9 +203,71 @@ public class App extends Application {
         mSocket.on("get_state", obj -> {
             String get_state = obj[0].toString();
             Logutils.i("get_state=" + get_state);
-            RxBus.getDefault().post(new ChatEvent("state", get_state));
+            RxBus.getDefault().post(new ChatListEvent("get_state", get_state));
         });
     }
+
+    int num = 1;//初始通知数量为1
+
+    //按钮点击事件（通知栏）
+    public void showNotify(String message) {
+        int notificationId = 0x1234;
+        Intent intent = new Intent(this, ChatListActivity.class);
+        PendingIntent pi = PendingIntent.getActivity(this, R.string.app_name, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            //创建 通知通道  channelid和channelname是必须的（自己命名就好）
+            NotificationChannel channel = new NotificationChannel("1",
+                    "Channel1", NotificationManager.IMPORTANCE_DEFAULT);
+            channel.enableLights(true);//是否在桌面icon右上角展示小红点
+            channel.setLightColor(Color.GREEN);//小红点颜色
+            channel.setShowBadge(true); //是否在久按桌面图标时显示此渠道的通知
+            mNotificationManager.createNotificationChannel(channel);
+            Notification.Builder builder = new Notification.Builder(this, "1");
+            builder.setSmallIcon(R.mipmap.logo)
+                    .setContentTitle("消息提示")
+                    .setContentText(message)
+                    .setNumber(num++)
+                    .setAutoCancel(true)
+                    .setContentIntent(pi);
+            mNotification = builder.build();
+            mNotificationManager.notify(notificationId, mNotification);
+            return;
+        }
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
+        builder.setSmallIcon(R.mipmap.logo)
+                .setContentTitle("消息提示")
+                .setContentText(message)
+                .setNumber(num++)
+                .setAutoCancel(true)
+                .setContentIntent(pi);
+        mNotification = builder.build();
+        mNotificationManager.notify(notificationId, mNotification);
+    }
+
+
+    public void mediaPlayer() {
+        if (sharedPreferences.getBoolean(Constants.ISMEDIAPLAYER, false)) {
+            MediaPlayer mediaPlayer;
+            mediaPlayer = MediaPlayer.create(this, R.raw.new_msg001);
+            try {
+                mediaPlayer.prepare();//提示音准备
+                mediaPlayer.setLooping(false); //提示音不循环
+            } catch (IllegalStateException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            int count = 1;
+            if (count == 1) {
+                mediaPlayer.start();//提示音播放
+                Vibrator vib = (Vibrator) getSystemService(Service.VIBRATOR_SERVICE);
+                long[] pattern = {100, 400, 100, 400}; // 停止 开启 停止 开启
+                vib.vibrate(pattern, -1); //重复两次上面的pattern 如果只想震动一次，index设
+                count++;
+            }
+        }
+    }
+
 
     /**
      * node 更新会员状态

@@ -118,6 +118,7 @@ public interface ApiService {
     String ADDRESS_EDIT = Constants.INDEX + "act=member_address&op=address_edit";
     String ADDRESS_ADD = Constants.INDEX + "act=member_address&op=address_add";
     String GET_USER_LIST = Constants.INDEX + "act=member_chat&op=get_user_list";
+    String SEND_MSG = Constants.INDEX + "act=member_chat&op=send_msg";
 
     /**
      * 用户登录

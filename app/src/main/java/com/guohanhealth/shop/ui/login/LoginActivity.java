@@ -105,6 +105,7 @@ public class LoginActivity extends BaseActivity<LoginPersenter, UserModel> imple
         showToast(message);
         Logutils.i("获取登陆信息key=" + App.getApp().getKey());
         App.getApp().setIsLogin(true);
+        App.getApp().UpDateUser();
         finish();
         if (type > 0) {
             Bundle bundle = new Bundle();

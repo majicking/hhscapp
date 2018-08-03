@@ -1,41 +1,54 @@
-import java.util.regex.Pattern;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class Test {
 
 
-    public static void main(String[] args) {
-        String s = "^((\\d{2}(([02468][048])|([13579][26]))[\\-\\/\\s]?((((0?[13578])|(1[02]))[\\-\\/\\s]?((0?[1-9])|([1-2][0-9])|(3[01])))|(((0?[469])|(11))[\\-\\/\\s]?((0?[1-9])|([1-2][0-9])|(30)))|(0?2[\\-\\/\\s]?((0?[1-9])|([1-2][0-9])))))|(\\d{2}(([02468][1235679])|([13579][01345789]))[\\-\\/\\s]?((((0?[13578])|(1[02]))[\\-\\/\\s]?((0?[1-9])|([1-2][0-9])|(3[01])))|(((0?[469])|(11))[\\-\\/\\s]?((0?[1-9])|([1-2][0-9])|(30)))|(0?2[\\-\\/\\s]?((0?[1-9])|(1[0-9])|(2[0-8]))))))-[\\s]((((0?[0-9])|([1][0-9])|([2][0-4]))\\\\:([0-5]?[0-9])((\\\\s)|(\\\\:([0-5]?[0-9])))))?$";
-        String a = "2014-01-01 12:12:00  asdasdsadasd";
-        String a1 = "2014-01-01 12:12:00";
-        String a2 = "2014-01-01 12:12:00---2014-01-01 12:12:00";
-        String a3 = "2014-01-01 12:12:00Adsadasdasdsadasd";
-        String a4 = "---2014-01-01 12:12:00---asdasdsadasd";
-        System.out.println(a.split(s).length);
-        System.out.println(a1.split(s).length);
-        System.out.println(a2.split(s).length);
-        System.out.println(a3.split(s).length);
-        System.out.println(a4.split(s).length);
-        System.out.println(isDateTime(a1));
-        System.out.println(isDateTime(a2));
-        System.out.println(isDateTime(a3));
-        System.out.println(isDateTime(a4));
-
-
-    }
-
-    public static boolean isDate(String date) {
-        Pattern p = Pattern.compile("^((\\d{2}(([02468][048])|([13579][26]))[\\-\\/\\s]?((((0?[13578])|(1[02]))[\\-\\/\\s]?((0?[1-9])|([1-2][0-9])|(3[01])))|(((0?[469])|(11))[\\-\\/\\s]?((0?[1-9])|([1-2][0-9])|(30)))|(0?2[\\-\\/\\s]?((0?[1-9])|([1-2][0-9])))))|(\\d{2}(([02468][1235679])|([13579][01345789]))[\\-\\/\\s]?((((0?[13578])|(1[02]))[\\-\\/\\s]?((0?[1-9])|([1-2][0-9])|(3[01])))|(((0?[469])|(11))[\\-\\/\\s]?((0?[1-9])|([1-2][0-9])|(30)))|(0?2[\\-\\/\\s]?((0?[1-9])|(1[0-9])|(2[0-8]))))))-[\\s]((((0?[0-9])|([1][0-9])|([2][0-4]))\\\\:([0-5]?[0-9])((\\\\s)|(\\\\:([0-5]?[0-9])))))?$");
-        return p.matcher(date).matches();
-    }
-
-    public static boolean isDateTime(String datetime) {
-        Pattern p = Pattern.compile("^((\\d{2}(([02468][048])|([13579][26]))[\\-\\/\\s]?((((0?[13578])|(1[02]))[\\-\\/\\s]?((0?[1-9])|([1-2][0-9])|(3[01])))|(((0?[469])|(11))[\\-\\/\\s]?((0?[1-9])|([1-2][0-9])|(30)))|(0?2[\\-\\/\\s]?((0?[1-9])|([1-2][0-9])))))|(\\d{2}(([02468][1235679])|([13579][01345789]))[\\-\\/\\s]?((((0?[13578])|(1[02]))[\\-\\/\\s]?((0?[1-9])|([1-2][0-9])|(3[01])))|(((0?[469])|(11))[\\-\\/\\s]?((0?[1-9])|([1-2][0-9])|(30)))|(0?2[\\-\\/\\s]?((0?[1-9])|(1[0-9])|(2[0-8]))))))(\\s(((0?[0-9])|([1][0-9])|([2][0-4]))\\:([0-5]?[0-9])((\\s)|(\\:([0-5]?[0-9])))))?$");
-        return p.matcher(datetime).matches();
-    }
-
-
-    public <T> T test(T v) {
-        return v;
-    }
-
+//    public static void main(String[] args) {
+////        List<Test1> list1 = new ArrayList<>();
+////        List<Test1> list2 = new ArrayList<>();
+////        list1.add(new Test1("1", "a"));
+////        list1.add(new Test1("2", "b"));
+////        list1.add(new Test1("3", "c"));
+////
+////        Test1 test1 = list1.get(1);
+////        test1.name = "修改111111111";
+////        System.out.println(list1);
+//
+//
+//        List<Integer>list=new ArrayList<>();
+//        List<Integer>list1=new ArrayList<>();
+//        list.add(1);
+//        list.add(2);
+//        list.add(3);
+//        list.add(4);
+//
+//        list1.add(4);
+//        list1.add(5);
+//        list1.add(7);
+//        list.retainAll(list1);
+//
+//        System.out.println(list);
+//
+//    }
+//
+//    static class Test1 {
+//        String id;
+//        String name;
+//
+//        public Test1(String id, String name) {
+//            this.id = id;
+//            this.name = name;
+//        }
+//
+//        @Override
+//        public String toString() {
+//            return "Test1{" +
+//                    "id='" + id + '\'' +
+//                    ", name='" + name + '\'' +
+//                    '}';
+//        }
+//    }
 }

@@ -307,11 +307,6 @@ public class GoodsDetailsActivity extends BaseActivity<GoodsDetailsPersenter, Go
         showToast("添加成功");
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-
-    }
 
     public List<SpecBean> getSpecList(String data) {
         List<SpecBean> list = new ArrayList<>();

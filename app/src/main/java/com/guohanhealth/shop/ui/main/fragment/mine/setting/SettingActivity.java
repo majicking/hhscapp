@@ -8,15 +8,19 @@ import android.widget.TextView;
 
 import com.guohanhealth.shop.R;
 import com.guohanhealth.shop.app.App;
+import com.guohanhealth.shop.app.Constants;
 import com.guohanhealth.shop.base.BaseActivity;
 import com.guohanhealth.shop.bean.CartNumberInfo;
 import com.guohanhealth.shop.bean.UserInfo;
 import com.guohanhealth.shop.custom.CustomDialog;
 import com.guohanhealth.shop.event.RxBus;
 import com.guohanhealth.shop.ui.login.LoginActivity;
+import com.guohanhealth.shop.utils.SharePreferenceUtils;
 import com.guohanhealth.shop.utils.Utils;
+import com.zcw.togglebutton.ToggleButton;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class SettingActivity extends BaseActivity {
 
@@ -27,6 +31,10 @@ public class SettingActivity extends BaseActivity {
     Toolbar commonToolbar;
     @BindView(R.id.setting_logout)
     Button settingLogout;
+    @BindView(R.id.toggle_notify)
+    ToggleButton toggleNotify;
+    @BindView(R.id.toggle_media)
+    ToggleButton toggleMedia;
 
     @Override
     protected int getContentViewLayoutID() {
@@ -53,11 +61,31 @@ public class SettingActivity extends BaseActivity {
                         RxBus.getDefault().post(new CartNumberInfo());
                         App.getApp().setInfo(new UserInfo().member_info);
                         readyGoThenKill(LoginActivity.class);
+                        App.getApp().getSocket().disconnect();
+                        App.getApp().getSocket().io().reconnection(false);
                     })
                     .setNegativeButton("取消", (d, i) -> {
                         d.dismiss();
                     })
                     .create().show();
+        });
+
+        if ((Boolean) SharePreferenceUtils.getParam(mContext, Constants.ISNOTIFY, false)) {
+            toggleNotify.setToggleOn();
+        } else {
+            toggleNotify.setToggleOff();
+        }
+        toggleNotify.setOnToggleChanged(isSelect -> {
+            SharePreferenceUtils.setParam(mContext, Constants.ISNOTIFY, isSelect);
+        });
+
+        if ((Boolean) SharePreferenceUtils.getParam(mContext, Constants.ISMEDIAPLAYER, false)) {
+            toggleMedia.setToggleOn();
+        } else {
+            toggleMedia.setToggleOff();
+        }
+        toggleMedia.setOnToggleChanged(isSelect -> {
+            SharePreferenceUtils.setParam(mContext, Constants.ISMEDIAPLAYER, isSelect);
         });
     }
 
@@ -65,5 +93,12 @@ public class SettingActivity extends BaseActivity {
     @Override
     public void faild(String msg) {
 
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
     }
 }
