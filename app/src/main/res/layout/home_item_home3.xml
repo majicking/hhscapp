@@ -6,15 +6,29 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
         android:background="@color/white"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/title"
-            style="@style/home_title" />
+        <LinearLayout
+            android:id="@+id/titleview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
-        <View style="@style/djk_line" />
+            <View
+                android:id="@+id/linev"
+                android:layout_width="4dp"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/dp_2"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="@dimen/dp_2"
+                android:background="@color/appColor" />
+            <TextView
+                android:id="@+id/title"
+                style="@style/home_title" />
+        </LinearLayout>
     </LinearLayout>
 
     <com.guohanhealth.shop.view.NoScrollGridView

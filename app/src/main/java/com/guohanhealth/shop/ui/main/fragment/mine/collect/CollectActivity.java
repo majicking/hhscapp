@@ -1,4 +1,4 @@
-package com.guohanhealth.shop.ui.main.fragment.mine.property.redpack;
+package com.guohanhealth.shop.ui.main.fragment.mine.collect;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -10,8 +10,8 @@ import com.guohanhealth.shop.R;
 import com.guohanhealth.shop.app.Constants;
 import com.guohanhealth.shop.base.BaseActivity;
 import com.guohanhealth.shop.event.OnFragmentInteractionListener;
-import com.guohanhealth.shop.ui.main.fragment.mine.property.voucher.VoucherGetFragment;
-import com.guohanhealth.shop.ui.main.fragment.mine.property.voucher.VoucherListFragment;
+import com.guohanhealth.shop.ui.main.fragment.mine.property.redpack.RedPackGetFragment;
+import com.guohanhealth.shop.ui.main.fragment.mine.property.redpack.RedPackListFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,37 +20,43 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.carbs.android.segmentcontrolview.library.SegmentControlView;
 
-public class RedPackActivity extends BaseActivity implements OnFragmentInteractionListener{
+public class CollectActivity extends BaseActivity implements OnFragmentInteractionListener {
+
 
     @BindView(R.id.back)
     ImageView back;
-    @BindView(R.id.redpack_view_menu)
-    SegmentControlView redpackViewMenu;
-
+    @BindView(R.id.segmentcontrolview)
+    SegmentControlView segmentcontrolview;
     private int mLastFgIndex;
     private List<Fragment> mFragments;
 
     @Override
     protected int getContentViewLayoutID() {
-        return R.layout.activity_red_pack;
+        return R.layout.activity_goods_collect;
     }
 
-    RedPackGetFragment mGetFragment;
-    RedPackListFragment mListFragment;
+    GoodsCollectFragment mGoodsCollectFragment;
+    StoreCollectFragment mStoreCollectFragment;
 
     @Override
     protected void initView(Bundle savedInstanceState) {
         back.setOnClickListener(v -> finish());
+
         mFragments = new ArrayList<>();
-        mGetFragment = RedPackGetFragment.newInstance("", "");
-        mListFragment = RedPackListFragment.newInstance("", "");
-        mFragments.add(mListFragment);
-        mFragments.add(mGetFragment);
-        switchFragment(0);
-        redpackViewMenu.setOnSegmentChangedListener(index -> {
+        mGoodsCollectFragment = GoodsCollectFragment.newInstance("", "");
+        mStoreCollectFragment = StoreCollectFragment.newInstance("", "");
+        mFragments.add(mGoodsCollectFragment);
+        mFragments.add(mStoreCollectFragment);
+        segmentcontrolview.setSelectedIndex(getIntent().getIntExtra(Constants.TYPE, 0));
+        switchFragment(getIntent().getIntExtra(Constants.TYPE, 0));
+        segmentcontrolview.setOnSegmentChangedListener(index -> {
             switchFragment(index);
         });
+
     }
+
+
+
     private void switchFragment(int position) {
         FragmentTransaction transaction = getSupportFragmentManager()
                 .beginTransaction();
@@ -70,11 +76,14 @@ public class RedPackActivity extends BaseActivity implements OnFragmentInteracti
         mLastFgIndex = position;
         transaction.commit();
     }
+
     @Override
     public Object doSomeThing(String key, Object value) {
         if (key.equals(Constants.UPDATA)) {
-            redpackViewMenu.setSelectedIndex(Integer.valueOf((String) value));
+            segmentcontrolview.setSelectedIndex(Integer.valueOf((String) value));
         }
         return null;
     }
+
+
 }

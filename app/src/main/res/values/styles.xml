@@ -211,7 +211,11 @@
         <item name="android:gravity">center_vertical</item>
         <item name="android:paddingBottom">3dp</item>
     </style>
-
+    <style name="cardviewstyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_margin">@dimen/dp_3</item>
+    </style>
     <style name="btnNomll">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">@dimen/dp_25</item>

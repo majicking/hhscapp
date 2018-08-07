@@ -309,7 +309,7 @@ public class GoodsOrderActivity extends BaseActivity<GoodsOrderPercenter, GoodsM
     }
 
     public void endOrder() {
-        if (popuWindow != null) {
+        if (popuWindow != null&&popuWindow.isShowing()) {
             popuWindow.dismiss();
         }
         Bundle bundle = new Bundle();

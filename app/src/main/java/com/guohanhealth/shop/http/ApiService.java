@@ -11,11 +11,13 @@ import com.guohanhealth.shop.bean.CartNumberInfo;
 import com.guohanhealth.shop.bean.EvalInfo;
 import com.guohanhealth.shop.bean.GoodsClassChildInfo;
 import com.guohanhealth.shop.bean.GoodsClassInfo;
+import com.guohanhealth.shop.bean.GoodsCollectInfo;
 import com.guohanhealth.shop.bean.GoodsDetailedInfo;
 import com.guohanhealth.shop.bean.GoodsListInfo;
 import com.guohanhealth.shop.bean.Goods_hair_info;
 import com.guohanhealth.shop.bean.HealthInfo;
 import com.guohanhealth.shop.bean.HealthNumInfo;
+import com.guohanhealth.shop.bean.HistoryInfo;
 import com.guohanhealth.shop.bean.ImgCodeKey;
 import com.guohanhealth.shop.bean.LoginBean;
 import com.guohanhealth.shop.bean.LogisticsInfo;
@@ -35,6 +37,7 @@ import com.guohanhealth.shop.bean.SearchInfo;
 import com.guohanhealth.shop.bean.SearchWordsInfo;
 import com.guohanhealth.shop.bean.SelectedInfo;
 import com.guohanhealth.shop.bean.Step2Info;
+import com.guohanhealth.shop.bean.StoreCollectInfo;
 import com.guohanhealth.shop.bean.UpDataAddressInfo;
 import com.guohanhealth.shop.bean.UserInfo;
 import com.guohanhealth.shop.bean.VoucherInfo;
@@ -119,6 +122,13 @@ public interface ApiService {
     String ADDRESS_ADD = Constants.INDEX + "act=member_address&op=address_add";
     String GET_USER_LIST = Constants.INDEX + "act=member_chat&op=get_user_list";
     String SEND_MSG = Constants.INDEX + "act=member_chat&op=send_msg";
+    String FAVORITES_LIST = Constants.INDEX + "act=member_favorites&op=favorites_list";
+    String MEMBER_FAVORITES_STORE = Constants.INDEX + "act=member_favorites_store&op=favorites_list";
+    String GOODSFAVORITES_DEL = Constants.INDEX + "act=member_favorites&op=favorites_del";
+    String STOREFAVORITES_DEL = Constants.INDEX + "act=member_favorites_store&op=favorites_del";
+    String BROWSE_LIST = Constants.INDEX + "act=member_goodsbrowse&op=browse_list";
+    String BROWSE_CLEARALL = Constants.INDEX + "act=member_goodsbrowse&op=browse_clearall";
+    String SPECIAL = Constants.INDEX + "act=index&op=special";
 
     /**
      * 用户登录
@@ -549,6 +559,29 @@ public interface ApiService {
     Observable<Result<HealthInfo>> healthbeanlog(@Query("key") String key,
                                                  @Query("curpage") String curpage,
                                                  @Query("page") String page);
+
+    /**
+     * 收藏商品列表
+     */
+    @GET(FAVORITES_LIST)
+    Observable<Result<GoodsCollectInfo>> goodsCollectList(@Query("key") String key,
+                                                          @Query("curpage") String curpage,
+                                                          @Query("page") String page);
+
+    /**
+     * 收藏店铺列表
+     */
+    @GET(MEMBER_FAVORITES_STORE)
+    Observable<Result<StoreCollectInfo>> storeCollectList(@Query("key") String key,
+                                                          @Query("curpage") String curpage,
+                                                          @Query("page") String page);
+    /**
+     * 历史纪录列表
+     */
+    @GET(BROWSE_LIST)
+    Observable<Result<HistoryInfo>> historyList(@Query("key") String key,
+                                                @Query("curpage") String curpage,
+                                                @Query("page") String page);
 
     /**
      * 健康豆值

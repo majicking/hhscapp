@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/bg_white_magin_left_top_right_5"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="horizontal">
+
+    <RelativeLayout
+        android:layout_width="@dimen/dp_70"
+        android:layout_height="@dimen/dp_70">
+
+        <ImageView
+            android:id="@+id/img1"
+            android:layout_width="@dimen/dp_70"
+            android:layout_height="@dimen/dp_70"
+            android:padding="@dimen/dp_5"
+            android:src="@color/green" />
+    </RelativeLayout>
+
+
+    <LinearLayout
+        style="@style/layout_weight_h"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/text1"
+            style="@style/layout_weight_v"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:maxLines="1"
+            android:textSize="@dimen/sp_12" />
+
+        <LinearLayout style="@style/layout_weight_v">
+
+            <TextView
+                android:id="@+id/text2"
+                style="@style/layout_weight_h"
+                android:ellipsize="end"
+                android:gravity="center_vertical"
+                android:maxLines="1"
+                android:textSize="@dimen/sp_12" />
+
+            <TextView
+                android:id="@+id/text3"
+                style="@style/layout_weight_h"
+                android:ellipsize="end"
+                android:gravity="center_vertical"
+                android:maxLines="1"
+                android:textSize="@dimen/sp_12" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/img2"
+        android:layout_width="@dimen/dp_18"
+        android:layout_height="@dimen/dp_18"
+        android:layout_margin="@dimen/dp_5"
+        android:src="@drawable/icon_del" />
+
+
+</LinearLayout>

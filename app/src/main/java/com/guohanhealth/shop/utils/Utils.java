@@ -40,6 +40,7 @@ import com.guohanhealth.shop.http.ServerException;
 import com.guohanhealth.shop.ui.WebViewActivity;
 import com.guohanhealth.shop.ui.goods.goodsdetailed.activity.GoodsDetailsActivity;
 import com.guohanhealth.shop.ui.login.LoginActivity;
+import com.guohanhealth.shop.ui.main.spec.SpecActivity;
 import com.guohanhealth.shop.ui.search.SearchActivity;
 import com.tencent.mm.opensdk.modelpay.PayReq;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
@@ -188,9 +189,12 @@ public class Utils {
                 context.startActivity(intent);
                 break;
             case "special"://专题编号
-                Intent intent1 = new Intent(context, WebViewActivity.class);
-                intent1.putExtra("url", Constants.URL + "act=index&op=special&special_id=" + data + "&type=html");
+                Intent intent1 = new Intent(context, SpecActivity.class);
+                intent1.putExtra("special_id", data);
                 context.startActivity(intent1);
+//                Intent intent1 = new Intent(context, WebViewActivity.class);
+//                intent1.putExtra("url", Constants.URL + "act=index&op=special&special_id=" + data + "&type=html");
+//                context.startActivity(intent1);
                 break;
             case "goods":
                 //商品编号
@@ -400,7 +404,6 @@ public class Utils {
     public static String getDatasString(String json) {
         return JSONParser.getStringFromJsonString("datas", json);
     }
-
 
 
 }

@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <LinearLayout
@@ -9,10 +10,33 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:orientation="vertical">
+        <LinearLayout
+            android:id="@+id/titleview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/title"
-            style="@style/home_title" />
+            <View
+                android:id="@+id/linev"
+                android:layout_width="4dp"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/dp_2"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="@dimen/dp_2"
+                android:background="@color/appColor" />
+            <TextView
+                android:id="@+id/title"
+                style="@style/home_title" />
+        </LinearLayout>
+
+        <android.support.v7.widget.CardView
+            style="@style/cardviewstyle"
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="5dp"
+            app:cardElevation="5dp"
+            app:cardPreventCornerOverlap="false">
 
         <ImageView
             android:id="@+id/img"
@@ -20,6 +44,7 @@
             android:layout_height="@dimen/dp_130"
             android:adjustViewBounds="true"
             android:scaleType="fitXY" />
+        </android.support.v7.widget.CardView>
     </LinearLayout>
 
 </LinearLayout>

@@ -1,0 +1,75 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/djk_bgcolor"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dp_3"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="5dp"
+        app:cardElevation="@dimen/dp_3"
+        app:cardPreventCornerOverlap="false">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/img1"
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:scaleType="fitXY" />
+
+            <LinearLayout
+                style="@style/match_warp"
+                android:gravity="center_vertical"
+                android:minHeight="@dimen/dp_80"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    style="@style/layout_weight_h"
+                    android:orientation="vertical"
+                    android:paddingLeft="3dp"
+                    android:paddingRight="3dp">
+
+                    <TextView
+                        android:id="@+id/text1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="3dp"
+                        android:layout_marginTop="3dp"
+                        android:lines="2"
+                        android:textColor="@color/djk_textcolor444"
+                        android:textSize="14dp" />
+
+
+                    <TextView
+                        android:id="@+id/text2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="5dp"
+                        android:singleLine="true"
+                        android:text="￥0.00"
+                        android:textColor="@color/appColor"
+                        android:textSize="14dp" />
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/img2"
+                    android:layout_width="@dimen/dp_20"
+                    android:layout_height="@dimen/dp_20"
+                    android:layout_gravity="bottom"
+                    android:layout_margin="@dimen/dp_8"
+                    android:src="@drawable/icon_del" />
+            </LinearLayout>
+
+
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+</LinearLayout>

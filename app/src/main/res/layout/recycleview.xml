@@ -10,11 +10,13 @@
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recyclerview"
+            android:visibility="gone"
             style="@style/match"></android.support.v7.widget.RecyclerView>
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
     <com.guohanhealth.shop.custom.EmptyView
         android:id="@+id/emptyview"
         style="@style/match"
-        android:visibility="gone"></com.guohanhealth.shop.custom.EmptyView>
+        ></com.guohanhealth.shop.custom.EmptyView>
 
 </RelativeLayout>

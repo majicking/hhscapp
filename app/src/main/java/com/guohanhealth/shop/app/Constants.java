@@ -16,9 +16,11 @@ public interface Constants {
      */
 
     String HEAD = BuildConfig.HEAD;
-    //    String HOST = "test.shopnctest.com";
-//    String HOST = BuildConfig.HOST;
-    String HOST = "www.guohanhealth.com";
+    String HOST0 = BuildConfig.HOST;
+    String HOST1 = "test.shopnctest.com";
+    String HOST2 = "192.168.1.231";
+    String HOST3 = "192.168.1.252";
+    String HOST = HOST1;
     String PORT = BuildConfig.PORT;
     String APP = BuildConfig.APP;
     String WEB = BuildConfig.WEB;
@@ -117,6 +119,7 @@ public interface Constants {
     String CHATID = "chatid";
     String CHATNAME = "chatname";
     String CHATAVATAR = "chatavatar";
-    String ISNOTIFY="isnotify";
-    String ISMEDIAPLAYER="ismediaplayer";
+    String ISNOTIFY = "isnotify";
+    String ISMEDIAPLAYER = "ismediaplayer";
+    String TYPE = "type";
 }

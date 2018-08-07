@@ -182,6 +182,10 @@ public abstract class BaseActivity<T extends BasePresenter, E extends BaseModel>
         Logutils.i(msg);
     }
 
+    @Override
+    public void getData(Object data) {
+        Logutils.i(data);
+    }
 
     /**
      * 申请运行时权限

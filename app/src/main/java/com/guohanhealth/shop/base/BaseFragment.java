@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.guohanhealth.shop.R;
 import com.guohanhealth.shop.event.PermissionListener;
 import com.guohanhealth.shop.http.RxManager;
+import com.guohanhealth.shop.utils.Logutils;
 import com.guohanhealth.shop.utils.Utils;
 import com.guohanhealth.shop.view.LoadingDialog;
 import com.tbruyelle.rxpermissions2.RxPermissions;
@@ -171,4 +172,13 @@ public abstract class BaseFragment<T extends BasePresenter, E extends BaseModel>
         }
     }
 
+    @Override
+    public void getData(Object data) {
+        Logutils.i(data);
+    }
+
+    @Override
+    public void faild(String msg) {
+        Logutils.i(msg);
+    }
 }

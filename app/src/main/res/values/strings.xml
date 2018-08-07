@@ -37,6 +37,10 @@
         <item>我的红包</item>
         <item>领取红包</item>
     </string-array>
+    <string-array name="collecttype">
+        <item>商品收藏</item>
+        <item>店铺收藏</item>
+    </string-array>
 
     <string name="text_sole">手机专享</string>
     <string name="text_groupbuy">团购</string>

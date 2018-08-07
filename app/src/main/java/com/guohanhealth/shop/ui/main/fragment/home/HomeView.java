@@ -2,6 +2,8 @@ package com.guohanhealth.shop.ui.main.fragment.home;
 
 import com.guohanhealth.shop.base.BaseView;
 import com.guohanhealth.shop.bean.Adv_list;
+import com.guohanhealth.shop.bean.Goods1Bean;
+import com.guohanhealth.shop.bean.Goods2Bean;
 import com.guohanhealth.shop.bean.GoodsInfo;
 import com.guohanhealth.shop.bean.Home1Info;
 import com.guohanhealth.shop.bean.Home2Info;
@@ -32,9 +34,9 @@ public interface HomeView extends BaseView {
 
     void showGoods(GoodsInfo goodsInfo);
 
-    void showGoods1(JSONObject jsonobj);
+    void showGoods1(Goods1Bean jsonobj);
 
-    void showGoods2(JSONObject jsonobj);
+    void showGoods2(Goods2Bean jsonobj);
     void stopRefresh();
 
 }

@@ -20,9 +20,12 @@ import com.guohanhealth.shop.base.BaseFragment;
 import com.guohanhealth.shop.bean.MineInfo;
 import com.guohanhealth.shop.custom.CustomPopuWindow;
 import com.guohanhealth.shop.http.Api;
+import com.guohanhealth.shop.ui.cart.ChatListActivity;
 import com.guohanhealth.shop.ui.login.LoginActivity;
 import com.guohanhealth.shop.event.OnFragmentInteractionListener;
 import com.guohanhealth.shop.ui.main.fragment.mine.address.AddressListActivity;
+import com.guohanhealth.shop.ui.main.fragment.mine.collect.CollectActivity;
+import com.guohanhealth.shop.ui.main.fragment.mine.history.HistoryActivity;
 import com.guohanhealth.shop.ui.main.fragment.mine.property.accountbalance.PredepositActivity;
 import com.guohanhealth.shop.ui.main.fragment.mine.property.PropertyActivity;
 import com.guohanhealth.shop.ui.main.fragment.mine.property.point.PointActivity;
@@ -193,6 +196,21 @@ public class MineFragment extends BaseFragment<MinePersenter, MineModel> impleme
             CustomPopuWindow popupWindow = Utils.getPopuWindown(mContext, view, Gravity.BOTTOM);
 
         });
+        /**设置*/
+        mineBtnviewSetting.setOnClickListener(v -> readyGo(SettingActivity.class));
+        /**收藏*/
+        mineBtnviewGoodscollect.setOnClickListener(v -> {
+            Bundle bundle = new Bundle();
+            bundle.putInt(Constants.TYPE, 0);
+            readyGo(CollectActivity.class, bundle);
+        });
+        mineBtnviewStorecollect.setOnClickListener(v -> {
+            Bundle bundle = new Bundle();
+            bundle.putInt(Constants.TYPE, 1);
+            readyGo(CollectActivity.class, bundle);
+        });
+        mineBtnviewMyhistory.setOnClickListener(v -> readyGo(HistoryActivity.class));
+        mineCharting.setOnClickListener(v -> readyGo(ChatListActivity.class));
     }
 
     public void toOrder(int index) {

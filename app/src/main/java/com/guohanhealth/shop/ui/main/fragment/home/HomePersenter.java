@@ -6,6 +6,8 @@ import android.os.Message;
 import com.guohanhealth.shop.app.Constants;
 import com.guohanhealth.shop.base.BasePresenter;
 import com.guohanhealth.shop.bean.Adv_list;
+import com.guohanhealth.shop.bean.Goods1Bean;
+import com.guohanhealth.shop.bean.Goods2Bean;
 import com.guohanhealth.shop.bean.GoodsInfo;
 import com.guohanhealth.shop.bean.Home1Info;
 import com.guohanhealth.shop.bean.Home2Info;
@@ -67,9 +69,9 @@ public class HomePersenter extends BasePresenter<HomeView, HomeModel> {
                                 } else if (!JsonObj.isNull("goods")) {//商品版块
                                     mView.showGoods(JSONParser.JSON2Object(JsonObj.getString("goods"), GoodsInfo.class));
                                 } else if (!JsonObj.isNull("goods1")) {    //限时商品
-                                    mView.showGoods1(JsonObj);
+                                    mView.showGoods1(JSONParser.JSON2Object(JsonObj.getString("goods1"), Goods1Bean.class));
                                 } else if (!JsonObj.isNull("goods2")) {     //抢购商品
-                                    mView.showGoods2(JsonObj);
+                                    mView.showGoods2(JSONParser.JSON2Object(JsonObj.getString("goods2"), Goods2Bean.class));
                                 }
                             }
 

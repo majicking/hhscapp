@@ -17,24 +17,69 @@
 
                 <RelativeLayout
                     style="@style/match_warp"
-                    android:layout_height="@dimen/dp_180">
+                    android:layout_height="320dp">
 
                     <com.youth.banner.Banner
                         android:id="@+id/banner"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"></com.youth.banner.Banner>
+                        android:layout_height="220dp"></com.youth.banner.Banner>
+
+                    <RelativeLayout
+                        android:id="@+id/cardview_menu"
+                        android:layout_width="match_parent"
+                        android:layout_height="145dp"
+                        android:layout_alignParentBottom="true"
+                        android:gravity="center">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_alignParentBottom="true"
+                            android:orientation="vertical">
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:layout_weight="1"
+                                android:background="@drawable/home_bg_color" />
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:layout_weight="1"
+                                android:background="@color/djk_bgcolor" />
+
+                            <View
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:layout_weight="1"
+                                android:background="@color/djk_bgcolor" />
+
+                        </LinearLayout>
+
+                        <RelativeLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="8dp"
+                            android:layout_marginRight="8dp"
+                            android:background="@drawable/bg_line"
+                            android:gravity="center"
+                            android:paddingBottom="@dimen/dp_5"
+                            android:paddingLeft="@dimen/dp_3"
+                            android:paddingRight="@dimen/dp_3"
+                            android:paddingTop="@dimen/dp_5">
+
+                            <com.guohanhealth.shop.custom.MyGridView
+                                android:id="@+id/gridview"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:background="@color/white"
+                                android:numColumns="4"></com.guohanhealth.shop.custom.MyGridView>
+                        </RelativeLayout>
+                    </RelativeLayout>
                 </RelativeLayout>
 
-                <View style="@style/djk_line" />
-
-                <com.guohanhealth.shop.view.NoScrollGridView
-                    android:id="@+id/gridview"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dp_10"
-                    android:background="@color/white"
-                    android:numColumns="4"
-                    android:verticalSpacing="3dp"></com.guohanhealth.shop.view.NoScrollGridView>
+                <View style="@style/djk_line_big" />
 
                 <LinearLayout
                     android:id="@+id/home_view_layout"

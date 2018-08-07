@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.guohanhealth.shop.R;
@@ -128,6 +129,29 @@ public abstract class BaseAppCompatActivity extends FragmentActivity {
 
         });
         toolbar.setTitle(title);
+    }
+
+    /**
+     * 初始化toolbar 右边有文字
+     */
+    protected void initToolBarNav(Toolbar toolbar, TextView title, String titletext, TextView title1, String titleright) {
+        toolbar.setNavigationOnClickListener(v -> {
+            showKeyboard(false);
+
+        });
+        title.setText(titletext);
+        title1.setText(titleright);
+    }
+
+    /**
+     * 初始化toolbar 右边有图标
+     */
+    protected void initToolBarNav(Toolbar toolbar, TextView title, String titletext, ImageView title1, int rightimg) {
+        toolbar.setNavigationOnClickListener(v -> {
+            showKeyboard(false);
+        });
+        title.setText(titletext);
+        title1.setImageResource(rightimg);
     }
 
     /**

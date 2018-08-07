@@ -18,4 +18,25 @@
         android:textColor="@color/white"
         android:textSize="@dimen/sp_16" />
 
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right">
+
+        <ImageView
+            android:id="@+id/common_toolbar_img_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_margin="@dimen/dp_15" />
+
+        <TextView
+            android:id="@+id/common_toolbar_title_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_margin="@dimen/dp_10"
+            android:textColor="@color/white" />
+    </RelativeLayout>
+
 </android.support.v7.widget.Toolbar>

@@ -8,7 +8,7 @@ import android.view.View;
 public interface BaseView {
 
 
-
+    void getData(Object data);
     void faild(String msg);
 
     /**

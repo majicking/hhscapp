@@ -12,8 +12,9 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <!--授权A这个app 允许安装未知来源的权限-->
+    <!-- 授权A这个app 允许安装未知来源的权限 -->
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+
     <application
         android:name=".app.App"
         android:allowBackup="true"
@@ -94,7 +95,12 @@
             android:name=".ui.main.fragment.mine.address.AddressAddActivity"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity android:name=".ui.cart.ChatListActivity" />
-        <activity android:name=".ui.cart.CartActivity"></activity>
+        <activity android:name=".ui.cart.CartActivity" />
+        <activity
+            android:name=".ui.main.fragment.mine.collect.CollectActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize" />
+        <activity android:name=".ui.main.fragment.mine.history.HistoryActivity" />
+        <activity android:name=".ui.main.spec.SpecActivity"></activity>
     </application>
 
 </manifest>

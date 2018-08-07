@@ -1,16 +1,12 @@
-package com.guohanhealth.shop.ui.main.fragment.home;
+package com.guohanhealth.shop.ui.main.spec;
 
-import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,7 +20,7 @@ import com.guohanhealth.shop.adapter.CommonAdapter;
 import com.guohanhealth.shop.adapter.ViewHolder;
 import com.guohanhealth.shop.app.App;
 import com.guohanhealth.shop.app.Constants;
-import com.guohanhealth.shop.base.BaseFragment;
+import com.guohanhealth.shop.base.BaseActivity;
 import com.guohanhealth.shop.bean.Adv_list;
 import com.guohanhealth.shop.bean.Goods1Bean;
 import com.guohanhealth.shop.bean.Goods2Bean;
@@ -34,248 +30,189 @@ import com.guohanhealth.shop.bean.Home2Info;
 import com.guohanhealth.shop.bean.Home3Info;
 import com.guohanhealth.shop.bean.Home4Info;
 import com.guohanhealth.shop.bean.Home5Info;
-import com.guohanhealth.shop.bean.HomeMenuBtn;
 import com.guohanhealth.shop.custom.MyGridView;
-import com.guohanhealth.shop.custom.MyScrollView;
-import com.guohanhealth.shop.event.OnFragmentInteractionListener;
-import com.guohanhealth.shop.event.PermissionListener;
-import com.guohanhealth.shop.ui.cart.ChatListActivity;
+import com.guohanhealth.shop.http.Api;
+import com.guohanhealth.shop.http.ApiService;
+import com.guohanhealth.shop.http.HttpErrorCode;
 import com.guohanhealth.shop.ui.goods.goodsdetailed.activity.GoodsDetailsActivity;
-import com.guohanhealth.shop.ui.search.SearchActivity;
+import com.guohanhealth.shop.ui.main.fragment.home.HomeView;
+import com.guohanhealth.shop.ui.main.fragment.mine.address.AddressAddActivity;
+import com.guohanhealth.shop.utils.JSONParser;
 import com.guohanhealth.shop.utils.Utils;
 import com.guohanhealth.shop.utils.engine.GlideEngine;
 import com.guohanhealth.shop.view.NoScrollGridView;
-import com.guohanhealth.shop.view.scannercode.android.CaptureActivity;
-import com.scwang.smartrefresh.header.DeliveryHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
 import com.youth.banner.loader.ImageLoader;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.List;
 import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.Unbinder;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
 
-import static android.app.Activity.RESULT_OK;
+public class SpecActivity extends BaseActivity {
 
-public class HomeFragment extends BaseFragment<HomePersenter, HomeModel> implements HomeView {
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-    @BindView(R.id.home_scanner)
-    ImageView homeScanner;
-    @BindView(R.id.home_view_search)
-    LinearLayout homeViewSearch;
-    @BindView(R.id.home_view_im)
-    LinearLayout homeViewIm;
+    @BindView(R.id.common_toolbar_title_tv)
+    TextView commonToolbarTitleTv;
+    @BindView(R.id.common_toolbar)
+    Toolbar commonToolbar;
     @BindView(R.id.banner)
     Banner banner;
+    @BindView(R.id.view_layout)
+    LinearLayout homeViewLayout;
     @BindView(R.id.smartrefreshlayout)
     SmartRefreshLayout smartrefreshlayout;
-    @BindView(R.id.home_view_layout)
-    LinearLayout homeViewLayout;
-    @BindView(R.id.gridview)
-    MyGridView gridview;
-    @BindView(R.id.home_hot)
-    TextView homeHot;
-    @BindView(R.id.home_view_scrollview)
-    MyScrollView homeViewScrollview;
-    @BindView(R.id.home_view_titleview)
-    LinearLayout homeViewTitleview;
-    Unbinder unbinder;
-
-
-    private String mParam1;
-    private String mParam2;
-
-    private OnFragmentInteractionListener mListener;
-
-    public HomeFragment() {
-
-    }
-
-    public static HomeFragment newInstance(String param1, String param2) {
-        HomeFragment fragment = new HomeFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
-
+    private String special_id;
 
     @Override
     protected int getContentViewLayoutID() {
-        return R.layout.fragment_home;
+        return R.layout.activity_spec;
     }
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        smartrefreshlayout.setRefreshHeader(new DeliveryHeader(mContext));
-        banner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR);
-        banner.setDelayTime(2000);
-        banner.setIndicatorGravity(BannerConfig.CENTER);
-        mPresenter.getHomeData();
-        smartrefreshlayout.setOnRefreshListener(refreshLayout -> {
-            homeViewLayout.removeAllViews();
-            mPresenter.getHomeData();
+        initToolBarNav(commonToolbar, commonToolbarTitleTv, "专题活动");
+        special_id = getIntent().getStringExtra("special_id");
+        smartrefreshlayout.setRefreshHeader(new ClassicsHeader(mContext));
+        smartrefreshlayout.setOnRefreshListener(view -> {
+            getData();
         });
-        gridview.setAdapter(new CommonAdapter<HomeMenuBtn>(mContext, HomeMenuBtn.getHomeBtn(), R.layout.home_menu_item) {
+    }
+
+    //如果你需要考虑更好的体验，可以这么操作
+    @Override
+    protected void onStart() {
+        super.onStart();
+        //开始轮播
+        banner.startAutoPlay();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        //结束轮播
+        banner.stopAutoPlay();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getData();
+    }
+
+    public void getData() {
+        Api.get( ApiService.SPECIAL + "&special_id=" + special_id, new Callback() {
             @Override
-            public void convert(ViewHolder viewHolder, HomeMenuBtn item, int position, View convertView, ViewGroup parentViewGroup) {
-                viewHolder.setText(R.id.title, item.title);
-                ((ImageView)viewHolder.getView(R.id.img)).setImageResource(item.icon);
-//                Bitmap bitmap = BitmapFactory.decodeResource(mContext.getResources(), item.icon);
-//                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-//                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-//                byte[] datas = baos.toByteArray();
-//
-//                GlideEngine.getInstance().loadCircleImage(mContext, 180, datas, R.mipmap.djk_icon_member, viewHolder.getView(R.id.img));
-//                GradientDrawable mm = (GradientDrawable) viewHolder.getView(R.id.view).getBackground();
-//                mm.setColor(item.backgroundCoror);
+            public void onFailure(Call call, IOException e) {
+                runOnUiThread(() -> {
+                    if (smartrefreshlayout != null && smartrefreshlayout.isRefreshing()) {
+                        smartrefreshlayout.finishRefresh();
+                    }
+                    showToast(Utils.getErrorString(e));
+                });
             }
-        });
-        gridview.setOnItemClickListener((parent, view, position, id) -> {
-            switch (position) {
-                case 0:
-                    onButtonPressed(Constants.MAINNUMBER, 1);
-                    break;
-                case 1:
-                    onButtonPressed(Constants.MAINNUMBER, 2);
-                    break;
-                case 2:
-                    break;
-                case 3:
-                    break;
-                case 4:
-                    onButtonPressed(Constants.MAINNUMBER, 0);
-                    break;
-                case 5:
-                    break;
-                case 6:
-                    break;
-                case 7:
-                    break;
-            }
-        });
-        homeViewSearch.setOnClickListener(v -> {
-            readyGo(SearchActivity.class);
-        });
-        homeScanner.setOnClickListener(v ->
-                requestRuntimePermission(new String[]{Manifest.permission.CAMERA},
-                        new PermissionListener() {
-                            @Override
-                            public void onGranted() {
-                                readyGoForResult(CaptureActivity.class, Constants.REQUEST_CAMERA);
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (smartrefreshlayout != null && smartrefreshlayout.isRefreshing()) {
+                    smartrefreshlayout.finishRefresh();
+                }
+                try {
+                    String json = response.body().string();
+                    if (Utils.getCode(json) == HttpErrorCode.HTTP_NO_ERROR) {
+                        runOnUiThread(() -> {
+                            try {
+
+                                String spectitle = Utils.getValue("special_desc", Utils.getDatasString(json));
+                                initToolBarNav(commonToolbar, commonToolbarTitleTv, spectitle);
+                                homeViewLayout.removeAllViews();
+                                String Object = JSONParser.getStringFromJsonString("list", Utils.getDatasString(json));
+                                JSONArray arr = new JSONArray(Object);
+                                int size = null == arr ? 0 : arr.length();
+                                for (int i = 0; i < size; i++) {
+                                    JSONObject obj = arr.getJSONObject(i);
+                                    JSONObject JsonObj = new JSONObject(obj.toString());
+                                    if (!JsonObj.isNull("home1")) {
+                                        showHome1(JSONParser.JSON2Object(JsonObj.getString("home1"), Home1Info.class));
+                                    } else if (!JsonObj.isNull("home2")) {
+                                        showHome2(JSONParser.JSON2Object(JsonObj.getString("home2"), Home2Info.class));
+                                    } else if (!JsonObj.isNull("home3")) {
+                                        showHome3(JSONParser.JSON2Object(JsonObj.getString("home3"), Home3Info.class));
+                                    } else if (!JsonObj.isNull("home4")) {
+                                        showHome4(JSONParser.JSON2Object(JsonObj.getString("home4"), Home4Info.class));
+                                    } else if (!JsonObj.isNull("home5")) {
+                                        showHome5(JSONParser.JSON2Object(JsonObj.getString("home5"), Home5Info.class));
+                                    } else if (!JsonObj.isNull("adv_list")) {//banner
+                                        showAdvList(JSONParser.JSON2Object(JsonObj.getString("adv_list"), Adv_list.class).item);
+                                    } else if (!JsonObj.isNull("video_list")) {     //视频接口
+                                        showVideoView(JsonObj);
+                                    } else if (!JsonObj.isNull("goods")) {//商品版块
+                                        showGoods(JSONParser.JSON2Object(JsonObj.getString("goods"), GoodsInfo.class));
+                                    } else if (!JsonObj.isNull("goods1")) {    //限时商品
+                                        showGoods1(JSONParser.JSON2Object(JsonObj.getString("goods1"), Goods1Bean.class));
+                                    } else if (!JsonObj.isNull("goods2")) {     //抢购商品
+                                        showGoods2(JSONParser.JSON2Object(JsonObj.getString("goods2"), Goods2Bean.class));
+                                    }
+                                }
+                            } catch (Exception e) {
+                                runOnUiThread(() -> {
+                                    showToast(Utils.getErrorString(json));
+                                });
                             }
-
-                            @Override
-                            public void onDenied(List<String> deniedPermissions) {
-                                showToast("拒绝相机权限");
-                            }
-                        })
-
-        );
-        homeHot.setText(App.getApp().getHotname());
-        homeViewScrollview.setOnScrollListener(scrollY -> {
-            if (scrollY < 150) {
-                homeViewTitleview.setBackgroundColor(getResources().getColor(R.color.translucent));
-            } else if (scrollY > 150 && scrollY < 600) {
-                float scale = (float) scrollY / 600;
-                float alpha = (255 * scale);
-                homeViewTitleview.setBackgroundColor(Color.argb((int) alpha, 237, 89, 104));
-            } else {
-                homeViewTitleview.setBackgroundColor(getResources().getColor(R.color.appColor));
-
+                        });
+                    } else {
+                        runOnUiThread(() -> {
+                            showToast(Utils.getErrorString(json));
+                        });
+                    }
+                } catch (Exception e) {
+                    runOnUiThread(() -> {
+                        showToast(Utils.getErrorString(e));
+                    });
+                }
             }
         });
-
-        homeViewIm.setOnClickListener(v -> {
-            readyGo(ChatListActivity.class);
-        });
     }
 
 
-    public void onButtonPressed(String key, int value) {
-        if (mListener != null) {
-            mListener.doSomeThing(key, value);
-        }
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-
-    @Override
-    public void faild(String msg) {
-        showToast(msg);
-    }
-
-    @Override
     public void showHome1(Home1Info jsonobj) {
         View view = getView(R.layout.home_item_home1);
-        View linev = getView(view, R.id.linev);
-        View titleview = getView(view, R.id.titleview);
-        TextView title = getView(view, R.id.title);
-        ImageView img = getView(view, R.id.img);
+        TextView title = (TextView) getView(view, R.id.title);
+        ImageView img = (ImageView) getView(view, R.id.img);
         if (Utils.isEmpty(jsonobj.title)) {
             title.setText(jsonobj.title);
-            titleview.setVisibility(View.VISIBLE);
-            linev.setBackgroundColor(Constants.BGCOLORS[new Random().nextInt(10)]);
         } else {
-            titleview.setVisibility(View.GONE);
+            title.setVisibility(View.GONE);
         }
         GlideEngine.getInstance().loadImage(mContext, img, jsonobj.image);
         view.setOnClickListener(v -> {
-            goToType(jsonobj.type, jsonobj.data);
+            showToast(jsonobj.title);
         });
         homeViewLayout.addView(view);
     }
 
-    @Override
     public void showHome2(Home2Info jsonobj) {
         View view = getView(R.layout.home_item_home2);
-        TextView title = getView(view, R.id.title);
-        ImageView img1 = getView(view, R.id.img1);
-        ImageView img2 = getView(view, R.id.img2);
-        ImageView img3 = getView(view, R.id.img3);
-        View linev = getView(view, R.id.linev);
-        View titleview = getView(view, R.id.titleview);
+        TextView title = (TextView) getView(view, R.id.title);
+        ImageView img1 = (ImageView) getView(view, R.id.img1);
+        ImageView img2 = (ImageView) getView(view, R.id.img2);
+        ImageView img3 = (ImageView) getView(view, R.id.img3);
         if (Utils.isEmpty(jsonobj.title)) {
             title.setText(jsonobj.title);
-            titleview.setVisibility(View.VISIBLE);
-            linev.setBackgroundColor(Constants.BGCOLORS[new Random().nextInt(10)]);
         } else {
-            titleview.setVisibility(View.GONE);
+            title.setVisibility(View.GONE);
         }
         GlideEngine.getInstance().loadImage(mContext, img1, jsonobj.square_image);
         GlideEngine.getInstance().loadImage(mContext, img2, jsonobj.rectangle1_image);
@@ -286,20 +223,16 @@ public class HomeFragment extends BaseFragment<HomePersenter, HomeModel> impleme
         homeViewLayout.addView(view);
     }
 
-    @Override
     public void showHome3(Home3Info jsonobj) {
         View view = getView(R.layout.home_item_home3);
-        TextView title = getView(view, R.id.title);
-        View linev = getView(view, R.id.linev);
-        View titleview = getView(view, R.id.titleview);
+        TextView title = (TextView) getView(view, R.id.title);
         if (Utils.isEmpty(jsonobj.title)) {
             title.setText(jsonobj.title);
-            titleview.setVisibility(View.VISIBLE);
-            linev.setBackgroundColor(Constants.BGCOLORS[new Random().nextInt(10)]);
+            title.setVisibility(View.VISIBLE);
         } else {
-            titleview.setVisibility(View.GONE);
+            title.setVisibility(View.GONE);
         }
-        NoScrollGridView gridView = getView(view, R.id.gridview);
+        NoScrollGridView gridView = (NoScrollGridView) getView(view, R.id.gridview);
         CommonAdapter<Home3Info.Item> adapter = new CommonAdapter<Home3Info.Item>(mContext, jsonobj.item, R.layout.home_item_home3_adapteritem) {
             @Override
             public void convert(ViewHolder viewHolder, Home3Info.Item item, int position, View convertView, ViewGroup parentViewGroup) {
@@ -313,21 +246,17 @@ public class HomeFragment extends BaseFragment<HomePersenter, HomeModel> impleme
         homeViewLayout.addView(view);
     }
 
-    @Override
     public void showHome4(Home4Info jsonobj) {
         View view = getView(R.layout.home_item_home4);
-        TextView title = getView(view, R.id.title);
-        ImageView img1 = getView(view, R.id.img1);
-        ImageView img2 = getView(view, R.id.img2);
-        ImageView img3 = getView(view, R.id.img3);
-        View linev = getView(view, R.id.linev);
-        View titleview = getView(view, R.id.titleview);
+        TextView title = (TextView) getView(view, R.id.title);
+        ImageView img1 = (ImageView) getView(view, R.id.img1);
+        ImageView img2 = (ImageView) getView(view, R.id.img2);
+        ImageView img3 = (ImageView) getView(view, R.id.img3);
         if (Utils.isEmpty(jsonobj.title)) {
             title.setText(jsonobj.title);
-            titleview.setVisibility(View.VISIBLE);
-            linev.setBackgroundColor(Constants.BGCOLORS[new Random().nextInt(10)]);
+            title.setVisibility(View.VISIBLE);
         } else {
-            titleview.setVisibility(View.GONE);
+            title.setVisibility(View.GONE);
         }
         GlideEngine.getInstance().loadImage(mContext, img1, jsonobj.rectangle1_image);
         GlideEngine.getInstance().loadImage(mContext, img2, jsonobj.rectangle2_image);
@@ -338,16 +267,15 @@ public class HomeFragment extends BaseFragment<HomePersenter, HomeModel> impleme
         homeViewLayout.addView(view);
     }
 
-    @Override
     public void showHome5(Home5Info jsonobj) {
         View view = getView(R.layout.home_item_home5);
         View titlelayout = getView(view, R.id.titlelayout);
-        TextView title1 = getView(view, R.id.title1);
-        TextView title2 = getView(view, R.id.title2);
-        ImageView img1 = getView(view, R.id.img1);
-        ImageView img2 = getView(view, R.id.img2);
-        ImageView img3 = getView(view, R.id.img3);
-        ImageView img4 = getView(view, R.id.img4);
+        TextView title1 = (TextView) getView(view, R.id.title1);
+        TextView title2 = (TextView) getView(view, R.id.title2);
+        ImageView img1 = (ImageView) getView(view, R.id.img1);
+        ImageView img2 = (ImageView) getView(view, R.id.img2);
+        ImageView img3 = (ImageView) getView(view, R.id.img3);
+        ImageView img4 = (ImageView) getView(view, R.id.img4);
         GlideEngine.getInstance().loadImage(mContext, img1, jsonobj.square_image);
         GlideEngine.getInstance().loadImage(mContext, img2, jsonobj.rectangle1_image);
         GlideEngine.getInstance().loadImage(mContext, img3, jsonobj.rectangle2_image);
@@ -368,22 +296,7 @@ public class HomeFragment extends BaseFragment<HomePersenter, HomeModel> impleme
         homeViewLayout.addView(view);
     }
 
-    //如果你需要考虑更好的体验，可以这么操作
-    @Override
-    public void onStart() {
-        super.onStart();
-        //开始轮播
-        banner.startAutoPlay();
-    }
 
-    @Override
-    public void onStop() {
-        super.onStop();
-        //结束轮播
-        banner.stopAutoPlay();
-    }
-
-    @Override
     public void showAdvList(List<Adv_list.Item> jsonobj) {
         if (Utils.isEmpty(jsonobj)) {
             banner.setVisibility(View.VISIBLE);
@@ -416,19 +329,18 @@ public class HomeFragment extends BaseFragment<HomePersenter, HomeModel> impleme
         } else {
             banner.setVisibility(View.GONE);
         }
+
     }
 
-    @Override
     public void showVideoView(JSONObject jsonobj) {
 
     }
 
-    @Override
     public void showGoods(GoodsInfo jsonobj) {
         View view = getView(R.layout.home_item_goods);
         View titlelayout = getView(view, R.id.titleview);
-        TextView title = getView(view, R.id.text);
-        NoScrollGridView gridView = getView(view, R.id.gridview);
+        TextView title = (TextView) getView(view, R.id.text);
+        NoScrollGridView gridView = (NoScrollGridView) getView(view, R.id.gridview);
         if (Utils.isEmpty(jsonobj.title)) {
             title.setText(jsonobj.title);
             titlelayout.setVisibility(View.VISIBLE);
@@ -455,7 +367,8 @@ public class HomeFragment extends BaseFragment<HomePersenter, HomeModel> impleme
         homeViewLayout.addView(view);
     }
 
-    @Override
+    boolean endThread;
+
     public void showGoods1(Goods1Bean jsonobj) {
         View view = getView(R.layout.home_item_goods);
         View titlelayout = getView(view, R.id.titleview);
@@ -530,9 +443,6 @@ public class HomeFragment extends BaseFragment<HomePersenter, HomeModel> impleme
         homeViewLayout.addView(view);
     }
 
-    boolean endThread;
-
-    @Override
     public void showGoods2(Goods2Bean jsonobj) {
         View view = getView(R.layout.home_item_goods);
         View titlelayout = getView(view, R.id.titleview);
@@ -564,29 +474,8 @@ public class HomeFragment extends BaseFragment<HomePersenter, HomeModel> impleme
         homeViewLayout.addView(view);
     }
 
-    @Override
-    public void stopRefresh() {
-        if (smartrefreshlayout != null && smartrefreshlayout.isRefreshing()) {
-            smartrefreshlayout.finishRefresh();
-        }
-    }
-
-
     public void goToType(String type, String square_data) {
         Utils.GoToType(mContext, type, square_data);
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK) {
-            switch (requestCode) {
-                case Constants.REQUEST_CAMERA:
-                    showToast(data.getStringExtra("codedContent"));
-                    break;
-            }
-        }
     }
 
 }
