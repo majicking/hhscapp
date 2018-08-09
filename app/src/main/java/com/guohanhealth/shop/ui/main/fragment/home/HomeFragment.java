@@ -3,16 +3,12 @@ package com.guohanhealth.shop.ui.main.fragment.home;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -51,16 +47,13 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
-import com.youth.banner.loader.ImageLoader;
 
 import org.json.JSONObject;
 
-import java.io.ByteArrayOutputStream;
 import java.util.List;
 import java.util.Random;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 import static android.app.Activity.RESULT_OK;
@@ -88,7 +81,6 @@ public class HomeFragment extends BaseFragment<HomePersenter, HomeModel> impleme
     MyScrollView homeViewScrollview;
     @BindView(R.id.home_view_titleview)
     LinearLayout homeViewTitleview;
-    Unbinder unbinder;
 
 
     private String mParam1;
@@ -139,7 +131,7 @@ public class HomeFragment extends BaseFragment<HomePersenter, HomeModel> impleme
             @Override
             public void convert(ViewHolder viewHolder, HomeMenuBtn item, int position, View convertView, ViewGroup parentViewGroup) {
                 viewHolder.setText(R.id.title, item.title);
-                ((ImageView)viewHolder.getView(R.id.img)).setImageResource(item.icon);
+                GlideEngine.getInstance().loadImage(mContext, viewHolder.getView(R.id.img), item.icon);
 //                Bitmap bitmap = BitmapFactory.decodeResource(mContext.getResources(), item.icon);
 //                ByteArrayOutputStream baos = new ByteArrayOutputStream();
 //                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
@@ -467,7 +459,7 @@ public class HomeFragment extends BaseFragment<HomePersenter, HomeModel> impleme
         } else {
             titlelayout.setVisibility(View.GONE);
         }
-        gridView.setNumColumns(1);
+        gridView.setNumColumns(2);
         CommonAdapter<Goods1Bean.Item> adapter = new CommonAdapter<Goods1Bean.Item>(mContext, jsonobj.item, R.layout.home_item_goods1_adapter) {
             @Override
             public void convert(ViewHolder viewHolder, Goods1Bean.Item item, int position, View convertView, ViewGroup parentViewGroup) {

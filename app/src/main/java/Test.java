@@ -5,7 +5,17 @@ import java.util.Set;
 
 public class Test {
 
+    public static void main(String[] args) {
+        List<String> list = new ArrayList<>();
 
+        list.add("11");
+        list.add("12");
+        list.add("13");
+        list.add(0, "替换1");
+        list.add(1, "替换2");
+        list.add(2, "替换3");
+        System.out.println(list);
+    }
 //    public static void main(String[] args) {
 ////        List<Test1> list1 = new ArrayList<>();
 ////        List<Test1> list2 = new ArrayList<>();

@@ -46,7 +46,6 @@ public class OrderFragment extends BaseFragment<OrderPersenter, OrderModel> impl
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private static final String ARG_PARAM3 = "param3";
-    Unbinder unbinder;
     @BindView(R.id.emptyview)
     EmptyView emptyview;
     @BindView(R.id.linearLayout)
@@ -333,16 +332,34 @@ public class OrderFragment extends BaseFragment<OrderPersenter, OrderModel> impl
                         order_backmoneyorgoods.setVisibility(View.VISIBLE);
                     }
                     if (list.get(i).order_list.get(j).if_evaluation) {
-                        btn3.setVisibility(View.VISIBLE);
-                        btn3.setText("订单评价");
+                        btn2.setVisibility(View.VISIBLE);
+                        btn2.setText("订单评价");
+                        btn2.setOnClickListener(v-> {
+                            Bundle bundle = new Bundle();
+                            bundle.putString(Constants.ORDER_ID, list.get(indexi).order_list.get(indexj).order_id);
+                            readyGo(EvaluationActivity.class, bundle);
+                        });
                     }
                     if (list.get(i).order_list.get(j).if_evaluation_again) {
-                        btn3.setVisibility(View.VISIBLE);
-                        btn3.setText("追加评价");
+                        btn2.setVisibility(View.VISIBLE);
+                        btn2.setText("追加评价");
+                        btn2.setOnClickListener(v->{
+                            Bundle bundle = new Bundle();
+                            bundle.putString(Constants.ORDER_ID, list.get(indexi).order_list.get(indexj).order_id);
+                            bundle.putInt(Constants.TYPE, 1);
+                            readyGo(EvaluationActivity.class, bundle);
+                        });
+
                     }
                     if (list.get(i).order_list.get(j).if_refund_cancel) {
                         btn1.setVisibility(View.VISIBLE);
                         btn1.setText("退款");
+                        btn1.setOnClickListener(v->{
+                            Bundle bundle = new Bundle();
+                            bundle.putString(Constants.ORDER_ID, list.get(indexi).order_list.get(indexj).order_id);
+                            readyGo(ReturnOrderActivity.class, bundle);
+                        });
+
                     }
                     if (list.get(i).order_list.get(j).if_deliver) {
                         btn1.setVisibility(View.VISIBLE);
@@ -411,18 +428,5 @@ public class OrderFragment extends BaseFragment<OrderPersenter, OrderModel> impl
     }
 
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle
-            savedInstanceState) {
-        // TODO: inflate a fragment view
-        View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        unbinder = ButterKnife.bind(this, rootView);
-        return rootView;
-    }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
-    }
 }

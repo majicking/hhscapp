@@ -215,6 +215,32 @@
                         style="@style/match_warp"
                         android:orientation="vertical"></LinearLayout>
 
+                    <LinearLayout
+                        android:id="@+id/order_view_return"
+                        style="@style/LLayout_40_h"
+                        android:gravity="center_vertical|right"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:id="@+id/order_return_btn1"
+                            android:layout_width="@dimen/dp_80"
+                            android:layout_height="@dimen/dp_25"
+                            android:layout_marginRight="@dimen/dp_5"
+                            android:background="@drawable/circle_dialog"
+                            android:gravity="center"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/sp_12" />
+
+                        <TextView
+                            android:id="@+id/order_return_btn2"
+                            android:layout_width="@dimen/dp_80"
+                            android:layout_height="@dimen/dp_25"
+                            android:layout_marginRight="@dimen/dp_5"
+                            android:background="@drawable/circle_dialog"
+                            android:gravity="center"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/sp_12" />
+                    </LinearLayout>
 
                     <View style="@style/djk_line" />
 
@@ -417,19 +443,29 @@
             style="@style/LLayout_40_h"
             android:layout_alignParentBottom="true"
             android:background="@color/white"
-            android:gravity="center_vertical|right"
-            android:visibility="gone">
+            android:gravity="center_vertical|right">
+
+            <TextView
+                android:visibility="gone"
+                android:id="@+id/returnOrder"
+                style="@style/djk_text"
+                android:layout_marginLeft="@dimen/dp_5"
+                android:text="退货/退款中..."
+                android:textColor="@color/appColor" />
+
+
+            <View style="@style/linearlayout_zw" />
 
             <TextView
                 android:id="@+id/order_detail_btn1"
                 android:layout_width="@dimen/dp_80"
                 android:layout_height="@dimen/dp_25"
                 android:layout_marginRight="@dimen/dp_5"
-                android:background="@drawable/shape_red_greyline"
+                android:background="@drawable/circle_dialog"
                 android:gravity="center"
                 android:textColor="@color/white"
-                android:textSize="@dimen/sp_10"
-                android:visibility="invisible" />
+                android:textSize="@dimen/sp_12"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/order_detail_btn2"
@@ -439,8 +475,19 @@
                 android:background="@drawable/shape_red_greyline"
                 android:gravity="center"
                 android:textColor="@color/white"
-                android:textSize="@dimen/sp_10"
-                android:visibility="invisible" />
+                android:textSize="@dimen/sp_12"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/order_detail_btn3"
+                android:layout_width="@dimen/dp_80"
+                android:layout_height="@dimen/dp_25"
+                android:layout_marginRight="@dimen/dp_5"
+                android:background="@drawable/shape_red_greyline"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_12"
+                android:visibility="gone" />
         </LinearLayout>
     </LinearLayout>
 

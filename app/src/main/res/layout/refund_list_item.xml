@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ordermainview"
+    style="@style/bg_white_magin_left_top_right_5"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:descendantFocusability="blocksDescendants"
+    android:padding="@dimen/dp_2">
+
+    <LinearLayout style="@style/LLayout_40_h">
+
+        <ImageView
+            android:id="@+id/store_img"
+            android:layout_width="@dimen/dp_20"
+            android:layout_height="@dimen/dp_20"
+            android:layout_marginLeft="@dimen/dp_5"
+            android:src="@mipmap/nc_icon_store" />
+
+        <TextView
+            android:id="@+id/store_name"
+            style="@style/djk_text"
+            android:layout_marginLeft="@dimen/dp_5" />
+
+        <View style="@style/linearlayout_zw" />
+
+        <TextView
+            android:id="@+id/store_stauts"
+            style="@style/djk_text"
+            android:layout_marginRight="@dimen/dp_5"
+            android:textColor="@color/appColor" />
+    </LinearLayout>
+
+    <View style="@style/djk_line" />
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/addlistview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="vertical" />
+    </android.support.v4.widget.NestedScrollView>
+
+
+    <LinearLayout
+        style="@style/match_warp"
+        android:orientation="horizontal"
+        android:padding="@dimen/dp_3">
+
+        <TextView
+            android:id="@+id/text1"
+            style="@style/djk_text"
+            android:text="2018-08-08 09:08:14"
+            android:textColor="@color/grey" />
+
+        <View style="@style/linearlayout_zw" />
+
+
+        <TextView
+
+            style="@style/djk_text"
+            android:text="退款金额:" />
+
+        <TextView
+            android:id="@+id/text2"
+            style="@style/warp"
+            android:text="￥0.00"
+            android:textColor="@color/appColor"
+            android:textSize="@dimen/sp_16"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+</LinearLayout>

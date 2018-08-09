@@ -1,6 +1,5 @@
 package com.guohanhealth.shop.ui.order;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -16,13 +15,10 @@ import com.guohanhealth.shop.app.Constants;
 import com.guohanhealth.shop.base.BaseActivity;
 import com.guohanhealth.shop.bean.LogisticsInfo;
 import com.guohanhealth.shop.bean.OrderDetailInfo;
-import com.guohanhealth.shop.bean.PayWayInfo;
 import com.guohanhealth.shop.custom.CustomDialog;
 import com.guohanhealth.shop.http.Api;
 import com.guohanhealth.shop.http.ApiService;
-import com.guohanhealth.shop.http.ConsumerError;
 import com.guohanhealth.shop.http.HttpErrorCode;
-import com.guohanhealth.shop.http.Result;
 import com.guohanhealth.shop.utils.Utils;
 import com.guohanhealth.shop.utils.engine.GlideEngine;
 
@@ -91,6 +87,16 @@ public class OrderDetailActivity extends BaseActivity {
     LinearLayout orderDetailViewOperate;
     @BindView(R.id.order_detail_order_tips)
     TextView orderDetailOrderTips;
+    @BindView(R.id.order_return_btn1)
+    TextView orderReturnBtn1;
+    @BindView(R.id.order_return_btn2)
+    TextView orderReturnBtn2;
+    @BindView(R.id.order_view_return)
+    LinearLayout orderViewReturn;
+    @BindView(R.id.order_detail_btn3)
+    TextView orderDetailBtn3;
+    @BindView(R.id.returnOrder)
+    TextView returnOrder;
     private String mData;
 
 
@@ -103,7 +109,10 @@ public class OrderDetailActivity extends BaseActivity {
     protected void initView(Bundle savedInstanceState) {
         initToolBarNav(commonToolbar, commonToolbarTitleTv, "订单详情");
         mData = getIntent().getStringExtra("data");
-        OrderDetailInfo info = Utils.getObject(mData, OrderDetailInfo.class);
+        getData(Utils.getObject(mData, OrderDetailInfo.class));
+    }
+
+    public void getData(OrderDetailInfo info) {
 
         if (info.order_info != null) {
             orderDetailStutas.setText(Utils.getString(info.order_info.state_desc));
@@ -156,45 +165,72 @@ public class OrderDetailActivity extends BaseActivity {
                     orderDetailViewGoodslist.addView(view);
                 }
             }
+            if (info.order_info.if_again ||
+                    info.order_info.if_buyer_cancel ||
+                    info.order_info.if_cancel ||
+                    info.order_info.if_delete ||
+                    info.order_info.if_deliver ||
+                    info.order_info.if_evaluation ||
+                    info.order_info.if_refund_cancel) {
+                orderDetailViewOperate.setVisibility(View.VISIBLE);
+            } else {
+                orderDetailViewOperate.setVisibility(View.GONE);
+            }
 
             if (info.order_info.if_again) {
-                orderDetailBtn1.setVisibility(View.VISIBLE);
-                orderDetailBtn1.setText("再次确认");
+                orderDetailBtn3.setVisibility(View.VISIBLE);
+                orderDetailBtn3.setText("再次确认");
 
-                orderDetailBtn1.setOnClickListener(v -> {
-                    showWrinDialog("再次确认订单？", "order_receive", info.order_info.order_id);
+                orderDetailBtn3.setOnClickListener(v -> {
+                    showWrinDialog("再次确认订单？", "sureOrderAgain", info.order_info.order_id);
                 });
             }
-            if (info.order_info.if_cancel) {
+
+            if (info.order_info.if_buyer_cancel) {
                 orderDetailBtn1.setVisibility(View.VISIBLE);
                 orderDetailBtn1.setText("取消订单");
                 orderDetailBtn1.setOnClickListener(v -> {
                     showWrinDialog("确认取消订单？", "order_cancel", info.order_info.order_id);
                 });
             }
+
             if (info.order_info.if_receive) {
-                orderDetailBtn1.setVisibility(View.VISIBLE);
-                orderDetailBtn1.setText("确认收货");
-                orderDetailBtn1.setOnClickListener(v -> {
+                orderDetailBtn3.setVisibility(View.VISIBLE);
+                orderDetailBtn3.setText("确认收货");
+                orderDetailBtn3.setOnClickListener(v -> {
                     showWrinDialog("确认收到货物", "order_receive", info.order_info.order_id);
                 });
             }
+
             if (info.order_info.if_lock) {
-                orderDetailBtn2.setVisibility(View.VISIBLE);
-                orderDetailBtn2.setText("退货/退款中");
+                returnOrder.setVisibility(View.VISIBLE);
+                returnOrder.setText("退货/退款中");
             }
+
             if (info.order_info.if_evaluation) {
-                orderDetailBtn1.setVisibility(View.VISIBLE);
-                orderDetailBtn1.setText("订单评价");
+                orderDetailBtn2.setVisibility(View.VISIBLE);
+                orderDetailBtn2.setText("订单评价");
+                orderDetailBtn2.setOnClickListener(v -> {
+                    Bundle bundle = new Bundle();
+                    bundle.putString(Constants.ORDER_ID, info.order_info.order_id);
+                    readyGo(EvaluationActivity.class, bundle);
+                });
             }
             if (info.order_info.if_evaluation_again) {
-                orderDetailBtn1.setVisibility(View.VISIBLE);
-                orderDetailBtn1.setText("追加评价");
+                orderDetailBtn2.setVisibility(View.VISIBLE);
+                orderDetailBtn2.setText("追加评价");
+                Bundle bundle = new Bundle();
+                bundle.putString(Constants.ORDER_ID, info.order_info.order_id);
+                bundle.putInt(Constants.TYPE, 1);
+                readyGo(EvaluationActivity.class, bundle);
             }
             if (info.order_info.if_refund_cancel) {
                 orderDetailBtn1.setVisibility(View.VISIBLE);
                 orderDetailBtn1.setText("退款");
-                
+                Bundle bundle = new Bundle();
+                bundle.putString(Constants.ORDER_ID, info.order_info.order_id);
+                bundle.putInt(Constants.TYPE, 1);
+                readyGo(ReturnOrderActivity.class, bundle);
             }
             if (info.order_info.if_deliver) {
                 orderDetailBtn1.setVisibility(View.VISIBLE);
@@ -217,7 +253,7 @@ public class OrderDetailActivity extends BaseActivity {
                                     if (Utils.getCode(json) == HttpErrorCode.HTTP_NO_ERROR) {
                                         runOnUiThread(() -> {
                                             Bundle bundle = new Bundle();
-                                            bundle.putSerializable(Constants.DATA, Utils.getObject(json, LogisticsInfo.class));
+                                            bundle.putSerializable(Constants.DATA, Utils.getObject(Utils.getDatasString(json), LogisticsInfo.class));
                                             readyGo(LogisticsActivity.class, bundle);
                                         });
                                     } else if (Utils.getCode(json) == HttpErrorCode.ERROR_400) {
@@ -258,19 +294,56 @@ public class OrderDetailActivity extends BaseActivity {
 
                         @Override
                         public void onResponse(Call call, Response response) throws IOException {
-                            String json = response.body().string();
-                            if (Utils.getCode(json) == HttpErrorCode.HTTP_NO_ERROR) {
-                                if (Utils.getDatasString(json).equals("1")) {
-                                    runOnUiThread(() -> {
-                                        d.dismiss();
-                                    });
-
-                                }
-                            } else if (Utils.getCode(json) == HttpErrorCode.ERROR_400) {
+                            try {
+                                String json = response.body().string();
                                 runOnUiThread(() -> {
-                                    showToast(Utils.getErrorString(json));
                                     d.dismiss();
+                                    if (Utils.getCode(json) == HttpErrorCode.HTTP_NO_ERROR) {
+                                        if (Utils.getDatasString(json).equals("1")) {
+                                            Api.get(ApiService.ORDER_INFO + "&key=" + App.getApp().getKey() + "&order_id=" + order_id, new Callback() {
+                                                @Override
+                                                public void onFailure(Call call, IOException e) {
+                                                    runOnUiThread(() -> {
+                                                        showToast(Utils.getErrorString(e));
+                                                    });
+                                                }
+
+                                                @Override
+                                                public void onResponse(Call call, Response response) throws IOException {
+                                                    try {
+                                                        String json = response.body().string();
+                                                        if (Utils.getCode(json) == HttpErrorCode.HTTP_NO_ERROR) {
+                                                            runOnUiThread(() -> {
+
+                                                                OrderDetailInfo info = Utils.getObject(Utils.getDatasString(json), OrderDetailInfo.class);
+                                                                if (info != null) {
+                                                                    getData(info);
+                                                                } else {
+                                                                    finish();
+                                                                }
+                                                            });
+                                                        } else {
+                                                            runOnUiThread(() -> {
+                                                                showToast(Utils.getErrorString(json));
+                                                            });
+                                                        }
+                                                    } catch (Exception e) {
+                                                        runOnUiThread(() -> {
+                                                            showToast(Utils.getErrorString(e));
+                                                        });
+                                                    }
+
+                                                }
+                                            });
+                                        } else {
+                                            showToast(Utils.getDatasString(json));
+                                        }
+                                    } else if (Utils.getCode(json) == HttpErrorCode.ERROR_400) {
+                                        showToast(Utils.getErrorString(json));
+                                    }
                                 });
+                            } catch (Exception e) {
+                                showToast(Utils.getErrorString(e));
                             }
                         }
                     });

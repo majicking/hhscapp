@@ -32,6 +32,7 @@ import com.guohanhealth.shop.ui.main.fragment.mine.property.point.PointActivity;
 import com.guohanhealth.shop.ui.main.fragment.mine.property.rechargecardbalance.RechargeCardActivity;
 import com.guohanhealth.shop.ui.main.fragment.mine.property.redpack.RedPackActivity;
 import com.guohanhealth.shop.ui.main.fragment.mine.property.voucher.VoucherActivity;
+import com.guohanhealth.shop.ui.main.fragment.mine.returngoods.ReturnActivity;
 import com.guohanhealth.shop.ui.main.fragment.mine.setting.SettingActivity;
 import com.guohanhealth.shop.ui.order.OrderActivity;
 import com.guohanhealth.shop.utils.Logutils;
@@ -180,7 +181,8 @@ public class MineFragment extends BaseFragment<MinePersenter, MineModel> impleme
         mineBtnviewOrder2.setOnClickListener(v -> toOrder(2));
         mineBtnviewOrder3.setOnClickListener(v -> toOrder(3));
         mineBtnviewOrder4.setOnClickListener(v -> toOrder(4));
-        mineBtnviewOrder5.setOnClickListener(v -> showToast("退货退款"));
+        /**退货退款*/
+        mineBtnviewOrder5.setOnClickListener(v -> readyGo(ReturnActivity.class));
         /**财产*/
         mineBtnviewMymoney.setOnClickListener(v -> readyGo(PropertyActivity.class));
         mineBtnviewMymoney1.setOnClickListener(v -> readyGo(PredepositActivity.class));
@@ -196,7 +198,7 @@ public class MineFragment extends BaseFragment<MinePersenter, MineModel> impleme
             CustomPopuWindow popupWindow = Utils.getPopuWindown(mContext, view, Gravity.BOTTOM);
 
         });
-        /**设置*/
+        /**下面设置*/
         mineBtnviewSetting.setOnClickListener(v -> readyGo(SettingActivity.class));
         /**收藏*/
         mineBtnviewGoodscollect.setOnClickListener(v -> {
@@ -296,31 +298,31 @@ public class MineFragment extends BaseFragment<MinePersenter, MineModel> impleme
         mineMemberVip.setVisibility(View.VISIBLE);
         mineMemberVip.setText(info.member_info.level_name);
         GlideEngine.getInstance().loadCircleImage(mContext, 80, R.mipmap.djk_icon_member, mineUserheadimg, info.member_info.avatar);
-        if (!info.member_info.order_nopay_count.equals("0")) {
+        if (!Utils.getString(info.member_info.order_nopay_count).equals("0")) {
             mineOrderNum1.setVisibility(View.VISIBLE);
             mineOrderNum1.setText(info.member_info.order_nopay_count);
         } else {
             mineOrderNum1.setVisibility(View.GONE);
         }
-        if (!info.member_info.order_noreceipt_count.equals("0")) {
+        if (!Utils.getString(info.member_info.order_noreceipt_count).equals("0")) {
             mineOrderNum2.setVisibility(View.VISIBLE);
             mineOrderNum2.setText(info.member_info.order_noreceipt_count);
         } else {
             mineOrderNum2.setVisibility(View.GONE);
         }
-        if (!info.member_info.order_notakes_count.equals("0")) {
+        if (!Utils.getString(info.member_info.order_notakes_count).equals("0")) {
             mineOrderNum3.setVisibility(View.VISIBLE);
             mineOrderNum3.setText(info.member_info.order_notakes_count);
         } else {
             mineOrderNum3.setVisibility(View.GONE);
         }
-        if (!info.member_info.order_noeval_count.equals("0")) {
+        if (!Utils.getString(info.member_info.order_noeval_count).equals("0")) {
             mineOrderNum4.setVisibility(View.VISIBLE);
             mineOrderNum4.setText(info.member_info.order_noeval_count);
         } else {
             mineOrderNum4.setVisibility(View.GONE);
         }
-        if (!info.member_info.returns.equals("0")) {
+        if (!Utils.getString(info.member_info.returns).equals("0")) {
             mineOrderNum5.setVisibility(View.VISIBLE);
             mineOrderNum5.setText(info.member_info.returns);
         } else {

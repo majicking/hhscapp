@@ -44,7 +44,6 @@ public class LogisticsActivity extends BaseActivity {
         initToolBarNav(commonToolbar, commonToolbarTitleTv, "物流详情");
         mInfo = (LogisticsInfo) getIntent().getSerializableExtra(Constants.DATA);
         try {
-            showToast(mInfo.express_name);
             logisticsName.setText(Utils.getString(mInfo.express_name));
             logisticsNumber.setText(Utils.getString(mInfo.shipping_code));
             logisticsViewCrcycle.setLayoutManager(new LinearLayoutManager(mContext));

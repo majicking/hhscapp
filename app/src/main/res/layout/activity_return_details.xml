@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/common_toolbar" />
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+            <LinearLayout
+                style="@style/LLayout_40_h"
+                android:background="@color/djk_bgcolor">
+
+                <TextView
+                    style="@style/djk_text"
+                    android:layout_marginLeft="@dimen/dp_10"
+                    android:text="我的退款申请" />
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/LLayout_40_h"
+                android:background="@color/white">
+
+                <TextView
+                    style="@style/djk_text"
+                    android:layout_marginLeft="@dimen/dp_10"
+                    android:text="退款编号" />
+
+                <View style="@style/linearlayout_zw" />
+
+                <TextView
+                    android:id="@+id/text"
+                    style="@style/djk_text"
+                    android:layout_marginRight="@dimen/dp_10" />
+            </LinearLayout>
+
+            <View style="@style/djk_line" />
+
+            <LinearLayout
+                style="@style/LLayout_40_h"
+                android:background="@color/white">
+
+                <TextView
+                    style="@style/djk_text"
+                    android:layout_marginLeft="@dimen/dp_10"
+                    android:text="退款原因" />
+
+                <View style="@style/linearlayout_zw" />
+
+                <TextView
+                    android:id="@+id/text1"
+                    style="@style/djk_text"
+                    android:layout_marginRight="@dimen/dp_10" />
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/LLayout_40_h"
+                android:background="@color/white">
+
+                <TextView
+                    style="@style/djk_text"
+                    android:layout_marginLeft="@dimen/dp_10"
+                    android:text="退款金额" />
+
+                <View style="@style/linearlayout_zw" />
+
+                <TextView
+                    android:id="@+id/text2"
+                    style="@style/djk_text"
+                    android:layout_marginRight="@dimen/dp_10" />
+            </LinearLayout>
+
+            <View style="@style/djk_line" />
+
+            <LinearLayout
+                style="@style/match_warp"
+                android:background="@color/white"
+                android:gravity="center_vertical"
+                android:minHeight="@dimen/dp_40"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/djk_text"
+                    android:layout_marginLeft="@dimen/dp_10"
+                    android:text="退款说明" />
+
+
+                <TextView
+                    android:id="@+id/text3"
+                    style="@style/djk_text"
+                    android:layout_weight="1"
+                    android:gravity="right|center_vertical"
+                    android:padding="@dimen/dp_10" />
+            </LinearLayout>
+
+            <View style="@style/djk_line" />
+
+            <LinearLayout
+                style="@style/LLayout_40_h"
+                android:background="@color/white">
+
+                <TextView
+                    style="@style/djk_text"
+                    android:layout_marginLeft="@dimen/dp_10"
+                    android:text="凭证上传" />
+
+
+                <LinearLayout
+                    android:id="@+id/linearLayout"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:orientation="horizontal" />
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/LLayout_40_h"
+                android:background="@color/djk_bgcolor">
+
+                <TextView
+                    style="@style/djk_text"
+                    android:layout_marginLeft="@dimen/dp_10"
+                    android:text="商家退款处理" />
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/match_warp"
+                android:background="@color/white"
+                android:gravity="center_vertical"
+                android:minHeight="@dimen/dp_40">
+
+                <TextView
+                    style="@style/djk_text"
+                    android:layout_marginLeft="@dimen/dp_10"
+                    android:text="审核状态" />
+
+                <View style="@style/linearlayout_zw" />
+
+                <TextView
+                    android:id="@+id/text4"
+                    style="@style/djk_text"
+                    android:padding="@dimen/dp_10" />
+            </LinearLayout>
+
+            <View style="@style/djk_line" />
+
+            <LinearLayout
+                style="@style/match_warp"
+                android:background="@color/white"
+                android:gravity="center_vertical"
+                android:minHeight="@dimen/dp_40">
+
+                <TextView
+                    style="@style/djk_text"
+                    android:layout_marginLeft="@dimen/dp_10"
+                    android:text="商家备注" />
+
+
+                <TextView
+                    android:id="@+id/text5"
+                    style="@style/djk_text"
+                    android:layout_weight="1"
+                    android:gravity="right|center_vertical"
+                    android:padding="@dimen/dp_10" />
+            </LinearLayout>
+
+            <View style="@style/djk_line" />
+
+            <LinearLayout
+                style="@style/LLayout_40_h"
+                android:background="@color/djk_bgcolor">
+
+                <TextView
+                    style="@style/djk_text"
+                    android:layout_marginLeft="@dimen/dp_10"
+                    android:text="商城退款审核" />
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/match_warp"
+                android:background="@color/white"
+                android:gravity="center_vertical"
+                android:minHeight="@dimen/dp_40">
+
+                <TextView
+                    style="@style/djk_text"
+                    android:layout_marginLeft="@dimen/dp_10"
+                    android:text="平台确认" />
+
+                <View style="@style/linearlayout_zw" />
+
+                <TextView
+                    android:id="@+id/text6"
+                    style="@style/djk_text"
+                    android:padding="@dimen/dp_10" />
+            </LinearLayout>
+
+            <View style="@style/djk_line" />
+
+            <LinearLayout
+                style="@style/match_warp"
+                android:background="@color/white"
+                android:gravity="center_vertical"
+                android:minHeight="@dimen/dp_40">
+
+                <TextView
+                    style="@style/djk_text"
+                    android:layout_marginLeft="@dimen/dp_10"
+                    android:text="平台备注" />
+
+
+                <TextView
+                    android:id="@+id/text7"
+                    style="@style/djk_text"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical|right"
+                    android:padding="@dimen/dp_10" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+</LinearLayout>

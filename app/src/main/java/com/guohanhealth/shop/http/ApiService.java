@@ -32,6 +32,8 @@ import com.guohanhealth.shop.bean.PredepositInfo;
 import com.guohanhealth.shop.bean.RcdInfo;
 import com.guohanhealth.shop.bean.RechargeOrderInfo;
 import com.guohanhealth.shop.bean.RedPagcketInfo;
+import com.guohanhealth.shop.bean.RefundlistInfo;
+import com.guohanhealth.shop.bean.ReturnlistInfo;
 import com.guohanhealth.shop.bean.SMSCode;
 import com.guohanhealth.shop.bean.SearchInfo;
 import com.guohanhealth.shop.bean.SearchWordsInfo;
@@ -129,6 +131,10 @@ public interface ApiService {
     String BROWSE_LIST = Constants.INDEX + "act=member_goodsbrowse&op=browse_list";
     String BROWSE_CLEARALL = Constants.INDEX + "act=member_goodsbrowse&op=browse_clearall";
     String SPECIAL = Constants.INDEX + "act=index&op=special";
+    String GET_RETURN_LIST = Constants.INDEX + "act=member_return&op=get_return_list";
+    String GET_REFUND_LIST = Constants.INDEX + "act=member_refund&op=get_refund_list";
+    String GET_REFUND_INFO = Constants.INDEX + "act=member_refund&op=get_refund_info";
+    String ORDER_INFO = Constants.INDEX + "act=member_order&op=order_info";
 
     /**
      * 用户登录
@@ -575,6 +581,7 @@ public interface ApiService {
     Observable<Result<StoreCollectInfo>> storeCollectList(@Query("key") String key,
                                                           @Query("curpage") String curpage,
                                                           @Query("page") String page);
+
     /**
      * 历史纪录列表
      */
@@ -582,6 +589,22 @@ public interface ApiService {
     Observable<Result<HistoryInfo>> historyList(@Query("key") String key,
                                                 @Query("curpage") String curpage,
                                                 @Query("page") String page);
+
+    /**
+     * 退货列表
+     */
+    @GET(GET_RETURN_LIST)
+    Observable<Result<ReturnlistInfo>> geReturnList(@Query("key") String key,
+                                                    @Query("curpage") String curpage,
+                                                    @Query("page") String page);
+
+    /**
+     * 退款列表
+     */
+    @GET(GET_REFUND_LIST)
+    Observable<Result<RefundlistInfo>> geRefundList(@Query("key") String key,
+                                                    @Query("curpage") String curpage,
+                                                    @Query("page") String page);
 
     /**
      * 健康豆值

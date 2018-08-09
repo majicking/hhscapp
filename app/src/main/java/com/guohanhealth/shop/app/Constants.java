@@ -20,7 +20,7 @@ public interface Constants {
     String HOST1 = "test.shopnctest.com";
     String HOST2 = "192.168.1.231";
     String HOST3 = "192.168.1.252";
-    String HOST = HOST1;
+    String HOST = HOST3;
     String PORT = BuildConfig.PORT;
     String APP = BuildConfig.APP;
     String WEB = BuildConfig.WEB;
@@ -45,6 +45,14 @@ public interface Constants {
      * 相机权限请求
      */
     int REQUEST_CAMERA = 1;
+    /**
+     * 相册权限请求
+     */
+    int REQUEST_Album = 2;
+    /**
+     * 相片裁剪
+     */
+    int RESIZE_REQUEST_CODE = 3;
     /**
      * 选择地址
      */
@@ -122,4 +130,6 @@ public interface Constants {
     String ISNOTIFY = "isnotify";
     String ISMEDIAPLAYER = "ismediaplayer";
     String TYPE = "type";
+    String REFUND_ID = "refund_id";
+
 }
