@@ -19,6 +19,7 @@ import com.guohanhealth.shop.utils.Utils;
 import com.guohanhealth.shop.utils.engine.GlideEngine;
 
 import java.io.IOException;
+import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -72,7 +73,7 @@ public class ReturnDetailsActivity extends BaseActivity {
     }
 
     public void getData() {
-        Api.get(ApiService.GET_REFUND_INFO + "&key=" + App.getApp().getKey() + "&refund_id=" + refund_id, new Callback() {
+        Api.get(ApiService.GET_REFUND_INFO + "&key=" + App.getApp().getKey() + "&refund_id=" + refund_id+ "&random=" + new Random().nextInt(10), new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 runOnUiThread(() -> {

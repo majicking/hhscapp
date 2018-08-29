@@ -58,7 +58,6 @@ public class OrderPersenter extends BasePresenter<OrderView, OrderModel> {
                     if (Utils.getDatasString(json).equals("1")) {
                         mActivity.runOnUiThread(() -> {
                             mView.orderOperation("操作成功");
-                            getOrderData(selecttype, key, curpage, state_type, order_key);
                         });
 
                     }
@@ -83,40 +82,10 @@ public class OrderPersenter extends BasePresenter<OrderView, OrderModel> {
         }));
     }
 
-    public void orderInfo(String url, String key, String order_id) {
-        Api.get(ApiService.ORDER_OPERATION + "&op=" + url + "&key=" + key + "&order_id=" + order_id, new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                mActivity.runOnUiThread(() -> {
-                    mView.faild(Utils.getErrorString(e));
-                });
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                try {
-                    String json = response.body().string();
-                    if (Utils.getCode(json) == HttpErrorCode.HTTP_NO_ERROR) {
-                        mActivity.runOnUiThread(() -> {
-                            mView.lookOrderInfo(Utils.getDatasString(json));
-                        });
-
-                    } else if (Utils.getCode(json) == HttpErrorCode.ERROR_400) {
-                        mActivity.runOnUiThread(() -> {
-                            mView.faild(Utils.getErrorString(json));
-                        });
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    mView.faild(Utils.getErrorString(e));
-                }
-            }
-        });
-    }
 
     public void searchLogistics(String key, String order_id) {
         mRxManager.add(mModel.searchLogistics(key, order_id).subscribe(info -> {
-           mView.geExpressInfo(info);
+            mView.geExpressInfo(info);
         }, new ConsumerError<Throwable>() {
             @Override
             public void onError(int errorCode, String message) {

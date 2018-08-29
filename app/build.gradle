@@ -72,8 +72,8 @@ android {
         debug {
             signingConfig signingConfigs.release
             println("--------------------------------debug")
-            buildConfigField "String", "HOST", '"192.168.1.231"'
-//            buildConfigField "String", "HOST", '"www.guohanhealth.com"'
+//            buildConfigField "String", "HOST", '"192.168.1.231"'
+            buildConfigField "String", "HOST", '"www.guohanhealth.com"'
             buildConfigField "boolean", "ISDEBUG", 'true'
             android.applicationVariants.all { variant ->
                 variant.outputs.all {
@@ -199,4 +199,5 @@ dependencies {
     implementation 'com.github.chrisbanes.photoview:library:+'
     implementation files('libs/socketio.jar')
     implementation files('libs/WebSocket.jar')
+    implementation 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
 }

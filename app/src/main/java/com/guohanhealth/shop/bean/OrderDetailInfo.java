@@ -59,7 +59,7 @@ public class OrderDetailInfo extends BaseInfo {
             public String goods_price;
             public String goods_num;
             public String image_url;
-            public int refund;
+            public String refund;
         }
 
 

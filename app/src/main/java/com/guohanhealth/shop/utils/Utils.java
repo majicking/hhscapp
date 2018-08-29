@@ -6,16 +6,11 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.PaintDrawable;
-import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.NonNull;
-import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -24,20 +19,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alipay.sdk.app.PayTask;
-import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
 import com.guohanhealth.shop.R;
 import com.guohanhealth.shop.app.App;
 import com.guohanhealth.shop.app.Constants;
 import com.guohanhealth.shop.bean.WxPayInfo;
 import com.guohanhealth.shop.custom.CustomPopuWindow;
-import com.guohanhealth.shop.event.Functions;
 import com.guohanhealth.shop.event.ObjectEvent;
 import com.guohanhealth.shop.event.RxBus;
 import com.guohanhealth.shop.http.Api;
 import com.guohanhealth.shop.http.ApiService;
 import com.guohanhealth.shop.http.HttpErrorCode;
-import com.guohanhealth.shop.http.Result;
 import com.guohanhealth.shop.http.ServerException;
 import com.guohanhealth.shop.ui.WebViewActivity;
 import com.guohanhealth.shop.ui.goods.goodsdetailed.activity.GoodsDetailsActivity;
@@ -61,6 +53,7 @@ import java.net.SocketException;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 import java.util.List;
+import java.util.Map;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -95,6 +88,7 @@ public class Utils {
         }
         return null;
     }
+
     /**
      * 获取bitmap
      *
@@ -165,6 +159,7 @@ public class Utils {
         Bitmap bitmap = BitmapFactory.decodeStream(isBm, null, null);//把ByteArrayInputStream数据生成图片
         return bitmap;
     }
+
     /**
      * 短暂显示Toast消息
      *
@@ -188,6 +183,13 @@ public class Utils {
         if (editText != null) {
             String string = editText.getText().toString().trim();
             return isEmpty(string);
+        }
+        return false;
+    }
+
+    public static boolean isEmpty(Map map) {
+        if (map != null && map.size() > 0) {
+            return true;
         }
         return false;
     }
@@ -480,5 +482,48 @@ public class Utils {
         return JSONParser.getStringFromJsonString("datas", json);
     }
 
+//    /**
+//     * 通过上传的文件的完整路径生成RequestBody
+//     * @param fileNames 完整的文件路径
+//     * @return
+//     */
+//    private static RequestBody getRequestBody(List<String> fileNames) {
+//        //创建MultipartBody.Builder，用于添加请求的数据
+//        MultipartBody.Builder builder = new MultipartBody.Builder();
+//        for (int i = 0; i < fileNames.size(); i++) { //对文件进行遍历
+//            File file = new File(fileNames.get(i)); //生成文件
+//            //根据文件的后缀名，获得文件类型
+//            String fileType = getMimeType(file.getName());
+//            builder.addFormDataPart( //给Builder添加上传的文件
+//                    "image",  //请求的名字
+//                    file.getName(), //文件的文字，服务器端用来解析的
+//                    RequestBody.create(MediaType.parse(fileType), file) //创建RequestBody，把上传的文件放入
+//            );
+//        }
+//        return builder.build(); //根据Builder创建请求
+//    }
+//    /**
+//     * 获得Request实例
+//     * @param url
+//     * @param fileNames 完整的文件路径
+//     * @return
+//     */
+//    private static Request getRequest(String url, List<String> fileNames) {
+//        Request.Builder builder = new Request.Builder();
+//        builder.url(url)
+//                .post(getRequestBody(fileNames));
+//        return builder.build();
+//    }
+//    /**
+//     * 根据url，发送异步Post请求
+//     * @param url 提交到服务器的地址
+//     * @param fileNames 完整的上传的文件的路径名
+//     * @param callback OkHttp的回调接口
+//     */
+//    public static void upLoadFile(String url,List<String> fileNames,Callback callback){
+//        OkHttpClient okHttpClient = new OkHttpClient();
+//        Call call = okHttpClient.newCall(getRequest(url,fileNames)) ;
+//        call.enqueue(callback);
+//    }
 
 }

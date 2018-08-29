@@ -37,6 +37,10 @@ import com.guohanhealth.shop.event.OnFragmentInteractionListener;
 import com.guohanhealth.shop.event.PermissionListener;
 import com.guohanhealth.shop.ui.cart.ChatListActivity;
 import com.guohanhealth.shop.ui.goods.goodsdetailed.activity.GoodsDetailsActivity;
+import com.guohanhealth.shop.ui.main.fragment.home.signin.SignActivity;
+import com.guohanhealth.shop.ui.main.fragment.mine.history.HistoryActivity;
+import com.guohanhealth.shop.ui.main.fragment.mine.property.PropertyActivity;
+import com.guohanhealth.shop.ui.order.OrderActivity;
 import com.guohanhealth.shop.ui.search.SearchActivity;
 import com.guohanhealth.shop.utils.Utils;
 import com.guohanhealth.shop.utils.engine.GlideEngine;
@@ -151,17 +155,22 @@ public class HomeFragment extends BaseFragment<HomePersenter, HomeModel> impleme
                     onButtonPressed(Constants.MAINNUMBER, 2);
                     break;
                 case 2:
+
                     break;
                 case 3:
+                    readyGo(SignActivity.class);
                     break;
                 case 4:
-                    onButtonPressed(Constants.MAINNUMBER, 0);
+                    onButtonPressed(Constants.MAINNUMBER, 3);
                     break;
                 case 5:
+                    readyGo(OrderActivity.class);
                     break;
                 case 6:
+                    readyGo(PropertyActivity.class);
                     break;
                 case 7:
+                    readyGo(HistoryActivity.class);
                     break;
             }
         });

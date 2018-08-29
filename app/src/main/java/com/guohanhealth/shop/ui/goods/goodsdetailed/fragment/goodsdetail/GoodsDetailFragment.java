@@ -31,6 +31,7 @@ import com.guohanhealth.shop.utils.Logutils;
 import com.guohanhealth.shop.utils.Utils;
 
 import java.io.IOException;
+import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -235,7 +236,7 @@ public class GoodsDetailFragment extends BaseFragment {
     public void getData(String goods_id) {
         Logutils.i("刷新UI");
         try {
-            Api.get(ApiService.GOODS_BODY + "&goods_id=" + goods_id, new Callback() {
+            Api.get(ApiService.GOODS_BODY + "&goods_id=" + goods_id+ "&random=" + new Random().nextInt(10), new Callback() {
                 @Override
                 public void onFailure(Call call, IOException e) {
                     Logutils.i(e.getMessage());

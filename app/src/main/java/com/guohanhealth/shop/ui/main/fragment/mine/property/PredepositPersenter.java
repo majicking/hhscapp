@@ -11,6 +11,7 @@ import com.guohanhealth.shop.http.HttpErrorCode;
 import com.guohanhealth.shop.utils.Utils;
 
 import java.io.IOException;
+import java.util.Random;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -77,7 +78,7 @@ public class PredepositPersenter extends BasePresenter<PredepositView, Predeposi
 
 
     public void predeposit(String key, String op, String curpage) {
-        Api.get(ApiService.PREDEPOSIT + "&op=" + op + "&curpage=" + curpage + "&page=10" + "&key=" + key, new Callback() {
+        Api.get(ApiService.PREDEPOSIT + "&op=" + op + "&curpage=" + curpage + "&page=10" + "&key=" + key+ "&random=" + new Random().nextInt(10), new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 try {

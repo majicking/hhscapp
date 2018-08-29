@@ -3,7 +3,6 @@ package com.guohanhealth.shop.ui.order;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
-import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.guohanhealth.shop.R;
@@ -11,7 +10,6 @@ import com.guohanhealth.shop.adapter.ViewPagerAdapter;
 import com.guohanhealth.shop.app.Constants;
 import com.guohanhealth.shop.base.BaseActivity;
 import com.guohanhealth.shop.event.OnFragmentInteractionListener;
-import com.guohanhealth.shop.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,10 +27,7 @@ public class OrderActivity extends BaseActivity implements OnFragmentInteraction
     ImageView back;
     @BindView(R.id.order_view_menu)
     SegmentControlView orderViewMenu;
-    @BindView(R.id.order_edit_search)
-    EditText orderEditSearch;
-    @BindView(R.id.order_img_search)
-    ImageView orderImgSearch;
+
     public String[] reatitle = {"全部", "待付款", "待收货", "待自提", "待评价"};
     public String[] viltitle = {"全部", "待付款", "待使用"};
     boolean selecttype;//当前是虚拟订单还是实物订单  虚拟订单true      实物订单false
@@ -46,22 +41,12 @@ public class OrderActivity extends BaseActivity implements OnFragmentInteraction
         return R.layout.activity_order;
     }
 
-
     @Override
     protected void initView(Bundle savedInstanceState) {
         selecttype = getIntent().getBooleanExtra(Constants.ORDERTYPE, false);
         num = getIntent().getIntExtra(Constants.ORDERINDEX, 0);
-        list=new ArrayList<>();
-        orderEditSearch.setCursorVisible(false);
-        orderEditSearch.setOnClickListener(v ->
-                orderEditSearch.setCursorVisible(true)
-        );
-        orderImgSearch.setOnClickListener(v -> {
-            orderEditSearch.setCursorVisible(false);
-            if (orderFragment!=null&&orderFragment.isVisible()){
-                orderFragment.getData(Utils.getEditViewText(orderEditSearch));
-            }
-        });
+        list = new ArrayList<>();
+
         back.setOnClickListener(v -> finish());
 
         viewpager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tab));
@@ -92,7 +77,7 @@ public class OrderActivity extends BaseActivity implements OnFragmentInteraction
     private List<OrderFragment> setItemNumber(boolean selecttype) {
         List<OrderFragment> list = new ArrayList<>();
         for (int i = 0; i < (selecttype ? viltitle.length : reatitle.length); i++) {
-            orderFragment = OrderFragment.newInstance(i, selecttype, Utils.getEditViewText(orderEditSearch));
+            orderFragment = OrderFragment.newInstance(i, selecttype);
             list.add(orderFragment);
         }
         return list;
@@ -110,7 +95,6 @@ public class OrderActivity extends BaseActivity implements OnFragmentInteraction
         // TODO: add setContentView(...) invocation
         ButterKnife.bind(this);
     }
-
 
 
 }

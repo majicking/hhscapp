@@ -38,170 +38,26 @@
 
             </LinearLayout>
 
-            <LinearLayout
+            <android.support.v4.widget.NestedScrollView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:id="@+id/img"
-                    android:layout_width="@dimen/dp_50"
-                    android:layout_height="@dimen/dp_50"
-                    android:layout_marginLeft="@dimen/dp_10" />
+                android:layout_height="wrap_content">
 
                 <LinearLayout
-                    style="@style/layout_weight_h"
-                    android:gravity="center_vertical"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/text1"
-                        style="@style/djk_text" />
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:minHeight="@dimen/dp_20">
-
-                        <TextView
-                            style="@style/djk_text"
-                            android:text="商品评分" />
-
-                        <com.guohanhealth.shop.custom.RatingBar
-                            android:id="@+id/ratingbar1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="@dimen/dp_10"
-                            app:starCount="5"
-                            app:starEmpty="@drawable/icon_star_off_15"
-                            app:starFill="@drawable/icon_star_on_15"
-                            app:starHalf="@drawable/icon_rating"
-                            app:starImageSize="@dimen/dp_18"
-                            app:starPadding="1dp"
-                            app:starStep="5"
-                            app:stepSize="Half" />
-                    </LinearLayout>
-
-
-                </LinearLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                style="@style/LLayout_50_h"
-                android:background="@color/white"
-                android:orientation="horizontal"
-                android:paddingLeft="@dimen/dp_10">
-
-                <EditText
-                    android:id="@+id/edittext"
-                    style="@style/edittext"
-                    android:background="@drawable/bg_circle_bgcolor"
-                    android:hint="亲写点什么吧您的意见对其他买家有很大帮助！"
-                    android:textColor="@color/nc_text" />
-
-                <LinearLayout
-                    android:id="@+id/checkview"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/goodslistview"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/dp_10"
-                    android:gravity="center"
-                    android:minWidth="@dimen/dp_50"
-                    android:orientation="vertical">
+                    android:orientation="vertical"></LinearLayout>
 
-                    <CheckBox
-                        android:id="@+id/checkbox"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/checkbox"
-                        android:button="@mipmap/img_null" />
+            </android.support.v4.widget.NestedScrollView>
 
-                    <TextView
 
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="匿名" />
-                </LinearLayout>
 
-            </LinearLayout>
+
+
 
             <LinearLayout
-                style="@style/LLayout_40_h"
-                android:background="@color/white"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/dp_10"
-                    android:gravity="center"
-                    android:orientation="vertical"
-                    android:paddingLeft="@dimen/dp_5"
-                    android:paddingRight="@dimen/dp_5">
-
-                    <ImageView
-                        android:layout_width="@dimen/dp_18"
-                        android:layout_height="@dimen/dp_18"
-                        android:src="@drawable/icon_camera" />
-
-                    <TextView
-                        style="@style/djk_text"
-                        android:text="晒图" />
-                </LinearLayout>
-
-
-                <ImageView
-                    android:id="@+id/addimg1"
-                    android:layout_width="@dimen/dp_30"
-                    android:layout_height="@dimen/dp_30"
-                    android:layout_marginLeft="@dimen/dp_5"
-                    android:background="@drawable/bg_line_tran_gray"
-                    android:padding="@dimen/dp_6"
-                    android:src="@drawable/icon_add" />
-
-                <ImageView
-                    android:id="@+id/addimg2"
-                    android:layout_width="@dimen/dp_30"
-                    android:layout_height="@dimen/dp_30"
-                    android:layout_marginLeft="@dimen/dp_5"
-                    android:background="@drawable/bg_line_tran_gray"
-                    android:padding="@dimen/dp_6"
-                    android:src="@drawable/icon_add" />
-
-                <ImageView
-
-                    android:id="@+id/addimg3"
-                    android:layout_width="@dimen/dp_30"
-                    android:layout_height="@dimen/dp_30"
-                    android:layout_marginLeft="@dimen/dp_5"
-                    android:background="@drawable/bg_line_tran_gray"
-                    android:padding="@dimen/dp_6"
-                    android:src="@drawable/icon_add" />
-
-                <ImageView
-
-                    android:id="@+id/addimg4"
-                    android:layout_width="@dimen/dp_30"
-                    android:layout_height="@dimen/dp_30"
-                    android:layout_marginLeft="@dimen/dp_5"
-                    android:background="@drawable/bg_line_tran_gray"
-                    android:padding="@dimen/dp_6"
-                    android:src="@drawable/icon_add" />
-
-                <ImageView
-                    android:id="@+id/addimg5"
-                    android:layout_width="@dimen/dp_30"
-                    android:layout_height="@dimen/dp_30"
-                    android:layout_marginLeft="@dimen/dp_5"
-                    android:background="@drawable/bg_line_tran_gray"
-                    android:padding="@dimen/dp_6"
-                    android:src="@drawable/icon_add" />
-            </LinearLayout>
-
-            <View style="@style/djk_line_big" />
-
-            <LinearLayout
+                android:id="@+id/descriptionView"
+                android:visibility="gone"
                 style="@style/match_warp"
                 android:background="@color/white"
                 android:orientation="vertical"
@@ -227,7 +83,7 @@
                         app:starImageSize="@dimen/dp_18"
                         app:starPadding="1dp"
                         app:starStep="5"
-                        app:stepSize="Half" />
+                        app:stepSize="Full" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -250,7 +106,7 @@
                         app:starImageSize="@dimen/dp_18"
                         app:starPadding="1dp"
                         app:starStep="5"
-                        app:stepSize="Half" />
+                        app:stepSize="Full" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -273,7 +129,7 @@
                         app:starImageSize="@dimen/dp_18"
                         app:starPadding="1dp"
                         app:starStep="5"
-                        app:stepSize="Half" />
+                        app:stepSize="Full" />
                 </LinearLayout>
 
             </LinearLayout>

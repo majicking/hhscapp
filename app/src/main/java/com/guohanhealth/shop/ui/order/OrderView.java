@@ -13,7 +13,6 @@ public interface OrderView extends BaseView {
 
     void getPayWayList(PayWayInfo info);
 
-    void lookOrderInfo(String info);
 
     void geExpressInfo(LogisticsInfo data);
 }

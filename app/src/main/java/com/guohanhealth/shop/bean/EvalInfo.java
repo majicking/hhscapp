@@ -17,27 +17,10 @@ public class EvalInfo extends BaseInfo {
         public String geval_explain_again;
         public String member_avatar;
         public String geval_addtime_date;
-        public List<Geval_image_240> geval_image_240;
-        public List<Geval_image_1024> geval_image_1024;
-        public List<Geval_image_again_240> geval_image_again_240;
-        public List<Geval_image_again_1024> geval_image_again_1024;
-
-        public static class Geval_image_240 {
-
-        }
-
-        public static class Geval_image_1024 {
-
-        }
-
-        public static class Geval_image_again_240 {
-
-        }
-
-        public static class Geval_image_again_1024 {
-
-        }
-
+        public List<String> geval_image_240;
+        public List<String> geval_image_1024;
+        public List<String> geval_image_again_240;
+        public List<String> geval_image_again_1024;
         public String geval_addtime_again_date;
 
         @Override

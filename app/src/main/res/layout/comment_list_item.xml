@@ -45,4 +45,56 @@
         android:paddingLeft="@dimen/dp_15"
         android:paddingRight="@dimen/dp_15"
         android:text="" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycleview1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dp_10"
+        android:layout_marginRight="@dimen/dp_10"></android.support.v7.widget.RecyclerView>
+
+    <LinearLayout
+        android:id="@+id/againView"
+        style="@style/match_warp"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <LinearLayout
+            style="@style/LLayout_40_h"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/djk_text"
+                android:layout_marginLeft="@dimen/dp_15"
+                android:text="追加评论" />
+
+            <View style="@style/linearlayout_zw" />
+
+            <TextView
+                android:id="@+id/timeagain"
+                style="@style/djk_text"
+                android:layout_marginRight="@dimen/dp_15" />
+        </LinearLayout>
+
+
+        <TextView
+            android:id="@+id/contentagain"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left|top"
+            android:paddingBottom="@dimen/dp_10"
+            android:paddingLeft="@dimen/dp_15"
+            android:paddingRight="@dimen/dp_15"
+            android:text="" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycleview2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_10"
+            android:layout_marginRight="@dimen/dp_10"></android.support.v7.widget.RecyclerView>
+
+    </LinearLayout>
+
+
 </LinearLayout>

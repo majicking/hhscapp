@@ -16,6 +16,7 @@
 
     </android.support.design.widget.AppBarLayout>
 
+    <View style="@style/djk_line_big" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -446,12 +447,12 @@
             android:gravity="center_vertical|right">
 
             <TextView
-                android:visibility="gone"
                 android:id="@+id/returnOrder"
                 style="@style/djk_text"
                 android:layout_marginLeft="@dimen/dp_5"
                 android:text="退货/退款中..."
-                android:textColor="@color/appColor" />
+                android:textColor="@color/appColor"
+                android:visibility="gone" />
 
 
             <View style="@style/linearlayout_zw" />

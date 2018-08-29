@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/dp_84"
+    android:layout_height="wrap_content"
     android:gravity="center_vertical">
 
     <ImageView
@@ -11,21 +11,23 @@
         android:layout_margin="@dimen/dp_2" />
 
     <LinearLayout
-        style="@style/layout_weight_h"
+        style="@style/match_warp"
         android:gravity="right"
         android:orientation="vertical">
 
         <TextView
             android:id="@+id/goods_name"
-            style="@style/layout_weight_v"
+            style="@style/match_warp"
             android:ellipsize="end"
             android:gravity="center_vertical"
             android:maxLines="3"
+            android:minHeight="@dimen/dp_30"
             android:paddingLeft="@dimen/dp_3"
             android:paddingRight="@dimen/dp_3"
             android:textSize="@dimen/sp_12" />
 
         <LinearLayout
+            android:layout_marginRight="@dimen/dp_10"
             style="@style/warp"
             android:orientation="horizontal">
 
@@ -36,11 +38,11 @@
             <TextView
                 android:id="@+id/goods_price"
                 style="@style/warp"
-                android:text="0.00"
-              />
+                android:text="0.00" />
         </LinearLayout>
 
         <LinearLayout
+            android:layout_marginRight="@dimen/dp_10"
             style="@style/warp"
             android:orientation="horizontal">
 
@@ -52,10 +54,41 @@
             <TextView
                 android:id="@+id/goods_number"
                 style="@style/warp"
-                android:text="1"
-              />
+                android:text="1" />
 
         </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/returnView"
+            style="@style/match_warp"
+            android:gravity="center_vertical|right"
+            android:padding="@dimen/dp_3"
+            android:paddingRight="@dimen/dp_10"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/returnbtn1"
+                android:layout_width="@dimen/dp_80"
+                android:layout_height="@dimen/dp_25"
+                android:layout_marginRight="@dimen/dp_5"
+                android:background="@drawable/shape_red_greyline"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_12"
+                android:text="退款"
+              />
+
+            <TextView
+                android:id="@+id/returnbtn2"
+                android:layout_width="@dimen/dp_80"
+                android:layout_height="@dimen/dp_25"
+                android:layout_marginRight="@dimen/dp_5"
+                android:background="@drawable/shape_red_greyline"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_12"
+                android:text="退货"
+                 />
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>

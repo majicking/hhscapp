@@ -1,5 +1,6 @@
 package com.guohanhealth.shop.ui.main.fragment.mine;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
@@ -20,6 +21,8 @@ import com.guohanhealth.shop.base.BaseFragment;
 import com.guohanhealth.shop.bean.MineInfo;
 import com.guohanhealth.shop.custom.CustomPopuWindow;
 import com.guohanhealth.shop.http.Api;
+import com.guohanhealth.shop.http.ApiService;
+import com.guohanhealth.shop.http.HttpErrorCode;
 import com.guohanhealth.shop.ui.cart.ChatListActivity;
 import com.guohanhealth.shop.ui.login.LoginActivity;
 import com.guohanhealth.shop.event.OnFragmentInteractionListener;
@@ -38,10 +41,15 @@ import com.guohanhealth.shop.ui.order.OrderActivity;
 import com.guohanhealth.shop.utils.Logutils;
 import com.guohanhealth.shop.utils.Utils;
 import com.guohanhealth.shop.utils.engine.GlideEngine;
+import com.wang.avi.AVLoadingIndicatorView;
 
+import java.io.IOException;
 import java.util.Random;
 
 import butterknife.BindView;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
 
 
 public class MineFragment extends BaseFragment<MinePersenter, MineModel> implements MineView {
@@ -195,8 +203,39 @@ public class MineFragment extends BaseFragment<MinePersenter, MineModel> impleme
 
         mineBtnviewTwocode.setOnClickListener(v -> {
             View view = getView(R.layout.twocode);
-            CustomPopuWindow popupWindow = Utils.getPopuWindown(mContext, view, Gravity.BOTTOM);
+            AVLoadingIndicatorView loadingIndicatorView = view.findViewById(R.id.loading);
 
+            ImageView imageView = getView(view, R.id.img);
+            CustomPopuWindow popupWindow = Utils.getPopuWindown(mContext, view, Gravity.BOTTOM);
+            Api.get(ApiService.RECOMMEND_QR + App.getApp().getKey(), new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    mActivity.runOnUiThread(() -> {
+                        showToast(Utils.getErrorString(e));
+                    });
+                }
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    String json = response.body().string();
+                    try {
+                        if (Utils.getCode(json) == HttpErrorCode.HTTP_NO_ERROR) {
+                            mActivity.runOnUiThread(() -> {
+                                GlideEngine.getInstance().loadImage(mContext, imageView, Utils.getValue("recommend_qr", Utils.getDatasString(json)));
+                                loadingIndicatorView.setVisibility(View.GONE);
+                            });
+                        } else {
+                            mActivity.runOnUiThread(() -> {
+                                showToast(Utils.getErrorString(json));
+                            });
+                        }
+                    } catch (Exception e) {
+                        mActivity.runOnUiThread(() -> {
+                            showToast(Utils.getErrorString(e));
+                        });
+                    }
+                }
+            });
         });
         /**下面设置*/
         mineBtnviewSetting.setOnClickListener(v -> readyGo(SettingActivity.class));

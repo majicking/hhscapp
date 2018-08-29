@@ -20,7 +20,7 @@ public interface Constants {
     String HOST1 = "test.shopnctest.com";
     String HOST2 = "192.168.1.231";
     String HOST3 = "192.168.1.252";
-    String HOST = HOST3;
+    String HOST = HOST0;
     String PORT = BuildConfig.PORT;
     String APP = BuildConfig.APP;
     String WEB = BuildConfig.WEB;
@@ -131,5 +131,6 @@ public interface Constants {
     String ISMEDIAPLAYER = "ismediaplayer";
     String TYPE = "type";
     String REFUND_ID = "refund_id";
+    String REC_ID = "rec_id";
 
 }

@@ -11,6 +11,7 @@ import com.guohanhealth.shop.utils.Utils;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Random;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -18,7 +19,7 @@ import okhttp3.Response;
 
 public class HealthPersenter extends BasePresenter<HealthView, PredepositModel> {
     public void getPointList(String key, String curpage) {
-        Api.get(ApiService.HEALTHBEANLOG + "&key=" + key + "&curpage=" + curpage + "&pages=10", new Callback() {
+        Api.get(ApiService.HEALTHBEANLOG + "&key=" + key + "&curpage=" + curpage + "&pages=10"+ "&random=" + new Random().nextInt(10), new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 mActivity.runOnUiThread(() -> {

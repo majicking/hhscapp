@@ -3,9 +3,9 @@ package com.guohanhealth.shop.ui.order;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -23,6 +23,9 @@ import com.guohanhealth.shop.custom.EmptyView;
 import com.guohanhealth.shop.event.ObjectEvent;
 import com.guohanhealth.shop.event.OnFragmentInteractionListener;
 import com.guohanhealth.shop.event.RxBus;
+import com.guohanhealth.shop.http.Api;
+import com.guohanhealth.shop.http.ApiService;
+import com.guohanhealth.shop.http.HttpErrorCode;
 import com.guohanhealth.shop.http.Result;
 import com.guohanhealth.shop.ui.main.activity.MainActivity;
 import com.guohanhealth.shop.utils.Logutils;
@@ -30,29 +33,35 @@ import com.guohanhealth.shop.utils.PayResult;
 import com.guohanhealth.shop.utils.Utils;
 import com.guohanhealth.shop.utils.engine.GlideEngine;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 import com.tencent.mm.opensdk.constants.ConstantsAPI;
 import com.tencent.mm.opensdk.modelbase.BaseResp;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.FormBody;
+import okhttp3.Response;
 
 import static com.guohanhealth.shop.app.Constants.MAINNUMBER;
 
 public class OrderFragment extends BaseFragment<OrderPersenter, OrderModel> implements OrderView {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    private static final String ARG_PARAM3 = "param3";
     @BindView(R.id.emptyview)
     EmptyView emptyview;
     @BindView(R.id.linearLayout)
     LinearLayout linearLayout;
+    @BindView(R.id.order_edit_search)
+    EditText orderEditSearch;
+    @BindView(R.id.order_img_search)
+    ImageView orderImgSearch;
     private int position;
     private boolean selecttype;
-    private String searchtext;
     private OnFragmentInteractionListener mListener;
     @BindView(R.id.order_views_refresh)
     SmartRefreshLayout orderViewsRefresh;
@@ -66,12 +75,11 @@ public class OrderFragment extends BaseFragment<OrderPersenter, OrderModel> impl
     boolean hasmore;
     int page_total = 1;
 
-    public static OrderFragment newInstance(int position, boolean selecttype, String searchtext) {
+    public static OrderFragment newInstance(int position, boolean selecttype) {
         OrderFragment fragment = new OrderFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_PARAM1, position);
         args.putBoolean(ARG_PARAM2, selecttype);
-        args.putString(ARG_PARAM3, searchtext);
         fragment.setArguments(args);
         return fragment;
     }
@@ -82,7 +90,6 @@ public class OrderFragment extends BaseFragment<OrderPersenter, OrderModel> impl
         if (getArguments() != null) {
             position = getArguments().getInt(ARG_PARAM1, 0);
             selecttype = getArguments().getBoolean(ARG_PARAM2);
-            searchtext = getArguments().getString(ARG_PARAM3);
         }
     }
 
@@ -99,6 +106,16 @@ public class OrderFragment extends BaseFragment<OrderPersenter, OrderModel> impl
 
     @Override
     protected void initView(Bundle savedInstanceState) {
+        orderEditSearch.setCursorVisible(false);
+        orderEditSearch.setOnClickListener(v ->
+                orderEditSearch.setCursorVisible(true)
+        );
+        orderImgSearch.setOnClickListener(v -> {
+            orderEditSearch.setCursorVisible(false);
+            getData(Utils.getEditViewText(orderEditSearch));
+        });
+
+        orderViewsRefresh.setRefreshHeader(new ClassicsHeader(mContext));
         orderViewsRefresh.setOnRefreshListener(refreshLayout -> {
             page = 1;
             isLoading = false;
@@ -119,7 +136,9 @@ public class OrderFragment extends BaseFragment<OrderPersenter, OrderModel> impl
             readyGoThenKill(MainActivity.class, bundle);
         });
 
+
     }
+
 
     @Override
     public void onResume() {
@@ -128,36 +147,75 @@ public class OrderFragment extends BaseFragment<OrderPersenter, OrderModel> impl
     }
 
     public void getData(String searchtext) {
-        mPresenter.getOrderData(selecttype, App.getApp().getKey(), page, selecttype ? viltype[position] : realtype[position], searchtext);
+        Api.post(selecttype ? ApiService.ORDER_LISTV : ApiService.ORDER_LIST,
+                new FormBody.Builder()
+                        .add("key", App.getApp().getKey())
+                        .add("state_type", selecttype ? viltype[position] : realtype[position])
+                        .add("curpage", page + "")
+                        .add("order_key", searchtext)
+                        .build(), new Callback() {
+                    @Override
+                    public void onFailure(Call call, IOException e) {
+                        mActivity.runOnUiThread(() -> {
+                            stopRefesh();
+                            showToast(Utils.getErrorString(e));
+                        });
+                    }
+
+                    @Override
+                    public void onResponse(Call call, Response response) throws IOException {
+                        String json = response.body().string();
+                        try {
+                            if (Utils.getCode(json) == HttpErrorCode.HTTP_NO_ERROR) {
+                                mActivity.runOnUiThread(() -> {
+                                    hasmore = Boolean.valueOf(Utils.getValue("hasmore", json));
+                                    page_total = Integer.valueOf(Utils.getValue("page_total", json));
+                                    getOrderData(Utils.getObject(Utils.getDatasString(json), OrderInfo.class));
+                                });
+                            } else {
+                                mActivity.runOnUiThread(() -> {
+                                    stopRefesh();
+                                    showToast(Utils.getErrorString(json));
+                                });
+                            }
+                        } catch (Exception e) {
+                            mActivity.runOnUiThread(() -> {
+                                stopRefesh();
+                                showToast(Utils.getErrorString(e));
+                            });
+                        }
+                    }
+                });
     }
 
     public void getData() {
-        mPresenter.getOrderData(selecttype, App.getApp().getKey(), page, selecttype ? viltype[position] : realtype[position], searchtext);
+        mPresenter.getOrderData(selecttype, App.getApp().getKey(), page, selecttype ? viltype[position] : realtype[position], Utils.getEditViewText(orderEditSearch));
     }
 
     @Override
     public void getData(Result result) {
-        if (orderViewsRefresh != null) {
-            if (orderViewsRefresh.isRefreshing())
-                orderViewsRefresh.finishRefresh();
-            if (orderViewsRefresh.isLoading())
-                orderViewsRefresh.finishLoadMore();
-        }
+        hasmore = result.hasmore;
+        page_total = result.page_total;
+        getOrderData((OrderInfo) result.datas);
+    }
+
+
+    private void getOrderData(OrderInfo info) {
+        stopRefesh();
         if (!isLoading) {
             list.clear();
         }
-
-        OrderInfo info = (OrderInfo) result.datas;
-        hasmore = result.hasmore;
-        page_total = result.page_total;
+        //最外层布局
+        linearLayout.removeAllViews();
         if (Utils.isEmpty(info.order_group_list)) {
+            linearLayout.setVisibility(View.VISIBLE);
             emptyview.setVisibility(View.GONE);
             list.addAll(info.order_group_list);
             if (Utils.isEmpty(list)) {
                 setData();
             }
-
         } else {
+            linearLayout.setVisibility(View.GONE);
             emptyview.setVisibility(View.VISIBLE);
         }
     }
@@ -165,6 +223,9 @@ public class OrderFragment extends BaseFragment<OrderPersenter, OrderModel> impl
     @Override
     public void orderOperation(String msg) {
         showToast(msg);
+        page = 1;
+        isLoading = false;
+        getData();
     }
 
 
@@ -214,14 +275,6 @@ public class OrderFragment extends BaseFragment<OrderPersenter, OrderModel> impl
         });
     }
 
-    @Override
-    public void lookOrderInfo(String info) {
-        if (info != null) {
-            Bundle bundle = new Bundle();
-            bundle.putString("data", info);
-            readyGo(OrderDetailActivity.class, bundle);
-        }
-    }
 
     @Override
     public void geExpressInfo(LogisticsInfo data) {
@@ -232,10 +285,9 @@ public class OrderFragment extends BaseFragment<OrderPersenter, OrderModel> impl
     }
 
     private void setData() {
-        //最外层布局
-        linearLayout.removeAllViews();
+
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        layoutParams.setMargins(0, 5, 0, 0);
+        layoutParams.setMargins(10, 15, 10, 0);
         for (int i = 0; i < list.size(); i++) {//获取每一层订单
             if (Utils.isEmpty(list.get(i).order_list)) {
                 for (int j = 0; j < list.get(i).order_list.size(); j++) {//每个订单内部有多个店铺
@@ -292,7 +344,9 @@ public class OrderFragment extends BaseFragment<OrderPersenter, OrderModel> impl
                     goodsmoney.setText(list.get(i).order_list.get(j).goods_amount);
                     //邮费
                     goodslistview.setOnClickListener(v -> {
-                        mPresenter.orderInfo("order_info", App.getApp().getKey(), list.get(indexi).order_list.get(indexj).order_id);
+                        Bundle bundle = new Bundle();
+                        bundle.putString(Constants.ORDER_ID, list.get(indexi).order_list.get(indexj).order_id);
+                        readyGo(OrderDetailActivity.class, bundle);
                     });
                     goodsfreight.setText(list.get(i).order_list.get(j).shipping_fee);
                     if (list.get(i).order_list.get(j).if_again) {
@@ -300,7 +354,7 @@ public class OrderFragment extends BaseFragment<OrderPersenter, OrderModel> impl
                         btn3.setText("再次确认");
 
                         btn3.setOnClickListener(v -> {
-                            showWrinDialog("再次确认订单？", "order_receive", list.get(indexi).order_list.get(indexj).order_id);
+                            showWrinDialog("再次确认订单？", "sureOrderAgain", list.get(indexi).order_list.get(indexj).order_id);
                         });
                     }
                     if (list.get(i).order_list.get(j).if_delete) {
@@ -334,7 +388,7 @@ public class OrderFragment extends BaseFragment<OrderPersenter, OrderModel> impl
                     if (list.get(i).order_list.get(j).if_evaluation) {
                         btn2.setVisibility(View.VISIBLE);
                         btn2.setText("订单评价");
-                        btn2.setOnClickListener(v-> {
+                        btn2.setOnClickListener(v -> {
                             Bundle bundle = new Bundle();
                             bundle.putString(Constants.ORDER_ID, list.get(indexi).order_list.get(indexj).order_id);
                             readyGo(EvaluationActivity.class, bundle);
@@ -343,7 +397,7 @@ public class OrderFragment extends BaseFragment<OrderPersenter, OrderModel> impl
                     if (list.get(i).order_list.get(j).if_evaluation_again) {
                         btn2.setVisibility(View.VISIBLE);
                         btn2.setText("追加评价");
-                        btn2.setOnClickListener(v->{
+                        btn2.setOnClickListener(v -> {
                             Bundle bundle = new Bundle();
                             bundle.putString(Constants.ORDER_ID, list.get(indexi).order_list.get(indexj).order_id);
                             bundle.putInt(Constants.TYPE, 1);
@@ -354,7 +408,7 @@ public class OrderFragment extends BaseFragment<OrderPersenter, OrderModel> impl
                     if (list.get(i).order_list.get(j).if_refund_cancel) {
                         btn1.setVisibility(View.VISIBLE);
                         btn1.setText("退款");
-                        btn1.setOnClickListener(v->{
+                        btn1.setOnClickListener(v -> {
                             Bundle bundle = new Bundle();
                             bundle.putString(Constants.ORDER_ID, list.get(indexi).order_list.get(indexj).order_id);
                             readyGo(ReturnOrderActivity.class, bundle);
@@ -376,6 +430,7 @@ public class OrderFragment extends BaseFragment<OrderPersenter, OrderModel> impl
         }
     }
 
+
     public void showWrinDialog(String message, String url, String order_id) {
         Dialog dialog = new CustomDialog.Builder(mContext)
                 .setTitle("操作警告")
@@ -384,7 +439,7 @@ public class OrderFragment extends BaseFragment<OrderPersenter, OrderModel> impl
                     d.dismiss();
                 })
                 .setNegativeButton("确定", (d, v) -> {
-                    mPresenter.orderOperation(url, App.getApp().getKey(), order_id, selecttype, page, selecttype ? viltype[position] : realtype[position], searchtext);
+                    mPresenter.orderOperation(url, App.getApp().getKey(), order_id, selecttype, page, selecttype ? viltype[position] : realtype[position], Utils.getEditViewText(orderEditSearch));
                     d.dismiss();
                 }).create();
         dialog.show();
@@ -393,13 +448,17 @@ public class OrderFragment extends BaseFragment<OrderPersenter, OrderModel> impl
     @Override
     public void faild(String msg) {
 
+        stopRefesh();
+        showToast(msg);
+    }
+
+    private void stopRefesh() {
         if (orderViewsRefresh != null) {
             if (orderViewsRefresh.isRefreshing())
                 orderViewsRefresh.finishRefresh();
             if (orderViewsRefresh.isLoading())
                 orderViewsRefresh.finishLoadMore();
         }
-        showToast(msg);
     }
 
 
@@ -426,7 +485,6 @@ public class OrderFragment extends BaseFragment<OrderPersenter, OrderModel> impl
         super.onDetach();
         mListener = null;
     }
-
 
 
 }

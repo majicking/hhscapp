@@ -40,32 +40,7 @@
             app:scv_TextSize="@dimen/sp_12" />
     </RelativeLayout>
 
-    <View style="@style/djk_line" />
-
-    <LinearLayout style="@style/LLayout_40_h">
-
-        <EditText
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:id="@+id/order_edit_search"
-            style="@style/layout_weight_h"
-            android:layout_height="@dimen/dp_30"
-            android:layout_marginLeft="@dimen/dp_5"
-            android:layout_marginRight="@dimen/dp_5"
-            android:background="@drawable/bg_recricle"
-            android:gravity="center_vertical"
-            android:hint="输入商品标题或订单号搜做"
-            android:paddingLeft="@dimen/dp_10"
-            android:textColorHint="@color/grey"
-            android:textSize="@dimen/sp_12" />
-
-        <ImageView
-            android:id="@+id/order_img_search"
-            android:layout_width="@dimen/dp_28"
-            android:layout_height="@dimen/dp_28"
-            android:layout_marginRight="@dimen/dp_15"
-            android:src="@drawable/ic_search" />
-    </LinearLayout>
+    <View style="@style/djk_line_big" />
 
     <android.support.design.widget.TabLayout
         android:id="@+id/tab"

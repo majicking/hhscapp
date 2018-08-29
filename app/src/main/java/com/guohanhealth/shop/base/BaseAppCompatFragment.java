@@ -1,6 +1,7 @@
 package com.guohanhealth.shop.base;
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -36,6 +37,7 @@ public abstract class BaseAppCompatFragment extends Fragment {
     protected View mView;
     private MultipleStatusLayout mMultipleStatusLayout;
     private Unbinder unbinder;
+    protected Activity mActivity;
 
     /**
      * 当fragment创建的时候获取测试的tag,绑定相应的eventBus
@@ -48,6 +50,7 @@ public abstract class BaseAppCompatFragment extends Fragment {
             getBundleExtras(getArguments());
         }
         mContext = getActivity();
+        mActivity = getActivity();
     }
 
     /**

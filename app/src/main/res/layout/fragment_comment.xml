@@ -20,21 +20,5 @@
         android:numColumns="6"
         android:scrollbars="none"></GridView>
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <com.guohanhealth.shop.custom.EmptyView
-            android:id="@+id/emptyview"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:visibility="gone"></com.guohanhealth.shop.custom.EmptyView>
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycleview"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
-
-    </RelativeLayout>
-
+   <include layout="@layout/recycleview"/>
 </LinearLayout>

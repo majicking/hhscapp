@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -19,10 +20,12 @@ import com.guohanhealth.shop.custom.CustomDialog;
 import com.guohanhealth.shop.http.Api;
 import com.guohanhealth.shop.http.ApiService;
 import com.guohanhealth.shop.http.HttpErrorCode;
+import com.guohanhealth.shop.ui.goods.goodsdetailed.activity.GoodsDetailsActivity;
 import com.guohanhealth.shop.utils.Utils;
 import com.guohanhealth.shop.utils.engine.GlideEngine;
 
 import java.io.IOException;
+import java.util.Random;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -97,8 +100,7 @@ public class OrderDetailActivity extends BaseActivity {
     TextView orderDetailBtn3;
     @BindView(R.id.returnOrder)
     TextView returnOrder;
-    private String mData;
-
+    private String order_id;
 
     @Override
     protected int getContentViewLayoutID() {
@@ -108,12 +110,47 @@ public class OrderDetailActivity extends BaseActivity {
     @Override
     protected void initView(Bundle savedInstanceState) {
         initToolBarNav(commonToolbar, commonToolbarTitleTv, "订单详情");
-        mData = getIntent().getStringExtra("data");
-        getData(Utils.getObject(mData, OrderDetailInfo.class));
+        order_id = getIntent().getStringExtra(Constants.ORDER_ID);
     }
 
-    public void getData(OrderDetailInfo info) {
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getData();
+    }
 
+    public void getData() {
+        Api.get(ApiService.ORDER_OPERATION + "&op=order_info" + "&key=" + App.getApp().getKey() + "&order_id=" + order_id + "&random=" + new Random().nextInt(10), new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                runOnUiThread(() -> {
+                    showToast(Utils.getErrorString(e));
+                });
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                try {
+                    String json = response.body().string();
+                    if (Utils.getCode(json) == HttpErrorCode.HTTP_NO_ERROR) {
+                        runOnUiThread(() -> {
+                            setData(Utils.getObject(Utils.getDatasString(json), OrderDetailInfo.class));
+                        });
+
+                    } else if (Utils.getCode(json) == HttpErrorCode.ERROR_400) {
+                        runOnUiThread(() -> {
+                            showToast(Utils.getErrorString(json));
+                        });
+                    }
+                } catch (Exception e) {
+                    showToast(Utils.getErrorString(e));
+                }
+            }
+        });
+
+    }
+
+    public void setData(OrderDetailInfo info) {
         if (info.order_info != null) {
             orderDetailStutas.setText(Utils.getString(info.order_info.state_desc));
             orderDetailName.setText(Utils.getString(info.order_info.reciver_name));
@@ -153,15 +190,44 @@ public class OrderDetailActivity extends BaseActivity {
             orderDetailViewGoodslist.setLayoutParams(layoutParams);
             if (Utils.isEmpty(info.order_info.goods_list)) {
                 for (int i = 0; i < info.order_info.goods_list.size(); i++) {
+                    int index = i;
                     View view = getView(R.layout.order_list_goods_item);
+                    view.setOnClickListener(v -> {
+                        Bundle bundle = new Bundle();
+                        bundle.putString(Constants.GOODS_ID, info.order_info.goods_list.get(index).goods_id);
+                        readyGo(GoodsDetailsActivity.class, bundle);
+                    });
                     TextView name = (TextView) getView(view, R.id.goods_name);
                     TextView price = (TextView) getView(view, R.id.goods_price);
                     TextView number = (TextView) getView(view, R.id.goods_number);
                     ImageView img = (ImageView) getView(view, R.id.goods_img);
+                    View returnView = getView(view, R.id.returnView);
+                    TextView returnbtn1 = (TextView) getView(view, R.id.returnbtn1);
+                    TextView returnbtn2 = (TextView) getView(view, R.id.returnbtn2);
+                    if (info.order_info.goods_list.get(i).refund.equals("1")) {
+                        returnView.setVisibility(View.VISIBLE);
+                        returnbtn1.setOnClickListener(v -> {
+                            Bundle bundle = new Bundle();
+                            bundle.putInt(Constants.TYPE, 1);
+                            bundle.putString(Constants.REC_ID, info.order_info.goods_list.get(index).rec_id);
+                            bundle.putString(Constants.ORDER_ID, order_id);
+                            readyGo(ReturnOrderActivity.class, bundle);
+                        });
+                        returnbtn2.setOnClickListener(v -> {
+                            Bundle bundle = new Bundle();
+                            bundle.putInt(Constants.TYPE, 2);
+                            bundle.putString(Constants.REC_ID, info.order_info.goods_list.get(index).rec_id);
+                            bundle.putString(Constants.ORDER_ID, order_id);
+                            readyGo(ReturnOrderActivity.class, bundle);
+                        });
+                    } else {
+                        returnView.setVisibility(View.GONE);
+                    }
                     name.setText(info.order_info.goods_list.get(i).goods_name);
                     price.setText(info.order_info.goods_list.get(i).goods_price);
                     number.setText(info.order_info.goods_list.get(i).goods_num);
                     GlideEngine.getInstance().loadImage(mContext, img, info.order_info.goods_list.get(i).image_url);
+
                     orderDetailViewGoodslist.addView(view);
                 }
             }
@@ -173,6 +239,7 @@ public class OrderDetailActivity extends BaseActivity {
                     info.order_info.if_evaluation ||
                     info.order_info.if_refund_cancel) {
                 orderDetailViewOperate.setVisibility(View.VISIBLE);
+
             } else {
                 orderDetailViewOperate.setVisibility(View.GONE);
             }
@@ -184,6 +251,8 @@ public class OrderDetailActivity extends BaseActivity {
                 orderDetailBtn3.setOnClickListener(v -> {
                     showWrinDialog("再次确认订单？", "sureOrderAgain", info.order_info.order_id);
                 });
+            } else {
+                orderDetailBtn3.setVisibility(View.GONE);
             }
 
             if (info.order_info.if_buyer_cancel) {
@@ -192,6 +261,8 @@ public class OrderDetailActivity extends BaseActivity {
                 orderDetailBtn1.setOnClickListener(v -> {
                     showWrinDialog("确认取消订单？", "order_cancel", info.order_info.order_id);
                 });
+            } else {
+                orderDetailBtn1.setVisibility(View.GONE);
             }
 
             if (info.order_info.if_receive) {
@@ -200,11 +271,15 @@ public class OrderDetailActivity extends BaseActivity {
                 orderDetailBtn3.setOnClickListener(v -> {
                     showWrinDialog("确认收到货物", "order_receive", info.order_info.order_id);
                 });
+            } else {
+                orderDetailBtn3.setVisibility(View.GONE);
             }
 
             if (info.order_info.if_lock) {
                 returnOrder.setVisibility(View.VISIBLE);
                 returnOrder.setText("退货/退款中");
+            } else {
+                returnOrder.setVisibility(View.GONE);
             }
 
             if (info.order_info.if_evaluation) {
@@ -215,6 +290,8 @@ public class OrderDetailActivity extends BaseActivity {
                     bundle.putString(Constants.ORDER_ID, info.order_info.order_id);
                     readyGo(EvaluationActivity.class, bundle);
                 });
+            } else {
+                orderDetailBtn2.setVisibility(View.GONE);
             }
             if (info.order_info.if_evaluation_again) {
                 orderDetailBtn2.setVisibility(View.VISIBLE);
@@ -223,6 +300,8 @@ public class OrderDetailActivity extends BaseActivity {
                 bundle.putString(Constants.ORDER_ID, info.order_info.order_id);
                 bundle.putInt(Constants.TYPE, 1);
                 readyGo(EvaluationActivity.class, bundle);
+            } else {
+                orderDetailBtn2.setVisibility(View.GONE);
             }
             if (info.order_info.if_refund_cancel) {
                 orderDetailBtn1.setVisibility(View.VISIBLE);
@@ -231,11 +310,14 @@ public class OrderDetailActivity extends BaseActivity {
                 bundle.putString(Constants.ORDER_ID, info.order_info.order_id);
                 bundle.putInt(Constants.TYPE, 1);
                 readyGo(ReturnOrderActivity.class, bundle);
+            } else {
+                orderDetailBtn1.setVisibility(View.GONE);
             }
             if (info.order_info.if_deliver) {
                 orderDetailBtn1.setVisibility(View.VISIBLE);
                 orderDetailBtn1.setText("查看物流");
                 orderDetailBtn1.setOnClickListener(v -> {
+                    showLoadingDialog("正在查询...");
                     Api.post(ApiService.SEARCH_DELIVER, new FormBody.Builder()
                                     .add("key", App.getApp().getKey())
                                     .add("order_id", info.order_info.order_id)
@@ -243,6 +325,7 @@ public class OrderDetailActivity extends BaseActivity {
                                 @Override
                                 public void onFailure(Call call, IOException e) {
                                     runOnUiThread(() -> {
+                                        hideLoadingDialog();
                                         showToast(Utils.getErrorString(e));
                                     });
                                 }
@@ -250,22 +333,33 @@ public class OrderDetailActivity extends BaseActivity {
                                 @Override
                                 public void onResponse(Call call, Response response) throws IOException {
                                     String json = response.body().string();
-                                    if (Utils.getCode(json) == HttpErrorCode.HTTP_NO_ERROR) {
-                                        runOnUiThread(() -> {
-                                            Bundle bundle = new Bundle();
-                                            bundle.putSerializable(Constants.DATA, Utils.getObject(Utils.getDatasString(json), LogisticsInfo.class));
-                                            readyGo(LogisticsActivity.class, bundle);
-                                        });
-                                    } else if (Utils.getCode(json) == HttpErrorCode.ERROR_400) {
-                                        runOnUiThread(() -> {
-                                            showToast(Utils.getErrorString(json));
+                                    try {
+                                        if (Utils.getCode(json) == HttpErrorCode.HTTP_NO_ERROR) {
+                                            runOnUiThread(() -> {
+                                                hideLoadingDialog();
+                                                Bundle bundle = new Bundle();
+                                                bundle.putSerializable(Constants.DATA, Utils.getObject(Utils.getDatasString(json), LogisticsInfo.class));
+                                                readyGo(LogisticsActivity.class, bundle);
+                                            });
+                                        } else if (Utils.getCode(json) == HttpErrorCode.ERROR_400) {
+                                            runOnUiThread(() -> {
+                                                hideLoadingDialog();
+                                                showToast(Utils.getErrorString(json));
 
+                                            });
+                                        }
+                                    } catch (Exception e) {
+                                        runOnUiThread(() -> {
+                                            hideLoadingDialog();
+                                            showToast(Utils.getErrorString(e));
                                         });
                                     }
                                 }
                             }
                     );
                 });
+            } else {
+                orderDetailBtn1.setVisibility(View.GONE);
             }
 
 
@@ -300,45 +394,9 @@ public class OrderDetailActivity extends BaseActivity {
                                     d.dismiss();
                                     if (Utils.getCode(json) == HttpErrorCode.HTTP_NO_ERROR) {
                                         if (Utils.getDatasString(json).equals("1")) {
-                                            Api.get(ApiService.ORDER_INFO + "&key=" + App.getApp().getKey() + "&order_id=" + order_id, new Callback() {
-                                                @Override
-                                                public void onFailure(Call call, IOException e) {
-                                                    runOnUiThread(() -> {
-                                                        showToast(Utils.getErrorString(e));
-                                                    });
-                                                }
-
-                                                @Override
-                                                public void onResponse(Call call, Response response) throws IOException {
-                                                    try {
-                                                        String json = response.body().string();
-                                                        if (Utils.getCode(json) == HttpErrorCode.HTTP_NO_ERROR) {
-                                                            runOnUiThread(() -> {
-
-                                                                OrderDetailInfo info = Utils.getObject(Utils.getDatasString(json), OrderDetailInfo.class);
-                                                                if (info != null) {
-                                                                    getData(info);
-                                                                } else {
-                                                                    finish();
-                                                                }
-                                                            });
-                                                        } else {
-                                                            runOnUiThread(() -> {
-                                                                showToast(Utils.getErrorString(json));
-                                                            });
-                                                        }
-                                                    } catch (Exception e) {
-                                                        runOnUiThread(() -> {
-                                                            showToast(Utils.getErrorString(e));
-                                                        });
-                                                    }
-
-                                                }
-                                            });
-                                        } else {
-                                            showToast(Utils.getDatasString(json));
+                                            getData();
                                         }
-                                    } else if (Utils.getCode(json) == HttpErrorCode.ERROR_400) {
+                                    } else {
                                         showToast(Utils.getErrorString(json));
                                     }
                                 });
@@ -351,10 +409,5 @@ public class OrderDetailActivity extends BaseActivity {
         dialog.show();
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
+
 }

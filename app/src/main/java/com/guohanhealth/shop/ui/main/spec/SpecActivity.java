@@ -47,6 +47,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Random;
 
 import butterknife.BindView;
 import okhttp3.Call;
@@ -104,7 +105,7 @@ public class SpecActivity extends BaseActivity {
     }
 
     public void getData() {
-        Api.get( ApiService.SPECIAL + "&special_id=" + special_id, new Callback() {
+        Api.get( ApiService.SPECIAL + "&special_id=" + special_id+ "&random=" + new Random().nextInt(10), new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 runOnUiThread(() -> {

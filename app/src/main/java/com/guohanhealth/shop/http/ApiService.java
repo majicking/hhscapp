@@ -135,6 +135,18 @@ public interface ApiService {
     String GET_REFUND_LIST = Constants.INDEX + "act=member_refund&op=get_refund_list";
     String GET_REFUND_INFO = Constants.INDEX + "act=member_refund&op=get_refund_info";
     String ORDER_INFO = Constants.INDEX + "act=member_order&op=order_info";
+    String MEMBER_EVALUATE = Constants.INDEX + "act=member_evaluate&op=index";
+    String FILE_UPLOAD = Constants.INDEX + "act=sns_album&op=file_upload";
+    String SAVE = Constants.INDEX + "act=member_evaluate&op=save";
+    String SAVE_AGAIN = Constants.INDEX + "act=member_evaluate&op=save_again";
+    String RECOMMEND_QR = Constants.INDEX + "act=qr&op=create&key=";
+    String REFUND_FORM = Constants.INDEX + "act=member_refund&op=refund_form&key=";
+    String REFUND_POST = Constants.INDEX + "act=member_refund&op=refund_post";
+    String UPLOAD_PIC = Constants.INDEX + "act=member_refund&op=upload_pic";
+    String MEMBER_EVALUATE_AGAIN = Constants.INDEX + "act=member_evaluate&op=again";
+    String SIGN=Constants.INDEX +  "act=member_signin&op=checksignin";
+    String SIGNIN_LIST=Constants.INDEX +  "act=member_signin&op=signin_list";
+
 
     /**
      * 用户登录

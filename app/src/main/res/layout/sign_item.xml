@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:minHeight="@dimen/dp_40"
+    android:orientation="horizontal">
+
+    <TextView
+        style="@style/djk_text"
+        android:layout_marginLeft="@dimen/dp_15"
+        android:text="会员积分" />
+
+    <TextView
+        android:id="@+id/text1"
+        style="@style/djk_text"
+        android:layout_marginLeft="@dimen/dp_5"
+        android:layout_marginRight="@dimen/dp_10"
+        android:text="+0"
+        android:textColor="@color/appColor"
+        android:textSize="@dimen/sp_16"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/text2"
+        style="@style/djk_text"
+        android:textColor="@color/grey" />
+
+    <TextView
+        style="@style/djk_text"
+        android:text="签到获得"
+        android:textColor="@color/grey" />
+</LinearLayout>

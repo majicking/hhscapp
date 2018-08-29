@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/ordermainview"
-
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="@dimen/dp_2">
+    android:orientation="vertical">
 
     <LinearLayout style="@style/LLayout_40_h">
 
@@ -26,6 +24,7 @@
         <TextView
             android:id="@+id/store_stauts"
             style="@style/djk_text"
+            android:layout_marginRight="@dimen/dp_5"
             android:textColor="@color/appColor" />
     </LinearLayout>
 
@@ -89,11 +88,11 @@
         style="@style/LLayout_40_h">
 
         <TextView
-            android:visibility="gone"
             android:id="@+id/order_backmoneyorgoods"
             style="@style/djk_text"
             android:text="退款/退货中"
-            android:textColor="@color/appColor" />
+            android:textColor="@color/appColor"
+            android:visibility="gone" />
 
         <LinearLayout
             android:id="@+id/order_del"
