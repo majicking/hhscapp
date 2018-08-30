@@ -20,15 +20,18 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.guohanhealth.shop.R;
+import com.guohanhealth.shop.adapter.ViewPagerAdapter;
 import com.guohanhealth.shop.app.App;
 import com.guohanhealth.shop.app.Constants;
 import com.guohanhealth.shop.base.BaseActivity;
 import com.guohanhealth.shop.bean.GoodsDetailedInfo;
 import com.guohanhealth.shop.bean.SpecBean;
+import com.guohanhealth.shop.custom.CustomDialog;
 import com.guohanhealth.shop.custom.CustomPopuWindow;
 import com.guohanhealth.shop.event.GoodsDetailsEvent;
 import com.guohanhealth.shop.event.OnFragmentInteractionListener;
 import com.guohanhealth.shop.event.RxBus;
+import com.guohanhealth.shop.ui.cart.CartActivity;
 import com.guohanhealth.shop.ui.goods.GoodsModel;
 import com.guohanhealth.shop.ui.goods.goodsdetailed.fragment.comment.CommentFragment;
 import com.guohanhealth.shop.ui.goods.goodsdetailed.fragment.goods.GoodsFragment;
@@ -89,6 +92,7 @@ public class GoodsDetailsActivity extends BaseActivity<GoodsDetailsPersenter, Go
     private String is_virtual;
     private EditText number;
     private String cart_id;
+    private GoodsDetailedInfo mInfo;
 
     @Override
     protected int getContentViewLayoutID() {
@@ -97,6 +101,7 @@ public class GoodsDetailsActivity extends BaseActivity<GoodsDetailsPersenter, Go
 
     @Override
     protected void initView(Bundle savedInstanceState) {
+        mInfo = new GoodsDetailedInfo();
         goods_id = getIntent().getStringExtra(Constants.GOODS_ID);
         goodsdetailBack.setOnClickListener(v -> finish());
         fragmentList = new ArrayList<>();
@@ -137,6 +142,29 @@ public class GoodsDetailsActivity extends BaseActivity<GoodsDetailsPersenter, Go
             @Override
             public void onPageScrollStateChanged(int state) {
 
+            }
+        });
+        goodsdetailViewCustomer.setOnClickListener(v -> {
+            if (mInfo.store_info.member_id.equals(App.getApp().getInfo().member_id)) {
+                showToast("不能与自己聊天");
+                return;
+            }
+            if (App.getApp().isConnect()) {//本人在线
+                Bundle bundle = new Bundle();
+                bundle.putString(Constants.CHATID, mInfo.store_info.member_id);
+                bundle.putString(Constants.CHATNAME,  mInfo.store_info.member_name);
+                readyGo(CartActivity.class, bundle);
+            } else {
+                new CustomDialog.Builder(mContext)
+                        .setTitle("离线通知")
+                        .setMessage("您的IM账号已经离线啦？点击确认重连")
+                        .setPositiveButton("确认", (d, w) -> {
+                            d.dismiss();
+                            App.getApp().getSocket().connect();
+                        })
+                        .setNegativeButton("取消", (d, w) -> {
+                            d.dismiss();
+                        }).create().show();
             }
         });
         goodsdetailTextBuy.setOnClickListener(v -> {
@@ -198,6 +226,7 @@ public class GoodsDetailsActivity extends BaseActivity<GoodsDetailsPersenter, Go
         if (Constants.CURRENTITEM.equals(key)) {
             goodsdetailViewViewpager.setCurrentItem((Integer) value);
         } else if (Constants.GOODS_ID.equals(key)) {
+            setGoods_id((String) value);
             getData((String) value);
         } else if (Constants.GETGOODSID.equals(key)) {
             return getGoods_id();
@@ -439,7 +468,7 @@ public class GoodsDetailsActivity extends BaseActivity<GoodsDetailsPersenter, Go
                                             if (Utils.isEmpty(specimgList)) {/**加載圖片*/
                                                 for (int l = 0; l < specimgList.size(); l++) {
                                                     if (specimgList.get(l).key.equals(goodsspecList.get(k).key)) {
-                                                        GlideEngine.getInstance().loadImage(mContext, getView(orderView, R.id.goods_image), specimgList.get(l).value);
+                                                        GlideEngine.getInstance().loadImage(mContext, getView(orderView, R.id.goods_image), specimgList.get(l).value.replace("@!product-60", ""));
                                                     }
                                                 }
                                             }
@@ -467,8 +496,8 @@ public class GoodsDetailsActivity extends BaseActivity<GoodsDetailsPersenter, Go
                                                         Arrays.sort(spectype);
                                                         Arrays.sort(spec);
                                                         if (Arrays.equals(spectype, spec)) {
-                                                            goods_id = specList.get(m).value;
-                                                            getData(goods_id);
+                                                            setGoods_id(specList.get(m).value);
+                                                            getData(getGoods_id());
                                                             return;
                                                         }
                                                     }
@@ -490,7 +519,7 @@ public class GoodsDetailsActivity extends BaseActivity<GoodsDetailsPersenter, Go
                 textView.setText("默认");
                 textView.setActivated(true);
                 layout.addView(view);
-                GlideEngine.getInstance().loadImage(mContext, getView(orderView, R.id.goods_image), JSONParser.JSON2Array(spec_image, String.class).get(0));
+                GlideEngine.getInstance().loadImage(mContext, getView(orderView, R.id.goods_image), JSONParser.JSON2Array(spec_image, String.class).get(0).replace("@!product-60", ""));
             }
         }
     }
@@ -515,6 +544,7 @@ public class GoodsDetailsActivity extends BaseActivity<GoodsDetailsPersenter, Go
                 onChangeGoodsInfoListener.updataUI("updata_goods_id", getGoods_id());
             }
             RxBus.getDefault().post(new GoodsDetailsEvent(data));
+            mInfo = Utils.getObject(data, GoodsDetailedInfo.class);
             setGoodsdata(data);
             if (isOpenPopwindown) {
                 setSpecInfo(data);

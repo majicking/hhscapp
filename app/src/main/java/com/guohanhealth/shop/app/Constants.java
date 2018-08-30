@@ -132,5 +132,7 @@ public interface Constants {
     String TYPE = "type";
     String REFUND_ID = "refund_id";
     String REC_ID = "rec_id";
+    String MEMBERID = "memberId";
+    String MEMBERNAME = "memberName";
 
 }

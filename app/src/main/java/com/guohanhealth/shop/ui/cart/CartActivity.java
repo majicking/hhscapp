@@ -1,12 +1,9 @@
 package com.guohanhealth.shop.ui.cart;
 
-import android.app.Service;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.os.Vibrator;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -30,15 +27,19 @@ import com.guohanhealth.shop.adapter.ViewHolder;
 import com.guohanhealth.shop.app.App;
 import com.guohanhealth.shop.app.Constants;
 import com.guohanhealth.shop.base.BaseActivity;
+import com.guohanhealth.shop.bean.ChatMemberInfo;
 import com.guohanhealth.shop.bean.ChatMessageInfo;
 import com.guohanhealth.shop.bean.SmileInfo;
 import com.guohanhealth.shop.custom.MyGridView;
 import com.guohanhealth.shop.event.ChatEvent;
 import com.guohanhealth.shop.event.RxBus;
+import com.guohanhealth.shop.http.Api;
+import com.guohanhealth.shop.http.ApiService;
+import com.guohanhealth.shop.http.HttpErrorCode;
+import com.guohanhealth.shop.utils.Logutils;
 import com.guohanhealth.shop.utils.Utils;
 import com.guohanhealth.shop.utils.engine.GlideEngine;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -48,6 +49,10 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.FormBody;
+import okhttp3.Response;
 
 public class CartActivity extends BaseActivity<ChatPersenter, ChatModel> implements ChatView {
 
@@ -83,7 +88,7 @@ public class CartActivity extends BaseActivity<ChatPersenter, ChatModel> impleme
     }
 
 
-    String id, name, avatar, message;
+    String id = "", name = "", avatar = "", message = "";
 
 
     @Override
@@ -92,6 +97,7 @@ public class CartActivity extends BaseActivity<ChatPersenter, ChatModel> impleme
         name = getIntent().getStringExtra(Constants.CHATNAME);
         avatar = getIntent().getStringExtra(Constants.CHATAVATAR);
         message = getIntent().getStringExtra(Constants.DATA);
+        getMeberInfo();
         back.setOnClickListener(v -> finish());
         title.setText(Utils.isEmpty(name) ? name : "我的聊天");
         mList = new ArrayList<>();
@@ -167,26 +173,70 @@ public class CartActivity extends BaseActivity<ChatPersenter, ChatModel> impleme
 
     }
 
+    public void getMeberInfo() {
+        Api.post(ApiService.GET_INFO, new FormBody.Builder()
+                        .add("key", App.getApp().getKey())
+                        .add("u_id", id)
+                        .add("t", "member_id")
+                        .build()
+                , new Callback() {
+                    @Override
+                    public void onFailure(Call call, IOException e) {
+                        runOnUiThread(() -> {
+                            showToast(Utils.getErrorString(e));
+                        });
+                    }
+
+                    @Override
+                    public void onResponse(Call call, Response response) throws IOException {
+                        String json = response.body().string();
+                        try {
+                            if (Utils.getCode(json) == HttpErrorCode.HTTP_NO_ERROR) {
+                                runOnUiThread(() -> {
+                                    Logutils.i(json);
+                                    ChatMemberInfo chatMemberInfo = Utils.getObject(Utils.getDatasString(json), ChatMemberInfo.class);
+                                    if (chatMemberInfo != null) {
+                                        avatar = chatMemberInfo.member_avatar;
+                                    }
+                                });
+                            } else {
+                                runOnUiThread(() -> {
+                                    showToast(Utils.getErrorString(json));
+                                });
+                            }
+
+                        } catch (Exception e) {
+                            runOnUiThread(() -> {
+                                showToast(Utils.getErrorString(e));
+                            });
+                        }
+                    }
+                });
+    }
+
+
     public void setChat(String message) {
         try {
-            JSONObject obj = new JSONObject(message);
-            Iterator<?> itName = obj.keys();
-            while (itName.hasNext()) {
-                String ID = itName.next().toString();
-                String str = obj.getString(ID);
-                ChatMessageInfo bean = Utils.getObject(str, ChatMessageInfo.class);
-                if (id.equals(bean.f_id)) {
-                    mList.add(bean);
+            if (Utils.isEmpty(message)) {
+                JSONObject obj = new JSONObject(message);
+                Iterator<?> itName = obj.keys();
+                while (itName.hasNext()) {
+                    String ID = itName.next().toString();
+                    String str = obj.getString(ID);
+                    ChatMessageInfo bean = Utils.getObject(str, ChatMessageInfo.class);
+                    if (id.equals(bean.f_id)) {
+                        mList.add(bean);
+                    }
+                }
+                if (Utils.isEmpty(mList)) {
+                    App.getApp().mediaPlayer();
+                    App.getApp().getSocket().emit("del_msg", new JSONObject("{'max_id':" + mList.get(mList.size() - 1).m_id + ",'f_id':" + id + "}"));
+                    recycleview.scrollToPosition(mList.size() - 1);
+                    mAdapters.notifyDataSetChanged();
                 }
             }
-            if (Utils.isEmpty(mList)) {
-                App.getApp().mediaPlayer();
-                App.getApp().getSocket().emit("del_msg", new JSONObject("{'max_id':" + mList.get(mList.size() - 1).m_id + ",'f_id':" + id + "}"));
-                recycleview.scrollToPosition(mList.size() - 1);
-                mAdapters.notifyDataSetChanged();
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            showToast(Utils.getErrorString(e));
         }
     }
 

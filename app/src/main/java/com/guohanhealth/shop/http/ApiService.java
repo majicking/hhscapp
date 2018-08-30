@@ -146,6 +146,7 @@ public interface ApiService {
     String MEMBER_EVALUATE_AGAIN = Constants.INDEX + "act=member_evaluate&op=again";
     String SIGN=Constants.INDEX +  "act=member_signin&op=checksignin";
     String SIGNIN_LIST=Constants.INDEX +  "act=member_signin&op=signin_list";
+    String GET_INFO=Constants.INDEX +  "act=member_chat&op=get_info";
 
 
     /**
