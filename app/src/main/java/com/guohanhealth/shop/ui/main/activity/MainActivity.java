@@ -1,8 +1,12 @@
 package com.guohanhealth.shop.ui.main.activity;
 
+import android.Manifest;
+import android.annotation.TargetApi;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
@@ -16,6 +20,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
@@ -38,6 +43,7 @@ import com.guohanhealth.shop.utils.Utils;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 
@@ -71,6 +77,7 @@ public class MainActivity extends BaseActivity<MainPersenter, MainModel> impleme
     }
 
     int index;
+    List<String> mlist;
 
     @Override
     protected void initView(Bundle savedInstanceState) {
@@ -146,6 +153,11 @@ public class MainActivity extends BaseActivity<MainPersenter, MainModel> impleme
         });
         initData();
     }
+
+
+
+
+
 
 
     @Override

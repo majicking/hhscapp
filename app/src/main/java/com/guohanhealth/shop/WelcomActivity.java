@@ -1,12 +1,13 @@
 package com.guohanhealth.shop;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
-import android.os.CountDownTimer;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
+import android.support.v4.app.ActivityCompat;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
@@ -48,10 +49,20 @@ public class WelcomActivity extends Activity {
             public void onAnimationEnd(Animation animation) {
                 // TODO Auto-generated method stub
                 //启动homeactivty，相当于Intent
-                startActivity(new Intent(WelcomActivity.this, MainActivity.class).putExtra(Constants.MAINNUMBER,0));
+                startActivity(new Intent(WelcomActivity.this, MainActivity.class).putExtra(Constants.MAINNUMBER, 0));
 
                 overridePendingTransition(R.anim.fade_in,
                         R.anim.fade_out);
+                ActivityCompat.requestPermissions(WelcomActivity.this,
+                        new String[]{
+                                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                                Manifest.permission.READ_EXTERNAL_STORAGE,
+                                Manifest.permission.CAMERA,
+                                Manifest.permission.CALL_PHONE,
+                                Manifest.permission.CLEAR_APP_CACHE,
+                                Manifest.permission.READ_CONTACTS,
+                                Manifest.permission.RECORD_AUDIO
+                        }, 1);
                 WelcomActivity.this.finish();
             }
         });

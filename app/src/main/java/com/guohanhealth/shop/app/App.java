@@ -26,6 +26,7 @@ import com.github.nkzawa.socketio.client.Socket;
 
 import com.guohanhealth.shop.BuildConfig;
 import com.guohanhealth.shop.R;
+import com.guohanhealth.shop.base.CrashHandler;
 import com.guohanhealth.shop.bean.UserInfo;
 import com.guohanhealth.shop.bean.UserInfo.Member_info;
 import com.guohanhealth.shop.bean.greendao.DaoMaster;
@@ -58,6 +59,7 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         app = this;
+        CrashHandler.getInstance(getApplicationContext()).init();
         initAppData();/**初始化数据*/
         getHotWords();  /**获取热门词*/
         UpdataUserInfo(getKey(), getUserid());/**更新用户信息*/
