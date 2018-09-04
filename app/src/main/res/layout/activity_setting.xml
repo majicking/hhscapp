@@ -8,60 +8,161 @@
 
     <include layout="@layout/common_toolbar" />
 
-    <View style="@style/djk_line" />
-
-    <LinearLayout
-        style="@style/bg_white_magin_left_top_right_5"
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_40"
-        android:layout_marginTop="@dimen/dp_10"
-        android:gravity="center_vertical"
-        android:paddingLeft="@dimen/dp_5"
-        android:paddingRight="@dimen/dp_5">
+        android:layout_height="wrap_content">
 
-        <TextView
-            style="@style/djk_text"
-            android:text="接受通知栏推送" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-        <View style="@style/linearlayout_zw" />
+            <View style="@style/djk_line" />
 
-        <com.zcw.togglebutton.ToggleButton
-            android:id="@+id/toggle_notify"
-            android:layout_width="40dp"
-            android:layout_height="20dp"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="15dp" />
-    </LinearLayout>
+            <LinearLayout
+                android:id="@+id/setting_editpwd"
+                style="@style/bg_white_magin_left_top_right_5"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_40"
+                android:layout_marginTop="@dimen/dp_10"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/dp_5"
+                android:paddingRight="@dimen/dp_5">
 
-    <LinearLayout
+                <TextView
+                    style="@style/djk_text"
+                    android:text="修改登陆密码" />
 
-        style="@style/bg_white_magin_left_top_right_5"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_40"
-        android:layout_marginTop="@dimen/dp_10"
-        android:gravity="center_vertical"
-        android:paddingLeft="@dimen/dp_5"
-        android:paddingRight="@dimen/dp_5">
+                <View style="@style/linearlayout_zw" />
 
-        <TextView
-            style="@style/djk_text"
-            android:text="启用提示音" />
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/more" />
+            </LinearLayout>
 
-        <View style="@style/linearlayout_zw" />
+            <LinearLayout
+                android:id="@+id/setting_phonecheck"
+                style="@style/bg_white_magin_left_top_right_5"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_40"
+                android:layout_marginTop="@dimen/dp_10"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/dp_5"
+                android:paddingRight="@dimen/dp_5">
 
-        <com.zcw.togglebutton.ToggleButton
-            android:id="@+id/toggle_media"
-            android:layout_width="40dp"
-            android:layout_height="20dp"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="15dp" />
-    </LinearLayout>
+                <TextView
+                    style="@style/djk_text"
+                    android:text="手机验证" />
 
-    <Button
-        android:id="@+id/setting_logout"
-        style="@style/btn"
-        android:layout_margin="@dimen/dp_10"
-        android:background="@drawable/djk_btn_bg_on"
-        android:text="安全退出"
-        android:textColor="@color/white" />
+                <View style="@style/linearlayout_zw" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/more" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/setting_paypwd"
+                style="@style/bg_white_magin_left_top_right_5"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_40"
+                android:layout_marginTop="@dimen/dp_10"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/dp_5"
+                android:paddingRight="@dimen/dp_5">
+
+                <TextView
+                    style="@style/djk_text"
+                    android:text="支付密码" />
+
+                <View style="@style/linearlayout_zw" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/more" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                style="@style/bg_white_magin_left_top_right_5"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_40"
+                android:layout_marginTop="@dimen/dp_10"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/dp_5"
+                android:paddingRight="@dimen/dp_5">
+
+                <TextView
+                    style="@style/djk_text"
+                    android:text="接受通知栏推送" />
+
+                <View style="@style/linearlayout_zw" />
+
+                <com.zcw.togglebutton.ToggleButton
+                    android:id="@+id/toggle_notify"
+                    android:layout_width="40dp"
+                    android:layout_height="20dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dp" />
+            </LinearLayout>
+
+            <LinearLayout
+
+                style="@style/bg_white_magin_left_top_right_5"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_40"
+                android:layout_marginTop="@dimen/dp_10"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/dp_5"
+                android:paddingRight="@dimen/dp_5">
+
+                <TextView
+                    style="@style/djk_text"
+                    android:text="启用提示音" />
+
+                <View style="@style/linearlayout_zw" />
+
+                <com.zcw.togglebutton.ToggleButton
+                    android:id="@+id/toggle_media"
+                    android:layout_width="40dp"
+                    android:layout_height="20dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/setting_userback"
+                style="@style/bg_white_magin_left_top_right_5"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_40"
+                android:layout_marginTop="@dimen/dp_10"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/dp_5"
+                android:paddingRight="@dimen/dp_5">
+
+                <TextView
+                    style="@style/djk_text"
+                    android:text="用户反馈" />
+
+                <View style="@style/linearlayout_zw" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/more" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/setting_logout"
+                style="@style/btn"
+                android:layout_margin="@dimen/dp_10"
+                android:background="@drawable/djk_btn_bg_on"
+                android:text="安全退出"
+                android:textColor="@color/white" />
+
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
 </LinearLayout>

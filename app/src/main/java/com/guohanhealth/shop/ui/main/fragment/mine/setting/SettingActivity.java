@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.guohanhealth.shop.R;
@@ -14,13 +15,23 @@ import com.guohanhealth.shop.bean.CartNumberInfo;
 import com.guohanhealth.shop.bean.UserInfo;
 import com.guohanhealth.shop.custom.CustomDialog;
 import com.guohanhealth.shop.event.RxBus;
+import com.guohanhealth.shop.http.Api;
+import com.guohanhealth.shop.http.ApiService;
+import com.guohanhealth.shop.http.HttpErrorCode;
 import com.guohanhealth.shop.ui.login.LoginActivity;
+import com.guohanhealth.shop.ui.main.fragment.mine.accountinfo.CheckPhoneActivity;
+import com.guohanhealth.shop.ui.main.fragment.mine.accountinfo.UpdataPwdActivity;
 import com.guohanhealth.shop.utils.SharePreferenceUtils;
 import com.guohanhealth.shop.utils.Utils;
 import com.zcw.togglebutton.ToggleButton;
 
+import java.io.IOException;
+import java.util.Random;
+
 import butterknife.BindView;
-import butterknife.ButterKnife;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
 
 public class SettingActivity extends BaseActivity {
 
@@ -35,6 +46,14 @@ public class SettingActivity extends BaseActivity {
     ToggleButton toggleNotify;
     @BindView(R.id.toggle_media)
     ToggleButton toggleMedia;
+    @BindView(R.id.setting_editpwd)
+    LinearLayout settingEditpwd;
+    @BindView(R.id.setting_phonecheck)
+    LinearLayout settingPhonecheck;
+    @BindView(R.id.setting_paypwd)
+    LinearLayout settingPaypwd;
+    @BindView(R.id.setting_userback)
+    LinearLayout settingUserback;
 
     @Override
     protected int getContentViewLayoutID() {
@@ -87,18 +106,46 @@ public class SettingActivity extends BaseActivity {
         toggleMedia.setOnToggleChanged(isSelect -> {
             SharePreferenceUtils.setParam(mContext, Constants.ISMEDIAPLAYER, isSelect);
         });
+
+        settingEditpwd.setOnClickListener(v -> {
+            Api.get(ApiService.GET_MOBILE_INFO + "&key=" + App.getApp().getKey() + "&t=" + new Random().nextInt(10), new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    runOnUiThread(() -> {
+                        showToast(Utils.getErrorString(e));
+                    });
+                }
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    String json = response.body().string();
+                    try {
+                        if (Utils.getCode(json) == HttpErrorCode.HTTP_NO_ERROR) {
+                            if (Utils.getValue("state", Utils.getDatasString(json)).equals("true")) {
+                                String mobile = Utils.getValue("mobile", Utils.getDatasString(json));
+                                Bundle bundle = new Bundle();
+                                bundle.putString(Constants.PHONENUMBER, mobile);
+                                readyGo(UpdataPwdActivity.class,bundle);
+                            } else {
+                                readyGo(CheckPhoneActivity.class);
+                            }
+                        } else {
+                            runOnUiThread(() -> {
+                                showToast(Utils.getErrorString(json));
+                            });
+                        }
+                    } catch (Exception e) {
+                        runOnUiThread(() -> {
+                            showToast(Utils.getErrorString(e));
+                        });
+                    }
+
+                }
+            });
+
+        });
+
     }
 
 
-    @Override
-    public void faild(String msg) {
-
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
 }

@@ -2,20 +2,28 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Test {
 
     public static void main(String[] args) {
-        List<String> list = new ArrayList<>();
 
-        list.add("11");
-        list.add("12");
-        list.add("13");
-        list.add(0, "替换1");
-        list.add(1, "替换2");
-        list.add(2, "替换3");
-        System.out.println(list);
+        String str = "hello            song   adasd at       at sadsad            at sd          at sdsd";
+        System.out.println(Pattern.compile("at\\s").matcher(str).replaceAll("\n"));
+
     }
+//
+//    List<String> list = new ArrayList<>();
+//
+//        list.add("11");
+//        list.add("12");
+//        list.add("13");
+//        list.add(0, "替换1");
+//        list.add(1, "替换2");
+//        list.add(2, "替换3");
+//        System.out.println(list);
+
 //    public static void main(String[] args) {
 ////        List<Test1> list1 = new ArrayList<>();
 ////        List<Test1> list2 = new ArrayList<>();

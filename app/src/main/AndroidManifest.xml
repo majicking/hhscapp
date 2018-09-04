@@ -12,18 +12,16 @@
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
     <!-- 读sd卡权限 -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <!--拨号-->
+    <!-- 拨号 -->
     <uses-permission android:name="android.permission.CALL_PHONE" />
-    <!--清除应用缓存-->
+    <!-- 清除应用缓存 -->
     <uses-permission android:name="android.permission.CLEAR_APP_CACHE" />
-    <!--使用闪光灯-->
+    <!-- 使用闪光灯 -->
     <uses-permission android:name="android.permission.FLASHLIGHT" />
-    <!--读取联系人-->
+    <!-- 读取联系人 -->
     <uses-permission android:name="android.permission.READ_CONTACTS" />
-    <!--录音-->
+    <!-- 录音 -->
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
-
-
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -124,7 +122,9 @@
             android:configChanges="orientation|keyboardHidden|screenSize" />
         <activity android:name=".ui.order.EvaluationActivity" />
         <activity android:name=".ui.order.ReturnOrderActivity" />
-        <activity android:name=".ui.main.fragment.home.signin.SignActivity"></activity>
+        <activity android:name=".ui.main.fragment.home.signin.SignActivity" />
+        <activity android:name=".ui.main.fragment.mine.accountinfo.UpdataPwdActivity" />
+        <activity android:name=".ui.main.fragment.mine.accountinfo.CheckPhoneActivity"></activity>
     </application>
 
 </manifest>

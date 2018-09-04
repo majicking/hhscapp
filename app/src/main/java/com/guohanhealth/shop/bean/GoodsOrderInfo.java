@@ -8,6 +8,7 @@ public class GoodsOrderInfo  extends BaseInfo{
     public String ifshow_offpay;
     public String ifchain;
     public String ifshow_chainpay;
+    public String if_present_gold;
     public String chain_store_id;
     public String ifshow_inv;
     public String vat_hash;

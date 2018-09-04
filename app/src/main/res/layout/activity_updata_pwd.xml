@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.main.fragment.mine.accountinfo.UpdataPwdActivity">
+
+    <include layout="@layout/common_toolbar" />
+
+    <LinearLayout
+        style="@style/LLayout_40_h"
+        android:background="@color/white">
+
+        <TextView
+            android:id="@+id/text1"
+            style="@style/djk_text"
+            android:layout_marginLeft="@dimen/dp_15"
+            android:text="当前手机号码********" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:background="@color/white"
+        style="@style/bg_white_magin_left_top_right_5"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_40"
+        android:layout_marginTop="@dimen/dp_10"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/dp_5"
+        android:paddingRight="@dimen/dp_5">
+
+        <TextView
+            style="@style/djk_text"
+            android:layout_width="0dp"
+            android:layout_centerVertical="true"
+            android:layout_weight="1"
+            android:text="验证码：" />
+
+        <EditText
+            android:id="@+id/edit1"
+            style="@style/edittext"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3"
+            android:background="@color/white"
+            android:hint="请输入验证码" />
+
+        <ImageView
+            android:id="@+id/img"
+            style="@style/right15"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1.2" />
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/setting_paypwd"
+        style="@style/bg_white_magin_left_top_right_5"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_40"
+        android:layout_marginTop="@dimen/dp_10"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/dp_5"
+        android:paddingRight="@dimen/dp_5">
+
+        <TextView
+            style="@style/djk_text"
+            android:text="短信验证码:" />
+
+        <EditText
+            android:id="@+id/edit2"
+            style="@style/edittext"
+            android:background="@color/white"
+            android:hint="请输入验证码"
+            android:singleLine="true" />
+
+
+        <Button
+            android:id="@+id/btn1"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dp_30"
+            android:background="@drawable/bg_line_gray"
+            android:text="获取验证码"
+            android:textSize="@dimen/dp_10" />
+
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn2"
+        style="@style/btn"
+        android:layout_margin="@dimen/dp_20"
+        android:text="下一步" />
+</LinearLayout>

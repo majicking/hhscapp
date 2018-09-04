@@ -135,4 +135,5 @@ public interface Constants {
     String MEMBERID = "memberId";
     String MEMBERNAME = "memberName";
 
+    String PHONENUMBER = "phonenumber";
 }

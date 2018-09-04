@@ -180,9 +180,9 @@ public class MineFragment extends BaseFragment<MinePersenter, MineModel> impleme
         });
         /**设置*/
         mineSetting.setOnClickListener(v -> {
-//            if (Utils.isLogin(mContext))
-//                readyGo(SettingActivity.class);
-            throw new NullPointerException();
+            if (Utils.isLogin(mContext))
+                readyGo(SettingActivity.class);
+//            throw new NullPointerException();
         });
         /**订单*/
         mineBtnviewOrder.setOnClickListener(v -> toOrder(0));

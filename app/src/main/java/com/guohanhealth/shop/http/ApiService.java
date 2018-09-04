@@ -147,6 +147,13 @@ public interface ApiService {
     String SIGN=Constants.INDEX +  "act=member_signin&op=checksignin";
     String SIGNIN_LIST=Constants.INDEX +  "act=member_signin&op=signin_list";
     String GET_INFO=Constants.INDEX +  "act=member_chat&op=get_info";
+    String GET_MOBILE_INFO=Constants.INDEX +  "act=member_account&op=get_mobile_info";
+    String CHECK_PASSWORD=Constants.INDEX +  "act=member_buy&op=check_password";
+    String PAY_NEW=Constants.INDEX +  "act=member_payment&op=pay_new";
+    String GET_PAYPWD_INFO=Constants.INDEX +  "act=member_account&op=get_paypwd_info";
+    String MEMBER_BUY=Constants.INDEX +  "act=member_buy&op=pay";
+    String MODIFY_PAYPWD_STEP2=Constants.INDEX +  "act=member_account&op=modify_paypwd_step2";
+    String MODIFY_PAYPWD_STEP3=Constants.INDEX +  "act=member_account&op=modify_paypwd_step3";
 
 
     /**

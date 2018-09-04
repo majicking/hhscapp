@@ -34,6 +34,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 /**
  * 记录程序崩溃的日志 UncaughtException处理类,当程序发生Uncaught异常的时候,由该类来接管程序,并记录发送错误报告.
@@ -274,10 +275,10 @@ public class CrashHandler implements UncaughtExceptionHandler {
         Log.i("----------", "---------------写完了---------------------");
         pw.close();// 记得关闭
         String result = writer.toString();
-        sb.append("发生崩溃的异常时间：" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + "\r\n");
+        sb.append("发生崩溃的异常时间：" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + "\r\n");
         sb.append("发生崩溃的异常信息如下：" + "\r\n");
-        sb.append(result);
-        Log.i("----------", result);
+        sb.append(Pattern.compile(Pattern.compile("at\\s").matcher(result).replaceAll("\n")));
+        Log.i("----------", Pattern.compile("at\\s").matcher(result).replaceAll("\n"));
         // 保存文件
         try {
             //判断文件夹是否存在
