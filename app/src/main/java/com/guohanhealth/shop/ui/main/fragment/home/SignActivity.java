@@ -1,4 +1,4 @@
-package com.guohanhealth.shop.ui.main.fragment.home.signin;
+package com.guohanhealth.shop.ui.main.fragment.home;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -115,6 +115,36 @@ public class SignActivity extends BaseActivity {
         });
         mAdapter = new DataAdapter(R.layout.sign_item, mList);
         recyclerview.setAdapter(mAdapter);
+        view1.setOnClickListener(v -> {
+            Api.get(ApiService.SIGNIN_ADD + "&key=" + App.getApp().getKey() + "&t=" + new Random().nextInt(10), new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+                    runOnUiThread(() -> {
+                        showToast(Utils.getErrorString(e));
+                    });
+                }
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    String json = response.body().string();
+                    try {
+                        if (Utils.getCode(json) == HttpErrorCode.HTTP_NO_ERROR) {
+                            getDataChecked();
+                            getPointListData();
+                            getPointData();
+                        } else {
+                            runOnUiThread(() -> {
+                                showToast(Utils.getErrorString(json));
+                            });
+                        }
+                    } catch (Exception e) {
+                        runOnUiThread(() -> {
+                            showToast(Utils.getErrorString(e));
+                        });
+                    }
+                }
+            });
+        });
     }
 
     class DataAdapter extends BaseQuickAdapter<SignInfo.DataBean, com.chad.library.adapter.base.BaseViewHolder> {
@@ -247,7 +277,7 @@ public class SignActivity extends BaseActivity {
                             hasmore = Boolean.valueOf(Utils.getValue("hasmore", json));
                             page_total = Integer.valueOf(Utils.getValue("page_total", json));
                             SignInfo info = Utils.getObject(Utils.getDatasString(json), SignInfo.class);
-                            if (isLoad) {
+                            if (!isLoad) {
                                 mList.clear();
                             }
                             if (Utils.isEmpty(info.signin_list)) {

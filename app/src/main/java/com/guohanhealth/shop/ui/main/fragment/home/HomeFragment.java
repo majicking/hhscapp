@@ -37,7 +37,6 @@ import com.guohanhealth.shop.event.OnFragmentInteractionListener;
 import com.guohanhealth.shop.event.PermissionListener;
 import com.guohanhealth.shop.ui.cart.ChatListActivity;
 import com.guohanhealth.shop.ui.goods.goodsdetailed.activity.GoodsDetailsActivity;
-import com.guohanhealth.shop.ui.main.fragment.home.signin.SignActivity;
 import com.guohanhealth.shop.ui.main.fragment.mine.history.HistoryActivity;
 import com.guohanhealth.shop.ui.main.fragment.mine.property.PropertyActivity;
 import com.guohanhealth.shop.ui.order.OrderActivity;
@@ -58,7 +57,6 @@ import java.util.List;
 import java.util.Random;
 
 import butterknife.BindView;
-import butterknife.Unbinder;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -238,7 +236,9 @@ public class HomeFragment extends BaseFragment<HomePersenter, HomeModel> impleme
 
     @Override
     public void faild(String msg) {
-        showToast(msg);
+        if (!msg.equals("请登陆")) {
+            showToast(msg);
+        }
     }
 
     @Override

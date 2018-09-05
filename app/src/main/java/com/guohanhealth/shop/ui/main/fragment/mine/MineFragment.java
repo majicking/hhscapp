@@ -182,77 +182,150 @@ public class MineFragment extends BaseFragment<MinePersenter, MineModel> impleme
         mineSetting.setOnClickListener(v -> {
             if (Utils.isLogin(mContext))
                 readyGo(SettingActivity.class);
-//            throw new NullPointerException();
         });
         /**订单*/
-        mineBtnviewOrder.setOnClickListener(v -> toOrder(0));
-        mineBtnviewOrder1.setOnClickListener(v -> toOrder(1));
-        mineBtnviewOrder2.setOnClickListener(v -> toOrder(2));
-        mineBtnviewOrder3.setOnClickListener(v -> toOrder(3));
-        mineBtnviewOrder4.setOnClickListener(v -> toOrder(4));
+        mineBtnviewOrder.setOnClickListener(v -> {
+            if (Utils.isLogin(mContext)) {
+                toOrder(0);
+            }
+        });
+        mineBtnviewOrder1.setOnClickListener(v -> {
+            if (Utils.isLogin(mContext)) {
+                toOrder(1);
+            }
+        });
+        mineBtnviewOrder2.setOnClickListener(v -> {
+            if (Utils.isLogin(mContext)) {
+                toOrder(2);
+            }
+        });
+        mineBtnviewOrder3.setOnClickListener(v -> {
+            if (Utils.isLogin(mContext)) {
+                toOrder(3);
+            }
+        });
+        mineBtnviewOrder4.setOnClickListener(v -> {
+            if (Utils.isLogin(mContext)) {
+                toOrder(4);
+            }
+        });
         /**退货退款*/
-        mineBtnviewOrder5.setOnClickListener(v -> readyGo(ReturnActivity.class));
+        mineBtnviewOrder5.setOnClickListener(v -> {
+            if (Utils.isLogin(mContext)) {
+                readyGo(ReturnActivity.class);
+            }
+        });
         /**财产*/
-        mineBtnviewMymoney.setOnClickListener(v -> readyGo(PropertyActivity.class));
-        mineBtnviewMymoney1.setOnClickListener(v -> readyGo(PredepositActivity.class));
-        mineBtnviewMymoney2.setOnClickListener(v -> readyGo(RechargeCardActivity.class));
-        mineBtnviewMymoney3.setOnClickListener(v -> readyGo(VoucherActivity.class));
-        mineBtnviewMymoney4.setOnClickListener(v -> readyGo(RedPackActivity.class));
-        mineBtnviewMymoney5.setOnClickListener(v -> readyGo(PointActivity.class));
+        mineBtnviewMymoney.setOnClickListener(v -> {
+            if (Utils.isLogin(mContext)) {
+                readyGo(PropertyActivity.class);
+            }
+        });
+        mineBtnviewMymoney1.setOnClickListener(v -> {
+            if (Utils.isLogin(mContext)) {
+                readyGo(PredepositActivity.class);
+            }
+        });
+        mineBtnviewMymoney2.setOnClickListener(v -> {
+            if (Utils.isLogin(mContext)) {
+                readyGo(RechargeCardActivity.class);
+            }
+        });
+        mineBtnviewMymoney3.setOnClickListener(v -> {
+            if (Utils.isLogin(mContext)) {
+                readyGo(VoucherActivity.class);
+            }
+        });
+        mineBtnviewMymoney4.setOnClickListener(v -> {
+            if (Utils.isLogin(mContext)) {
+                readyGo(RedPackActivity.class);
+            }
+        });
+        mineBtnviewMymoney5.setOnClickListener(v -> {
+            if (Utils.isLogin(mContext)) {
+                readyGo(PointActivity.class);
+            }
+        });
         /**地址管理*/
-        mineBtnviewAddress.setOnClickListener(v -> readyGo(AddressListActivity.class));
+        mineBtnviewAddress.setOnClickListener(v -> {
+            if (Utils.isLogin(mContext)) {
+                readyGo(AddressListActivity.class);
+            }
+        });
 
         mineBtnviewTwocode.setOnClickListener(v -> {
-            View view = getView(R.layout.twocode);
-            AVLoadingIndicatorView loadingIndicatorView = view.findViewById(R.id.loading);
+            if (Utils.isLogin(mContext)) {
+                View view = getView(R.layout.twocode);
+                AVLoadingIndicatorView loadingIndicatorView = view.findViewById(R.id.loading);
 
-            ImageView imageView = getView(view, R.id.img);
-            CustomPopuWindow popupWindow = Utils.getPopuWindown(mContext, view, Gravity.BOTTOM);
-            Api.get(ApiService.RECOMMEND_QR + App.getApp().getKey(), new Callback() {
-                @Override
-                public void onFailure(Call call, IOException e) {
-                    mActivity.runOnUiThread(() -> {
-                        showToast(Utils.getErrorString(e));
-                    });
-                }
-
-                @Override
-                public void onResponse(Call call, Response response) throws IOException {
-                    String json = response.body().string();
-                    try {
-                        if (Utils.getCode(json) == HttpErrorCode.HTTP_NO_ERROR) {
-                            mActivity.runOnUiThread(() -> {
-                                GlideEngine.getInstance().loadImage(mContext, imageView, Utils.getValue("recommend_qr", Utils.getDatasString(json)));
-                                loadingIndicatorView.setVisibility(View.GONE);
-                            });
-                        } else {
-                            mActivity.runOnUiThread(() -> {
-                                showToast(Utils.getErrorString(json));
-                            });
-                        }
-                    } catch (Exception e) {
+                ImageView imageView = getView(view, R.id.img);
+                CustomPopuWindow popupWindow = Utils.getPopuWindown(mContext, view, Gravity.BOTTOM);
+                Api.get(ApiService.RECOMMEND_QR + App.getApp().getKey(), new Callback() {
+                    @Override
+                    public void onFailure(Call call, IOException e) {
                         mActivity.runOnUiThread(() -> {
                             showToast(Utils.getErrorString(e));
                         });
                     }
-                }
-            });
+
+                    @Override
+                    public void onResponse(Call call, Response response) throws IOException {
+                        String json = response.body().string();
+                        try {
+                            if (Utils.getCode(json) == HttpErrorCode.HTTP_NO_ERROR) {
+                                mActivity.runOnUiThread(() -> {
+                                    GlideEngine.getInstance().loadImage(mContext, imageView, Utils.getValue("recommend_qr", Utils.getDatasString(json)));
+                                    loadingIndicatorView.setVisibility(View.GONE);
+                                });
+                            } else {
+                                mActivity.runOnUiThread(() -> {
+                                    showToast(Utils.getErrorString(json));
+                                });
+                            }
+                        } catch (Exception e) {
+                            mActivity.runOnUiThread(() -> {
+                                showToast(Utils.getErrorString(e));
+                            });
+                        }
+                    }
+                });
+            }
         });
         /**下面设置*/
-        mineBtnviewSetting.setOnClickListener(v -> readyGo(SettingActivity.class));
+        mineBtnviewSetting.setOnClickListener(v -> {
+            if (Utils.isLogin(mContext)) {
+                readyGo(SettingActivity.class);
+            }
+        });
         /**收藏*/
         mineBtnviewGoodscollect.setOnClickListener(v -> {
-            Bundle bundle = new Bundle();
-            bundle.putInt(Constants.TYPE, 0);
-            readyGo(CollectActivity.class, bundle);
+            {
+                if (Utils.isLogin(mContext)) {
+                    Bundle bundle = new Bundle();
+                    bundle.putInt(Constants.TYPE, 0);
+                    readyGo(CollectActivity.class, bundle);
+                }
+            }
         });
         mineBtnviewStorecollect.setOnClickListener(v -> {
-            Bundle bundle = new Bundle();
-            bundle.putInt(Constants.TYPE, 1);
-            readyGo(CollectActivity.class, bundle);
+            {
+                if (Utils.isLogin(mContext)) {
+                    Bundle bundle = new Bundle();
+                    bundle.putInt(Constants.TYPE, 1);
+                    readyGo(CollectActivity.class, bundle);
+                }
+            }
         });
-        mineBtnviewMyhistory.setOnClickListener(v -> readyGo(HistoryActivity.class));
-        mineCharting.setOnClickListener(v -> readyGo(ChatListActivity.class));
+        mineBtnviewMyhistory.setOnClickListener(v -> {
+            if (Utils.isLogin(mContext)) {
+                readyGo(HistoryActivity.class);
+            }
+        });
+        mineCharting.setOnClickListener(v -> {
+            if (Utils.isLogin(mContext)) {
+                readyGo(ChatListActivity.class);
+            }
+        });
     }
 
     public void toOrder(int index) {
@@ -372,7 +445,9 @@ public class MineFragment extends BaseFragment<MinePersenter, MineModel> impleme
 
     @Override
     public void faild(String msg) {
-        showToast(msg);
+        if (!msg.equals("请登陆")) {
+            showToast(msg);
+        }
         App.getApp().setIsLogin(false);
     }
 }

@@ -326,7 +326,9 @@ public class ClassTypeFragment extends BaseFragment<ClassTypePersenter, ClassTyp
 
     @Override
     public void faild(String msg) {
-        showToast(msg);
+        if (!msg.equals("请登陆")) {
+            showToast(msg);
+        }
         if (classtypeViewRefresh != null)
             classtypeViewRefresh.finishRefresh();
     }

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.main.fragment.mine.setting.SetPwdActivity">
+
+    <include layout="@layout/common_toolbar" />
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <LinearLayout style="@style/LLayout_40_h">
+
+                <TextView
+                    style="@style/djk_text"
+                    android:text=" 支付密码由 6-20个大小写英文字母、符号或数字组成" />
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/bg_white_magin_left_top_right_5"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_40"
+                android:layout_marginTop="@dimen/dp_10"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/dp_5"
+                android:paddingRight="@dimen/dp_5">
+
+                <TextView
+                    style="@style/djk_text"
+                    android:text="设置密码:" />
+
+                <EditText
+                    android:id="@+id/edit1"
+                    style="@style/edittext"
+                    android:background="@color/white"
+                    android:hint="请输入验证码"
+                    android:inputType="textPassword"
+                    android:singleLine="true" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                style="@style/bg_white_magin_left_top_right_5"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_40"
+                android:layout_marginTop="@dimen/dp_10"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/dp_5"
+                android:paddingRight="@dimen/dp_5">
+
+                <TextView
+                    style="@style/djk_text"
+                    android:text="确认密码:" />
+
+                <EditText
+                    android:id="@+id/edit2"
+                    style="@style/edittext"
+                    android:background="@color/white"
+                    android:hint="请输入验证码"
+                    android:inputType="textPassword"
+                    android:singleLine="true" />
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btn"
+                style="@style/btn"
+                android:layout_margin="@dimen/dp_20"
+                android:text="提交" />
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+</LinearLayout>

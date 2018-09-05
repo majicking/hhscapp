@@ -19,8 +19,6 @@ import com.guohanhealth.shop.http.Api;
 import com.guohanhealth.shop.http.ApiService;
 import com.guohanhealth.shop.http.HttpErrorCode;
 import com.guohanhealth.shop.ui.login.LoginActivity;
-import com.guohanhealth.shop.ui.main.fragment.mine.accountinfo.CheckPhoneActivity;
-import com.guohanhealth.shop.ui.main.fragment.mine.accountinfo.UpdataPwdActivity;
 import com.guohanhealth.shop.utils.SharePreferenceUtils;
 import com.guohanhealth.shop.utils.Utils;
 import com.zcw.togglebutton.ToggleButton;
@@ -108,43 +106,57 @@ public class SettingActivity extends BaseActivity {
         });
 
         settingEditpwd.setOnClickListener(v -> {
-            Api.get(ApiService.GET_MOBILE_INFO + "&key=" + App.getApp().getKey() + "&t=" + new Random().nextInt(10), new Callback() {
-                @Override
-                public void onFailure(Call call, IOException e) {
+            setPwd(1);
+        });
+        settingPhonecheck.setOnClickListener(v -> {
+            setPwd(2);
+        });
+        settingPaypwd.setOnClickListener(v -> {
+            setPwd(3);
+        });
+        settingUserback.setOnClickListener(v -> {
+            readyGo(FeedBackActivity.class);
+        });
+    }
+
+    public void setPwd(int type) {
+        Api.get(ApiService.GET_MOBILE_INFO + "&key=" + App.getApp().getKey() + "&t=" + new Random().nextInt(10), new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                runOnUiThread(() -> {
+                    showToast(Utils.getErrorString(e));
+                });
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                String json = response.body().string();
+                try {
+                    if (Utils.getCode(json) == HttpErrorCode.HTTP_NO_ERROR) {
+                        if (Utils.getValue("state", Utils.getDatasString(json)).equals("true")) {
+                            String mobile = Utils.getValue("mobile", Utils.getDatasString(json));
+                            Bundle bundle = new Bundle();
+                            bundle.putString(Constants.PHONENUMBER, mobile);
+                            bundle.putInt(Constants.TYPE, type);
+                            readyGo(CheckPhoneNumberActivity.class, bundle);
+                        } else {
+                            Bundle bundle = new Bundle();
+                            bundle.putInt(Constants.TYPE, 0);
+                            readyGo(BundlePhoneActivity.class, bundle);
+                        }
+                    } else {
+                        runOnUiThread(() -> {
+                            showToast(Utils.getErrorString(json));
+                        });
+                    }
+                } catch (Exception e) {
                     runOnUiThread(() -> {
                         showToast(Utils.getErrorString(e));
                     });
                 }
 
-                @Override
-                public void onResponse(Call call, Response response) throws IOException {
-                    String json = response.body().string();
-                    try {
-                        if (Utils.getCode(json) == HttpErrorCode.HTTP_NO_ERROR) {
-                            if (Utils.getValue("state", Utils.getDatasString(json)).equals("true")) {
-                                String mobile = Utils.getValue("mobile", Utils.getDatasString(json));
-                                Bundle bundle = new Bundle();
-                                bundle.putString(Constants.PHONENUMBER, mobile);
-                                readyGo(UpdataPwdActivity.class,bundle);
-                            } else {
-                                readyGo(CheckPhoneActivity.class);
-                            }
-                        } else {
-                            runOnUiThread(() -> {
-                                showToast(Utils.getErrorString(json));
-                            });
-                        }
-                    } catch (Exception e) {
-                        runOnUiThread(() -> {
-                            showToast(Utils.getErrorString(e));
-                        });
-                    }
-
-                }
-            });
-
+            }
         });
-
     }
 
 

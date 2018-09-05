@@ -152,8 +152,18 @@ public interface ApiService {
     String PAY_NEW=Constants.INDEX +  "act=member_payment&op=pay_new";
     String GET_PAYPWD_INFO=Constants.INDEX +  "act=member_account&op=get_paypwd_info";
     String MEMBER_BUY=Constants.INDEX +  "act=member_buy&op=pay";
+    String MODIFY_PASSWORD_STEP2=Constants.INDEX +  "act=member_account&op=modify_password_step2";
+    String MODIFY_PASSWORD_STEP3=Constants.INDEX +  "act=member_account&op=modify_password_step3";
+    String MODIFY_PASSWORD_STEP5=Constants.INDEX +  "act=member_account&op=modify_password_step5";
+    String BIND_MOBILE_STEP1=Constants.INDEX +  "act=member_account&op=bind_mobile_step1";
+    String BIND_MOBILE_STEP2=Constants.INDEX +  "act=member_account&op=bind_mobile_step2";
+    String MODIFY_MOBILE_STEP2=Constants.INDEX +  "act=member_account&op=modify_mobile_step2";
+    String MODIFY_MOBILE_STEP3=Constants.INDEX +  "act=member_account&op=modify_mobile_step3";
     String MODIFY_PAYPWD_STEP2=Constants.INDEX +  "act=member_account&op=modify_paypwd_step2";
     String MODIFY_PAYPWD_STEP3=Constants.INDEX +  "act=member_account&op=modify_paypwd_step3";
+    String MODIFY_PAYPWD_STEP5=Constants.INDEX +  "act=member_account&op=modify_paypwd_step5";
+    String SIGNIN_ADD=Constants.INDEX +  "act=member_signin&op=signin_add";
+    String FEEDBACK_ADD=Constants.INDEX +  "act=member_feedback&op=feedback_add";
 
 
     /**

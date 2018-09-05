@@ -1,4 +1,4 @@
-package com.guohanhealth.shop.ui.main.fragment.mine.accountinfo;
+package com.guohanhealth.shop.ui.main.fragment.mine.setting;
 
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -20,8 +20,8 @@ import com.guohanhealth.shop.base.BaseActivity;
 import com.guohanhealth.shop.http.Api;
 import com.guohanhealth.shop.http.ApiService;
 import com.guohanhealth.shop.http.HttpErrorCode;
-import com.guohanhealth.shop.utils.Logutils;
 import com.guohanhealth.shop.utils.Utils;
+import com.guohanhealth.shop.utils.engine.GlideEngine;
 
 import java.io.IOException;
 import java.util.Random;
@@ -33,40 +33,36 @@ import okhttp3.Callback;
 import okhttp3.FormBody;
 import okhttp3.Response;
 
-public class UpdataPwdActivity extends BaseActivity {
+public class BundlePhoneActivity extends BaseActivity {
 
     @BindView(R.id.common_toolbar_title_tv)
     TextView commonToolbarTitleTv;
     @BindView(R.id.common_toolbar)
     Toolbar commonToolbar;
-    @BindView(R.id.text1)
-    TextView text1;
-    @BindView(R.id.btn1)
-    Button btn1;
-    @BindView(R.id.setting_paypwd)
-    LinearLayout settingPaypwd;
-    @BindView(R.id.btn2)
-    Button btn2;
     @BindView(R.id.edit1)
     EditText edit1;
-    @BindView(R.id.img)
-    ImageView img;
     @BindView(R.id.edit2)
     EditText edit2;
-    private String mobile;
+    @BindView(R.id.img)
+    ImageView img;
+    @BindView(R.id.edit3)
+    EditText edit3;
+    @BindView(R.id.btn1)
+    Button btn1;
+    @BindView(R.id.btn2)
+    Button btn2;
 
     @Override
     protected int getContentViewLayoutID() {
-        return R.layout.activity_updata_pwd;
+        return R.layout.activity_check_number;
     }
+
+    int type = 2;
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        initToolBarNav(commonToolbar, commonToolbarTitleTv, "修改登陆密码");
-        mobile = getIntent().getStringExtra(Constants.PHONENUMBER);
-        if (Utils.isEmpty(mobile)) {
-            text1.setText("当前手机号码" + Utils.getString(mobile));
-        }
+        initToolBarNav(commonToolbar, commonToolbarTitleTv, "手机绑定验证");
+        type = getIntent().getIntExtra(Constants.TYPE, 2);
         TextWatcher textWatcher = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -85,11 +81,16 @@ public class UpdataPwdActivity extends BaseActivity {
         };
         edit1.addTextChangedListener(textWatcher);
         edit2.addTextChangedListener(textWatcher);
+        edit3.addTextChangedListener(textWatcher);
         img.setOnClickListener(c -> {
             getImgCode();
         });
         btn1.setOnClickListener(v -> {
             if (!Utils.isEmpty(edit1)) {
+                showToast("请输入手机号码");
+                return;
+            }
+            if (!Utils.isEmpty(edit2)) {
                 showToast("请输入图片验证码");
                 return;
             }
@@ -97,10 +98,15 @@ public class UpdataPwdActivity extends BaseActivity {
         });
         btn2.setOnClickListener(v -> {
             if (!Utils.isEmpty(edit1)) {
+                showToast("请输入手机号码");
+                return;
+            }
+
+            if (!Utils.isEmpty(edit2)) {
                 showToast("请输入图片验证码");
                 return;
             }
-            if (!Utils.isEmpty(edit2)) {
+            if (!Utils.isEmpty(edit3)) {
                 showToast("请输入短信验证码");
                 return;
             }
@@ -110,8 +116,8 @@ public class UpdataPwdActivity extends BaseActivity {
 
     public void getData() {
 
-        Api.post(ApiService.MODIFY_PAYPWD_STEP3, new FormBody.Builder()
-                .add("auth_code", Utils.getEditViewText(edit2))
+        Api.post(ApiService.BIND_MOBILE_STEP2, new FormBody.Builder()
+                .add("auth_code", Utils.getEditViewText(edit3))
                 .add("key", App.getApp().getKey())
                 .build(), new Callback() {
             @Override
@@ -128,10 +134,15 @@ public class UpdataPwdActivity extends BaseActivity {
                 try {
                     if (Utils.getCode(json) == HttpErrorCode.HTTP_NO_ERROR) {
                         runOnUiThread(() -> {
-                            if (Utils.getDatasString(json).equals("1")){
-
+                            if (Utils.getDatasString(json).equals("1")) {
+                                if (type == 0) {
+                                    finish();
+                                } else {
+                                    Bundle bundle = new Bundle();
+                                    bundle.putInt(Constants.TYPE, type);
+                                    readyGoThenKill(CheckPhoneNumberActivity.class, bundle);
+                                }
                             }
-
                         });
                     } else {
                         runOnUiThread(() -> {
@@ -159,7 +170,7 @@ public class UpdataPwdActivity extends BaseActivity {
     String codekey;
 
     public void getImgCode() {
-        Api.get(ApiService.IMGKEYCODE+"&t="+new Random().nextInt(10), new Callback() {
+        Api.get(ApiService.IMGKEYCODE + "&t=" + new Random().nextInt(10), new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 runOnUiThread(() -> {
@@ -176,10 +187,7 @@ public class UpdataPwdActivity extends BaseActivity {
                             String code = Utils.getValue("codekey", Utils.getDatasString(json));
                             if (Utils.isEmpty(code)) {
                                 codekey = code;
-                                Glide.with(mContext)
-                                        .load(Constants.KEYCODEURL + code)
-                                        .transition(new DrawableTransitionOptions().crossFade(500))
-                                        .into(img);
+                                GlideEngine.getInstance().loadImage(mContext, img, Constants.KEYCODEURL + code);
                             }
                         });
                     } else {
@@ -198,9 +206,10 @@ public class UpdataPwdActivity extends BaseActivity {
     }
 
     public void getMsgCode() {
-        Api.post(ApiService.MODIFY_PAYPWD_STEP2, new FormBody.Builder()
+        Api.post(ApiService.BIND_MOBILE_STEP1, new FormBody.Builder()
                         .add("codekey", codekey)
-                        .add("captcha", Utils.getEditViewText(edit1))
+                        .add("mobile", Utils.getEditViewText(edit1))
+                        .add("captcha", Utils.getEditViewText(edit2))
                         .add("key", App.getApp().getKey())
                         .build()
                 , new Callback() {
@@ -269,7 +278,7 @@ public class UpdataPwdActivity extends BaseActivity {
     //填完所有款项注册按钮能够点击
     private void checkAllEdit() {
         isEmpty = false;
-        if (Utils.isEmpty(edit1) && Utils.isEmpty(edit2)) {
+        if (Utils.isEmpty(edit1) && Utils.isEmpty(edit2) && Utils.isEmpty(edit3)) {
             isEmpty = true;
             btn2.setActivated(true);
         } else {

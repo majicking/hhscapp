@@ -122,9 +122,12 @@
             android:configChanges="orientation|keyboardHidden|screenSize" />
         <activity android:name=".ui.order.EvaluationActivity" />
         <activity android:name=".ui.order.ReturnOrderActivity" />
-        <activity android:name=".ui.main.fragment.home.signin.SignActivity" />
-        <activity android:name=".ui.main.fragment.mine.accountinfo.UpdataPwdActivity" />
-        <activity android:name=".ui.main.fragment.mine.accountinfo.CheckPhoneActivity"></activity>
+        <activity android:name=".ui.main.fragment.home.SignActivity" />
+        <activity android:name=".ui.main.fragment.mine.setting.CheckPhoneNumberActivity" />
+        <activity android:name=".ui.main.fragment.mine.accountinfo.CheckPhoneActivity" />
+        <activity android:name=".ui.main.fragment.mine.setting.SetPwdActivity" />
+        <activity android:name=".ui.main.fragment.mine.setting.BundlePhoneActivity" />
+        <activity android:name=".ui.main.fragment.mine.setting.FeedBackActivity"></activity>
     </application>
 
 </manifest>
